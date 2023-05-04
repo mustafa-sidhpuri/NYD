@@ -28,6 +28,9 @@ abstract class NotificationsRecord
 
   DocumentReference? get postData;
 
+  @BuiltValueField(wireName: 'users_id')
+  BuiltList<String>? get usersId;
+
   @BuiltValueField(wireName: kDocumentReferenceField)
   DocumentReference? get ffRef;
   DocumentReference get reference => ffRef!;
@@ -37,7 +40,8 @@ abstract class NotificationsRecord
     ..message = ''
     ..postId = ''
     ..title = ''
-    ..users = ListBuilder();
+    ..users = ListBuilder()
+    ..usersId = ListBuilder();
 
   static CollectionReference get collection =>
       FirebaseFirestore.instance.collection('notifications');
@@ -79,7 +83,8 @@ Map<String, dynamic> createNotificationsRecordData({
         ..postId = postId
         ..title = title
         ..users = null
-        ..postData = postData,
+        ..postData = postData
+        ..usersId = null,
     ),
   );
 
