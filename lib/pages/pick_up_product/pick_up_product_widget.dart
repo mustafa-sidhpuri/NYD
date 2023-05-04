@@ -42,6 +42,7 @@ class _PickUpProductWidgetState extends State<PickUpProductWidget> {
     SchedulerBinding.instance.addPostFrameCallback((_) async {
       setState(() {
         FFAppState().showPickProductList = false;
+        FFAppState().showUser = false;
       });
     });
 
@@ -362,7 +363,7 @@ class _PickUpProductWidgetState extends State<PickUpProductWidget> {
                       ],
                     ),
                   ),
-                  if (!FFAppState().showPickProductList)
+                  if (FFAppState().showUser == true)
                     StreamBuilder<List<UsersRecord>>(
                       stream: queryUsersRecord(),
                       builder: (context, snapshot) {
