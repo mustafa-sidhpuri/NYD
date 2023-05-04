@@ -14,12 +14,16 @@ abstract class UsersStruct implements Built<UsersStruct, UsersStructBuilder> {
   @BuiltValueField(wireName: 'user_id')
   String? get userId;
 
+  @BuiltValueField(wireName: 'user_profile')
+  String? get userProfile;
+
   /// Utility class for Firestore updates
   FirestoreUtilData get firestoreUtilData;
 
   static void _initializeBuilder(UsersStructBuilder builder) => builder
     ..read = false
     ..userId = ''
+    ..userProfile = ''
     ..firestoreUtilData = FirestoreUtilData();
 
   UsersStruct._();
@@ -30,6 +34,7 @@ abstract class UsersStruct implements Built<UsersStruct, UsersStructBuilder> {
 UsersStruct createUsersStruct({
   bool? read,
   String? userId,
+  String? userProfile,
   Map<String, dynamic> fieldValues = const {},
   bool clearUnsetFields = true,
   bool create = false,
@@ -39,6 +44,7 @@ UsersStruct createUsersStruct({
       (u) => u
         ..read = read
         ..userId = userId
+        ..userProfile = userProfile
         ..firestoreUtilData = FirestoreUtilData(
           clearUnsetFields: clearUnsetFields,
           create: create,

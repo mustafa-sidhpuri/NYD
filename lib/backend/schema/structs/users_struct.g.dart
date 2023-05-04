@@ -37,6 +37,13 @@ class _$UsersStructSerializer implements StructuredSerializer<UsersStruct> {
         ..add(serializers.serialize(value,
             specifiedType: const FullType(String)));
     }
+    value = object.userProfile;
+    if (value != null) {
+      result
+        ..add('user_profile')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
     return result;
   }
 
@@ -59,6 +66,10 @@ class _$UsersStructSerializer implements StructuredSerializer<UsersStruct> {
           result.userId = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String?;
           break;
+        case 'user_profile':
+          result.userProfile = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
         case 'firestoreUtilData':
           result.firestoreUtilData = serializers.deserialize(value,
                   specifiedType: const FullType(FirestoreUtilData))!
@@ -77,12 +88,18 @@ class _$UsersStruct extends UsersStruct {
   @override
   final String? userId;
   @override
+  final String? userProfile;
+  @override
   final FirestoreUtilData firestoreUtilData;
 
   factory _$UsersStruct([void Function(UsersStructBuilder)? updates]) =>
       (new UsersStructBuilder()..update(updates))._build();
 
-  _$UsersStruct._({this.read, this.userId, required this.firestoreUtilData})
+  _$UsersStruct._(
+      {this.read,
+      this.userId,
+      this.userProfile,
+      required this.firestoreUtilData})
       : super._() {
     BuiltValueNullFieldError.checkNotNull(
         firestoreUtilData, r'UsersStruct', 'firestoreUtilData');
@@ -101,6 +118,7 @@ class _$UsersStruct extends UsersStruct {
     return other is UsersStruct &&
         read == other.read &&
         userId == other.userId &&
+        userProfile == other.userProfile &&
         firestoreUtilData == other.firestoreUtilData;
   }
 
@@ -109,6 +127,7 @@ class _$UsersStruct extends UsersStruct {
     var _$hash = 0;
     _$hash = $jc(_$hash, read.hashCode);
     _$hash = $jc(_$hash, userId.hashCode);
+    _$hash = $jc(_$hash, userProfile.hashCode);
     _$hash = $jc(_$hash, firestoreUtilData.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
@@ -119,6 +138,7 @@ class _$UsersStruct extends UsersStruct {
     return (newBuiltValueToStringHelper(r'UsersStruct')
           ..add('read', read)
           ..add('userId', userId)
+          ..add('userProfile', userProfile)
           ..add('firestoreUtilData', firestoreUtilData))
         .toString();
   }
@@ -135,6 +155,10 @@ class UsersStructBuilder implements Builder<UsersStruct, UsersStructBuilder> {
   String? get userId => _$this._userId;
   set userId(String? userId) => _$this._userId = userId;
 
+  String? _userProfile;
+  String? get userProfile => _$this._userProfile;
+  set userProfile(String? userProfile) => _$this._userProfile = userProfile;
+
   FirestoreUtilData? _firestoreUtilData;
   FirestoreUtilData? get firestoreUtilData => _$this._firestoreUtilData;
   set firestoreUtilData(FirestoreUtilData? firestoreUtilData) =>
@@ -149,6 +173,7 @@ class UsersStructBuilder implements Builder<UsersStruct, UsersStructBuilder> {
     if ($v != null) {
       _read = $v.read;
       _userId = $v.userId;
+      _userProfile = $v.userProfile;
       _firestoreUtilData = $v.firestoreUtilData;
       _$v = null;
     }
@@ -174,6 +199,7 @@ class UsersStructBuilder implements Builder<UsersStruct, UsersStructBuilder> {
         new _$UsersStruct._(
             read: read,
             userId: userId,
+            userProfile: userProfile,
             firestoreUtilData: BuiltValueNullFieldError.checkNotNull(
                 firestoreUtilData, r'UsersStruct', 'firestoreUtilData'));
     replace(_$result);

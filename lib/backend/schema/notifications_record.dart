@@ -26,6 +26,8 @@ abstract class NotificationsRecord
 
   BuiltList<UsersStruct>? get users;
 
+  DocumentReference? get postData;
+
   @BuiltValueField(wireName: kDocumentReferenceField)
   DocumentReference? get ffRef;
   DocumentReference get reference => ffRef!;
@@ -65,6 +67,7 @@ Map<String, dynamic> createNotificationsRecordData({
   String? message,
   String? postId,
   String? title,
+  DocumentReference? postData,
 }) {
   final firestoreData = serializers.toFirestore(
     NotificationsRecord.serializer,
@@ -75,7 +78,8 @@ Map<String, dynamic> createNotificationsRecordData({
         ..message = message
         ..postId = postId
         ..title = title
-        ..users = null,
+        ..users = null
+        ..postData = postData,
     ),
   );
 
