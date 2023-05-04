@@ -6,7 +6,6 @@ import '/forgot_password/forgot_password_widget.dart';
 import '/main.dart';
 import '/pages/create_account/create_account_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'login_model.dart';
@@ -274,15 +273,11 @@ class _LoginWidgetState extends State<LoginWidget> {
                                       fontWeight: FontWeight.w600,
                                     ),
                               ),
-                              Padding(
-                                padding: EdgeInsetsDirectional.fromSTEB(
-                                    10.0, 0.0, 0.0, 0.0),
-                                child: SvgPicture.asset(
-                                  'assets/images/Vector.svg',
-                                  width: 16.0,
-                                  height: 15.0,
-                                  fit: BoxFit.cover,
-                                ),
+                              Image.network(
+                                'https://picsum.photos/seed/785/600',
+                                width: 100.0,
+                                height: 100.0,
+                                fit: BoxFit.cover,
                               ),
                             ],
                           ),
