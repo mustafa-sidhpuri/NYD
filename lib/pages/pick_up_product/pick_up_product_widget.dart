@@ -365,7 +365,10 @@ class _PickUpProductWidgetState extends State<PickUpProductWidget> {
                   ),
                   if (FFAppState().showUser == true)
                     StreamBuilder<List<UsersRecord>>(
-                      stream: queryUsersRecord(),
+                      stream: queryUsersRecord(
+                        queryBuilder: (usersRecord) => usersRecord.where('uid',
+                            isNotEqualTo: currentUserUid),
+                      ),
                       builder: (context, snapshot) {
                         // Customize what your widget looks like when it's loading.
                         if (!snapshot.hasData) {
@@ -379,10 +382,8 @@ class _PickUpProductWidgetState extends State<PickUpProductWidget> {
                             ),
                           );
                         }
-                        List<UsersRecord> listViewUsersRecordList = snapshot
-                            .data!
-                            .where((u) => u.uid != currentUserUid)
-                            .toList();
+                        List<UsersRecord> listViewUsersRecordList =
+                            snapshot.data!;
                         return ListView.builder(
                           padding: EdgeInsets.zero,
                           shrinkWrap: true,
@@ -457,9 +458,7 @@ class _PickUpProductWidgetState extends State<PickUpProductWidget> {
                     Builder(
                       builder: (context) {
                         final searchUser = _model.simpleSearchResults
-                            .where((e) =>
-                                widget.pickupProductDoc!.postedBy !=
-                                currentUserUid)
+                            .where((e) => e.uid != currentUserUid)
                             .toList();
                         return ListView.builder(
                           padding: EdgeInsets.zero,
