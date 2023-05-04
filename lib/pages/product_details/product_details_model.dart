@@ -6,7 +6,6 @@ import '/pages/chat_details/chat_details_widget.dart';
 import '/pages/pick_up_product/pick_up_product_widget.dart';
 import '/pages/product_edit/product_edit_widget.dart';
 import '/custom_code/actions/index.dart' as actions;
-import '/flutter_flow/custom_functions.dart' as functions;
 import 'package:smooth_page_indicator/smooth_page_indicator.dart'
     as smooth_page_indicator;
 import 'package:cached_network_image/cached_network_image.dart';

@@ -6,7 +6,6 @@ import '/pages/chat_details/chat_details_widget.dart';
 import '/pages/pick_up_product/pick_up_product_widget.dart';
 import '/pages/product_edit/product_edit_widget.dart';
 import '/custom_code/actions/index.dart' as actions;
-import '/flutter_flow/custom_functions.dart' as functions;
 import 'package:smooth_page_indicator/smooth_page_indicator.dart'
     as smooth_page_indicator;
 import 'package:cached_network_image/cached_network_image.dart';
@@ -484,24 +483,27 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                               ),
                             ),
                           ),
-                        if ((widget.productData!.postedBy ==
-                                productDetailsUsersRecord.uid) &&
-                            (widget.productData!.public == true) &&
-                            (FFAppState().listUnlist == true))
+                        if (widget.productData!.postedBy ==
+                            productDetailsUsersRecord.uid)
                           InkWell(
                             splashColor: Colors.transparent,
                             focusColor: Colors.transparent,
                             hoverColor: Colors.transparent,
                             highlightColor: Colors.transparent,
                             onTap: () async {
-                              final postsUpdateData = createPostsRecordData(
-                                public: false,
-                              );
-                              await widget.productData!.reference
-                                  .update(postsUpdateData);
-                              setState(() {
-                                FFAppState().listUnlist = false;
-                              });
+                              if (widget.productData!.public == true) {
+                                final postsUpdateData1 = createPostsRecordData(
+                                  public: false,
+                                );
+                                await widget.productData!.reference
+                                    .update(postsUpdateData1);
+                              } else {
+                                final postsUpdateData2 = createPostsRecordData(
+                                  public: true,
+                                );
+                                await widget.productData!.reference
+                                    .update(postsUpdateData2);
+                              }
                             },
                             child: Container(
                               height: 43.0,
@@ -534,76 +536,9 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                                       padding: EdgeInsetsDirectional.fromSTEB(
                                           5.0, 0.0, 40.0, 0.0),
                                       child: Text(
-                                        'List',
-                                        textAlign: TextAlign.center,
-                                        style: FlutterFlowTheme.of(context)
-                                            .bodyMedium
-                                            .override(
-                                              fontFamily: 'Roboto',
-                                              color:
-                                                  FlutterFlowTheme.of(context)
-                                                      .primary,
-                                              fontSize: 16.0,
-                                              fontWeight: FontWeight.w600,
-                                            ),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        if ((widget.productData!.postedBy ==
-                                productDetailsUsersRecord.uid) &&
-                            (widget.productData!.public == false) &&
-                            (FFAppState().listUnlist == false))
-                          InkWell(
-                            splashColor: Colors.transparent,
-                            focusColor: Colors.transparent,
-                            hoverColor: Colors.transparent,
-                            highlightColor: Colors.transparent,
-                            onTap: () async {
-                              final postsUpdateData = createPostsRecordData(
-                                public: true,
-                              );
-                              await widget.productData!.reference
-                                  .update(postsUpdateData);
-                              setState(() {
-                                FFAppState().listUnlist = true;
-                              });
-                            },
-                            child: Container(
-                              height: 43.0,
-                              decoration: BoxDecoration(
-                                color: FlutterFlowTheme.of(context)
-                                    .secondaryBackground,
-                                borderRadius: BorderRadius.circular(22.0),
-                                border: Border.all(
-                                  color: FlutterFlowTheme.of(context).primary,
-                                  width: 2.0,
-                                ),
-                              ),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.max,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        35.0, 0.0, 0.0, 0.0),
-                                    child: SvgPicture.asset(
-                                      'assets/images/Vector_(1).svg',
-                                      width: 15.0,
-                                      height: 19.0,
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
-                                  Align(
-                                    alignment: AlignmentDirectional(0.0, 0.0),
-                                    child: Padding(
-                                      padding: EdgeInsetsDirectional.fromSTEB(
-                                          5.0, 0.0, 35.0, 0.0),
-                                      child: Text(
-                                        'Un-list',
+                                        widget.productData!.public == true
+                                            ? 'List'
+                                            : 'Un-List',
                                         textAlign: TextAlign.center,
                                         style: FlutterFlowTheme.of(context)
                                             .bodyMedium
@@ -653,15 +588,6 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                                         .toList()
                                         .first,
                                     productId: widget.productData!.reference.id,
-                                  ),
-                                  'user_details': getUserListFirestoreData(
-                                    functions.getUserDetailList(
-                                        currentUserUid,
-                                        currentUserPhoto,
-                                        currentUserDisplayName,
-                                        widget.productData!.postedBy!,
-                                        widget.productData!.postedByProfile!,
-                                        widget.productData!.postedByName!),
                                   ),
                                   'users': FFAppState().chatUsers,
                                 };

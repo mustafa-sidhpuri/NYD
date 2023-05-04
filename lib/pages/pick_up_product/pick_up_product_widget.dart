@@ -312,7 +312,6 @@ class _PickUpProductWidgetState extends State<PickUpProductWidget> {
                                     }
                                   },
                                 ),
-                                autofocus: true,
                                 obscureText: false,
                                 decoration: InputDecoration(
                                   hintText:
