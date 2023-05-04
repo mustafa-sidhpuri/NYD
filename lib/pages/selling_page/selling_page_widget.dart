@@ -510,9 +510,10 @@ class _SellingPageWidgetState extends State<SellingPageWidget> {
                             ),
                             StreamBuilder<List<PostsRecord>>(
                               stream: queryPostsRecord(
-                                queryBuilder: (postsRecord) =>
-                                    postsRecord.where('posted_by',
-                                        isEqualTo: currentUserUid),
+                                queryBuilder: (postsRecord) => postsRecord
+                                    .where('posted_by',
+                                        isEqualTo: currentUserUid)
+                                    .where('is_picked_up', isEqualTo: true),
                               ),
                               builder: (context, snapshot) {
                                 // Customize what your widget looks like when it's loading.
@@ -707,19 +708,7 @@ class _SellingPageWidgetState extends State<SellingPageWidget> {
                                                                           0.0,
                                                                           0.0),
                                                               child: Text(
-                                                                '${valueOrDefault<String>(
-                                                                  dateTimeFormat(
-                                                                      'jm',
-                                                                      listViewPostsRecord
-                                                                          .createdAt),
-                                                                  '09:20 AM',
-                                                                )}${valueOrDefault<String>(
-                                                                  dateTimeFormat(
-                                                                      'yMMMd',
-                                                                      listViewPostsRecord
-                                                                          .createdAt),
-                                                                  'Apr 20, 2023',
-                                                                )}',
+                                                                '12:00 PM 19 Apr, 23',
                                                                 style: FlutterFlowTheme.of(
                                                                         context)
                                                                     .bodyMedium

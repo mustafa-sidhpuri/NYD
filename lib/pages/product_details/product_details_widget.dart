@@ -500,6 +500,7 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                               } else {
                                 final postsUpdateData2 = createPostsRecordData(
                                   public: true,
+                                  pickup: createPickupStruct(delete: true),
                                 );
                                 await widget.productData!.reference
                                     .update(postsUpdateData2);
