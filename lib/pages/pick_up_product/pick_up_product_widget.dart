@@ -296,9 +296,6 @@ class _PickUpProductWidgetState extends State<PickUpProductWidget> {
                                       setState(() {
                                         FFAppState().showPickProductList = true;
                                       });
-                                      setState(() {
-                                        FFAppState().showPickProductList = true;
-                                      });
                                     },
                                   ),
                                   obscureText: false,
@@ -367,10 +364,7 @@ class _PickUpProductWidgetState extends State<PickUpProductWidget> {
                   ),
                   if (!FFAppState().showPickProductList)
                     StreamBuilder<List<UsersRecord>>(
-                      stream: queryUsersRecord(
-                        queryBuilder: (usersRecord) => usersRecord.where('uid',
-                            isNotEqualTo: currentUserUid),
-                      ),
+                      stream: queryUsersRecord(),
                       builder: (context, snapshot) {
                         // Customize what your widget looks like when it's loading.
                         if (!snapshot.hasData) {
@@ -384,8 +378,10 @@ class _PickUpProductWidgetState extends State<PickUpProductWidget> {
                             ),
                           );
                         }
-                        List<UsersRecord> listViewUsersRecordList =
-                            snapshot.data!;
+                        List<UsersRecord> listViewUsersRecordList = snapshot
+                            .data!
+                            .where((u) => u.uid != currentUserUid)
+                            .toList();
                         return ListView.builder(
                           padding: EdgeInsets.zero,
                           shrinkWrap: true,
