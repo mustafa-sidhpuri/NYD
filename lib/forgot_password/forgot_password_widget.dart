@@ -2,9 +2,9 @@ import '/auth/firebase_auth/auth_util.dart';
 import '/components/title_component_widget.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
-import '/pages/app_button_widget/app_button_widget_widget.dart';
 import '/pages/login/login_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'forgot_password_model.dart';
@@ -211,11 +211,40 @@ class _ForgotPasswordWidgetState extends State<ForgotPasswordWidget> {
                             ),
                           );
                         },
-                        child: wrapWithModel(
-                          model: _model.appButtonWidgetModel,
-                          updateCallback: () => setState(() {}),
-                          child: AppButtonWidgetWidget(
-                            buttonName: 'SEND',
+                        child: Container(
+                          height: 43.0,
+                          decoration: BoxDecoration(
+                            color: FlutterFlowTheme.of(context).primary,
+                            borderRadius: BorderRadius.circular(22.0),
+                          ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.max,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Padding(
+                                padding: EdgeInsetsDirectional.fromSTEB(
+                                    20.0, 0.0, 0.0, 0.0),
+                                child: Text(
+                                  'RESET PASSWORD',
+                                  style: FlutterFlowTheme.of(context)
+                                      .bodyMedium
+                                      .override(
+                                        fontFamily: 'Roboto',
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                ),
+                              ),
+                              Padding(
+                                padding: EdgeInsetsDirectional.fromSTEB(
+                                    5.0, 0.0, 20.0, 0.0),
+                                child: SvgPicture.asset(
+                                  'assets/images/RightArrow.svg',
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ),

@@ -418,7 +418,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
                                 padding: EdgeInsetsDirectional.fromSTEB(
                                     10.0, 0.0, 0.0, 0.0),
                                 child: SvgPicture.asset(
-                                  'assets/images/Vector.svg',
+                                  'assets/images/RightArrow.svg',
                                   width: 16.0,
                                   height: 15.0,
                                   fit: BoxFit.cover,
