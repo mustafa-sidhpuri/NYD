@@ -456,7 +456,11 @@ class _PickUpProductWidgetState extends State<PickUpProductWidget> {
                   if (FFAppState().showPickProductList)
                     Builder(
                       builder: (context) {
-                        final searchUser = _model.simpleSearchResults.toList();
+                        final searchUser = _model.simpleSearchResults
+                            .where((e) =>
+                                widget.pickupProductDoc!.postedBy !=
+                                currentUserUid)
+                            .toList();
                         return ListView.builder(
                           padding: EdgeInsets.zero,
                           shrinkWrap: true,
@@ -473,17 +477,46 @@ class _PickUpProductWidgetState extends State<PickUpProductWidget> {
                                 hoverColor: Colors.transparent,
                                 highlightColor: Colors.transparent,
                                 onTap: () async {
-                                  final postsUpdateData =
-                                      createPostsRecordData();
-                                  await widget.pickupProductDoc!.reference
-                                      .update(postsUpdateData);
-                                  await Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => NavBarPage(
-                                          initialPage: 'sellingPage'),
-                                    ),
-                                  );
+                                  if (widget.pickupProductDoc!.public == true) {
+                                    final postsUpdateData =
+                                        createPostsRecordData(
+                                      pickup: createPickupStruct(
+                                        userId: searchUserItem.uid,
+                                        userName: searchUserItem.displayName,
+                                        userImage: searchUserItem.photoUrl,
+                                        clearUnsetFields: false,
+                                      ),
+                                      isPickedUp: true,
+                                      public: false,
+                                    );
+                                    await widget.pickupProductDoc!.reference
+                                        .update(postsUpdateData);
+                                    await Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => NavBarPage(
+                                            initialPage: 'sellingPage'),
+                                      ),
+                                    );
+                                  } else {
+                                    ScaffoldMessenger.of(context)
+                                        .clearSnackBars();
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text(
+                                          'Product is not in List',
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 14.0,
+                                          ),
+                                        ),
+                                        duration: Duration(milliseconds: 4000),
+                                        backgroundColor:
+                                            FlutterFlowTheme.of(context)
+                                                .primary,
+                                      ),
+                                    );
+                                  }
                                 },
                                 child: Container(
                                   decoration: BoxDecoration(
@@ -501,7 +534,7 @@ class _PickUpProductWidgetState extends State<PickUpProductWidget> {
                                               .secondaryBackground,
                                           shape: BoxShape.circle,
                                           border: Border.all(
-                                            color: Color(0x07000000),
+                                            color: Colors.black,
                                           ),
                                         ),
                                         child: Container(
@@ -543,7 +576,7 @@ class _PickUpProductWidgetState extends State<PickUpProductWidget> {
                                               padding: EdgeInsetsDirectional
                                                   .fromSTEB(0.0, 8.0, 0.0, 0.0),
                                               child: Text(
-                                                '12:00 AM 19 Apr, 23',
+                                                '${dateTimeFormat('jm', searchUserItem.createdTime)} ${dateTimeFormat('yMMMd', searchUserItem.createdTime)}',
                                                 style:
                                                     FlutterFlowTheme.of(context)
                                                         .bodyMedium
