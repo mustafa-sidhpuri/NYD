@@ -69,7 +69,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
       backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
       body: SafeArea(
         child: Stack(
-          alignment: AlignmentDirectional(0.0, -0.34),
+          alignment: AlignmentDirectional(0.0, -0.32),
           children: [
             Padding(
               padding: EdgeInsetsDirectional.fromSTEB(22.0, 30.0, 22.0, 0.0),

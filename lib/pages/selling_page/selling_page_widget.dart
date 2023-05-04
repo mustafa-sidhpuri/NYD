@@ -372,6 +372,13 @@ class _SellingPageWidgetState extends State<SellingPageWidget> {
                                                                       createPostsRecordData(
                                                                     public:
                                                                         true,
+                                                                    pickup: createPickupStruct(
+                                                                        delete:
+                                                                            true),
+                                                                    isPickedUp:
+                                                                        false,
+                                                                    updatedAt:
+                                                                        getCurrentTimestamp,
                                                                   );
                                                                   await listViewPostsRecord
                                                                       .reference

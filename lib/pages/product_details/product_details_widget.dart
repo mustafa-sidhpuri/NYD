@@ -501,6 +501,8 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                                 final postsUpdateData2 = createPostsRecordData(
                                   public: true,
                                   pickup: createPickupStruct(delete: true),
+                                  isPickedUp: false,
+                                  updatedAt: getCurrentTimestamp,
                                 );
                                 await widget.productData!.reference
                                     .update(postsUpdateData2);

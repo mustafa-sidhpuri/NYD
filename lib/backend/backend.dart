@@ -15,6 +15,7 @@ import 'schema/bookings_record.dart';
 import 'schema/posts_record.dart';
 import 'schema/conversations_record.dart';
 import 'schema/chats_record.dart';
+import 'schema/notifications_record.dart';
 import 'schema/serializers.dart';
 
 export 'dart:async' show StreamSubscription;
@@ -32,6 +33,7 @@ export 'schema/bookings_record.dart';
 export 'schema/posts_record.dart';
 export 'schema/conversations_record.dart';
 export 'schema/chats_record.dart';
+export 'schema/notifications_record.dart';
 
 /// Functions to query PropertiesRecords (as a Stream and as a Future).
 Future<int> queryPropertiesRecordCount({
@@ -551,6 +553,58 @@ Future<FFFirestorePage<ChatsRecord>> queryChatsRecordPage({
     queryCollectionPage(
       ChatsRecord.collection(parent),
       ChatsRecord.serializer,
+      queryBuilder: queryBuilder,
+      nextPageMarker: nextPageMarker,
+      pageSize: pageSize,
+      isStream: isStream,
+    );
+
+/// Functions to query NotificationsRecords (as a Stream and as a Future).
+Future<int> queryNotificationsRecordCount({
+  Query Function(Query)? queryBuilder,
+  int limit = -1,
+}) =>
+    queryCollectionCount(
+      NotificationsRecord.collection,
+      queryBuilder: queryBuilder,
+      limit: limit,
+    );
+
+Stream<List<NotificationsRecord>> queryNotificationsRecord({
+  Query Function(Query)? queryBuilder,
+  int limit = -1,
+  bool singleRecord = false,
+}) =>
+    queryCollection(
+      NotificationsRecord.collection,
+      NotificationsRecord.serializer,
+      queryBuilder: queryBuilder,
+      limit: limit,
+      singleRecord: singleRecord,
+    );
+
+Future<List<NotificationsRecord>> queryNotificationsRecordOnce({
+  Query Function(Query)? queryBuilder,
+  int limit = -1,
+  bool singleRecord = false,
+}) =>
+    queryCollectionOnce(
+      NotificationsRecord.collection,
+      NotificationsRecord.serializer,
+      queryBuilder: queryBuilder,
+      limit: limit,
+      singleRecord: singleRecord,
+    );
+
+Future<FFFirestorePage<NotificationsRecord>> queryNotificationsRecordPage({
+  Query Function(Query)? queryBuilder,
+  DocumentSnapshot? nextPageMarker,
+  required int pageSize,
+  required bool isStream,
+}) =>
+    queryCollectionPage(
+      NotificationsRecord.collection,
+      NotificationsRecord.serializer,
       queryBuilder: queryBuilder,
       nextPageMarker: nextPageMarker,
       pageSize: pageSize,

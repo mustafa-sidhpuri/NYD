@@ -6,3 +6,4 @@ export '../../flutter_flow/lat_lng.dart';
 
 export 'structs/pickup_struct.dart';
 export 'structs/user_struct.dart';
+export 'structs/users_struct.dart';

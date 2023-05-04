@@ -5,7 +5,6 @@ import '/flutter_flow/flutter_flow_util.dart';
 import '/main.dart';
 import '/pages/login/login_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -28,33 +27,6 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
   void initState() {
     super.initState();
     _model = createModel(context, () => CreateAccountModel());
-
-    // On page load action.
-    SchedulerBinding.instance.addPostFrameCallback((_) async {
-      final user = await authManager.createAccountWithEmail(
-        context,
-        _model.emailAddressController.text,
-        _model.passwordController.text,
-      );
-      if (user == null) {
-        return;
-      }
-
-      final usersCreateData = {
-        ...createUsersRecordData(
-          displayName: _model.nameController.text,
-        ),
-        'created_time': FieldValue.serverTimestamp(),
-      };
-      await UsersRecord.collection.doc(user.uid).update(usersCreateData);
-
-      await Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => NavBarPage(initialPage: 'homePage'),
-        ),
-      );
-    });
 
     _model.nameController ??= TextEditingController();
     _model.emailAddressController ??= TextEditingController();
