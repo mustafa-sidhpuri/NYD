@@ -89,76 +89,12 @@ class _PushNotificationsHandlerState extends State<PushNotificationsHandler> {
 final pageBuilderMap = <String, Future<Widget> Function(Map<String, dynamic>)>{
   'login': (data) async => LoginWidget(),
   'createAccount': (data) async => CreateAccountWidget(),
-  'propertyDetails': (data) async => PropertyDetailsWidget(
-        propertyRef: await getDocumentParameter(
-            data, 'propertyRef', PropertiesRecord.serializer),
-      ),
-  'searchProperties': (data) async => SearchPropertiesWidget(
-        searchTerm: getParameter(data, 'searchTerm'),
-      ),
   'sellingPage': (data) async => NavBarPage(initialPage: 'sellingPage'),
-  'tripDetails': (data) async => TripDetailsWidget(
-        propertyRef: await getDocumentParameter(
-            data, 'propertyRef', PropertiesRecord.serializer),
-        tripRef:
-            await getDocumentParameter(data, 'tripRef', TripsRecord.serializer),
-      ),
   'chatMain': (data) async => NavBarPage(initialPage: 'chatMain'),
-  'propertyReview': (data) async => PropertyReviewWidget(
-        propertyRef: await getDocumentParameter(
-            data, 'propertyRef', PropertiesRecord.serializer),
-      ),
-  'bookNow': (data) async => BookNowWidget(
-        propertyDetails: await getDocumentParameter(
-            data, 'propertyDetails', PropertiesRecord.serializer),
-      ),
   'profilePage': (data) async => NavBarPage(initialPage: 'profilePage'),
-  'paymentInfo': (data) async => PaymentInfoWidget(),
   'editProfile': (data) async => EditProfileWidget(
         userProfile: await getDocumentParameter(
             data, 'userProfile', UsersRecord.serializer),
-      ),
-  'changePassword': (data) async => ChangePasswordWidget(
-        userProfile: await getDocumentParameter(
-            data, 'userProfile', UsersRecord.serializer),
-      ),
-  'createProperty_1': (data) async => CreateProperty1Widget(),
-  'HomePage_ALT': (data) async => HomePageALTWidget(),
-  'createProperty_2': (data) async => CreateProperty2Widget(
-        propertyRef: await getDocumentParameter(
-            data, 'propertyRef', PropertiesRecord.serializer),
-        propertyAmenities: await getDocumentParameter(
-            data, 'propertyAmenities', AmenititiesRecord.serializer),
-      ),
-  'createProperty_3': (data) async => CreateProperty3Widget(
-        propertyRef: await getDocumentParameter(
-            data, 'propertyRef', PropertiesRecord.serializer),
-      ),
-  'myProperties': (data) async => MyPropertiesWidget(),
-  'propertyDetails_Owner': (data) async => PropertyDetailsOwnerWidget(
-        propertyRef: await getDocumentParameter(
-            data, 'propertyRef', PropertiesRecord.serializer),
-      ),
-  'myBookings': (data) async => MyBookingsWidget(),
-  'tripDetailsHOST': (data) async => TripDetailsHOSTWidget(
-        propertyRef: await getDocumentParameter(
-            data, 'propertyRef', PropertiesRecord.serializer),
-        tripRef:
-            await getDocumentParameter(data, 'tripRef', TripsRecord.serializer),
-      ),
-  'editProperty_1': (data) async => EditProperty1Widget(
-        propertyRef: await getDocumentParameter(
-            data, 'propertyRef', PropertiesRecord.serializer),
-      ),
-  'editProperty_2': (data) async => EditProperty2Widget(
-        propertyRef: await getDocumentParameter(
-            data, 'propertyRef', PropertiesRecord.serializer),
-        propertyAmenities: await getDocumentParameter(
-            data, 'propertyAmenities', AmenititiesRecord.serializer),
-      ),
-  'editProperty_3': (data) async => EditProperty3Widget(
-        propertyRef: await getDocumentParameter(
-            data, 'propertyRef', PropertiesRecord.serializer),
       ),
   'forgotPassword': (data) async => ForgotPasswordWidget(),
   'AddProduct': (data) async => NavBarPage(initialPage: 'AddProduct'),

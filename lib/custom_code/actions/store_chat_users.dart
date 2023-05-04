@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 // Begin custom action code
 // DO NOT REMOVE OR MODIFY THE CODE ABOVE!
 
-void storeChatUsers(String currentUser, String postUser) {
+Future<void> storeChatUsers(String currentUser, String postUser) async {
   FFAppState().chatUsers = [currentUser, postUser];
 }
 // Set your action name, define your arguments and return parameter,
