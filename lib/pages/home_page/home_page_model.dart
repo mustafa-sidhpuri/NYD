@@ -11,7 +11,6 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'package:text_search/text_search.dart';
 
 class HomePageModel extends FlutterFlowModel {
   ///  State fields for stateful widgets in this page.
@@ -19,7 +18,8 @@ class HomePageModel extends FlutterFlowModel {
   // State field(s) for TextField widget.
   TextEditingController? textController;
   String? Function(BuildContext, String?)? textControllerValidator;
-  List<PostsRecord> simpleSearchResults = [];
+  // Algolia Search Results from action on TextField
+  List<PostsRecord>? algoliaSearchResults = [];
 
   /// Initialization and disposal methods.
 

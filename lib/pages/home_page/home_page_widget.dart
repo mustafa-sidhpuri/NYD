@@ -11,7 +11,6 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'package:text_search/text_search.dart';
 import 'home_page_model.dart';
 export 'home_page_model.dart';
 
@@ -156,23 +155,22 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                 '_model.textController',
                                 Duration(milliseconds: 0),
                                 () async {
-                                  await queryPostsRecordOnce()
-                                      .then(
-                                        (records) => _model
-                                            .simpleSearchResults = TextSearch(
-                                          records
-                                              .map(
-                                                (record) => TextSearchItem(
-                                                    record, [record.name!]),
-                                              )
-                                              .toList(),
-                                        )
-                                            .search(_model.textController.text)
-                                            .map((r) => r.object)
-                                            .toList(),
-                                      )
+                                  currentUserLocationValue =
+                                      await getCurrentUserLocation(
+                                          defaultLocation: LatLng(0.0, 0.0));
+                                  setState(
+                                      () => _model.algoliaSearchResults = null);
+                                  await PostsRecord.search(
+                                    term: _model.textController.text,
+                                    location: getCurrentUserLocation(
+                                        defaultLocation:
+                                            LatLng(37.4298229, -122.1735655)),
+                                    searchRadiusMeters: 5000.0,
+                                  )
+                                      .then((r) =>
+                                          _model.algoliaSearchResults = r)
                                       .onError((_, __) =>
-                                          _model.simpleSearchResults = [])
+                                          _model.algoliaSearchResults = [])
                                       .whenComplete(() => setState(() {}));
 
                                   if (FFAppState().showListView) {
@@ -1173,9 +1171,19 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                             EdgeInsetsDirectional.fromSTEB(0.0, 20.0, 0.0, 0.0),
                         child: Builder(
                           builder: (context) {
-                            final postNames = _model.simpleSearchResults
-                                .where((e) => e.public == true)
-                                .toList();
+                            if (_model.algoliaSearchResults == null) {
+                              return Center(
+                                child: SizedBox(
+                                  width: 50.0,
+                                  height: 50.0,
+                                  child: CircularProgressIndicator(
+                                    color: FlutterFlowTheme.of(context).primary,
+                                  ),
+                                ),
+                              );
+                            }
+                            final postNames =
+                                _model.algoliaSearchResults?.toList() ?? [];
                             return GridView.builder(
                               padding: EdgeInsets.zero,
                               gridDelegate:
@@ -2170,9 +2178,19 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                             EdgeInsetsDirectional.fromSTEB(0.0, 22.0, 0.0, 0.0),
                         child: Builder(
                           builder: (context) {
-                            final listPostData = _model.simpleSearchResults
-                                .where((e) => e.public == true)
-                                .toList();
+                            if (_model.algoliaSearchResults == null) {
+                              return Center(
+                                child: SizedBox(
+                                  width: 50.0,
+                                  height: 50.0,
+                                  child: CircularProgressIndicator(
+                                    color: FlutterFlowTheme.of(context).primary,
+                                  ),
+                                ),
+                              );
+                            }
+                            final listPostData =
+                                _model.algoliaSearchResults?.toList() ?? [];
                             return ListView.builder(
                               padding: EdgeInsets.zero,
                               shrinkWrap: true,
