@@ -95,11 +95,8 @@ class _ChatMainWidgetState extends State<ChatMainWidget> {
                           StreamBuilder<List<ConversationsRecord>>(
                             stream: queryConversationsRecord(
                               queryBuilder: (conversationsRecord) =>
-                                  conversationsRecord
-                                      .where('users',
-                                          arrayContains: currentUserUid)
-                                      .orderBy('last_message_at',
-                                          descending: true),
+                                  conversationsRecord.where('users',
+                                      arrayContains: currentUserUid),
                             ),
                             builder: (context, snapshot) {
                               // Customize what your widget looks like when it's loading.

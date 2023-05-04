@@ -1,20 +1,5 @@
 {
-  "indexes": [
-    {
-      "collectionGroup": "conversations",
-      "queryScope": "COLLECTION",
-      "fields": [
-        {
-          "fieldPath": "users",
-          "arrayConfig": "CONTAINS"
-        },
-        {
-          "fieldPath": "last_message_at",
-          "order": "DESCENDING"
-        }
-      ]
-    }
-  ],
+  "indexes": [],
   "fieldOverrides": [
     {
       "collectionGroup": "fcm_tokens",
