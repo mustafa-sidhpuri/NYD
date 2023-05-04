@@ -296,6 +296,9 @@ class _PickUpProductWidgetState extends State<PickUpProductWidget> {
                                       setState(() {
                                         FFAppState().showPickProductList = true;
                                       });
+                                      setState(() {
+                                        FFAppState().showPickProductList = true;
+                                      });
                                     },
                                   ),
                                   obscureText: false,
@@ -318,7 +321,7 @@ class _PickUpProductWidgetState extends State<PickUpProductWidget> {
                                     ),
                                     focusedBorder: OutlineInputBorder(
                                       borderSide: BorderSide(
-                                        color: Color(0x00000000),
+                                        color: Colors.black,
                                         width: 1.0,
                                       ),
                                       borderRadius: BorderRadius.circular(12.0),
@@ -348,7 +351,9 @@ class _PickUpProductWidgetState extends State<PickUpProductWidget> {
                                       .bodyMedium
                                       .override(
                                         fontFamily: 'Roboto',
-                                        color: Color(0xFF7D8180),
+                                        color: FlutterFlowTheme.of(context)
+                                            .primaryText,
+                                        fontSize: 16.0,
                                       ),
                                   validator: _model.textControllerValidator
                                       .asValidator(context),
@@ -361,21 +366,34 @@ class _PickUpProductWidgetState extends State<PickUpProductWidget> {
                     ),
                   ),
                   if (!FFAppState().showPickProductList)
-                    Builder(
-                      builder: (context) {
-                        final pickupProduct = _model.simpleSearchResults
-                            .where((e) =>
-                                widget.pickupProductDoc!.postedBy !=
-                                currentUserUid)
-                            .toList();
+                    StreamBuilder<List<UsersRecord>>(
+                      stream: queryUsersRecord(
+                        queryBuilder: (usersRecord) => usersRecord.where('uid',
+                            isNotEqualTo: currentUserUid),
+                      ),
+                      builder: (context, snapshot) {
+                        // Customize what your widget looks like when it's loading.
+                        if (!snapshot.hasData) {
+                          return Center(
+                            child: SizedBox(
+                              width: 50.0,
+                              height: 50.0,
+                              child: CircularProgressIndicator(
+                                color: FlutterFlowTheme.of(context).primary,
+                              ),
+                            ),
+                          );
+                        }
+                        List<UsersRecord> listViewUsersRecordList =
+                            snapshot.data!;
                         return ListView.builder(
                           padding: EdgeInsets.zero,
                           shrinkWrap: true,
                           scrollDirection: Axis.vertical,
-                          itemCount: pickupProduct.length,
-                          itemBuilder: (context, pickupProductIndex) {
-                            final pickupProductItem =
-                                pickupProduct[pickupProductIndex];
+                          itemCount: listViewUsersRecordList.length,
+                          itemBuilder: (context, listViewIndex) {
+                            final listViewUsersRecord =
+                                listViewUsersRecordList[listViewIndex];
                             return Container(
                               decoration: BoxDecoration(
                                 color: FlutterFlowTheme.of(context)
@@ -392,7 +410,7 @@ class _PickUpProductWidgetState extends State<PickUpProductWidget> {
                                       shape: BoxShape.circle,
                                     ),
                                     child: Image.network(
-                                      pickupProductItem.photoUrl!,
+                                      listViewUsersRecord.photoUrl!,
                                       fit: BoxFit.cover,
                                     ),
                                   ),
@@ -405,7 +423,7 @@ class _PickUpProductWidgetState extends State<PickUpProductWidget> {
                                           CrossAxisAlignment.start,
                                       children: [
                                         Text(
-                                          pickupProductItem.displayName!,
+                                          listViewUsersRecord.displayName!,
                                           style: FlutterFlowTheme.of(context)
                                               .bodyMedium
                                               .override(
@@ -418,7 +436,7 @@ class _PickUpProductWidgetState extends State<PickUpProductWidget> {
                                               EdgeInsetsDirectional.fromSTEB(
                                                   0.0, 8.0, 0.0, 0.0),
                                           child: Text(
-                                            '12:00 AM 19 Apr, 23',
+                                            '${dateTimeFormat('jm', listViewUsersRecord.createdTime)} ${dateTimeFormat('yMMMd', listViewUsersRecord.createdTime)}',
                                             style: FlutterFlowTheme.of(context)
                                                 .bodyMedium
                                                 .override(
@@ -441,19 +459,14 @@ class _PickUpProductWidgetState extends State<PickUpProductWidget> {
                   if (FFAppState().showPickProductList)
                     Builder(
                       builder: (context) {
-                        final pickupProduct = _model.simpleSearchResults
-                            .where((e) =>
-                                widget.pickupProductDoc!.postedBy !=
-                                currentUserUid)
-                            .toList();
+                        final searchUser = _model.simpleSearchResults.toList();
                         return ListView.builder(
                           padding: EdgeInsets.zero,
                           shrinkWrap: true,
                           scrollDirection: Axis.vertical,
-                          itemCount: pickupProduct.length,
-                          itemBuilder: (context, pickupProductIndex) {
-                            final pickupProductItem =
-                                pickupProduct[pickupProductIndex];
+                          itemCount: searchUser.length,
+                          itemBuilder: (context, searchUserIndex) {
+                            final searchUserItem = searchUser[searchUserIndex];
                             return Padding(
                               padding: EdgeInsetsDirectional.fromSTEB(
                                   0.0, 0.0, 0.0, 20.0),
@@ -463,52 +476,17 @@ class _PickUpProductWidgetState extends State<PickUpProductWidget> {
                                 hoverColor: Colors.transparent,
                                 highlightColor: Colors.transparent,
                                 onTap: () async {
-                                  if (widget.pickupProductDoc!.public == true) {
-                                    final postsUpdateData =
-                                        createPostsRecordData(
-                                      pickup: createPickupStruct(
-                                        userId:
-                                            widget.pickupProductDoc!.postedBy,
-                                        userName: widget
-                                            .pickupProductDoc!.postedByName,
-                                        userImage: valueOrDefault<String>(
-                                          widget.pickupProductDoc!
-                                              .postedByProfile,
-                                          'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/wedding-app-anuwld/assets/udoiek8lgxbr/userUpload@2x.png',
-                                        ),
-                                        clearUnsetFields: false,
-                                      ),
-                                      public: false,
-                                    );
-                                    await widget.pickupProductDoc!.reference
-                                        .update(postsUpdateData);
-                                    await Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => NavBarPage(
-                                            initialPage: 'sellingPage'),
-                                      ),
-                                    );
-                                  } else {
-                                    ScaffoldMessenger.of(context)
-                                        .clearSnackBars();
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                        content: Text(
-                                          'Product is not in List',
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 14.0,
-                                          ),
-                                        ),
-                                        duration: Duration(milliseconds: 4000),
-                                        backgroundColor:
-                                            FlutterFlowTheme.of(context)
-                                                .primary,
-                                      ),
-                                    );
-                                  }
+                                  final postsUpdateData =
+                                      createPostsRecordData();
+                                  await widget.pickupProductDoc!.reference
+                                      .update(postsUpdateData);
+                                  await Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => NavBarPage(
+                                          initialPage: 'sellingPage'),
+                                    ),
+                                  );
                                 },
                                 child: Container(
                                   decoration: BoxDecoration(
@@ -538,7 +516,7 @@ class _PickUpProductWidgetState extends State<PickUpProductWidget> {
                                           ),
                                           child: Image.network(
                                             valueOrDefault<String>(
-                                              pickupProductItem.photoUrl,
+                                              searchUserItem.photoUrl,
                                               'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/wedding-app-anuwld/assets/udoiek8lgxbr/userUpload@2x.png',
                                             ),
                                             fit: BoxFit.cover,
@@ -554,7 +532,7 @@ class _PickUpProductWidgetState extends State<PickUpProductWidget> {
                                               CrossAxisAlignment.start,
                                           children: [
                                             Text(
-                                              pickupProductItem.displayName!,
+                                              searchUserItem.displayName!,
                                               style:
                                                   FlutterFlowTheme.of(context)
                                                       .bodyMedium
