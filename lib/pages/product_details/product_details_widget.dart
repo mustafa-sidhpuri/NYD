@@ -487,7 +487,7 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                         if ((widget.productData!.postedBy ==
                                 productDetailsUsersRecord.uid) &&
                             (widget.productData!.public == true) &&
-                            !FFAppState().listUnlist)
+                            (FFAppState().listUnlist == true))
                           InkWell(
                             splashColor: Colors.transparent,
                             focusColor: Colors.transparent,
@@ -556,7 +556,7 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                         if ((widget.productData!.postedBy ==
                                 productDetailsUsersRecord.uid) &&
                             (widget.productData!.public == false) &&
-                            FFAppState().listUnlist)
+                            (FFAppState().listUnlist == false))
                           InkWell(
                             splashColor: Colors.transparent,
                             focusColor: Colors.transparent,

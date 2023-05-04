@@ -189,7 +189,7 @@ class FFAppState extends ChangeNotifier {
     _chatUserDetail.removeAt(_index);
   }
 
-  bool _listUnlist = false;
+  bool _listUnlist = true;
   bool get listUnlist => _listUnlist;
   set listUnlist(bool _value) {
     _listUnlist = _value;
