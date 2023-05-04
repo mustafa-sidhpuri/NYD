@@ -2,7 +2,6 @@ import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
-import '/flutter_flow/flutter_flow_widgets.dart';
 import '/pages/chat_details/chat_details_widget.dart';
 import '/pages/pick_up_product/pick_up_product_widget.dart';
 import '/pages/product_edit/product_edit_widget.dart';
@@ -430,288 +429,201 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                     ),
                   ),
                   Spacer(),
-                  Row(
-                    mainAxisSize: MainAxisSize.max,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      if (widget.productData!.postedBy ==
-                          productDetailsUsersRecord.uid)
-                        InkWell(
-                          splashColor: Colors.transparent,
-                          focusColor: Colors.transparent,
-                          hoverColor: Colors.transparent,
-                          highlightColor: Colors.transparent,
-                          onTap: () async {
-                            await Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => PickUpProductWidget(
-                                  pickupProductDoc: widget.productData!,
+                  Padding(
+                    padding:
+                        EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 30.0),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        if (widget.productData!.postedBy ==
+                            productDetailsUsersRecord.uid)
+                          InkWell(
+                            splashColor: Colors.transparent,
+                            focusColor: Colors.transparent,
+                            hoverColor: Colors.transparent,
+                            highlightColor: Colors.transparent,
+                            onTap: () async {
+                              await Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => PickUpProductWidget(
+                                    pickupProductDoc: widget.productData!,
+                                  ),
+                                ),
+                              );
+                            },
+                            child: Container(
+                              height: 43.0,
+                              decoration: BoxDecoration(
+                                color: FlutterFlowTheme.of(context)
+                                    .secondaryBackground,
+                                borderRadius: BorderRadius.circular(22.0),
+                                border: Border.all(
+                                  color: FlutterFlowTheme.of(context).primary,
+                                  width: 2.0,
                                 ),
                               ),
-                            );
-                          },
-                          child: Container(
-                            width: 143.0,
-                            height: 43.0,
-                            decoration: BoxDecoration(
-                              color: FlutterFlowTheme.of(context)
-                                  .secondaryBackground,
-                              borderRadius: BorderRadius.circular(22.0),
-                              border: Border.all(
-                                color: FlutterFlowTheme.of(context).primary,
-                                width: 2.0,
+                              alignment: AlignmentDirectional(0.0, 0.0),
+                              child: Padding(
+                                padding: EdgeInsetsDirectional.fromSTEB(
+                                    30.0, 0.0, 30.0, 0.0),
+                                child: Text(
+                                  'Picked Up',
+                                  textAlign: TextAlign.center,
+                                  style: FlutterFlowTheme.of(context)
+                                      .bodyMedium
+                                      .override(
+                                        fontFamily: 'Roboto',
+                                        color: FlutterFlowTheme.of(context)
+                                            .primary,
+                                        fontSize: 16.0,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                ),
                               ),
-                            ),
-                            alignment: AlignmentDirectional(0.0, 0.0),
-                            child: Text(
-                              'Picked Up',
-                              textAlign: TextAlign.center,
-                              style: FlutterFlowTheme.of(context)
-                                  .bodyMedium
-                                  .override(
-                                    fontFamily: 'Roboto',
-                                    color: FlutterFlowTheme.of(context).primary,
-                                    fontSize: 16.0,
-                                    fontWeight: FontWeight.w600,
-                                  ),
                             ),
                           ),
-                        ),
-                      Row(
-                        mainAxisSize: MainAxisSize.max,
-                        children: [
-                          if ((widget.productData!.postedBy ==
-                                  productDetailsUsersRecord.uid) &&
-                              (widget.productData!.public == false))
-                            InkWell(
-                              splashColor: Colors.transparent,
-                              focusColor: Colors.transparent,
-                              hoverColor: Colors.transparent,
-                              highlightColor: Colors.transparent,
-                              onTap: () async {
-                                final postsUpdateData = createPostsRecordData(
-                                  public: true,
-                                );
-                                await widget.productData!.reference
-                                    .update(postsUpdateData);
-                              },
-                              child: Container(
-                                width: 143.0,
-                                height: 43.0,
-                                decoration: BoxDecoration(
-                                  color: FlutterFlowTheme.of(context)
-                                      .secondaryBackground,
-                                  borderRadius: BorderRadius.circular(22.0),
-                                  border: Border.all(
-                                    color: FlutterFlowTheme.of(context).primary,
-                                    width: 2.0,
-                                  ),
+                        if ((widget.productData!.postedBy ==
+                                productDetailsUsersRecord.uid) &&
+                            (widget.productData!.public == true) &&
+                            !FFAppState().listUnlist)
+                          InkWell(
+                            splashColor: Colors.transparent,
+                            focusColor: Colors.transparent,
+                            hoverColor: Colors.transparent,
+                            highlightColor: Colors.transparent,
+                            onTap: () async {
+                              final postsUpdateData = createPostsRecordData(
+                                public: false,
+                              );
+                              await widget.productData!.reference
+                                  .update(postsUpdateData);
+                              setState(() {
+                                FFAppState().listUnlist = false;
+                              });
+                            },
+                            child: Container(
+                              height: 43.0,
+                              decoration: BoxDecoration(
+                                color: FlutterFlowTheme.of(context)
+                                    .secondaryBackground,
+                                borderRadius: BorderRadius.circular(22.0),
+                                border: Border.all(
+                                  color: FlutterFlowTheme.of(context).primary,
+                                  width: 2.0,
                                 ),
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.max,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    SvgPicture.asset(
+                              ),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.max,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Padding(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                        40.0, 0.0, 0.0, 0.0),
+                                    child: SvgPicture.asset(
                                       'assets/images/Vector_(1).svg',
                                       width: 15.0,
                                       height: 19.0,
                                       fit: BoxFit.cover,
                                     ),
-                                    Align(
-                                      alignment: AlignmentDirectional(0.0, 0.0),
-                                      child: Padding(
-                                        padding: EdgeInsetsDirectional.fromSTEB(
-                                            5.0, 0.0, 0.0, 0.0),
-                                        child: Text(
-                                          'Un-list',
-                                          textAlign: TextAlign.center,
-                                          style: FlutterFlowTheme.of(context)
-                                              .bodyMedium
-                                              .override(
-                                                fontFamily: 'Roboto',
-                                                color:
-                                                    FlutterFlowTheme.of(context)
-                                                        .primary,
-                                                fontSize: 16.0,
-                                                fontWeight: FontWeight.w600,
-                                              ),
-                                        ),
+                                  ),
+                                  Align(
+                                    alignment: AlignmentDirectional(0.0, 0.0),
+                                    child: Padding(
+                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                          5.0, 0.0, 40.0, 0.0),
+                                      child: Text(
+                                        'List',
+                                        textAlign: TextAlign.center,
+                                        style: FlutterFlowTheme.of(context)
+                                            .bodyMedium
+                                            .override(
+                                              fontFamily: 'Roboto',
+                                              color:
+                                                  FlutterFlowTheme.of(context)
+                                                      .primary,
+                                              fontSize: 16.0,
+                                              fontWeight: FontWeight.w600,
+                                            ),
                                       ),
                                     ),
-                                  ],
-                                ),
+                                  ),
+                                ],
                               ),
                             ),
-                          if ((widget.productData!.postedBy ==
-                                  productDetailsUsersRecord.uid) &&
-                              (widget.productData!.public == true))
-                            InkWell(
-                              splashColor: Colors.transparent,
-                              focusColor: Colors.transparent,
-                              hoverColor: Colors.transparent,
-                              highlightColor: Colors.transparent,
-                              onTap: () async {
-                                final postsUpdateData = createPostsRecordData(
-                                  public: false,
-                                );
-                                await widget.productData!.reference
-                                    .update(postsUpdateData);
-                              },
-                              child: Container(
-                                width: 143.0,
-                                height: 43.0,
-                                decoration: BoxDecoration(
-                                  color: FlutterFlowTheme.of(context)
-                                      .secondaryBackground,
-                                  borderRadius: BorderRadius.circular(22.0),
-                                  border: Border.all(
-                                    color: FlutterFlowTheme.of(context).primary,
-                                    width: 2.0,
-                                  ),
+                          ),
+                        if ((widget.productData!.postedBy ==
+                                productDetailsUsersRecord.uid) &&
+                            (widget.productData!.public == false) &&
+                            FFAppState().listUnlist)
+                          InkWell(
+                            splashColor: Colors.transparent,
+                            focusColor: Colors.transparent,
+                            hoverColor: Colors.transparent,
+                            highlightColor: Colors.transparent,
+                            onTap: () async {
+                              final postsUpdateData = createPostsRecordData(
+                                public: true,
+                              );
+                              await widget.productData!.reference
+                                  .update(postsUpdateData);
+                              setState(() {
+                                FFAppState().listUnlist = true;
+                              });
+                            },
+                            child: Container(
+                              height: 43.0,
+                              decoration: BoxDecoration(
+                                color: FlutterFlowTheme.of(context)
+                                    .secondaryBackground,
+                                borderRadius: BorderRadius.circular(22.0),
+                                border: Border.all(
+                                  color: FlutterFlowTheme.of(context).primary,
+                                  width: 2.0,
                                 ),
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.max,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    SvgPicture.asset(
+                              ),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.max,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Padding(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                        35.0, 0.0, 0.0, 0.0),
+                                    child: SvgPicture.asset(
                                       'assets/images/Vector_(1).svg',
                                       width: 15.0,
                                       height: 19.0,
                                       fit: BoxFit.cover,
                                     ),
-                                    Align(
-                                      alignment: AlignmentDirectional(0.0, 0.0),
-                                      child: Padding(
-                                        padding: EdgeInsetsDirectional.fromSTEB(
-                                            5.0, 0.0, 0.0, 0.0),
-                                        child: Text(
-                                          'List',
-                                          textAlign: TextAlign.center,
-                                          style: FlutterFlowTheme.of(context)
-                                              .bodyMedium
-                                              .override(
-                                                fontFamily: 'Roboto',
-                                                color:
-                                                    FlutterFlowTheme.of(context)
-                                                        .primary,
-                                                fontSize: 16.0,
-                                                fontWeight: FontWeight.w600,
-                                              ),
-                                        ),
+                                  ),
+                                  Align(
+                                    alignment: AlignmentDirectional(0.0, 0.0),
+                                    child: Padding(
+                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                          5.0, 0.0, 35.0, 0.0),
+                                      child: Text(
+                                        'Un-list',
+                                        textAlign: TextAlign.center,
+                                        style: FlutterFlowTheme.of(context)
+                                            .bodyMedium
+                                            .override(
+                                              fontFamily: 'Roboto',
+                                              color:
+                                                  FlutterFlowTheme.of(context)
+                                                      .primary,
+                                              fontSize: 16.0,
+                                              fontWeight: FontWeight.w600,
+                                            ),
                                       ),
                                     ),
-                                  ],
-                                ),
+                                  ),
+                                ],
                               ),
                             ),
-                        ],
-                      ),
-                      if (widget.productData!.postedBy ==
-                          productDetailsUsersRecord.uid)
-                        FFButtonWidget(
-                          onPressed: () async {
-                            await Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => PickUpProductWidget(
-                                  pickupProductDoc: widget.productData!,
-                                ),
-                              ),
-                            );
-                          },
-                          text: ' Picked Up?',
-                          options: FFButtonOptions(
-                            width: 143.0,
-                            height: 43.0,
-                            padding: EdgeInsetsDirectional.fromSTEB(
-                                0.0, 0.0, 0.0, 0.0),
-                            iconPadding: EdgeInsetsDirectional.fromSTEB(
-                                0.0, 0.0, 0.0, 0.0),
-                            color:
-                                FlutterFlowTheme.of(context).primaryBackground,
-                            textStyle: FlutterFlowTheme.of(context)
-                                .titleSmall
-                                .override(
-                                  fontFamily: 'Roboto',
-                                  color: FlutterFlowTheme.of(context).primary,
-                                ),
-                            borderSide: BorderSide(
-                              color: FlutterFlowTheme.of(context).primary,
-                              width: 2.0,
-                            ),
-                            borderRadius: BorderRadius.circular(22.0),
                           ),
-                        ),
-                      if ((widget.productData!.postedBy ==
-                              productDetailsUsersRecord.uid) &&
-                          (widget.productData!.public == true))
-                        FFButtonWidget(
-                          onPressed: () async {
-                            final postsUpdateData = createPostsRecordData(
-                              public: false,
-                            );
-                            await widget.productData!.reference
-                                .update(postsUpdateData);
-                          },
-                          text: 'List',
-                          options: FFButtonOptions(
-                            width: 143.0,
-                            height: 43.0,
-                            padding: EdgeInsetsDirectional.fromSTEB(
-                                0.0, 0.0, 0.0, 0.0),
-                            iconPadding: EdgeInsetsDirectional.fromSTEB(
-                                0.0, 0.0, 0.0, 0.0),
-                            color:
-                                FlutterFlowTheme.of(context).primaryBackground,
-                            textStyle: FlutterFlowTheme.of(context)
-                                .titleSmall
-                                .override(
-                                  fontFamily: 'Roboto',
-                                  color: FlutterFlowTheme.of(context).primary,
-                                ),
-                            borderSide: BorderSide(
-                              color: FlutterFlowTheme.of(context).primary,
-                              width: 2.0,
-                            ),
-                            borderRadius: BorderRadius.circular(22.0),
-                          ),
-                        ),
-                      if ((widget.productData!.postedBy ==
-                              productDetailsUsersRecord.uid) &&
-                          (widget.productData!.public == false))
-                        FFButtonWidget(
-                          onPressed: () async {
-                            final postsUpdateData = createPostsRecordData(
-                              public: true,
-                            );
-                            await widget.productData!.reference
-                                .update(postsUpdateData);
-                          },
-                          text: 'UnList',
-                          options: FFButtonOptions(
-                            width: 143.0,
-                            height: 43.0,
-                            padding: EdgeInsetsDirectional.fromSTEB(
-                                0.0, 0.0, 0.0, 0.0),
-                            iconPadding: EdgeInsetsDirectional.fromSTEB(
-                                0.0, 0.0, 0.0, 0.0),
-                            color:
-                                FlutterFlowTheme.of(context).primaryBackground,
-                            textStyle: FlutterFlowTheme.of(context)
-                                .titleSmall
-                                .override(
-                                  fontFamily: 'Roboto',
-                                  color: FlutterFlowTheme.of(context).primary,
-                                ),
-                            borderSide: BorderSide(
-                              color: FlutterFlowTheme.of(context).primary,
-                              width: 2.0,
-                            ),
-                            borderRadius: BorderRadius.circular(22.0),
-                          ),
-                        ),
-                    ],
+                      ],
+                    ),
                   ),
                   if (widget.productData!.postedBy != currentUserUid)
                     Expanded(

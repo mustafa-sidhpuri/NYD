@@ -188,6 +188,12 @@ class FFAppState extends ChangeNotifier {
   void removeAtIndexFromChatUserDetail(int _index) {
     _chatUserDetail.removeAt(_index);
   }
+
+  bool _listUnlist = false;
+  bool get listUnlist => _listUnlist;
+  set listUnlist(bool _value) {
+    _listUnlist = _value;
+  }
 }
 
 LatLng? _latLngFromString(String? val) {

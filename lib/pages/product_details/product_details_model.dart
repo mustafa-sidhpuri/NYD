@@ -2,7 +2,6 @@ import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
-import '/flutter_flow/flutter_flow_widgets.dart';
 import '/pages/chat_details/chat_details_widget.dart';
 import '/pages/pick_up_product/pick_up_product_widget.dart';
 import '/pages/product_edit/product_edit_widget.dart';
