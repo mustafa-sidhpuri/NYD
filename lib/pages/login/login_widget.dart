@@ -265,6 +265,10 @@ class _LoginWidgetState extends State<LoginWidget>
                             hoverColor: Colors.transparent,
                             highlightColor: Colors.transparent,
                             onTap: () async {
+                              setState(() {
+                                FFAppState().isLoading = true;
+                              });
+
                               final user = await authManager.signInWithEmail(
                                 context,
                                 _model.emailAddressController.text,
@@ -274,6 +278,9 @@ class _LoginWidgetState extends State<LoginWidget>
                                 return;
                               }
 
+                              setState(() {
+                                FFAppState().isLoading = false;
+                              });
                               await Navigator.pushAndRemoveUntil(
                                 context,
                                 PageTransition(

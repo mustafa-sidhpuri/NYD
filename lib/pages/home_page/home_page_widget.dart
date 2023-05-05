@@ -164,14 +164,13 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                           onChanged: (_) => EasyDebounce.debounce(
                             '_model.textController',
                             Duration(milliseconds: 0),
-                            () => setState(() {}),
+                            () async {
+                              setState(() {
+                                FFAppState().searchstring =
+                                    _model.textController.text;
+                              });
+                            },
                           ),
-                          onFieldSubmitted: (_) async {
-                            setState(() {
-                              FFAppState().searchstring =
-                                  _model.textController.text;
-                            });
-                          },
                           obscureText: false,
                           decoration: InputDecoration(
                             labelStyle: FlutterFlowTheme.of(context)
@@ -324,6 +323,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                         EdgeInsetsDirectional.fromSTEB(0.0, 20.0, 0.0, 0.0),
                     child: FutureBuilder<List<PostsRecord>>(
                       future: PostsRecord.search(
+                        term: FFAppState().searchstring,
                         location: getCurrentUserLocation(
                             defaultLocation: LatLng(37.4298229, -122.1735655)),
                         searchRadiusMeters: 5000.0,
@@ -359,6 +359,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                     defaultLocation: LatLng(0.0, 0.0));
                             setState(() => _model.algoliaSearchResults = null);
                             await PostsRecord.search(
+                              term: _model.textController.text,
                               location: getCurrentUserLocation(
                                   defaultLocation:
                                       LatLng(37.4298229, -122.1735655)),
@@ -578,6 +579,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                         EdgeInsetsDirectional.fromSTEB(0.0, 22.0, 0.0, 0.0),
                     child: FutureBuilder<List<PostsRecord>>(
                       future: PostsRecord.search(
+                        term: FFAppState().searchstring,
                         location: getCurrentUserLocation(
                             defaultLocation: LatLng(37.4298229, -122.1735655)),
                         searchRadiusMeters: 5000.0,
