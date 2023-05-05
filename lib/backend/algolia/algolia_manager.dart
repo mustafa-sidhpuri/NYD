@@ -74,10 +74,10 @@ class FFAlgoliaManager {
     if (maxResults != null) {
       query = query.setHitsPerPage(maxResults);
     }
+    // filtering data coming from algolia
+    // Added from vscode
+    query = query.filters("public:true");
     if (loc != null) {
-      // filtering data coming from algolia
-      // Added from vscode
-      // query = query.facetFilter("public:true");
       query = query.setAroundLatLng('${loc.latitude},${loc.longitude}');
       query = query.setAroundRadius(searchRadiusMeters?.round() ?? 'all');
     }
