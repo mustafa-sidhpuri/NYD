@@ -4,6 +4,7 @@ import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/pages/product_details/product_details_widget.dart';
 import '/custom_code/actions/index.dart' as actions;
+import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter/material.dart';
@@ -20,6 +21,7 @@ class HomePageModel extends FlutterFlowModel {
   String? Function(BuildContext, String?)? textControllerValidator;
   // Algolia Search Results from action on TextField
   List<PostsRecord>? algoliaSearchResults = [];
+  Completer<List<PostsRecord>>? algoliaRequestCompleter;
 
   /// Initialization and disposal methods.
 
@@ -31,4 +33,18 @@ class HomePageModel extends FlutterFlowModel {
 
   /// Additional helper methods are added here.
 
+  Future waitForAlgoliaRequestCompleted({
+    double minWait = 0,
+    double maxWait = double.infinity,
+  }) async {
+    final stopwatch = Stopwatch()..start();
+    while (true) {
+      await Future.delayed(Duration(milliseconds: 50));
+      final timeElapsed = stopwatch.elapsedMilliseconds;
+      final requestComplete = algoliaRequestCompleter?.isCompleted ?? false;
+      if (timeElapsed > maxWait || (requestComplete && timeElapsed > minWait)) {
+        break;
+      }
+    }
+  }
 }

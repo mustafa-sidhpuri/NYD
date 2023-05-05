@@ -4,6 +4,7 @@ import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/pages/product_details/product_details_widget.dart';
 import '/custom_code/actions/index.dart' as actions;
+import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter/material.dart';
@@ -50,6 +51,8 @@ class _HomePageWidgetState extends State<HomePageWidget> {
       await currentUserReference!.update(usersUpdateData);
     });
 
+    getCurrentUserLocation(defaultLocation: LatLng(0.0, 0.0), cached: true)
+        .then((loc) => setState(() => currentUserLocationValue = loc));
     _model.textController ??= TextEditingController();
   }
 
@@ -63,6 +66,20 @@ class _HomePageWidgetState extends State<HomePageWidget> {
   @override
   Widget build(BuildContext context) {
     context.watch<FFAppState>();
+    if (currentUserLocationValue == null) {
+      return Container(
+        color: FlutterFlowTheme.of(context).primaryBackground,
+        child: Center(
+          child: SizedBox(
+            width: 50.0,
+            height: 50.0,
+            child: CircularProgressIndicator(
+              color: FlutterFlowTheme.of(context).primary,
+            ),
+          ),
+        ),
+      );
+    }
 
     return Scaffold(
       key: scaffoldKey,
@@ -427,11 +444,16 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                       child: Padding(
                         padding:
                             EdgeInsetsDirectional.fromSTEB(0.0, 20.0, 0.0, 0.0),
-                        child: StreamBuilder<List<PostsRecord>>(
-                          stream: queryPostsRecord(
-                            queryBuilder: (postsRecord) =>
-                                postsRecord.where('public', isEqualTo: true),
-                          ),
+                        child: FutureBuilder<List<PostsRecord>>(
+                          future: (_model.algoliaRequestCompleter ??=
+                                  Completer<List<PostsRecord>>()
+                                    ..complete(PostsRecord.search(
+                                      location: getCurrentUserLocation(
+                                          defaultLocation:
+                                              LatLng(37.4298229, -122.1735655)),
+                                      searchRadiusMeters: 5000.0,
+                                    )))
+                              .future,
                           builder: (context, snapshot) {
                             // Customize what your widget looks like when it's loading.
                             if (!snapshot.hasData) {
@@ -447,222 +469,241 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                             }
                             List<PostsRecord> gridViewPostsRecordList =
                                 snapshot.data!;
-                            return GridView.builder(
-                              padding: EdgeInsets.zero,
-                              gridDelegate:
-                                  SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 2,
-                                crossAxisSpacing: 10.0,
-                                mainAxisSpacing: 10.0,
-                                childAspectRatio: 0.8,
-                              ),
-                              shrinkWrap: true,
-                              scrollDirection: Axis.vertical,
-                              itemCount: gridViewPostsRecordList.length,
-                              itemBuilder: (context, gridViewIndex) {
-                                final gridViewPostsRecord =
-                                    gridViewPostsRecordList[gridViewIndex];
-                                return Stack(
-                                  children: [
-                                    InkWell(
-                                      splashColor: Colors.transparent,
-                                      focusColor: Colors.transparent,
-                                      hoverColor: Colors.transparent,
-                                      highlightColor: Colors.transparent,
-                                      onTap: () async {
-                                        await Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) =>
-                                                ProductDetailsWidget(
-                                              productData: gridViewPostsRecord,
-                                            ),
-                                          ),
-                                        );
-                                      },
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          boxShadow: [
-                                            BoxShadow(
-                                              blurRadius: 6.0,
-                                              color: Color(0x340065FD),
-                                              offset: Offset(2.0, 2.0),
-                                            )
-                                          ],
-                                          borderRadius:
-                                              BorderRadius.circular(12.0),
-                                        ),
-                                        child: Column(
-                                          mainAxisSize: MainAxisSize.max,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            ClipRRect(
-                                              borderRadius: BorderRadius.only(
-                                                bottomLeft:
-                                                    Radius.circular(0.0),
-                                                bottomRight:
-                                                    Radius.circular(0.0),
-                                                topLeft: Radius.circular(12.0),
-                                                topRight: Radius.circular(12.0),
+                            // Customize what your widget looks like with no search results.
+                            if (snapshot.data!.isEmpty) {
+                              return Container(
+                                height: 100,
+                                child: Center(
+                                  child: Text('No results.'),
+                                ),
+                              );
+                            }
+                            return RefreshIndicator(
+                              onRefresh: () async {
+                                setState(() =>
+                                    _model.algoliaRequestCompleter = null);
+                                await _model.waitForAlgoliaRequestCompleted();
+                              },
+                              child: GridView.builder(
+                                padding: EdgeInsets.zero,
+                                gridDelegate:
+                                    SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 2,
+                                  crossAxisSpacing: 10.0,
+                                  mainAxisSpacing: 10.0,
+                                  childAspectRatio: 0.8,
+                                ),
+                                shrinkWrap: true,
+                                scrollDirection: Axis.vertical,
+                                itemCount: gridViewPostsRecordList.length,
+                                itemBuilder: (context, gridViewIndex) {
+                                  final gridViewPostsRecord =
+                                      gridViewPostsRecordList[gridViewIndex];
+                                  return Stack(
+                                    children: [
+                                      InkWell(
+                                        splashColor: Colors.transparent,
+                                        focusColor: Colors.transparent,
+                                        hoverColor: Colors.transparent,
+                                        highlightColor: Colors.transparent,
+                                        onTap: () async {
+                                          await Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  ProductDetailsWidget(
+                                                productData:
+                                                    gridViewPostsRecord,
                                               ),
-                                              child: Image.network(
-                                                valueOrDefault<String>(
+                                            ),
+                                          );
+                                        },
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            boxShadow: [
+                                              BoxShadow(
+                                                blurRadius: 6.0,
+                                                color: Color(0x340065FD),
+                                                offset: Offset(2.0, 2.0),
+                                              )
+                                            ],
+                                            borderRadius:
+                                                BorderRadius.circular(12.0),
+                                          ),
+                                          child: Column(
+                                            mainAxisSize: MainAxisSize.max,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              ClipRRect(
+                                                borderRadius: BorderRadius.only(
+                                                  bottomLeft:
+                                                      Radius.circular(0.0),
+                                                  bottomRight:
+                                                      Radius.circular(0.0),
+                                                  topLeft:
+                                                      Radius.circular(12.0),
+                                                  topRight:
+                                                      Radius.circular(12.0),
+                                                ),
+                                                child: Image.network(
                                                   gridViewPostsRecord.images!
                                                       .toList()
                                                       .first,
-                                                  'https://picsum.photos/seed/389/600',
+                                                  width: double.infinity,
+                                                  height: 130.0,
+                                                  fit: BoxFit.cover,
                                                 ),
-                                                width: double.infinity,
-                                                height: 130.0,
-                                                fit: BoxFit.cover,
                                               ),
-                                            ),
-                                            Padding(
-                                              padding: EdgeInsetsDirectional
-                                                  .fromSTEB(9.0, 9.0, 0.0, 0.0),
-                                              child: Text(
-                                                gridViewPostsRecord.name!
-                                                    .maybeHandleOverflow(
-                                                  maxChars: 50,
-                                                  replacement: '…',
-                                                ),
-                                                maxLines: 2,
-                                                style:
-                                                    FlutterFlowTheme.of(context)
-                                                        .bodyMedium
-                                                        .override(
-                                                          fontFamily: 'Roboto',
-                                                          fontSize: 12.0,
-                                                          fontWeight:
-                                                              FontWeight.w600,
-                                                        ),
-                                              ),
-                                            ),
-                                            Padding(
-                                              padding: EdgeInsetsDirectional
-                                                  .fromSTEB(9.0, 7.0, 0.0, 0.0),
-                                              child: Row(
-                                                mainAxisSize: MainAxisSize.max,
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.start,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.center,
-                                                children: [
-                                                  SvgPicture.asset(
-                                                    'assets/images/Group_(3).svg',
-                                                    width: 14.0,
-                                                    height: 14.0,
-                                                    fit: BoxFit.cover,
+                                              Padding(
+                                                padding: EdgeInsetsDirectional
+                                                    .fromSTEB(
+                                                        9.0, 9.0, 0.0, 0.0),
+                                                child: Text(
+                                                  gridViewPostsRecord.name!
+                                                      .maybeHandleOverflow(
+                                                    maxChars: 50,
+                                                    replacement: '…',
                                                   ),
-                                                  Padding(
-                                                    padding:
-                                                        EdgeInsetsDirectional
-                                                            .fromSTEB(5.0, 0.0,
-                                                                0.0, 0.0),
-                                                    child: Text(
-                                                      '${valueOrDefault<String>(
-                                                        dateTimeFormat(
-                                                            'jm',
-                                                            gridViewPostsRecord
-                                                                .createdAt),
-                                                        '12:00 PM ',
-                                                      )} ${valueOrDefault<String>(
-                                                        dateTimeFormat(
-                                                            'yMMMd',
-                                                            gridViewPostsRecord
-                                                                .createdAt),
-                                                        '19 Apr, 23',
-                                                      )}',
-                                                      style:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .bodyMedium
-                                                              .override(
-                                                                fontFamily:
-                                                                    'Roboto',
-                                                                color: Color(
-                                                                    0xFF7D8180),
-                                                                fontSize: 8.0,
-                                                              ),
+                                                  maxLines: 2,
+                                                  style: FlutterFlowTheme.of(
+                                                          context)
+                                                      .bodyMedium
+                                                      .override(
+                                                        fontFamily: 'Roboto',
+                                                        fontSize: 12.0,
+                                                        fontWeight:
+                                                            FontWeight.w600,
+                                                      ),
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding: EdgeInsetsDirectional
+                                                    .fromSTEB(
+                                                        9.0, 7.0, 0.0, 0.0),
+                                                child: Row(
+                                                  mainAxisSize:
+                                                      MainAxisSize.max,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.start,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  children: [
+                                                    SvgPicture.asset(
+                                                      'assets/images/Group_(3).svg',
+                                                      width: 14.0,
+                                                      height: 14.0,
+                                                      fit: BoxFit.cover,
                                                     ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                            Padding(
-                                              padding: EdgeInsetsDirectional
-                                                  .fromSTEB(9.0, 7.0, 0.0, 0.0),
-                                              child: Row(
-                                                mainAxisSize: MainAxisSize.max,
-                                                children: [
-                                                  SvgPicture.asset(
-                                                    'assets/images/Group_(4).svg',
-                                                    width: 14.0,
-                                                    height: 14.0,
-                                                    fit: BoxFit.cover,
-                                                  ),
-                                                  Padding(
-                                                    padding:
-                                                        EdgeInsetsDirectional
-                                                            .fromSTEB(5.0, 0.0,
-                                                                0.0, 0.0),
-                                                    child: Text(
-                                                      '0 Conversations',
-                                                      style:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .bodyMedium
-                                                              .override(
-                                                                fontFamily:
-                                                                    'Roboto',
-                                                                color: Color(
-                                                                    0xFF7D8180),
-                                                                fontSize: 8.0,
-                                                              ),
+                                                    Padding(
+                                                      padding:
+                                                          EdgeInsetsDirectional
+                                                              .fromSTEB(
+                                                                  5.0,
+                                                                  0.0,
+                                                                  0.0,
+                                                                  0.0),
+                                                      child: Text(
+                                                        '${dateTimeFormat('jm', gridViewPostsRecord.createdAt)} ${dateTimeFormat('yMMMd', gridViewPostsRecord.createdAt)}',
+                                                        style:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .bodyMedium
+                                                                .override(
+                                                                  fontFamily:
+                                                                      'Roboto',
+                                                                  color: Color(
+                                                                      0xFF7D8180),
+                                                                  fontSize: 8.0,
+                                                                ),
+                                                      ),
                                                     ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                    if (gridViewPostsRecord.postType == 'Free')
-                                      Container(
-                                        width: 42.0,
-                                        height: 42.0,
-                                        decoration: BoxDecoration(
-                                          color: FlutterFlowTheme.of(context)
-                                              .primary,
-                                          borderRadius: BorderRadius.only(
-                                            bottomLeft: Radius.circular(0.0),
-                                            bottomRight: Radius.circular(35.0),
-                                            topLeft: Radius.circular(12.0),
-                                            topRight: Radius.circular(0.0),
-                                          ),
-                                        ),
-                                        child: Align(
-                                          alignment:
-                                              AlignmentDirectional(-0.1, 0.0),
-                                          child: Text(
-                                            'FREE',
-                                            style: FlutterFlowTheme.of(context)
-                                                .bodyMedium
-                                                .override(
-                                                  fontFamily: 'Roboto',
-                                                  color: Colors.white,
-                                                  fontSize: 8.0,
-                                                  fontWeight: FontWeight.bold,
+                                                  ],
                                                 ),
+                                              ),
+                                              Padding(
+                                                padding: EdgeInsetsDirectional
+                                                    .fromSTEB(
+                                                        9.0, 7.0, 0.0, 0.0),
+                                                child: Row(
+                                                  mainAxisSize:
+                                                      MainAxisSize.max,
+                                                  children: [
+                                                    SvgPicture.asset(
+                                                      'assets/images/Group_(4).svg',
+                                                      width: 14.0,
+                                                      height: 14.0,
+                                                      fit: BoxFit.cover,
+                                                    ),
+                                                    Padding(
+                                                      padding:
+                                                          EdgeInsetsDirectional
+                                                              .fromSTEB(
+                                                                  5.0,
+                                                                  0.0,
+                                                                  0.0,
+                                                                  0.0),
+                                                      child: Text(
+                                                        '0 Conversations',
+                                                        style:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .bodyMedium
+                                                                .override(
+                                                                  fontFamily:
+                                                                      'Roboto',
+                                                                  color: Color(
+                                                                      0xFF7D8180),
+                                                                  fontSize: 8.0,
+                                                                ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ],
                                           ),
                                         ),
                                       ),
-                                  ],
-                                );
-                              },
+                                      if (gridViewPostsRecord.postType ==
+                                          'Free')
+                                        Container(
+                                          width: 42.0,
+                                          height: 42.0,
+                                          decoration: BoxDecoration(
+                                            color: FlutterFlowTheme.of(context)
+                                                .primary,
+                                            borderRadius: BorderRadius.only(
+                                              bottomLeft: Radius.circular(0.0),
+                                              bottomRight:
+                                                  Radius.circular(35.0),
+                                              topLeft: Radius.circular(12.0),
+                                              topRight: Radius.circular(0.0),
+                                            ),
+                                          ),
+                                          child: Align(
+                                            alignment:
+                                                AlignmentDirectional(-0.1, 0.0),
+                                            child: Text(
+                                              'FREE',
+                                              style:
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodyMedium
+                                                      .override(
+                                                        fontFamily: 'Roboto',
+                                                        color: Colors.white,
+                                                        fontSize: 8.0,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                      ),
+                                            ),
+                                          ),
+                                        ),
+                                    ],
+                                  );
+                                },
+                              ),
                             );
                           },
                         ),
