@@ -483,6 +483,7 @@ class _PickUpProductWidgetState extends State<PickUpProductWidget> {
                                         userId: searchUserItem.uid,
                                         userName: searchUserItem.displayName,
                                         userImage: searchUserItem.photoUrl,
+                                        pickupTime: getCurrentTimestamp,
                                         clearUnsetFields: false,
                                       ),
                                       isPickedUp: true,

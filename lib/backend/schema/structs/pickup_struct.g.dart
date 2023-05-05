@@ -45,6 +45,13 @@ class _$PickupStructSerializer implements StructuredSerializer<PickupStruct> {
         ..add(serializers.serialize(value,
             specifiedType: const FullType(String)));
     }
+    value = object.pickupTime;
+    if (value != null) {
+      result
+        ..add('pickup_time')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(DateTime)));
+    }
     return result;
   }
 
@@ -72,6 +79,10 @@ class _$PickupStructSerializer implements StructuredSerializer<PickupStruct> {
           result.userImage = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String?;
           break;
+        case 'pickup_time':
+          result.pickupTime = serializers.deserialize(value,
+              specifiedType: const FullType(DateTime)) as DateTime?;
+          break;
         case 'firestoreUtilData':
           result.firestoreUtilData = serializers.deserialize(value,
                   specifiedType: const FullType(FirestoreUtilData))!
@@ -92,6 +103,8 @@ class _$PickupStruct extends PickupStruct {
   @override
   final String? userImage;
   @override
+  final DateTime? pickupTime;
+  @override
   final FirestoreUtilData firestoreUtilData;
 
   factory _$PickupStruct([void Function(PickupStructBuilder)? updates]) =>
@@ -101,6 +114,7 @@ class _$PickupStruct extends PickupStruct {
       {this.userId,
       this.userName,
       this.userImage,
+      this.pickupTime,
       required this.firestoreUtilData})
       : super._() {
     BuiltValueNullFieldError.checkNotNull(
@@ -121,6 +135,7 @@ class _$PickupStruct extends PickupStruct {
         userId == other.userId &&
         userName == other.userName &&
         userImage == other.userImage &&
+        pickupTime == other.pickupTime &&
         firestoreUtilData == other.firestoreUtilData;
   }
 
@@ -130,6 +145,7 @@ class _$PickupStruct extends PickupStruct {
     _$hash = $jc(_$hash, userId.hashCode);
     _$hash = $jc(_$hash, userName.hashCode);
     _$hash = $jc(_$hash, userImage.hashCode);
+    _$hash = $jc(_$hash, pickupTime.hashCode);
     _$hash = $jc(_$hash, firestoreUtilData.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
@@ -141,6 +157,7 @@ class _$PickupStruct extends PickupStruct {
           ..add('userId', userId)
           ..add('userName', userName)
           ..add('userImage', userImage)
+          ..add('pickupTime', pickupTime)
           ..add('firestoreUtilData', firestoreUtilData))
         .toString();
   }
@@ -162,6 +179,10 @@ class PickupStructBuilder
   String? get userImage => _$this._userImage;
   set userImage(String? userImage) => _$this._userImage = userImage;
 
+  DateTime? _pickupTime;
+  DateTime? get pickupTime => _$this._pickupTime;
+  set pickupTime(DateTime? pickupTime) => _$this._pickupTime = pickupTime;
+
   FirestoreUtilData? _firestoreUtilData;
   FirestoreUtilData? get firestoreUtilData => _$this._firestoreUtilData;
   set firestoreUtilData(FirestoreUtilData? firestoreUtilData) =>
@@ -177,6 +198,7 @@ class PickupStructBuilder
       _userId = $v.userId;
       _userName = $v.userName;
       _userImage = $v.userImage;
+      _pickupTime = $v.pickupTime;
       _firestoreUtilData = $v.firestoreUtilData;
       _$v = null;
     }
@@ -203,6 +225,7 @@ class PickupStructBuilder
             userId: userId,
             userName: userName,
             userImage: userImage,
+            pickupTime: pickupTime,
             firestoreUtilData: BuiltValueNullFieldError.checkNotNull(
                 firestoreUtilData, r'PickupStruct', 'firestoreUtilData'));
     replace(_$result);

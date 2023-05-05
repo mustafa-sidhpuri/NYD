@@ -19,9 +19,11 @@ class ProductDetailsWidget extends StatefulWidget {
   const ProductDetailsWidget({
     Key? key,
     this.productData,
+    required this.productId,
   }) : super(key: key);
 
   final PostsRecord? productData;
+  final DocumentReference? productId;
 
   @override
   _ProductDetailsWidgetState createState() => _ProductDetailsWidgetState();
@@ -431,7 +433,7 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                         EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 30.0),
                     child: Row(
                       mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         if (widget.productData!.postedBy ==
                             productDetailsUsersRecord.uid)
@@ -464,7 +466,7 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                               alignment: AlignmentDirectional(0.0, 0.0),
                               child: Padding(
                                 padding: EdgeInsetsDirectional.fromSTEB(
-                                    30.0, 0.0, 30.0, 0.0),
+                                    130.0, 0.0, 130.0, 0.0),
                                 child: Text(
                                   'Picked Up',
                                   textAlign: TextAlign.center,
@@ -481,83 +483,6 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                               ),
                             ),
                           ),
-                        // if (widget.productData!.postedBy ==
-                        //     productDetailsUsersRecord.uid)
-                        //   InkWell(
-                        //     splashColor: Colors.transparent,
-                        //     focusColor: Colors.transparent,
-                        //     hoverColor: Colors.transparent,
-                        //     highlightColor: Colors.transparent,
-                        //     onTap: () async {
-                        //       if (widget.productData!.public == true) {
-                        //         final postsUpdateData1 = createPostsRecordData(
-                        //           public: false,
-                        //         );
-                        //         await widget.productData!.reference
-                        //             .update(postsUpdateData1);
-                        //       } else {
-                        //         final postsUpdateData2 = createPostsRecordData(
-                        //           public: true,
-                        //           pickup: createPickupStruct(delete: true),
-                        //           isPickedUp: false,
-                        //           updatedAt: getCurrentTimestamp,
-                        //         );
-                        //         await widget.productData!.reference
-                        //             .update(postsUpdateData2);
-                        //       }
-                        //     },
-                        //     child: Container(
-                        //       height: 43.0,
-                        //       decoration: BoxDecoration(
-                        //         color: FlutterFlowTheme.of(context)
-                        //             .secondaryBackground,
-                        //         borderRadius: BorderRadius.circular(22.0),
-                        //         border: Border.all(
-                        //           color: FlutterFlowTheme.of(context).primary,
-                        //           width: 2.0,
-                        //         ),
-                        //       ),
-                        //       child: Row(
-                        //         mainAxisSize: MainAxisSize.max,
-                        //         mainAxisAlignment: MainAxisAlignment.center,
-                        //         children: [
-                        //           Padding(
-                        //             padding: EdgeInsetsDirectional.fromSTEB(
-                        //                 40.0, 0.0, 0.0, 0.0),
-                        //             child: SvgPicture.asset(
-                        //               'assets/images/Vector_(1).svg',
-                        //               width: 15.0,
-                        //               height: 19.0,
-                        //               fit: BoxFit.cover,
-                        //             ),
-                        //           ),
-                        //           Align(
-                        //             alignment: AlignmentDirectional(0.0, 0.0),
-                        //             child: Padding(
-                        //               padding: EdgeInsetsDirectional.fromSTEB(
-                        //                   5.0, 0.0, 40.0, 0.0),
-                        //               child: Text(
-                        //                 widget.productData!.public == true
-                        //                     ? 'List'
-                        //                     : 'Un-List',
-                        //                 textAlign: TextAlign.center,
-                        //                 style: FlutterFlowTheme.of(context)
-                        //                     .bodyMedium
-                        //                     .override(
-                        //                       fontFamily: 'Roboto',
-                        //                       color:
-                        //                           FlutterFlowTheme.of(context)
-                        //                               .primary,
-                        //                       fontSize: 16.0,
-                        //                       fontWeight: FontWeight.w600,
-                        //                     ),
-                        //               ),
-                        //             ),
-                        //           ),
-                        //         ],
-                        //       ),
-                        //     ),
-                        //   ),
                       ],
                     ),
                   ),

@@ -19,6 +19,9 @@ abstract class PickupStruct
   @BuiltValueField(wireName: 'user_image')
   String? get userImage;
 
+  @BuiltValueField(wireName: 'pickup_time')
+  DateTime? get pickupTime;
+
   /// Utility class for Firestore updates
   FirestoreUtilData get firestoreUtilData;
 
@@ -37,6 +40,7 @@ PickupStruct createPickupStruct({
   String? userId,
   String? userName,
   String? userImage,
+  DateTime? pickupTime,
   Map<String, dynamic> fieldValues = const {},
   bool clearUnsetFields = true,
   bool create = false,
@@ -47,6 +51,7 @@ PickupStruct createPickupStruct({
         ..userId = userId
         ..userName = userName
         ..userImage = userImage
+        ..pickupTime = pickupTime
         ..firestoreUtilData = FirestoreUtilData(
           clearUnsetFields: clearUnsetFields,
           create: create,

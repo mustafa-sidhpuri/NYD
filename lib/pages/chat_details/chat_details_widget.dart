@@ -19,7 +19,6 @@ class ChatDetailsWidget extends StatefulWidget {
     this.profileimage,
     this.productimage,
     this.productlocation,
-    this.chatUser,
     this.userRef,
   }) : super(key: key);
 
@@ -28,7 +27,6 @@ class ChatDetailsWidget extends StatefulWidget {
   final String? profileimage;
   final String? productimage;
   final String? productlocation;
-  final DocumentReference? chatUser;
   final DocumentReference? userRef;
 
   @override
