@@ -125,6 +125,7 @@ final pageBuilderMap = <String, Future<Widget> Function(Map<String, dynamic>)>{
         pickupProductDoc: await getDocumentParameter(
             data, 'pickupProductDoc', PostsRecord.serializer),
       ),
+  'HomeWithFilter': (data) async => HomeWithFilterWidget(),
 };
 
 bool hasMatchingParameters(Map<String, dynamic> data, Set<String> params) =>

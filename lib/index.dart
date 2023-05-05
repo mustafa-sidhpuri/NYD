@@ -19,3 +19,5 @@ export '/pages/chat_details/chat_details_widget.dart' show ChatDetailsWidget;
 export '/pages/product_edit/product_edit_widget.dart' show ProductEditWidget;
 export '/pages/pick_up_product/pick_up_product_widget.dart'
     show PickUpProductWidget;
+export '/home_with_filter/home_with_filter_widget.dart'
+    show HomeWithFilterWidget;

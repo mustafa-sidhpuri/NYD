@@ -192,6 +192,12 @@ class FFAppState extends ChangeNotifier {
   set showUser(bool _value) {
     _showUser = _value;
   }
+
+  String _searchstring = '';
+  String get searchstring => _searchstring;
+  set searchstring(String _value) {
+    _searchstring = _value;
+  }
 }
 
 LatLng? _latLngFromString(String? val) {
