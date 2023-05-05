@@ -502,11 +502,16 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                               hoverColor: Colors.transparent,
                               highlightColor: Colors.transparent,
                               onTap: () async {
+                                // Added action that will return conversation refrence if there, else
+                                // we have to create a conversation.
+                                // TODO: Riddhi
+                                DocumentReference? convRef = await actions
+                                    .getConversationData(widget.productId!.id);
                                 await actions.storeChatUsers(
                                   currentUserUid,
                                   widget.productData!.postedBy!,
                                 );
-                                // actions.getConversationData(widget.productData.)
+
                                 final conversationsCreateData = {
                                   ...createConversationsRecordData(
                                     productName: widget.productData!.name,
