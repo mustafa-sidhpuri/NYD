@@ -351,7 +351,7 @@ class _AddProductDetailWidgetState extends State<AddProductDetailWidget> {
                                   type: PageTransitionType.fade,
                                   duration: Duration(milliseconds: 0),
                                   reverseDuration: Duration(milliseconds: 0),
-                                  child: NavBarPage(initialPage: 'homePage'),
+                                  child: NavBarPage(initialPage: 'sellingPage'),
                                 ),
                                 (r) => false,
                               );
