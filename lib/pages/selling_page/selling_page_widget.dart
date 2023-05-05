@@ -108,7 +108,7 @@ class _SellingPageWidgetState extends State<SellingPageWidget> {
                                   queryBuilder: (postsRecord) => postsRecord
                                       .where('posted_by',
                                           isEqualTo: currentUserUid)
-                                      .where('is_picked_up', isEqualTo: true),
+                                      .where('is_picked_up', isEqualTo: false),
                                 ),
                                 builder: (context, snapshot) {
                                   // Customize what your widget looks like when it's loading.
