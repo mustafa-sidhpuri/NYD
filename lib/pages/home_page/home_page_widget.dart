@@ -99,7 +99,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                     children: [
                       AuthUserStreamWidget(
                         builder: (context) => Text(
-                          'Hello ${currentUserDisplayName}!',
+                          'Hello $currentUserDisplayName!',
                           style:
                               FlutterFlowTheme.of(context).bodyMedium.override(
                                     fontFamily: 'Roboto',
@@ -236,6 +236,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                           highlightColor: Colors.transparent,
                           onTap: () async {
                             setState(() {
+                              FFAppState().searchstring = "";
                               _model.textController?.clear();
                             });
                           },

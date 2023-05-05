@@ -1,8 +1,6 @@
 import 'dart:async';
 
-import 'package:algolia/algolia.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/foundation.dart';
 
 import '../backend.dart';
 
@@ -76,6 +74,9 @@ class FFAlgoliaManager {
     if (maxResults != null) {
       query = query.setHitsPerPage(maxResults);
     }
+    // filtering data coming from algolia
+    // Added from vscode
+    query = query.filters("public:true");
     if (loc != null) {
       query = query.setAroundLatLng('${loc.latitude},${loc.longitude}');
       query = query.setAroundRadius(searchRadiusMeters?.round() ?? 'all');
