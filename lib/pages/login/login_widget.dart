@@ -1,3 +1,4 @@
+import '/auth/base_auth_user_provider.dart';
 import '/auth/firebase_auth/auth_util.dart';
 import '/components/title_component_widget.dart';
 import '/flutter_flow/flutter_flow_animations.dart';
@@ -278,19 +279,23 @@ class _LoginWidgetState extends State<LoginWidget>
                                 return;
                               }
 
-                              setState(() {
-                                FFAppState().isLoading = false;
-                              });
-                              await Navigator.pushAndRemoveUntil(
-                                context,
-                                PageTransition(
-                                  type: PageTransitionType.fade,
-                                  duration: Duration(milliseconds: 0),
-                                  reverseDuration: Duration(milliseconds: 0),
-                                  child: NavBarPage(initialPage: 'homePage'),
-                                ),
-                                (r) => false,
-                              );
+                              if (loggedIn) {
+                                setState(() {
+                                  FFAppState().isLoading = false;
+                                });
+                                await Navigator.pushAndRemoveUntil(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        NavBarPage(initialPage: 'homePage'),
+                                  ),
+                                  (r) => false,
+                                );
+                              } else {
+                                setState(() {
+                                  FFAppState().isLoading = false;
+                                });
+                              }
                             },
                             child: Container(
                               width: 124.0,
