@@ -13,20 +13,6 @@
           "order": "ASCENDING"
         }
       ]
-    },
-    {
-      "collectionGroup": "Posts",
-      "queryScope": "COLLECTION",
-      "fields": [
-        {
-          "fieldPath": "public",
-          "order": "ASCENDING"
-        },
-        {
-          "fieldPath": "latlong",
-          "order": "DESCENDING"
-        }
-      ]
     }
   ],
   "fieldOverrides": [
