@@ -105,9 +105,10 @@ class _SellingPageWidgetState extends State<SellingPageWidget> {
                                   0.0, 30.0, 0.0, 0.0),
                               child: StreamBuilder<List<PostsRecord>>(
                                 stream: queryPostsRecord(
-                                  queryBuilder: (postsRecord) =>
-                                      postsRecord.where('posted_by',
-                                          isEqualTo: currentUserUid),
+                                  queryBuilder: (postsRecord) => postsRecord
+                                      .where('posted_by',
+                                          isEqualTo: currentUserUid)
+                                      .where('is_picked_up', isEqualTo: true),
                                 ),
                                 builder: (context, snapshot) {
                                   // Customize what your widget looks like when it's loading.

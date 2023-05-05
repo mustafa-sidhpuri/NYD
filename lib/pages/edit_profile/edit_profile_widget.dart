@@ -114,6 +114,7 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
                                 email: _model.emailAddressController.text,
                                 phoneNumber: _model.phoneController.text,
                                 userAddress: FFAppState().setLocation,
+                                photoUrl: _model.uploadedFileUrl,
                               );
                               await editProfileUsersRecord.reference
                                   .update(usersUpdateData);
@@ -217,12 +218,6 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
                             return;
                           }
                         }
-
-                        final usersUpdateData = createUsersRecordData(
-                          photoUrl: _model.uploadedFileUrl,
-                        );
-                        await editProfileUsersRecord.reference
-                            .update(usersUpdateData);
                       },
                       child: Container(
                         decoration: BoxDecoration(
