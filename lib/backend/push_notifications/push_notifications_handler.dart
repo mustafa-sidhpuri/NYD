@@ -101,6 +101,7 @@ final pageBuilderMap = <String, Future<Widget> Function(Map<String, dynamic>)>{
   'ProductDetails': (data) async => ProductDetailsWidget(
         productData: await getDocumentParameter(
             data, 'productData', PostsRecord.serializer),
+        productId: getParameter(data, 'productId'),
       ),
   'AddProductDetail': (data) async => AddProductDetailWidget(
         productName: getParameter(data, 'productName'),
@@ -114,7 +115,6 @@ final pageBuilderMap = <String, Future<Widget> Function(Map<String, dynamic>)>{
         profileimage: getParameter(data, 'profileimage'),
         productimage: getParameter(data, 'productimage'),
         productlocation: getParameter(data, 'productlocation'),
-        chatUser: getParameter(data, 'chatUser'),
         userRef: getParameter(data, 'userRef'),
       ),
   'productEdit': (data) async => ProductEditWidget(

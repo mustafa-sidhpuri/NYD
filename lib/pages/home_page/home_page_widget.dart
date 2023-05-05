@@ -399,6 +399,8 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                           builder: (context) =>
                                               ProductDetailsWidget(
                                             productData: gridViewPostsRecord,
+                                            productId:
+                                                gridViewPostsRecord.reference,
                                           ),
                                         ),
                                       );
@@ -631,6 +633,8 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                       builder: (context) =>
                                           ProductDetailsWidget(
                                         productData: listViewPostsRecord,
+                                        productId:
+                                            listViewPostsRecord.reference,
                                       ),
                                     ),
                                   );

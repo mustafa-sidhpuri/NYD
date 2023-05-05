@@ -114,6 +114,8 @@ abstract class PostsRecord implements Built<PostsRecord, PostsRecordBuilder> {
             userId: (snapshot.data['pickup'] ?? {})['user_id'],
             userName: (snapshot.data['pickup'] ?? {})['user_name'],
             userImage: (snapshot.data['pickup'] ?? {})['user_image'],
+            pickupTime: safeGet(() => DateTime.fromMillisecondsSinceEpoch(
+                (snapshot.data['pickup'] ?? {})['pickup_time'])),
             create: true,
             clearUnsetFields: false,
           ).toBuilder()

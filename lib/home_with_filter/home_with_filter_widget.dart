@@ -528,6 +528,8 @@ class _HomeWithFilterWidgetState extends State<HomeWithFilterWidget> {
                                                     ProductDetailsWidget(
                                                   productData:
                                                       gridViewPostsRecord,
+                                                  productId: gridViewPostsRecord
+                                                      .reference,
                                                 ),
                                               ),
                                             );
@@ -783,6 +785,8 @@ class _HomeWithFilterWidgetState extends State<HomeWithFilterWidget> {
                                                   ProductDetailsWidget(
                                                 productData:
                                                     gridViewPostsRecord,
+                                                productId: gridViewPostsRecord
+                                                    .reference,
                                               ),
                                             ),
                                           );
@@ -1050,6 +1054,8 @@ class _HomeWithFilterWidgetState extends State<HomeWithFilterWidget> {
                                                   ProductDetailsWidget(
                                                 productData:
                                                     gridViewPostsRecord,
+                                                productId: gridViewPostsRecord
+                                                    .reference,
                                               ),
                                             ),
                                           );
@@ -1310,6 +1316,8 @@ class _HomeWithFilterWidgetState extends State<HomeWithFilterWidget> {
                                               builder: (context) =>
                                                   ProductDetailsWidget(
                                                 productData: postNamesItem,
+                                                productId:
+                                                    postNamesItem.reference,
                                               ),
                                             ),
                                           );
@@ -1556,6 +1564,8 @@ class _HomeWithFilterWidgetState extends State<HomeWithFilterWidget> {
                                             builder: (context) =>
                                                 ProductDetailsWidget(
                                               productData: listViewPostsRecord,
+                                              productId:
+                                                  listViewPostsRecord.reference,
                                             ),
                                           ),
                                         );
@@ -1834,6 +1844,8 @@ class _HomeWithFilterWidgetState extends State<HomeWithFilterWidget> {
                                             builder: (context) =>
                                                 ProductDetailsWidget(
                                               productData: listViewPostsRecord,
+                                              productId:
+                                                  listViewPostsRecord.reference,
                                             ),
                                           ),
                                         );
@@ -2112,6 +2124,8 @@ class _HomeWithFilterWidgetState extends State<HomeWithFilterWidget> {
                                             builder: (context) =>
                                                 ProductDetailsWidget(
                                               productData: listViewPostsRecord,
+                                              productId:
+                                                  listViewPostsRecord.reference,
                                             ),
                                           ),
                                         );
@@ -2384,6 +2398,8 @@ class _HomeWithFilterWidgetState extends State<HomeWithFilterWidget> {
                                             builder: (context) =>
                                                 ProductDetailsWidget(
                                               productData: listPostDataItem,
+                                              productId:
+                                                  listPostDataItem.reference,
                                             ),
                                           ),
                                         );

@@ -154,6 +154,8 @@ class _SellingPageWidgetState extends State<SellingPageWidget> {
                                                 child: ProductDetailsWidget(
                                                   productData:
                                                       listViewPostsRecord,
+                                                  productId: listViewPostsRecord
+                                                      .reference,
                                                 ),
                                               ),
                                             );
@@ -579,6 +581,8 @@ class _SellingPageWidgetState extends State<SellingPageWidget> {
                                                 child: ProductDetailsWidget(
                                                   productData:
                                                       listViewPostsRecord,
+                                                  productId: listViewPostsRecord
+                                                      .reference,
                                                 ),
                                               ),
                                             );
@@ -715,7 +719,7 @@ class _SellingPageWidgetState extends State<SellingPageWidget> {
                                                                           0.0,
                                                                           0.0),
                                                               child: Text(
-                                                                '12:00 PM 19 Apr, 23',
+                                                                '${dateTimeFormat('jm', listViewPostsRecord.pickup.pickupTime)} ${dateTimeFormat('yMMMd', listViewPostsRecord.pickup.pickupTime)}',
                                                                 style: FlutterFlowTheme.of(
                                                                         context)
                                                                     .bodyMedium
