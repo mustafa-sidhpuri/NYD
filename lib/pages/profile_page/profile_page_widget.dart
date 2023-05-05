@@ -76,10 +76,13 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Icon(
-                          Icons.arrow_back_ios,
-                          color: Colors.black,
-                          size: 24.0,
+                        Text(
+                          '.....',
+                          style:
+                              FlutterFlowTheme.of(context).bodyMedium.override(
+                                    fontFamily: 'Roboto',
+                                    color: Colors.white,
+                                  ),
                         ),
                         Text(
                           'Settings',
