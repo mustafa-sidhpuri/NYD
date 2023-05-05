@@ -9,10 +9,8 @@ import '/custom_code/actions/index.dart' as actions;
 import 'package:smooth_page_indicator/smooth_page_indicator.dart'
     as smooth_page_indicator;
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'product_details_model.dart';
 export 'product_details_model.dart';
@@ -483,83 +481,83 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                               ),
                             ),
                           ),
-                        if (widget.productData!.postedBy ==
-                            productDetailsUsersRecord.uid)
-                          InkWell(
-                            splashColor: Colors.transparent,
-                            focusColor: Colors.transparent,
-                            hoverColor: Colors.transparent,
-                            highlightColor: Colors.transparent,
-                            onTap: () async {
-                              if (widget.productData!.public == true) {
-                                final postsUpdateData1 = createPostsRecordData(
-                                  public: false,
-                                );
-                                await widget.productData!.reference
-                                    .update(postsUpdateData1);
-                              } else {
-                                final postsUpdateData2 = createPostsRecordData(
-                                  public: true,
-                                  pickup: createPickupStruct(delete: true),
-                                  isPickedUp: false,
-                                  updatedAt: getCurrentTimestamp,
-                                );
-                                await widget.productData!.reference
-                                    .update(postsUpdateData2);
-                              }
-                            },
-                            child: Container(
-                              height: 43.0,
-                              decoration: BoxDecoration(
-                                color: FlutterFlowTheme.of(context)
-                                    .secondaryBackground,
-                                borderRadius: BorderRadius.circular(22.0),
-                                border: Border.all(
-                                  color: FlutterFlowTheme.of(context).primary,
-                                  width: 2.0,
-                                ),
-                              ),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.max,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        40.0, 0.0, 0.0, 0.0),
-                                    child: SvgPicture.asset(
-                                      'assets/images/Vector_(1).svg',
-                                      width: 15.0,
-                                      height: 19.0,
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
-                                  Align(
-                                    alignment: AlignmentDirectional(0.0, 0.0),
-                                    child: Padding(
-                                      padding: EdgeInsetsDirectional.fromSTEB(
-                                          5.0, 0.0, 40.0, 0.0),
-                                      child: Text(
-                                        widget.productData!.public == true
-                                            ? 'List'
-                                            : 'Un-List',
-                                        textAlign: TextAlign.center,
-                                        style: FlutterFlowTheme.of(context)
-                                            .bodyMedium
-                                            .override(
-                                              fontFamily: 'Roboto',
-                                              color:
-                                                  FlutterFlowTheme.of(context)
-                                                      .primary,
-                                              fontSize: 16.0,
-                                              fontWeight: FontWeight.w600,
-                                            ),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
+                        // if (widget.productData!.postedBy ==
+                        //     productDetailsUsersRecord.uid)
+                        //   InkWell(
+                        //     splashColor: Colors.transparent,
+                        //     focusColor: Colors.transparent,
+                        //     hoverColor: Colors.transparent,
+                        //     highlightColor: Colors.transparent,
+                        //     onTap: () async {
+                        //       if (widget.productData!.public == true) {
+                        //         final postsUpdateData1 = createPostsRecordData(
+                        //           public: false,
+                        //         );
+                        //         await widget.productData!.reference
+                        //             .update(postsUpdateData1);
+                        //       } else {
+                        //         final postsUpdateData2 = createPostsRecordData(
+                        //           public: true,
+                        //           pickup: createPickupStruct(delete: true),
+                        //           isPickedUp: false,
+                        //           updatedAt: getCurrentTimestamp,
+                        //         );
+                        //         await widget.productData!.reference
+                        //             .update(postsUpdateData2);
+                        //       }
+                        //     },
+                        //     child: Container(
+                        //       height: 43.0,
+                        //       decoration: BoxDecoration(
+                        //         color: FlutterFlowTheme.of(context)
+                        //             .secondaryBackground,
+                        //         borderRadius: BorderRadius.circular(22.0),
+                        //         border: Border.all(
+                        //           color: FlutterFlowTheme.of(context).primary,
+                        //           width: 2.0,
+                        //         ),
+                        //       ),
+                        //       child: Row(
+                        //         mainAxisSize: MainAxisSize.max,
+                        //         mainAxisAlignment: MainAxisAlignment.center,
+                        //         children: [
+                        //           Padding(
+                        //             padding: EdgeInsetsDirectional.fromSTEB(
+                        //                 40.0, 0.0, 0.0, 0.0),
+                        //             child: SvgPicture.asset(
+                        //               'assets/images/Vector_(1).svg',
+                        //               width: 15.0,
+                        //               height: 19.0,
+                        //               fit: BoxFit.cover,
+                        //             ),
+                        //           ),
+                        //           Align(
+                        //             alignment: AlignmentDirectional(0.0, 0.0),
+                        //             child: Padding(
+                        //               padding: EdgeInsetsDirectional.fromSTEB(
+                        //                   5.0, 0.0, 40.0, 0.0),
+                        //               child: Text(
+                        //                 widget.productData!.public == true
+                        //                     ? 'List'
+                        //                     : 'Un-List',
+                        //                 textAlign: TextAlign.center,
+                        //                 style: FlutterFlowTheme.of(context)
+                        //                     .bodyMedium
+                        //                     .override(
+                        //                       fontFamily: 'Roboto',
+                        //                       color:
+                        //                           FlutterFlowTheme.of(context)
+                        //                               .primary,
+                        //                       fontSize: 16.0,
+                        //                       fontWeight: FontWeight.w600,
+                        //                     ),
+                        //               ),
+                        //             ),
+                        //           ),
+                        //         ],
+                        //       ),
+                        //     ),
+                        //   ),
                       ],
                     ),
                   ),
@@ -583,7 +581,7 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                                   currentUserUid,
                                   widget.productData!.postedBy!,
                                 );
-
+                                // actions.getConversationData(widget.productData.)
                                 final conversationsCreateData = {
                                   ...createConversationsRecordData(
                                     productName: widget.productData!.name,
