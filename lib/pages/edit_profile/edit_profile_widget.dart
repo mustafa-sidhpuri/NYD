@@ -157,6 +157,7 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
                       hoverColor: Colors.transparent,
                       highlightColor: Colors.transparent,
                       onTap: () async {
+                        _model.uploadedFileUrl = currentUserPhoto;
                         final selectedMedia =
                             await selectMediaWithSourceBottomSheet(
                           context: context,

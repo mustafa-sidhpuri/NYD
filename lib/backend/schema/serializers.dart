@@ -110,13 +110,13 @@ class LatLngSerializer implements PrimitiveSerializer<LatLng> {
 }
 
 class FirestoreUtilData {
-  const FirestoreUtilData({
+   FirestoreUtilData({
     this.fieldValues = const {},
     this.clearUnsetFields = true,
     this.create = false,
     this.delete = false,
   });
-  final Map<String, dynamic> fieldValues;
+   Map<String, dynamic> fieldValues;
   final bool clearUnsetFields;
   final bool create;
   final bool delete;

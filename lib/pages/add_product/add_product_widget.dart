@@ -1,3 +1,5 @@
+import 'package:n_y_d_app/components/LoadingWidget.dart';
+
 import '/backend/firebase_storage/storage.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
@@ -83,6 +85,7 @@ class _AddProductWidgetState extends State<AddProductWidget> {
                   hoverColor: Colors.transparent,
                   highlightColor: Colors.transparent,
                   onTap: () async {
+                    _model.uploadedFileUrl = "";
                     final selectedMedia =
                         await selectMediaWithSourceBottomSheet(
                       context: context,
@@ -91,12 +94,14 @@ class _AddProductWidgetState extends State<AddProductWidget> {
                       textColor: Colors.black,
                       pickerFontFamily: 'Lexend Deca',
                     );
+                    LoadingOverlay.show(context);
                     if (selectedMedia != null &&
                         selectedMedia.every((m) =>
                             validateFileFormat(m.storagePath, context))) {
                       setState(() => _model.isDataUploading = true);
                       var selectedUploadedFiles = <FFUploadedFile>[];
                       var downloadUrls = <String>[];
+                      print(";;;;;;;"+selectedMedia.toList().toString());
                       try {
                         selectedUploadedFiles = selectedMedia
                             .map((m) => FFUploadedFile(
@@ -118,8 +123,10 @@ class _AddProductWidgetState extends State<AddProductWidget> {
                             .map((u) => u!)
                             .toList();
                       } finally {
+                        LoadingOverlay.hide();
                         _model.isDataUploading = false;
                       }
+                     LoadingOverlay.hide();
                       if (selectedUploadedFiles.length ==
                               selectedMedia.length &&
                           downloadUrls.length == selectedMedia.length) {
@@ -133,7 +140,6 @@ class _AddProductWidgetState extends State<AddProductWidget> {
                         return;
                       }
                     }
-
                     if (_model.uploadedFileUrl != null &&
                         _model.uploadedFileUrl != '') {
                       setState(() {
@@ -248,6 +254,13 @@ class _AddProductWidgetState extends State<AddProductWidget> {
                                           width: 100.0,
                                           height: 85.0,
                                           fit: BoxFit.cover,
+                                          loadingBuilder: (context,child,imageChunk){
+                                            if(imageChunk == null){
+                                              return child;
+                                            }else{
+                                              return CircularProgressIndicator();
+                                            }
+                                          },
                                         ),
                                       ),
                                       InkWell(

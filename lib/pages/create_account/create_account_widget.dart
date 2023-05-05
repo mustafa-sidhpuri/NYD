@@ -1,3 +1,4 @@
+import '../../components/LoadingWidget.dart';
 import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
@@ -336,12 +337,14 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
                         hoverColor: Colors.transparent,
                         highlightColor: Colors.transparent,
                         onTap: () async {
+                          LoadingOverlay.show(context);
                           final user = await authManager.createAccountWithEmail(
                             context,
                             _model.emailAddressController.text,
                             _model.passwordController.text,
                           );
                           if (user == null) {
+                            LoadingOverlay.hide();
                             return;
                           }
 
@@ -354,7 +357,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
                           await UsersRecord.collection
                               .doc(user.uid)
                               .update(usersCreateData);
-
+                          LoadingOverlay.hide();
                           await Navigator.pushReplacement(
                             context,
                             PageTransition(

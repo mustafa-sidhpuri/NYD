@@ -1,3 +1,5 @@
+import 'package:n_y_d_app/pages/product_details/product_details_widget.dart';
+
 import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
@@ -127,103 +129,135 @@ class _ChatMainWidgetState extends State<ChatMainWidget> {
                                   final listViewNotificationsRecord =
                                       listViewNotificationsRecordList[
                                           listViewIndex];
-                                  return Container(
-                                    height: 77.0,
-                                    decoration: BoxDecoration(
-                                      color: Color(0xFFC9DDFF),
-                                    ),
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.max,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceEvenly,
-                                      children: [
-                                        Align(
-                                          alignment:
-                                              AlignmentDirectional(0.0, 0.0),
-                                          child: Padding(
-                                            padding:
-                                                EdgeInsetsDirectional.fromSTEB(
-                                                    28.0, 0.0, 0.0, 0.0),
-                                            child: Container(
-                                              width: 42.0,
-                                              height: 42.0,
-                                              decoration: BoxDecoration(
-                                                color:
-                                                    FlutterFlowTheme.of(context)
-                                                        .secondaryBackground,
-                                                shape: BoxShape.circle,
+                                  return InkWell(
+                                    onTap: ()async{
+                                      final  postData = await
+                                      PostsRecord.getDocumentOnce(listViewNotificationsRecord.postData!);
+                                      List<Map<String, dynamic>> usersData = listViewNotificationsRecord.users!.map((p0) => {
+                                        "read": p0.read,
+                                        "user_id": p0.userId,
+                                        "user_profile": p0.userProfile
+                                      }).toList();
+
+                                      usersData
+                                          .forEach((u) {
+                                        if(currentUserUid == u["user_id"])
+                                        {
+                                          u["read"] = true;
+                                        }
+                                      });
+                                      await listViewNotificationsRecord.reference
+                                          .update({"users": usersData});
+                                      await Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              ProductDetailsWidget(
+                                                productData: postData,
+                                                productId:
+                                                listViewNotificationsRecord.postData,
                                               ),
-                                              child: Icon(
-                                                Icons.person_rounded,
-                                                color:
-                                                    FlutterFlowTheme.of(context)
-                                                        .primary,
-                                                size: 20.0,
+                                        ),
+                                      );
+                                    },
+                                    child: Container(
+                                      height: 77.0,
+                                      decoration: BoxDecoration(
+                                        color: Color(0xFFC9DDFF),
+                                      ),
+                                      child: Row(
+                                        mainAxisSize: MainAxisSize.max,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceEvenly,
+                                        children: [
+                                          Align(
+                                            alignment:
+                                                AlignmentDirectional(0.0, 0.0),
+                                            child: Padding(
+                                              padding:
+                                                  EdgeInsetsDirectional.fromSTEB(
+                                                      28.0, 0.0, 0.0, 0.0),
+                                              child: Container(
+                                                width: 42.0,
+                                                height: 42.0,
+                                                decoration: BoxDecoration(
+                                                  color:
+                                                      FlutterFlowTheme.of(context)
+                                                          .secondaryBackground,
+                                                  shape: BoxShape.circle,
+                                                ),
+                                                child: Icon(
+                                                  Icons.person_rounded,
+                                                  color:
+                                                      FlutterFlowTheme.of(context)
+                                                          .primary,
+                                                  size: 20.0,
+                                                ),
                                               ),
                                             ),
                                           ),
-                                        ),
-                                        Padding(
-                                          padding:
-                                              EdgeInsetsDirectional.fromSTEB(
-                                                  0.0, 0.0, 80.0, 0.0),
-                                          child: Row(
-                                            mainAxisSize: MainAxisSize.max,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
-                                            children: [
-                                              Column(
-                                                mainAxisSize: MainAxisSize.max,
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Text(
-                                                    listViewNotificationsRecord
-                                                        .message!,
-                                                    style: FlutterFlowTheme.of(
-                                                            context)
-                                                        .bodyMedium
-                                                        .override(
-                                                          fontFamily: 'Roboto',
-                                                          fontSize: 12.0,
-                                                        ),
-                                                  ),
-                                                  Padding(
-                                                    padding:
-                                                        EdgeInsetsDirectional
-                                                            .fromSTEB(0.0, 5.0,
-                                                                0.0, 0.0),
-                                                    child: Text(
-                                                      dateTimeFormat(
-                                                          'relative',
-                                                          listViewNotificationsRecord
-                                                              .createdAt!),
-                                                      style:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .bodyMedium
-                                                              .override(
-                                                                fontFamily:
-                                                                    'Roboto',
-                                                                color: Color(
-                                                                    0xFF7D8180),
-                                                                fontSize: 10.0,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .normal,
-                                                              ),
+                                          Padding(
+                                            padding:
+                                                EdgeInsetsDirectional.fromSTEB(
+                                                    0.0, 0.0, 80.0, 0.0),
+                                            child: Row(
+                                              mainAxisSize: MainAxisSize.max,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.center,
+                                              children: [
+                                                Column(
+                                                  mainAxisSize: MainAxisSize.max,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text(
+                                                      listViewNotificationsRecord
+                                                          .message!,
+                                                      style: FlutterFlowTheme.of(
+                                                              context)
+                                                          .bodyMedium
+                                                          .override(
+                                                            fontFamily: 'Roboto',
+                                                            fontSize: 12.0,
+                                                          ),
                                                     ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ],
+                                                    Padding(
+                                                      padding:
+                                                          EdgeInsetsDirectional
+                                                              .fromSTEB(0.0, 5.0,
+                                                                  0.0, 0.0),
+                                                      child: Text(
+                                                        dateTimeFormat(
+                                                            'relative',
+                                                            listViewNotificationsRecord
+                                                                .createdAt!),
+                                                        style:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .bodyMedium
+                                                                .override(
+                                                                  fontFamily:
+                                                                      'Roboto',
+                                                                  color: Color(
+                                                                      0xFF7D8180),
+                                                                  fontSize: 10.0,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .normal,
+                                                                ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
                                           ),
-                                        ),
-                                      ],
+                                        ],
+                                      ),
                                     ),
                                   );
                                 },

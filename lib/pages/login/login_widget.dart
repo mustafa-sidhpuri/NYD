@@ -1,3 +1,5 @@
+import 'package:n_y_d_app/components/LoadingWidget.dart';
+
 import '/auth/firebase_auth/auth_util.dart';
 import '/components/title_component_widget.dart';
 import '/flutter_flow/flutter_flow_animations.dart';
@@ -259,15 +261,17 @@ class _LoginWidgetState extends State<LoginWidget>
                         hoverColor: Colors.transparent,
                         highlightColor: Colors.transparent,
                         onTap: () async {
+                          LoadingOverlay.show(context);
                           final user = await authManager.signInWithEmail(
                             context,
                             _model.emailAddressController.text,
                             _model.passwordController.text,
                           );
                           if (user == null) {
+                            LoadingOverlay.hide();
                             return;
                           }
-
+                          LoadingOverlay.hide();
                           await Navigator.pushAndRemoveUntil(
                             context,
                             PageTransition(

@@ -522,7 +522,7 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                                 await ConversationsRecord.collection
                                     .doc()
                                     .set(conversationsCreateData);
-                                await Navigator.pushAndRemoveUntil(
+                                await Navigator.push(
                                   context,
                                   PageTransition(
                                     type: PageTransitionType.fade,
@@ -541,7 +541,6 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                                       userRef: widget.productData!.userRef,
                                     ),
                                   ),
-                                  (r) => false,
                                 );
                               },
                               child: Container(
