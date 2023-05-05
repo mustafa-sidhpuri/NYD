@@ -321,12 +321,11 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                   child: Padding(
                     padding:
                         EdgeInsetsDirectional.fromSTEB(0.0, 20.0, 0.0, 0.0),
-                    child: FutureBuilder<List<PostsRecord>>(
-                      future: PostsRecord.search(
-                        term: FFAppState().searchstring,
-                        location: getCurrentUserLocation(
-                            defaultLocation: LatLng(37.4298229, -122.1735655)),
-                        searchRadiusMeters: 5000.0,
+                    child: StreamBuilder<List<PostsRecord>>(
+                      stream: queryPostsRecord(
+                        queryBuilder: (postsRecord) => postsRecord
+                            .where('public', isEqualTo: true)
+                            .orderBy('latlong', descending: true),
                       ),
                       builder: (context, snapshot) {
                         // Customize what your widget looks like when it's loading.
@@ -343,15 +342,6 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                         }
                         List<PostsRecord> gridViewPostsRecordList =
                             snapshot.data!;
-                        // Customize what your widget looks like with no search results.
-                        if (snapshot.data!.isEmpty) {
-                          return Container(
-                            height: 100,
-                            child: Center(
-                              child: Text('No results.'),
-                            ),
-                          );
-                        }
                         return RefreshIndicator(
                           onRefresh: () async {
                             currentUserLocationValue =
