@@ -1,3 +1,4 @@
+import '../../components/cached_network_image.dart';
 import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
@@ -127,18 +128,21 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                     ],
                   ),
                   AuthUserStreamWidget(
-                    builder: (context) => ClipRRect(
-                      borderRadius: BorderRadius.circular(12.0),
-                      child: Image.network(
-                        valueOrDefault<String>(
-                          currentUserPhoto,
-                          'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/sample-app-property-finder-834ebu/assets/uxii7iwtqpy8/emptyAvatar@2x.png',
-                        ),
-                        width: 41.0,
-                        height: 41.0,
-                        fit: BoxFit.cover,
+                    builder: (context) => Container(
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(12.0),
+                          border: Border.all(color: Colors.grey)
+                      ),
+                      child: ClipRRect(
+                          borderRadius: BorderRadius.circular(12.0),
+                          child: CachedNetworkImageWidget(
+                            image: currentUserPhoto,
+                            height: 41,
+                            width: 41,
+                          )
                       ),
                     ),
+
                   ),
                 ],
               ),
@@ -431,13 +435,13 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                               topLeft: Radius.circular(12.0),
                                               topRight: Radius.circular(12.0),
                                             ),
-                                            child: Image.network(
+                                            child: CachedNetworkImageWidget(
+                                              image:
                                               gridViewPostsRecord.images!
                                                   .toList()
                                                   .first,
                                               width: double.infinity,
                                               height: 130.0,
-                                              fit: BoxFit.cover,
                                             ),
                                           ),
                                           Padding(
@@ -669,13 +673,13 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                             child: ClipRRect(
                                               borderRadius:
                                                   BorderRadius.circular(12.0),
-                                              child: Image.network(
+                                              child: CachedNetworkImageWidget(
+                                                image:
                                                 listViewPostsRecord.images!
                                                     .toList()
                                                     .first,
                                                 width: 80.0,
                                                 height: 80.0,
-                                                fit: BoxFit.cover,
                                               ),
                                             ),
                                           ),

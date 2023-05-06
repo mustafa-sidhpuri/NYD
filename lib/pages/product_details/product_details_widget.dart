@@ -1,5 +1,6 @@
 import 'package:n_y_d_app/flutter_flow/custom_functions.dart' as function;
 
+import '../../components/cached_network_image.dart';
 import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
@@ -197,15 +198,11 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                                           return ClipRRect(
                                             borderRadius:
                                                 BorderRadius.circular(12.0),
-                                            child: CachedNetworkImage(
-                                              imageUrl: valueOrDefault<String>(
-                                                productImagesItem,
-                                                'https://picsum.photos/seed/372/600',
-                                              ),
+                                            child:  CachedNetworkImageWidget(
+                                              image: productImagesItem,
                                               width: 100.0,
                                               height: 100.0,
-                                              fit: BoxFit.cover,
-                                            ),
+                                            )
                                           );
                                         },
                                       ),
@@ -353,12 +350,8 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
                             ),
-                            child: CachedNetworkImage(
-                              imageUrl: valueOrDefault<String>(
-                                widget.productData!.postedByProfile,
-                                'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/wedding-app-anuwld/assets/udoiek8lgxbr/userUpload@2x.png',
-                              ),
-                              fit: BoxFit.cover,
+                            child: CachedNetworkImageWidget(
+                              image:  widget.productData!.postedByProfile!,
                             ),
                           ),
                         ),
@@ -522,7 +515,8 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                                         .toList()
                                         .first,
                                     productId: widget.productData!.reference.id,
-
+                                    postedByRefrence:widget.productData!.userRef,
+                                    postedByLocation:  widget.productData!.address,
                                   ),
                                   'users': FFAppState().chatUsers,
                                   'user_details':
@@ -566,7 +560,7 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                                       productimage: widget.productData!.images!
                                           .toList()
                                           .first,
-                                      productlocation: FFAppState().setLocation,
+                                      productlocation: widget.productData!.address,
                                       userRef: widget.productData!.userRef,
                                     ),
                                   ),

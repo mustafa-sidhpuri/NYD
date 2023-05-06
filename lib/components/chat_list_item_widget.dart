@@ -1,3 +1,5 @@
+import 'package:n_y_d_app/components/cached_network_image.dart';
+
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import 'package:flutter/material.dart';
@@ -72,10 +74,9 @@ class _ChatListItemWidgetState extends State<ChatListItemWidget> {
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                   ),
-                  child: Image.network(
-                    widget.profileImageChat!,
-                    fit: BoxFit.cover,
-                  ),
+                  child: CachedNetworkImageWidget(
+                    image:  widget.profileImageChat!,
+                  )
                 ),
                 Container(
                   width: 200.0,
@@ -117,12 +118,11 @@ class _ChatListItemWidgetState extends State<ChatListItemWidget> {
                 ),
                 ClipRRect(
                   borderRadius: BorderRadius.circular(6.0),
-                  child: Image.network(
-                    widget.productImage!,
-                    width: 61.0,
-                    height: 45.0,
-                    fit: BoxFit.cover,
-                  ),
+                  child: CachedNetworkImageWidget(
+                    image:  widget.productImage!,
+                      width: 61.0,
+                      height: 45.0,
+                  )
                 ),
               ],
             ),

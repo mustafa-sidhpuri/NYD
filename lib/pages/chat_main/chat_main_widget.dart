@@ -1,5 +1,6 @@
 import 'package:n_y_d_app/pages/product_details/product_details_widget.dart';
 
+import '../../components/cached_network_image.dart';
 import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
@@ -97,13 +98,12 @@ class _ChatMainWidgetState extends State<ChatMainWidget> {
                         children: [
                           StreamBuilder<List<ConversationsRecord>>(
                             stream: queryConversationsRecord(
-                              queryBuilder: (conversationsRecord) =>
-                                  conversationsRecord
-                                      .where('users',
-                                          arrayContains: currentUserUid)
-                                      // .orderBy('last_message_at',
-                                      //     descending: true),
-                            ),
+                                queryBuilder: (conversationsRecord) =>
+                                    conversationsRecord.where('users',
+                                        arrayContains: currentUserUid)
+                                // .orderBy('last_message_at',
+                                //     descending: true),
+                                ),
                             builder: (context, snapshot) {
                               // Customize what your widget looks like when it's loading.
                               if (!snapshot.hasData) {
@@ -209,25 +209,24 @@ class _ChatMainWidgetState extends State<ChatMainWidget> {
                                                           .userId ==
                                                       currentUserUid)
                                                     Container(
-                                                      width: 53.0,
-                                                      height: 53.0,
-                                                      clipBehavior:
-                                                          Clip.antiAlias,
-                                                      decoration: BoxDecoration(
-                                                        shape: BoxShape.circle,
-                                                      ),
-                                                      child: Image.network(
-                                                        valueOrDefault<String>(
-                                                          listViewConversationsRecord
-                                                              .userDetails!
-                                                              .toList()
-                                                              .last
-                                                              .userImage,
-                                                          'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/wedding-app-anuwld/assets/udoiek8lgxbr/userUpload@2x.png',
+                                                        width: 53.0,
+                                                        height: 53.0,
+                                                        clipBehavior:
+                                                            Clip.antiAlias,
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          shape:
+                                                              BoxShape.circle,
                                                         ),
-                                                        fit: BoxFit.cover,
-                                                      ),
-                                                    ),
+                                                        child:
+                                                            CachedNetworkImageWidget(
+                                                          image:
+                                                              listViewConversationsRecord
+                                                                  .userDetails!
+                                                                  .toList()
+                                                                  .last
+                                                                  .userImage!,
+                                                        )),
                                                   if (listViewConversationsRecord
                                                           .userDetails!
                                                           .toList()
@@ -235,25 +234,26 @@ class _ChatMainWidgetState extends State<ChatMainWidget> {
                                                           .userId !=
                                                       currentUserUid)
                                                     Container(
-                                                      width: 53.0,
-                                                      height: 53.0,
-                                                      clipBehavior:
-                                                          Clip.antiAlias,
-                                                      decoration: BoxDecoration(
-                                                        shape: BoxShape.circle,
-                                                      ),
-                                                      child: Image.network(
-                                                        valueOrDefault<String>(
-                                                          listViewConversationsRecord
-                                                              .userDetails!
-                                                              .toList()
-                                                              .first
-                                                              .userImage,
-                                                          'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/wedding-app-anuwld/assets/udoiek8lgxbr/userUpload@2x.png',
+                                                        width: 53.0,
+                                                        height: 53.0,
+                                                        clipBehavior:
+                                                            Clip.antiAlias,
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          shape:
+                                                              BoxShape.circle,
                                                         ),
-                                                        fit: BoxFit.cover,
-                                                      ),
-                                                    ),
+                                                        child:
+                                                            CachedNetworkImageWidget(
+                                                          image:
+                                                              listViewConversationsRecord
+                                                                  .userDetails!
+                                                                  .toList()
+                                                                  .last
+                                                                  .userImage!,
+                                                          height: 100,
+                                                          width: 100,
+                                                        )),
                                                   Padding(
                                                     padding:
                                                         EdgeInsetsDirectional
@@ -417,17 +417,17 @@ class _ChatMainWidgetState extends State<ChatMainWidget> {
                                                     ),
                                                   ),
                                                   ClipRRect(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            6.0),
-                                                    child: Image.network(
-                                                      listViewConversationsRecord
-                                                          .productImage!,
-                                                      width: 61.0,
-                                                      height: 45.0,
-                                                      fit: BoxFit.fill,
-                                                    ),
-                                                  ),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              6.0),
+                                                      child:
+                                                          CachedNetworkImageWidget(
+                                                        image:
+                                                            listViewConversationsRecord
+                                                                .productImage!,
+                                                        width: 61.0,
+                                                        height: 45.0,
+                                                      )),
                                                 ],
                                               ),
                                             ),
@@ -573,7 +573,8 @@ class _ChatMainWidgetState extends State<ChatMainWidget> {
                                                             .fromSTEB(0.0, 0.0,
                                                                 10.0, 0.0),
                                                     child: Text(
-                                                      listViewNotificationsRecord.message!,
+                                                      listViewNotificationsRecord
+                                                          .message!,
                                                       maxLines: 3,
                                                       style:
                                                           FlutterFlowTheme.of(

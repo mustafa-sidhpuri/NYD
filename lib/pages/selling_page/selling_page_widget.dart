@@ -1,3 +1,5 @@
+import 'package:n_y_d_app/components/cached_network_image.dart';
+
 import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
@@ -190,18 +192,14 @@ class _SellingPageWidgetState extends State<SellingPageWidget> {
                                                     borderRadius:
                                                         BorderRadius.circular(
                                                             12.0),
-                                                    child: Image.network(
-                                                      valueOrDefault<String>(
-                                                        listViewPostsRecord
-                                                            .images!
-                                                            .toList()
-                                                            .first,
-                                                        'https://picsum.photos/seed/900/600',
-                                                      ),
+                                                    child: CachedNetworkImageWidget(
+                                                      image: listViewPostsRecord
+                                                          .images!
+                                                          .toList()
+                                                          .first,
                                                       width: 80.0,
                                                       height: 80.0,
-                                                      fit: BoxFit.cover,
-                                                    ),
+                                                    )
                                                   ),
                                                 ),
                                                 Padding(
@@ -612,14 +610,13 @@ class _SellingPageWidgetState extends State<SellingPageWidget> {
                                                   borderRadius:
                                                       BorderRadius.circular(
                                                           10.0),
-                                                  child: Image.network(
-                                                    listViewPostsRecord.images!
+                                                  child: CachedNetworkImageWidget(
+                                                    image:  listViewPostsRecord.images!
                                                         .toList()
                                                         .first,
                                                     width: 75.0,
                                                     height: 65.0,
-                                                    fit: BoxFit.cover,
-                                                  ),
+                                                  )
                                                 ),
                                                 Padding(
                                                   padding: EdgeInsetsDirectional

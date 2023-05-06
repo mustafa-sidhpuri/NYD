@@ -1,3 +1,4 @@
+import '../cached_network_image.dart';
 import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
 import '/backend/firebase_storage/storage.dart';
@@ -172,14 +173,10 @@ class _ChangePhotoWidgetState extends State<ChangePhotoWidget>
                 padding: EdgeInsetsDirectional.fromSTEB(0.0, 24.0, 0.0, 0.0),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(16.0),
-                  child: Image.network(
-                    valueOrDefault<String>(
-                      _model.uploadedFileUrl,
-                      'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/sample-app-property-finder-834ebu/assets/uxii7iwtqpy8/emptyAvatar@2x.png',
-                    ),
+                  child: CachedNetworkImageWidget(
+                    image: _model.uploadedFileUrl,
                     width: 150.0,
                     height: 150.0,
-                    fit: BoxFit.cover,
                   ),
                 ),
               ),

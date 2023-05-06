@@ -1,3 +1,5 @@
+import 'package:n_y_d_app/components/cached_network_image.dart';
+
 import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
 import '/backend/firebase_storage/storage.dart';
@@ -236,18 +238,30 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   AuthUserStreamWidget(
-                                    builder: (context) => ClipRRect(
-                                      borderRadius: BorderRadius.circular(22.0),
-                                      child: Image.network(
-                                        valueOrDefault<String>(
-                                          currentUserPhoto,
-                                          'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/wedding-app-anuwld/assets/udoiek8lgxbr/userUpload@2x.png',
-                                        ),
-                                        width: 100.0,
-                                        height: 100.0,
-                                        fit: BoxFit.cover,
+                                    builder: (context) =>  Container(
+                                      decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(22.0),
+                                          border: Border.all(color: Colors.grey)
+                                      ),
+                                      child: ClipRRect(
+                                          borderRadius: BorderRadius.circular(22.0),
+                                          child: CachedNetworkImageWidget(
+                                            image: currentUserPhoto,
+                                            height: 100,
+                                            width: 100,
+                                          )
                                       ),
                                     ),
+
+                                      // Image.network(
+                                      //   valueOrDefault<String>(
+                                      //
+                                      //     'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/wedding-app-anuwld/assets/udoiek8lgxbr/userUpload@2x.png',
+                                      //   ),
+                                      //
+                                      //   fit: BoxFit.cover,
+                                      // ),
+
                                   ),
                                 ],
                               ),

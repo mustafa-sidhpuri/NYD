@@ -163,7 +163,7 @@ class _ChatDetailsWidgetState extends State<ChatDetailsWidget> {
                               return Column(
                                 mainAxisSize: MainAxisSize.max,
                                 children: [
-                                  if ((widget.userRef !=
+                                  if ((widget.userRef ==
                                           currentUserReference) &&
                                       (listViewChatsRecord.message != null &&
                                           listViewChatsRecord.message != ''))
@@ -226,7 +226,7 @@ class _ChatDetailsWidgetState extends State<ChatDetailsWidget> {
                                         ),
                                       ],
                                     ),
-                                  if ((widget.userRef ==
+                                  if ((widget.userRef !=
                                           currentUserReference) &&
                                       (listViewChatsRecord.message != null &&
                                           listViewChatsRecord.message != ''))
@@ -432,6 +432,7 @@ class _ChatDetailsWidgetState extends State<ChatDetailsWidget> {
                                     onTap: () async {
                                       if (_model.textController.text != null &&
                                           _model.textController.text != '') {
+                                        //print(currentUserUid);
                                         final chatsCreateData =
                                             createChatsRecordData(
                                           createdBy: currentUserUid,

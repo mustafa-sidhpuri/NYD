@@ -1,3 +1,5 @@
+import 'package:n_y_d_app/components/cached_network_image.dart';
+
 import '/auth/base_auth_user_provider.dart';
 import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
@@ -134,16 +136,18 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               AuthUserStreamWidget(
-                                builder: (context) => ClipRRect(
-                                  borderRadius: BorderRadius.circular(22.0),
-                                  child: Image.network(
-                                    valueOrDefault<String>(
-                                      currentUserPhoto,
-                                      'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/wedding-app-anuwld/assets/udoiek8lgxbr/userUpload@2x.png',
-                                    ),
-                                    width: 100.0,
-                                    height: 100.0,
-                                    fit: BoxFit.cover,
+                                builder: (context) => Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(22.0),
+                                    border: Border.all(color: Colors.grey)
+                                  ),
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(22.0),
+                                    child: CachedNetworkImageWidget(
+                                      image: currentUserPhoto,
+                                      height: 100,
+                                      width: 100,
+                                    )
                                   ),
                                 ),
                               ),
@@ -509,7 +513,7 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
                                     padding: EdgeInsetsDirectional.fromSTEB(
                                         7.0, 7.0, 7.0, 7.0),
                                     child: SvgPicture.asset(
-                                      'assets/images/Group.svg',
+                                      'assets/images/logout.svg',
                                       fit: BoxFit.cover,
                                     ),
                                   ),
