@@ -92,7 +92,309 @@ class _ChatMainWidgetState extends State<ChatMainWidget> {
                     Expanded(
                       child: TabBarView(
                         children: [
-                          Container(),
+                          StreamBuilder<List<ConversationsRecord>>(
+                            stream: queryConversationsRecord(
+                              queryBuilder: (conversationsRecord) =>
+                                  conversationsRecord
+                                      .where('users',
+                                          arrayContains: currentUserUid)
+                                      .orderBy('last_message_at',
+                                          descending: true),
+                            ),
+                            builder: (context, snapshot) {
+                              // Customize what your widget looks like when it's loading.
+                              if (!snapshot.hasData) {
+                                return Center(
+                                  child: SizedBox(
+                                    width: 50.0,
+                                    height: 50.0,
+                                    child: CircularProgressIndicator(
+                                      color:
+                                          FlutterFlowTheme.of(context).primary,
+                                    ),
+                                  ),
+                                );
+                              }
+                              List<ConversationsRecord>
+                                  listViewConversationsRecordList =
+                                  snapshot.data!;
+                              return ListView.builder(
+                                padding: EdgeInsets.zero,
+                                scrollDirection: Axis.vertical,
+                                itemCount:
+                                    listViewConversationsRecordList.length,
+                                itemBuilder: (context, listViewIndex) {
+                                  final listViewConversationsRecord =
+                                      listViewConversationsRecordList[
+                                          listViewIndex];
+                                  return Container(
+                                    decoration: BoxDecoration(
+                                      color: FlutterFlowTheme.of(context)
+                                          .secondaryBackground,
+                                    ),
+                                    child: Padding(
+                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                          22.0, 0.0, 22.0, 0.0),
+                                      child: Column(
+                                        mainAxisSize: MainAxisSize.max,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Padding(
+                                            padding:
+                                                EdgeInsetsDirectional.fromSTEB(
+                                                    0.0, 20.0, 0.0, 0.0),
+                                            child: Row(
+                                              mainAxisSize: MainAxisSize.max,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.center,
+                                              children: [
+                                                if (listViewConversationsRecord
+                                                        .userDetails!
+                                                        .toList()
+                                                        .first
+                                                        .userId ==
+                                                    currentUserUid)
+                                                  Container(
+                                                    width: 53.0,
+                                                    height: 53.0,
+                                                    clipBehavior:
+                                                        Clip.antiAlias,
+                                                    decoration: BoxDecoration(
+                                                      shape: BoxShape.circle,
+                                                    ),
+                                                    child: Image.network(
+                                                      valueOrDefault<String>(
+                                                        listViewConversationsRecord
+                                                            .userDetails!
+                                                            .toList()
+                                                            .first
+                                                            .userImage,
+                                                        'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/wedding-app-anuwld/assets/udoiek8lgxbr/userUpload@2x.png',
+                                                      ),
+                                                      fit: BoxFit.cover,
+                                                    ),
+                                                  ),
+                                                if (listViewConversationsRecord
+                                                        .userDetails!
+                                                        .toList()
+                                                        .first
+                                                        .userId !=
+                                                    currentUserUid)
+                                                  Container(
+                                                    width: 53.0,
+                                                    height: 53.0,
+                                                    clipBehavior:
+                                                        Clip.antiAlias,
+                                                    decoration: BoxDecoration(
+                                                      shape: BoxShape.circle,
+                                                    ),
+                                                    child: Image.network(
+                                                      valueOrDefault<String>(
+                                                        listViewConversationsRecord
+                                                            .userDetails!
+                                                            .toList()
+                                                            .last
+                                                            .userImage,
+                                                        'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/wedding-app-anuwld/assets/udoiek8lgxbr/userUpload@2x.png',
+                                                      ),
+                                                      fit: BoxFit.cover,
+                                                    ),
+                                                  ),
+                                                Padding(
+                                                  padding: EdgeInsetsDirectional
+                                                      .fromSTEB(
+                                                          0.0, 0.0, 6.0, 0.0),
+                                                  child: Container(
+                                                    width: 200.0,
+                                                    decoration: BoxDecoration(
+                                                      color: FlutterFlowTheme
+                                                              .of(context)
+                                                          .secondaryBackground,
+                                                      shape: BoxShape.rectangle,
+                                                    ),
+                                                    child: Padding(
+                                                      padding:
+                                                          EdgeInsetsDirectional
+                                                              .fromSTEB(
+                                                                  6.0,
+                                                                  0.0,
+                                                                  0.0,
+                                                                  0.0),
+                                                      child: Column(
+                                                        mainAxisSize:
+                                                            MainAxisSize.max,
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .start,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                        children: [
+                                                          if (listViewConversationsRecord
+                                                                  .userDetails!
+                                                                  .toList()
+                                                                  .first
+                                                                  .userId ==
+                                                              currentUserUid)
+                                                            Padding(
+                                                              padding:
+                                                                  EdgeInsetsDirectional
+                                                                      .fromSTEB(
+                                                                          0.0,
+                                                                          0.0,
+                                                                          0.0,
+                                                                          4.0),
+                                                              child: Text(
+                                                                valueOrDefault<
+                                                                    String>(
+                                                                  listViewConversationsRecord
+                                                                      .userDetails!
+                                                                      .toList()
+                                                                      .first
+                                                                      .userName,
+                                                                  'null',
+                                                                ),
+                                                                style: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyMedium
+                                                                    .override(
+                                                                      fontFamily:
+                                                                          'Roboto',
+                                                                      fontSize:
+                                                                          16.0,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .bold,
+                                                                    ),
+                                                              ),
+                                                            ),
+                                                          if (listViewConversationsRecord
+                                                                  .userDetails!
+                                                                  .toList()
+                                                                  .first
+                                                                  .userId !=
+                                                              currentUserUid)
+                                                            Padding(
+                                                              padding:
+                                                                  EdgeInsetsDirectional
+                                                                      .fromSTEB(
+                                                                          0.0,
+                                                                          0.0,
+                                                                          0.0,
+                                                                          4.0),
+                                                              child: Text(
+                                                                valueOrDefault<
+                                                                    String>(
+                                                                  listViewConversationsRecord
+                                                                      .userDetails!
+                                                                      .toList()
+                                                                      .last
+                                                                      .userName,
+                                                                  'null',
+                                                                ),
+                                                                style: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyMedium
+                                                                    .override(
+                                                                      fontFamily:
+                                                                          'Roboto',
+                                                                      fontSize:
+                                                                          16.0,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .bold,
+                                                                    ),
+                                                              ),
+                                                            ),
+                                                          Padding(
+                                                            padding:
+                                                                EdgeInsetsDirectional
+                                                                    .fromSTEB(
+                                                                        0.0,
+                                                                        0.0,
+                                                                        0.0,
+                                                                        2.0),
+                                                            child: Text(
+                                                              listViewConversationsRecord
+                                                                  .productName!,
+                                                              style: FlutterFlowTheme
+                                                                      .of(context)
+                                                                  .bodyMedium
+                                                                  .override(
+                                                                    fontFamily:
+                                                                        'Roboto',
+                                                                    fontSize:
+                                                                        12.0,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .normal,
+                                                                  ),
+                                                            ),
+                                                          ),
+                                                          Padding(
+                                                            padding:
+                                                                EdgeInsetsDirectional
+                                                                    .fromSTEB(
+                                                                        0.0,
+                                                                        0.0,
+                                                                        0.0,
+                                                                        4.0),
+                                                            child: Text(
+                                                              '${listViewConversationsRecord.lastMessageAt?.toString()}',
+                                                              style: FlutterFlowTheme
+                                                                      .of(context)
+                                                                  .bodyMedium
+                                                                  .override(
+                                                                    fontFamily:
+                                                                        'Roboto',
+                                                                    color: Color(
+                                                                        0xFF7D8180),
+                                                                    fontSize:
+                                                                        12.0,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .normal,
+                                                                  ),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                                ClipRRect(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          6.0),
+                                                  child: Image.network(
+                                                    listViewConversationsRecord
+                                                        .productImage!,
+                                                    width: 61.0,
+                                                    height: 45.0,
+                                                    fit: BoxFit.fill,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          Divider(
+                                            thickness: 1.0,
+                                            color: Color(0xFFE6E6E6),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  );
+                                },
+                              );
+                            },
+                          ),
                           StreamBuilder<List<NotificationsRecord>>(
                             stream: queryNotificationsRecord(
                               queryBuilder: (notificationsRecord) =>
