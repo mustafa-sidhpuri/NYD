@@ -46,19 +46,22 @@ List<UserStruct>? getUserDetailList(
     String pUserName,
     ) {
   /// MODIFY CODE ONLY BELOW THIS LINE
-  List<UserStruct> users = [];
-  users.add(createUserStruct(
+  ///
+  return [
+  createUserStruct(
       userId: cUserId,
       userName: cUserName,
       userImage: cUserImage,
       clearUnsetFields: false,
-      create: true));
-  users.add(createUserStruct(
+      create: true),
+  createUserStruct(
       userId: pUserId,
       userName: pUserName,
       userImage: pUserImage,
       clearUnsetFields: false,
-      create: true));
-  return users;
+      create: true)
+  ];
+
+ // return users;
   /// MODIFY CODE ONLY ABOVE THIS LINE
 }

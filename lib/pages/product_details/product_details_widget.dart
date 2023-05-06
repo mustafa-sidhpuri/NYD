@@ -1,4 +1,4 @@
-import 'package:n_y_d_app/flutter_flow/custom_functions.dart';
+import 'package:n_y_d_app/flutter_flow/custom_functions.dart' as function;
 
 import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
@@ -509,6 +509,7 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                                 // TODO: Riddhi
                                 DocumentReference? convRef = await actions
                                     .getConversationData(widget.productId!.id);
+
                                 await actions.storeChatUsers(
                                   currentUserUid,
                                   widget.productData!.postedBy!,
@@ -521,17 +522,32 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                                         .toList()
                                         .first,
                                     productId: widget.productData!.reference.id,
+
                                   ),
                                   'users': FFAppState().chatUsers,
-                                  'user_details': getUserDetailList(
-                                    currentUserUid,
-                                    currentUserPhoto,
-                                    currentUserDisplayName,
-                                    widget.productData!.postedBy!,
-                                    widget.productData!.postedByProfile!,
-                                    widget.productData!.postedByName!,
-                                  )
+                                  'user_details':
+                                      [
+                                        {
+                                          "user_id": currentUserUid,
+                                          "user_image":currentUserPhoto,
+                                          "user_name":currentUserDisplayName,
+                                        },
+                                        {
+                                          "user_id": widget.productData!.postedBy!,
+                                          "user_image":widget.productData!.postedByProfile!,
+                                          "user_name":widget.productData!.postedByName!,
+                                        }
+                                      ]
+                                  // function.getUserDetailList(
+                                  //   currentUserUid,
+                                  //   currentUserPhoto,
+                                  //   currentUserDisplayName,
+                                  //   widget.productData!.postedBy!,
+                                  //   widget.productData!.postedByProfile!,
+                                  //   widget.productData!.postedByName!,
+                                  // ),
                                 };
+
                                 await ConversationsRecord.collection
                                     .doc()
                                     .set(conversationsCreateData);
