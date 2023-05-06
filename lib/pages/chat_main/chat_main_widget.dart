@@ -100,8 +100,8 @@ class _ChatMainWidgetState extends State<ChatMainWidget> {
                                   conversationsRecord
                                       .where('users',
                                           arrayContains: currentUserUid)
-                                      .orderBy('last_message_at',
-                                          descending: true),
+                                      // .orderBy('last_message_at',
+                                      //     descending: true),
                             ),
                             builder: (context, snapshot) {
                               // Customize what your widget looks like when it's loading.
@@ -175,7 +175,7 @@ class _ChatMainWidgetState extends State<ChatMainWidget> {
                                                         listViewConversationsRecord
                                                             .userDetails!
                                                             .toList()
-                                                            .first
+                                                            .last
                                                             .userImage,
                                                         'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/wedding-app-anuwld/assets/udoiek8lgxbr/userUpload@2x.png',
                                                       ),
@@ -201,7 +201,7 @@ class _ChatMainWidgetState extends State<ChatMainWidget> {
                                                         listViewConversationsRecord
                                                             .userDetails!
                                                             .toList()
-                                                            .last
+                                                            .first
                                                             .userImage,
                                                         'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/wedding-app-anuwld/assets/udoiek8lgxbr/userUpload@2x.png',
                                                       ),
@@ -258,7 +258,7 @@ class _ChatMainWidgetState extends State<ChatMainWidget> {
                                                                   listViewConversationsRecord
                                                                       .userDetails!
                                                                       .toList()
-                                                                      .first
+                                                                      .last
                                                                       .userName,
                                                                   'null',
                                                                 ),
@@ -296,7 +296,7 @@ class _ChatMainWidgetState extends State<ChatMainWidget> {
                                                                   listViewConversationsRecord
                                                                       .userDetails!
                                                                       .toList()
-                                                                      .last
+                                                                      .first
                                                                       .userName,
                                                                   'null',
                                                                 ),

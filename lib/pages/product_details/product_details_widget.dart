@@ -1,3 +1,5 @@
+import 'package:n_y_d_app/flutter_flow/custom_functions.dart';
+
 import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
@@ -521,6 +523,14 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                                     productId: widget.productData!.reference.id,
                                   ),
                                   'users': FFAppState().chatUsers,
+                                  'user_details': getUserDetailList(
+                                    currentUserUid,
+                                    currentUserPhoto,
+                                    currentUserDisplayName,
+                                    widget.productData!.postedBy!,
+                                    widget.productData!.postedByProfile!,
+                                    widget.productData!.postedByName!,
+                                  )
                                 };
                                 await ConversationsRecord.collection
                                     .doc()

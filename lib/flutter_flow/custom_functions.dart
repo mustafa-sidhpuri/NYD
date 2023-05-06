@@ -35,3 +35,30 @@ String ratingSummaryList(List<ReviewsRecord> rating) {
   }
   return (ratingsSum / rating.length).toStringAsFixed(1);
 }
+
+
+List<UserStruct>? getUserDetailList(
+    String cUserId,
+    String cUserImage,
+    String cUserName,
+    String pUserId,
+    String pUserImage,
+    String pUserName,
+    ) {
+  /// MODIFY CODE ONLY BELOW THIS LINE
+  List<UserStruct> users = [];
+  users.add(createUserStruct(
+      userId: cUserId,
+      userName: cUserName,
+      userImage: cUserImage,
+      clearUnsetFields: false,
+      create: true));
+  users.add(createUserStruct(
+      userId: pUserId,
+      userName: pUserName,
+      userImage: pUserImage,
+      clearUnsetFields: false,
+      create: true));
+  return users;
+  /// MODIFY CODE ONLY ABOVE THIS LINE
+}
