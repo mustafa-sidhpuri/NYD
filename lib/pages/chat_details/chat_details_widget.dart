@@ -20,7 +20,7 @@ class ChatDetailsWidget extends StatefulWidget {
     this.productimage,
     this.productlocation,
     this.userRef,
-    this.conversationRef,
+    this.conversationsDoc,
   }) : super(key: key);
 
   final String? username;
@@ -29,7 +29,7 @@ class ChatDetailsWidget extends StatefulWidget {
   final String? productimage;
   final String? productlocation;
   final DocumentReference? userRef;
-  final DocumentReference? conversationRef;
+  final ConversationsRecord? conversationsDoc;
 
   @override
   _ChatDetailsWidgetState createState() => _ChatDetailsWidgetState();
@@ -438,8 +438,8 @@ class _ChatDetailsWidgetState extends State<ChatDetailsWidget> {
                                               getCurrentTimestamp.toString(),
                                           message: _model.textController.text,
                                         );
-                                        await ChatsRecord.createDoc(
-                                                widget.conversationRef!)
+                                        await ChatsRecord.createDoc(widget
+                                                .conversationsDoc!.reference)
                                             .set(chatsCreateData);
                                         setState(() {
                                           _model.textController?.clear();
