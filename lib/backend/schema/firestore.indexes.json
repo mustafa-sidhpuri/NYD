@@ -39,16 +39,6 @@
           "queryScope": "COLLECTION_GROUP"
         }
       ]
-    },
-    {
-      "collectionGroup": "chats",
-      "fieldPath": "created_at",
-      "indexes": [
-        {
-          "order": "ASCENDING",
-          "queryScope": "COLLECTION_GROUP"
-        }
-      ]
     }
   ]
 }
