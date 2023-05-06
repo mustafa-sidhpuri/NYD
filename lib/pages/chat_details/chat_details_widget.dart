@@ -133,6 +133,7 @@ class _ChatDetailsWidgetState extends State<ChatDetailsWidget> {
                           22.0, 10.0, 22.0, 10.0),
                       child: StreamBuilder<List<ChatsRecord>>(
                         stream: queryChatsRecord(
+                          parent: widget.conversationsDoc!.reference,
                           queryBuilder: (chatsRecord) =>
                               chatsRecord.orderBy('created_at'),
                         ),
@@ -162,7 +163,7 @@ class _ChatDetailsWidgetState extends State<ChatDetailsWidget> {
                               return Column(
                                 mainAxisSize: MainAxisSize.max,
                                 children: [
-                                  if ((widget.userRef ==
+                                  if ((widget.userRef !=
                                           currentUserReference) &&
                                       (listViewChatsRecord.message != null &&
                                           listViewChatsRecord.message != ''))
@@ -225,7 +226,7 @@ class _ChatDetailsWidgetState extends State<ChatDetailsWidget> {
                                         ),
                                       ],
                                     ),
-                                  if ((widget.userRef !=
+                                  if ((widget.userRef ==
                                           currentUserReference) &&
                                       (listViewChatsRecord.message != null &&
                                           listViewChatsRecord.message != ''))
