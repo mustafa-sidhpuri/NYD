@@ -36,6 +36,12 @@ abstract class ConversationsRecord
 
   BuiltList<String>? get users;
 
+  @BuiltValueField(wireName: 'posted_by_refrence')
+  DocumentReference? get postedByRefrence;
+
+  @BuiltValueField(wireName: 'posted_by_location')
+  String? get postedByLocation;
+
   @BuiltValueField(wireName: kDocumentReferenceField)
   DocumentReference? get ffRef;
   DocumentReference get reference => ffRef!;
@@ -48,7 +54,8 @@ abstract class ConversationsRecord
     ..lastMessageAt = 0
     ..lastMessageBy = ''
     ..userDetails = ListBuilder()
-    ..users = ListBuilder();
+    ..users = ListBuilder()
+    ..postedByLocation = '';
 
   static CollectionReference get collection =>
       FirebaseFirestore.instance.collection('conversations');
@@ -80,6 +87,8 @@ Map<String, dynamic> createConversationsRecordData({
   DocumentReference? chats,
   int? lastMessageAt,
   String? lastMessageBy,
+  DocumentReference? postedByRefrence,
+  String? postedByLocation,
 }) {
   final firestoreData = serializers.toFirestore(
     ConversationsRecord.serializer,
@@ -93,7 +102,9 @@ Map<String, dynamic> createConversationsRecordData({
         ..lastMessageAt = lastMessageAt
         ..lastMessageBy = lastMessageBy
         ..userDetails = null
-        ..users = null,
+        ..users = null
+        ..postedByRefrence = postedByRefrence
+        ..postedByLocation = postedByLocation,
     ),
   );
 
