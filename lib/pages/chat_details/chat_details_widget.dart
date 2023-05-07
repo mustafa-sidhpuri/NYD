@@ -321,9 +321,9 @@ class _ChatDetailsWidgetState extends State<ChatDetailsWidget> {
                             if (widget.postData?.public == true) {
                               final postsUpdateData = createPostsRecordData(
                                 pickup: createPickupStruct(
-                                  userId: widget.postData?.postedBy,
-                                  userName: widget.postData?.postedByName,
-                                  userImage: widget.postData?.postedByName,
+                                  userId: widget.conversationsDoc?.userDetails?.first.userId,
+                                  userName: widget.conversationsDoc?.userDetails?.first.userName,
+                                  userImage:widget.conversationsDoc?.userDetails?.first.userImage,
                                   pickupTime: getCurrentTimestamp,
                                   clearUnsetFields: false,
                                 ),

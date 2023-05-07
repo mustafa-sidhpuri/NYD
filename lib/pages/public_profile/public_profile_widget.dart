@@ -1,3 +1,4 @@
+import '../../components/cached_network_image.dart';
 import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
@@ -132,16 +133,18 @@ class _PublicProfileWidgetState extends State<PublicProfileWidget> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           AuthUserStreamWidget(
-                            builder: (context) => ClipRRect(
-                              borderRadius: BorderRadius.circular(22.0),
-                              child: Image.network(
-                                valueOrDefault<String>(
-                                  currentUserPhoto,
-                                  'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/wedding-app-anuwld/assets/udoiek8lgxbr/userUpload@2x.png',
-                                ),
-                                width: 100.0,
-                                height: 100.0,
-                                fit: BoxFit.cover,
+                            builder: (context) => Container(
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(22.0),
+                                  border: Border.all(color: Colors.grey)
+                              ),
+                              child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(22.0),
+                                  child: CachedNetworkImageWidget(
+                                    image: currentUserPhoto,
+                                    height: 100,
+                                    width: 100,
+                                  )
                               ),
                             ),
                           ),
@@ -245,17 +248,13 @@ class _PublicProfileWidgetState extends State<PublicProfileWidget> {
                                     gridViewPostsRecordList[gridViewIndex];
                                 return ClipRRect(
                                   borderRadius: BorderRadius.circular(12.0),
-                                  child: Image.network(
-                                    valueOrDefault<String>(
-                                      gridViewPostsRecord.images!
-                                          .toList()
-                                          .first,
-                                      'https://picsum.photos/seed/530/600',
-                                    ),
+                                  child: CachedNetworkImageWidget(
+                                    image: gridViewPostsRecord.images!
+                                        .toList()
+                                        .first,
                                     width: 105.0,
                                     height: 105.0,
-                                    fit: BoxFit.cover,
-                                  ),
+                                  )
                                 );
                               },
                             );
