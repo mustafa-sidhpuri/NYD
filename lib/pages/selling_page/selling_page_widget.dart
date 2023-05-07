@@ -126,6 +126,15 @@ class _SellingPageWidgetState extends State<SellingPageWidget> {
                                       ),
                                     );
                                   }
+                                  if(snapshot.data!.isEmpty){
+                                    return Center(
+                                      child: SizedBox(
+                                        child: Text(
+                                            "No Data Found"
+                                        ),
+                                      ),
+                                    );
+                                  }
                                   List<PostsRecord> listViewPostsRecordList =
                                       snapshot.data!;
                                   return ListView.builder(
@@ -533,6 +542,15 @@ class _SellingPageWidgetState extends State<SellingPageWidget> {
                                       child: CircularProgressIndicator(
                                         color: FlutterFlowTheme.of(context)
                                             .primary,
+                                      ),
+                                    ),
+                                  );
+                                }
+                                if(snapshot.data!.isEmpty){
+                                  return Center(
+                                    child: SizedBox(
+                                      child: Text(
+                                          "No Data Found"
                                       ),
                                     ),
                                   );

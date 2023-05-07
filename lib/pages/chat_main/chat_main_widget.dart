@@ -118,6 +118,15 @@ class _ChatMainWidgetState extends State<ChatMainWidget> {
                                   ),
                                 );
                               }
+                              if(snapshot.data!.isEmpty){
+                                return Center(
+                                  child: SizedBox(
+                                    child: Text(
+                                        "No Data Found"
+                                    ),
+                                  ),
+                                );
+                              }
                               List<ConversationsRecord>
                                   listViewConversationsRecordList =
                                   snapshot.data!;
@@ -466,6 +475,16 @@ class _ChatMainWidgetState extends State<ChatMainWidget> {
                                   ),
                                 );
                               }
+
+                              if(snapshot.data!.isEmpty){
+                                return Center(
+                                  child: SizedBox(
+                                    child: Text(
+                                      "No Data Found"
+                                    ),
+                                  ),
+                                );
+                              }
                               List<NotificationsRecord>
                                   listViewNotificationsRecordList =
                                   snapshot.data!;
@@ -480,6 +499,8 @@ class _ChatMainWidgetState extends State<ChatMainWidget> {
                                           listViewIndex];
                                   return InkWell(
                                     onTap: () async {
+                                      print(listViewNotificationsRecord.postData!.id);
+
                                       final postData =
                                           await PostsRecord.getDocumentOnce(
                                               listViewNotificationsRecord

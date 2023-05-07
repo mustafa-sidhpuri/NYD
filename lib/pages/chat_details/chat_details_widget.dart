@@ -163,8 +163,8 @@ class _ChatDetailsWidgetState extends State<ChatDetailsWidget> {
                               return Column(
                                 mainAxisSize: MainAxisSize.max,
                                 children: [
-                                  if ((widget.userRef ==
-                                          currentUserReference) &&
+                                  if (
+                                      (listViewChatsRecord.createdBy != currentUserUid)&&
                                       (listViewChatsRecord.message != null &&
                                           listViewChatsRecord.message != ''))
                                     Column(
@@ -226,8 +226,9 @@ class _ChatDetailsWidgetState extends State<ChatDetailsWidget> {
                                         ),
                                       ],
                                     ),
-                                  if ((widget.userRef !=
-                                          currentUserReference) &&
+
+                                  if (
+                                      (listViewChatsRecord.createdBy == currentUserUid)&&
                                       (listViewChatsRecord.message != null &&
                                           listViewChatsRecord.message != ''))
                                     Column(
