@@ -505,6 +505,7 @@ class _ChatMainWidgetState extends State<ChatMainWidget> {
                               List<NotificationsRecord>
                                   listViewNotificationsRecordList =
                                   snapshot.data!;
+
                               return ListView.builder(
                                 padding: EdgeInsets.zero,
                                 scrollDirection: Axis.vertical,
@@ -514,10 +515,19 @@ class _ChatMainWidgetState extends State<ChatMainWidget> {
                                   final listViewNotificationsRecord =
                                       listViewNotificationsRecordList[
                                           listViewIndex];
+                                  bool read = false;
+                                  listViewNotificationsRecord.users!
+                                      .forEach((user) {
+                                    if (user.userId == currentUserUid) {
+                                      read = user.read ?? false;
+                                    }
+                                  });
                                   return InkWell(
                                     onTap: () async {
-                                      print(listViewNotificationsRecord
-                                          .postData!.id);
+                                      // already read then no action to perform
+                                      if (read) {
+                                        return;
+                                      }
 
                                       final postData =
                                           await PostsRecord.getDocumentOnce(
@@ -557,7 +567,9 @@ class _ChatMainWidgetState extends State<ChatMainWidget> {
                                     child: Container(
                                       height: 77.0,
                                       decoration: BoxDecoration(
-                                        color: Color(0xFFC9DDFF),
+                                        color: read
+                                            ? Colors.white
+                                            : Color(0xFFC9DDFF),
                                       ),
                                       child: Row(
                                         mainAxisSize: MainAxisSize.max,
@@ -574,22 +586,18 @@ class _ChatMainWidgetState extends State<ChatMainWidget> {
                                                   .fromSTEB(
                                                       28.0, 0.0, 16.0, 0.0),
                                               child: Container(
-                                                width: 42.0,
-                                                height: 42.0,
-                                                decoration: BoxDecoration(
-                                                  color: FlutterFlowTheme.of(
-                                                          context)
-                                                      .secondaryBackground,
-                                                  shape: BoxShape.circle,
-                                                ),
-                                                child: Icon(
-                                                  Icons.person_rounded,
-                                                  color: FlutterFlowTheme.of(
-                                                          context)
-                                                      .primary,
-                                                  size: 20.0,
-                                                ),
-                                              ),
+                                                  width: 42.0,
+                                                  height: 42.0,
+                                                  decoration: BoxDecoration(
+                                                    color: FlutterFlowTheme.of(
+                                                            context)
+                                                        .secondaryBackground,
+                                                    shape: BoxShape.circle,
+                                                  ),
+                                                  child:
+                                                      CachedNetworkImageWidget(
+                                                    image: "Profile",
+                                                  )),
                                             ),
                                           ),
                                           Row(

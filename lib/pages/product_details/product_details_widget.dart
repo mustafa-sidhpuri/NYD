@@ -546,8 +546,17 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                                   await ConversationsRecord.collection
                                       .doc()
                                       .set(conversationsCreateData);
+
+                                  List<String> convIds = widget
+                                      .productData!.conversations!
+                                      .map((p0) => p0)
+                                      .toList();
+                                  
                                   convRef = await actions.getConversationData(
                                       widget.productId!.id);
+                                  convIds.add(convRef!.ffRef!.id);
+                                  await widget.productData!.ffRef!.update(
+                                      {"conversations":convIds });
                                 }
                                 await Navigator.push(
                                   context,
