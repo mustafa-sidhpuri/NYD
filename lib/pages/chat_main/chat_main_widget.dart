@@ -7,7 +7,6 @@ import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/pages/chat_details/chat_details_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'chat_main_model.dart';
 export 'chat_main_model.dart';
@@ -118,12 +117,10 @@ class _ChatMainWidgetState extends State<ChatMainWidget> {
                                   ),
                                 );
                               }
-                              if(snapshot.data!.isEmpty){
+                              if (snapshot.data!.isEmpty) {
                                 return Center(
                                   child: SizedBox(
-                                    child: Text(
-                                        "No Data Found"
-                                    ),
+                                    child: Text("No Data Found"),
                                   ),
                                 );
                               }
@@ -145,11 +142,25 @@ class _ChatMainWidgetState extends State<ChatMainWidget> {
                                     hoverColor: Colors.transparent,
                                     highlightColor: Colors.transparent,
                                     onTap: () async {
+                                      // fetchign product from firebase
+                                      final product = await FirebaseFirestore
+                                          .instance
+                                          .collection("Posts")
+                                          .doc(listViewConversationsRecord
+                                              .productId)
+                                          .get();
+
+                                      final productRec =
+                                          PostsRecord.getDocumentFromData(
+                                              product.data()
+                                                  as Map<String, dynamic>,
+                                              product.reference);
                                       await Navigator.push(
                                         context,
                                         MaterialPageRoute(
                                           builder: (context) =>
                                               ChatDetailsWidget(
+                                            postData: productRec,
                                             username: valueOrDefault<String>(
                                               listViewConversationsRecord
                                                   .userDetails!
@@ -378,8 +389,11 @@ class _ChatMainWidgetState extends State<ChatMainWidget> {
                                                                           0.0,
                                                                           2.0),
                                                               child: Text(
-                                                                listViewConversationsRecord
-                                                                    .productName!,
+                                                                "${currentUserUid == listViewConversationsRecord.lastMessageBy ? "You: " : ""}${listViewConversationsRecord.lastMessage ?? ""}",
+                                                                maxLines: 2,
+                                                                overflow:
+                                                                    TextOverflow
+                                                                        .ellipsis,
                                                                 style: FlutterFlowTheme.of(
                                                                         context)
                                                                     .bodyMedium
@@ -403,7 +417,12 @@ class _ChatMainWidgetState extends State<ChatMainWidget> {
                                                                           0.0,
                                                                           4.0),
                                                               child: Text(
-                                                                '${listViewConversationsRecord.lastMessageAt?.toString()}',
+                                                                listViewConversationsRecord.lastMessageAt ==
+                                                                            null ||
+                                                                        listViewConversationsRecord.lastMessageAt ==
+                                                                            0
+                                                                    ? ""
+                                                                    : '${dateTimeFormat('jm', DateTime.fromMillisecondsSinceEpoch(listViewConversationsRecord.lastMessageAt!))} ${dateTimeFormat('yMMMd', DateTime.fromMillisecondsSinceEpoch(listViewConversationsRecord.lastMessageAt!))}',
                                                                 style: FlutterFlowTheme.of(
                                                                         context)
                                                                     .bodyMedium
@@ -476,12 +495,10 @@ class _ChatMainWidgetState extends State<ChatMainWidget> {
                                 );
                               }
 
-                              if(snapshot.data!.isEmpty){
+                              if (snapshot.data!.isEmpty) {
                                 return Center(
                                   child: SizedBox(
-                                    child: Text(
-                                      "No Data Found"
-                                    ),
+                                    child: Text("No Data Found"),
                                   ),
                                 );
                               }
@@ -499,7 +516,8 @@ class _ChatMainWidgetState extends State<ChatMainWidget> {
                                           listViewIndex];
                                   return InkWell(
                                     onTap: () async {
-                                      print(listViewNotificationsRecord.postData!.id);
+                                      print(listViewNotificationsRecord
+                                          .postData!.id);
 
                                       final postData =
                                           await PostsRecord.getDocumentOnce(

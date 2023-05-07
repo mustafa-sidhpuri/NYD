@@ -9,7 +9,7 @@ import '/backend/backend.dart';
 // Begin custom action code
 // DO NOT REMOVE OR MODIFY THE CODE ABOVE!
 
-Future<DocumentReference?> getConversationData(String productId) async {
+Future<ConversationsRecord?> getConversationData(String productId) async {
   CollectionReference _collectionRef =
       FirebaseFirestore.instance.collection('conversations');
 
@@ -21,13 +21,16 @@ Future<DocumentReference?> getConversationData(String productId) async {
       .where("users", arrayContains: currentUser?.uid)
       .get();
   if (querySnapshot.size <= 0) {
-    log("null");
+    
     return null;
   }
   // Get data from docs and convert map to List
-  final allData = querySnapshot.docs[0];
-  log(allData.data().toString(), name: "Conversations");
-  return querySnapshot.docs[0].reference;
+  final conversation = querySnapshot.docs[0];
+  Map<String, dynamic> conversationMap = conversation.data() as Map<String,dynamic>;
+  // log(allData.data().toString(), name: "Conversations");
+  return ConversationsRecord.getDocumentFromData(
+      conversationMap, conversation.reference);
+  
 }
 // Set your action name, define your arguments and return parameter,
 // and then add the boilerplate code using the button on the right!

@@ -1,12 +1,12 @@
+import 'package:n_y_d_app/main.dart';
+
 import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
 import '/components/chat_list_item_widget.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'chat_details_model.dart';
 export 'chat_details_model.dart';
@@ -14,6 +14,7 @@ export 'chat_details_model.dart';
 class ChatDetailsWidget extends StatefulWidget {
   const ChatDetailsWidget({
     Key? key,
+    this.postData,
     this.username,
     this.productname,
     this.profileimage,
@@ -28,6 +29,7 @@ class ChatDetailsWidget extends StatefulWidget {
   final String? profileimage;
   final String? productimage;
   final String? productlocation;
+  final PostsRecord? postData;
   final DocumentReference? userRef;
   final ConversationsRecord? conversationsDoc;
 
@@ -139,19 +141,19 @@ class _ChatDetailsWidgetState extends State<ChatDetailsWidget> {
                         ),
                         builder: (context, snapshot) {
                           // Customize what your widget looks like when it's loading.
-                          if (!snapshot.hasData) {
-                            return Center(
-                              child: SizedBox(
-                                width: 50.0,
-                                height: 50.0,
-                                child: CircularProgressIndicator(
-                                  color: FlutterFlowTheme.of(context).primary,
-                                ),
-                              ),
-                            );
-                          }
+                          // if (!snapshot.hasData) {
+                          //   return Center(
+                          //     child: SizedBox(
+                          //       width: 50.0,
+                          //       height: 50.0,
+                          //       child: CircularProgressIndicator(
+                          //         color: FlutterFlowTheme.of(context).primary,
+                          //       ),
+                          //     ),
+                          //   );
+                          // }
                           List<ChatsRecord> listViewChatsRecordList =
-                              snapshot.data!;
+                              snapshot.data ?? [];
                           return ListView.builder(
                             padding: EdgeInsets.zero,
                             shrinkWrap: true,
@@ -163,8 +165,8 @@ class _ChatDetailsWidgetState extends State<ChatDetailsWidget> {
                               return Column(
                                 mainAxisSize: MainAxisSize.max,
                                 children: [
-                                  if (
-                                      (listViewChatsRecord.createdBy != currentUserUid)&&
+                                  if ((listViewChatsRecord.createdBy !=
+                                          currentUserUid) &&
                                       (listViewChatsRecord.message != null &&
                                           listViewChatsRecord.message != ''))
                                     Column(
@@ -179,7 +181,8 @@ class _ChatDetailsWidgetState extends State<ChatDetailsWidget> {
                                               EdgeInsetsDirectional.fromSTEB(
                                                   0.0, 5.0, 0.0, 5.0),
                                           child: Text(
-                                            listViewChatsRecord.createdAt!,
+                                            //7:00 PM Apr 20
+                                            '${dateTimeFormat('jm', DateTime.tryParse(listViewChatsRecord.createdAt!))} ${dateTimeFormat('MMMd', DateTime.tryParse(listViewChatsRecord.createdAt!))}',
                                             style: FlutterFlowTheme.of(context)
                                                 .bodyMedium
                                                 .override(
@@ -226,9 +229,8 @@ class _ChatDetailsWidgetState extends State<ChatDetailsWidget> {
                                         ),
                                       ],
                                     ),
-
-                                  if (
-                                      (listViewChatsRecord.createdBy == currentUserUid)&&
+                                  if ((listViewChatsRecord.createdBy ==
+                                          currentUserUid) &&
                                       (listViewChatsRecord.message != null &&
                                           listViewChatsRecord.message != ''))
                                     Column(
@@ -242,7 +244,7 @@ class _ChatDetailsWidgetState extends State<ChatDetailsWidget> {
                                               EdgeInsetsDirectional.fromSTEB(
                                                   0.0, 5.0, 0.0, 5.0),
                                           child: Text(
-                                            listViewChatsRecord.createdAt!,
+                                            '${dateTimeFormat('jm', DateTime.tryParse(listViewChatsRecord.createdAt!))} ${dateTimeFormat('MMMd', DateTime.tryParse(listViewChatsRecord.createdAt!))}',
                                             style: FlutterFlowTheme.of(context)
                                                 .bodyMedium
                                                 .override(
@@ -320,21 +322,66 @@ class _ChatDetailsWidgetState extends State<ChatDetailsWidget> {
                   Row(
                     mainAxisSize: MainAxisSize.max,
                     children: [
-                      Container(
-                        width: 43.0,
-                        height: 43.0,
-                        decoration: BoxDecoration(
-                          color: FlutterFlowTheme.of(context).primary,
-                          shape: BoxShape.circle,
-                        ),
-                        child: Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(
-                              10.0, 10.0, 10.0, 10.0),
-                          child: SvgPicture.asset(
-                            'assets/images/Group_17.svg',
-                            width: 24.0,
-                            height: 24.0,
-                            fit: BoxFit.cover,
+                      Visibility(
+                        visible: currentUserUid == widget.postData!.postedBy,
+                        child: InkWell(
+                          onTap: () async {
+                            if (widget.postData?.public == true) {
+                              final postsUpdateData = createPostsRecordData(
+                                pickup: createPickupStruct(
+                                  userId: widget.postData?.postedBy,
+                                  userName: widget.postData?.postedByName,
+                                  userImage: widget.postData?.postedByName,
+                                  pickupTime: getCurrentTimestamp,
+                                  clearUnsetFields: false,
+                                ),
+                                isPickedUp: true,
+                                public: false,
+                              );
+                              await widget.postData!.reference
+                                  .update(postsUpdateData);
+                              await Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      NavBarPage(initialPage: 'sellingPage'),
+                                ),
+                              );
+                            } else {
+                              ScaffoldMessenger.of(context).clearSnackBars();
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(
+                                    'Product is not in List',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 14,
+                                    ),
+                                  ),
+                                  duration: Duration(milliseconds: 4000),
+                                  backgroundColor:
+                                      FlutterFlowTheme.of(context).primary,
+                                ),
+                              );
+                            }
+                          },
+                          child: Container(
+                            width: 43.0,
+                            height: 43.0,
+                            decoration: BoxDecoration(
+                              color: FlutterFlowTheme.of(context).primary,
+                              shape: BoxShape.circle,
+                            ),
+                            child: Padding(
+                              padding: EdgeInsetsDirectional.fromSTEB(
+                                  10.0, 10.0, 10.0, 10.0),
+                              child: SvgPicture.asset(
+                                'assets/images/Group_17.svg',
+                                width: 24.0,
+                                height: 24.0,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
                           ),
                         ),
                       ),
@@ -431,8 +478,7 @@ class _ChatDetailsWidgetState extends State<ChatDetailsWidget> {
                                     hoverColor: Colors.transparent,
                                     highlightColor: Colors.transparent,
                                     onTap: () async {
-                                      if (_model.textController.text != null &&
-                                          _model.textController.text != '') {
+                                      if (_model.textController.text != '') {
                                         //print(currentUserUid);
                                         final chatsCreateData =
                                             createChatsRecordData(
@@ -441,6 +487,14 @@ class _ChatDetailsWidgetState extends State<ChatDetailsWidget> {
                                               getCurrentTimestamp.toString(),
                                           message: _model.textController.text,
                                         );
+                                        await widget.conversationsDoc!.ffRef!
+                                            .update({
+                                          "last_message_at": DateTime.now()
+                                              .millisecondsSinceEpoch,
+                                          "last_message_by": currentUserUid,
+                                          "last_message":
+                                              _model.textController.text
+                                        });
                                         await ChatsRecord.createDoc(widget
                                                 .conversationsDoc!.reference)
                                             .set(chatsCreateData);

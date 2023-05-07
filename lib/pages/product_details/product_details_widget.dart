@@ -1,5 +1,3 @@
-import 'package:n_y_d_app/flutter_flow/custom_functions.dart' as function;
-
 import '../../components/cached_network_image.dart';
 import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
@@ -11,7 +9,6 @@ import '/pages/product_edit/product_edit_widget.dart';
 import '/custom_code/actions/index.dart' as actions;
 import 'package:smooth_page_indicator/smooth_page_indicator.dart'
     as smooth_page_indicator;
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
@@ -196,14 +193,13 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                                           final productImagesItem =
                                               productImages[productImagesIndex];
                                           return ClipRRect(
-                                            borderRadius:
-                                                BorderRadius.circular(12.0),
-                                            child:  CachedNetworkImageWidget(
-                                              image: productImagesItem,
-                                              width: 100.0,
-                                              height: 100.0,
-                                            )
-                                          );
+                                              borderRadius:
+                                                  BorderRadius.circular(12.0),
+                                              child: CachedNetworkImageWidget(
+                                                image: productImagesItem,
+                                                width: 100.0,
+                                                height: 100.0,
+                                              ));
                                         },
                                       ),
                                     ),
@@ -351,7 +347,7 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                               shape: BoxShape.circle,
                             ),
                             child: CachedNetworkImageWidget(
-                              image:  widget.productData!.postedByProfile!,
+                              image: widget.productData!.postedByProfile!,
                             ),
                           ),
                         ),
@@ -500,51 +496,59 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                                 // Added action that will return conversation refrence if there, else
                                 // we have to create a conversation.
                                 // TODO: Riddhi
-                                DocumentReference? convRef = await actions
+                                ConversationsRecord? convRef = await actions
                                     .getConversationData(widget.productId!.id);
+                                if (convRef == null) {
+                                  await actions.storeChatUsers(
+                                    currentUserUid,
+                                    widget.productData!.postedBy!,
+                                  );
 
-                                await actions.storeChatUsers(
-                                  currentUserUid,
-                                  widget.productData!.postedBy!,
-                                );
+                                  final conversationsCreateData = {
+                                    ...createConversationsRecordData(
+                                      productName: widget.productData!.name,
+                                      productImage: widget.productData!.images!
+                                          .toList()
+                                          .first,
+                                      productId:
+                                          widget.productData!.reference.id,
+                                      postedByRefrence:
+                                          widget.productData!.userRef,
+                                      postedByLocation:
+                                          widget.productData!.address,
+                                    ),
+                                    'users': FFAppState().chatUsers,
+                                    'user_details': [
+                                      {
+                                        "user_id": currentUserUid,
+                                        "user_image": currentUserPhoto,
+                                        "user_name": currentUserDisplayName,
+                                      },
+                                      {
+                                        "user_id":
+                                            widget.productData!.postedBy!,
+                                        "user_image": widget
+                                            .productData!.postedByProfile!,
+                                        "user_name":
+                                            widget.productData!.postedByName!,
+                                      }
+                                    ]
+                                    // function.getUserDetailList(
+                                    //   currentUserUid,
+                                    //   currentUserPhoto,
+                                    //   currentUserDisplayName,
+                                    //   widget.productData!.postedBy!,
+                                    //   widget.productData!.postedByProfile!,
+                                    //   widget.productData!.postedByName!,
+                                    // ),
+                                  };
 
-                                final conversationsCreateData = {
-                                  ...createConversationsRecordData(
-                                    productName: widget.productData!.name,
-                                    productImage: widget.productData!.images!
-                                        .toList()
-                                        .first,
-                                    productId: widget.productData!.reference.id,
-                                    postedByRefrence:widget.productData!.userRef,
-                                    postedByLocation:  widget.productData!.address,
-                                  ),
-                                  'users': FFAppState().chatUsers,
-                                  'user_details':
-                                      [
-                                        {
-                                          "user_id": currentUserUid,
-                                          "user_image":currentUserPhoto,
-                                          "user_name":currentUserDisplayName,
-                                        },
-                                        {
-                                          "user_id": widget.productData!.postedBy!,
-                                          "user_image":widget.productData!.postedByProfile!,
-                                          "user_name":widget.productData!.postedByName!,
-                                        }
-                                      ]
-                                  // function.getUserDetailList(
-                                  //   currentUserUid,
-                                  //   currentUserPhoto,
-                                  //   currentUserDisplayName,
-                                  //   widget.productData!.postedBy!,
-                                  //   widget.productData!.postedByProfile!,
-                                  //   widget.productData!.postedByName!,
-                                  // ),
-                                };
-
-                                await ConversationsRecord.collection
-                                    .doc()
-                                    .set(conversationsCreateData);
+                                  await ConversationsRecord.collection
+                                      .doc()
+                                      .set(conversationsCreateData);
+                                  convRef = await actions.getConversationData(
+                                      widget.productId!.id);
+                                }
                                 await Navigator.push(
                                   context,
                                   PageTransition(
@@ -552,6 +556,7 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                                     duration: Duration(milliseconds: 0),
                                     reverseDuration: Duration(milliseconds: 0),
                                     child: ChatDetailsWidget(
+                                      postData: widget.productData,
                                       username:
                                           widget.productData!.postedByName,
                                       productname: widget.productData!.name,
@@ -560,7 +565,9 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                                       productimage: widget.productData!.images!
                                           .toList()
                                           .first,
-                                      productlocation: widget.productData!.address,
+                                      conversationsDoc: convRef,
+                                      productlocation:
+                                          widget.productData!.address,
                                       userRef: widget.productData!.userRef,
                                     ),
                                   ),
