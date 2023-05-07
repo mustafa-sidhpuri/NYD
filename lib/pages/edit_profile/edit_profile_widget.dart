@@ -220,6 +220,11 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
                             showUploadMessage(context, 'Failed to upload data');
                             return;
                           }
+                          final usersUpdateData = createUsersRecordData(
+                            photoUrl: _model.uploadedFileUrl,
+                          );
+                          await editProfileUsersRecord.reference
+                              .update(usersUpdateData);
                         }
                       },
                       child: Container(

@@ -149,6 +149,7 @@ class _AddProductWidgetState extends State<AddProductWidget> {
                         ));
                       });
                     } else {
+                      LoadingOverlay.hide();
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
                           content: Text(
