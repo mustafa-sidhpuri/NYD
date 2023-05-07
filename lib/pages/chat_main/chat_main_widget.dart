@@ -596,7 +596,9 @@ class _ChatMainWidgetState extends State<ChatMainWidget> {
                                                   ),
                                                   child:
                                                       CachedNetworkImageWidget(
-                                                    image: "Profile",
+                                                    image:
+                                                        listViewNotificationsRecord
+                                                            .userProfile,
                                                   )),
                                             ),
                                           ),
