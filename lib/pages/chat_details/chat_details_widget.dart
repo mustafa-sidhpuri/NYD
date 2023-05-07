@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:n_y_d_app/main.dart';
 
 import '/auth/firebase_auth/auth_util.dart';
@@ -162,48 +164,111 @@ class _ChatDetailsWidgetState extends State<ChatDetailsWidget> {
                             itemBuilder: (context, listViewIndex) {
                               final listViewChatsRecord =
                                   listViewChatsRecordList[listViewIndex];
-                              return Column(
-                                mainAxisSize: MainAxisSize.max,
-                                children: [
-                                  if ((listViewChatsRecord.createdBy !=
-                                          currentUserUid) &&
-                                      (listViewChatsRecord.message != null &&
-                                          listViewChatsRecord.message != ''))
-                                    Column(
-                                      mainAxisSize: MainAxisSize.max,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Padding(
-                                          padding:
-                                              EdgeInsetsDirectional.fromSTEB(
-                                                  0.0, 5.0, 0.0, 5.0),
-                                          child: Text(
-                                            //7:00 PM Apr 20
-                                            '${dateTimeFormat('jm', DateTime.tryParse(listViewChatsRecord.createdAt!))} ${dateTimeFormat('MMMd', DateTime.tryParse(listViewChatsRecord.createdAt!))}',
-                                            style: FlutterFlowTheme.of(context)
-                                                .bodyMedium
-                                                .override(
-                                                  fontFamily: 'Roboto',
-                                                  color: Color(0xFF757575),
-                                                  fontSize: 12.0,
-                                                  fontWeight: FontWeight.normal,
-                                                ),
-                                          ),
+                              log((listViewChatsRecord.createdBy !=
+                                      currentUserUid)
+                                  .toString());
+                              log(listViewChatsRecord.createdBy ?? "",
+                                  name: "User id");
+                              return Visibility(
+                                  visible: listViewChatsRecord.createdBy !=
+                                      currentUserUid,
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.max,
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Padding(
+                                        padding: EdgeInsetsDirectional.fromSTEB(
+                                            0.0, 5.0, 0.0, 5.0),
+                                        child: Text(
+                                          //7:00 PM Apr 20
+                                          '${dateTimeFormat('jm', DateTime.tryParse(listViewChatsRecord.createdAt!))} ${dateTimeFormat('MMMd', DateTime.tryParse(listViewChatsRecord.createdAt!))}',
+                                          style: FlutterFlowTheme.of(context)
+                                              .bodyMedium
+                                              .override(
+                                                fontFamily: 'Roboto',
+                                                color: Color(0xFF757575),
+                                                fontSize: 12.0,
+                                                fontWeight: FontWeight.normal,
+                                              ),
                                         ),
-                                        Row(
-                                          mainAxisSize: MainAxisSize.max,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          children: [
-                                            Container(
+                                      ),
+                                      Row(
+                                        mainAxisSize: MainAxisSize.max,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        children: [
+                                          Container(
+                                            constraints: BoxConstraints(
+                                              maxWidth: 260.0,
+                                            ),
+                                            decoration: BoxDecoration(
+                                              color: Color(0xFFE6E6E6),
+                                              borderRadius:
+                                                  BorderRadius.circular(8.0),
+                                            ),
+                                            child: Padding(
+                                              padding: EdgeInsetsDirectional
+                                                  .fromSTEB(8.0, 8.0, 8.0, 8.0),
+                                              child: Text(
+                                                listViewChatsRecord.message ??
+                                                    "",
+                                                style:
+                                                    FlutterFlowTheme.of(context)
+                                                        .bodyMedium
+                                                        .override(
+                                                          fontFamily: 'Roboto',
+                                                          fontSize: 15.0,
+                                                          fontWeight:
+                                                              FontWeight.normal,
+                                                        ),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                  replacement: Column(
+                                    mainAxisSize: MainAxisSize.max,
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    children: [
+                                      Padding(
+                                        padding: EdgeInsetsDirectional.fromSTEB(
+                                            0.0, 5.0, 0.0, 5.0),
+                                        child: Text(
+                                          '${dateTimeFormat('jm', DateTime.tryParse(listViewChatsRecord.createdAt!))} ${dateTimeFormat('MMMd', DateTime.tryParse(listViewChatsRecord.createdAt!))}',
+                                          style: FlutterFlowTheme.of(context)
+                                              .bodyMedium
+                                              .override(
+                                                fontFamily: 'Roboto',
+                                                color: Color(0xFF757575),
+                                                fontSize: 12.0,
+                                                fontWeight: FontWeight.normal,
+                                              ),
+                                        ),
+                                      ),
+                                      Row(
+                                        mainAxisSize: MainAxisSize.max,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.end,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: [
+                                          Padding(
+                                            padding:
+                                                EdgeInsetsDirectional.fromSTEB(
+                                                    50.0, 0.0, 0.0, 0.0),
+                                            child: Container(
                                               constraints: BoxConstraints(
                                                 maxWidth: 260.0,
                                               ),
                                               decoration: BoxDecoration(
-                                                color: Color(0xFFE6E6E6),
+                                                color:
+                                                    FlutterFlowTheme.of(context)
+                                                        .primary,
                                                 borderRadius:
                                                     BorderRadius.circular(8.0),
                                               ),
@@ -212,12 +277,14 @@ class _ChatDetailsWidgetState extends State<ChatDetailsWidget> {
                                                     .fromSTEB(
                                                         8.0, 8.0, 8.0, 8.0),
                                                 child: Text(
-                                                  listViewChatsRecord.message!,
+                                                  listViewChatsRecord.message ??
+                                                      "",
                                                   style: FlutterFlowTheme.of(
                                                           context)
                                                       .bodyMedium
                                                       .override(
                                                         fontFamily: 'Roboto',
+                                                        color: Colors.white,
                                                         fontSize: 15.0,
                                                         fontWeight:
                                                             FontWeight.normal,
@@ -225,86 +292,11 @@ class _ChatDetailsWidgetState extends State<ChatDetailsWidget> {
                                                 ),
                                               ),
                                             ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  if ((listViewChatsRecord.createdBy ==
-                                          currentUserUid) &&
-                                      (listViewChatsRecord.message != null &&
-                                          listViewChatsRecord.message != ''))
-                                    Column(
-                                      mainAxisSize: MainAxisSize.max,
-                                      mainAxisAlignment: MainAxisAlignment.end,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.end,
-                                      children: [
-                                        Padding(
-                                          padding:
-                                              EdgeInsetsDirectional.fromSTEB(
-                                                  0.0, 5.0, 0.0, 5.0),
-                                          child: Text(
-                                            '${dateTimeFormat('jm', DateTime.tryParse(listViewChatsRecord.createdAt!))} ${dateTimeFormat('MMMd', DateTime.tryParse(listViewChatsRecord.createdAt!))}',
-                                            style: FlutterFlowTheme.of(context)
-                                                .bodyMedium
-                                                .override(
-                                                  fontFamily: 'Roboto',
-                                                  color: Color(0xFF757575),
-                                                  fontSize: 12.0,
-                                                  fontWeight: FontWeight.normal,
-                                                ),
                                           ),
-                                        ),
-                                        Row(
-                                          mainAxisSize: MainAxisSize.max,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.end,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          children: [
-                                            Padding(
-                                              padding: EdgeInsetsDirectional
-                                                  .fromSTEB(
-                                                      50.0, 0.0, 0.0, 0.0),
-                                              child: Container(
-                                                constraints: BoxConstraints(
-                                                  maxWidth: 260.0,
-                                                ),
-                                                decoration: BoxDecoration(
-                                                  color: FlutterFlowTheme.of(
-                                                          context)
-                                                      .primary,
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          8.0),
-                                                ),
-                                                child: Padding(
-                                                  padding: EdgeInsetsDirectional
-                                                      .fromSTEB(
-                                                          8.0, 8.0, 8.0, 8.0),
-                                                  child: Text(
-                                                    listViewChatsRecord
-                                                        .message!,
-                                                    style: FlutterFlowTheme.of(
-                                                            context)
-                                                        .bodyMedium
-                                                        .override(
-                                                          fontFamily: 'Roboto',
-                                                          color: Colors.white,
-                                                          fontSize: 15.0,
-                                                          fontWeight:
-                                                              FontWeight.normal,
-                                                        ),
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                ],
-                              );
+                                        ],
+                                      ),
+                                    ],
+                                  ));
                             },
                           );
                         },
