@@ -548,9 +548,7 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                                       .set(conversationsCreateData);
 
                                   List<String> convIds = widget
-                                      .productData!.conversations!
-                                      .map((p0) => p0)
-                                      .toList();
+                                      .productData!.conversations?.map((p0) => p0).toList()??[];
                                   
                                   convRef = await actions.getConversationData(
                                       widget.productId!.id);
