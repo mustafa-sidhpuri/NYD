@@ -118,6 +118,7 @@ final pageBuilderMap = <String, Future<Widget> Function(Map<String, dynamic>)>{
         userRef: getParameter(data, 'userRef'),
         conversationsDoc: await getDocumentParameter(
             data, 'conversationsDoc', ConversationsRecord.serializer),
+        currentUserRef: getParameter(data, 'currentUserRef'),
       ),
   'productEdit': (data) async => ProductEditWidget(
         productData: await getDocumentParameter(

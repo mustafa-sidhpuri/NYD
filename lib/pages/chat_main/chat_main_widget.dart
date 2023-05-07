@@ -169,6 +169,8 @@ class _ChatMainWidgetState extends State<ChatMainWidget> {
                                                 .postedByRefrence,
                                             conversationsDoc:
                                                 listViewConversationsRecord,
+                                            currentUserRef:
+                                                currentUserReference!,
                                           ),
                                         ),
                                       );

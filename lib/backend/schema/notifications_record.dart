@@ -31,6 +31,9 @@ abstract class NotificationsRecord
   @BuiltValueField(wireName: 'users_id')
   BuiltList<String>? get usersId;
 
+  @BuiltValueField(wireName: 'user_profile')
+  String? get userProfile;
+
   @BuiltValueField(wireName: kDocumentReferenceField)
   DocumentReference? get ffRef;
   DocumentReference get reference => ffRef!;
@@ -41,7 +44,8 @@ abstract class NotificationsRecord
     ..postId = ''
     ..title = ''
     ..users = ListBuilder()
-    ..usersId = ListBuilder();
+    ..usersId = ListBuilder()
+    ..userProfile = '';
 
   static CollectionReference get collection =>
       FirebaseFirestore.instance.collection('notifications');
@@ -72,6 +76,7 @@ Map<String, dynamic> createNotificationsRecordData({
   String? postId,
   String? title,
   DocumentReference? postData,
+  String? userProfile,
 }) {
   final firestoreData = serializers.toFirestore(
     NotificationsRecord.serializer,
@@ -84,7 +89,8 @@ Map<String, dynamic> createNotificationsRecordData({
         ..title = title
         ..users = null
         ..postData = postData
-        ..usersId = null,
+        ..usersId = null
+        ..userProfile = userProfile,
     ),
   );
 

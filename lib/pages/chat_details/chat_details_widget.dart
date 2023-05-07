@@ -21,6 +21,7 @@ class ChatDetailsWidget extends StatefulWidget {
     this.productlocation,
     this.userRef,
     this.conversationsDoc,
+    required this.currentUserRef,
   }) : super(key: key);
 
   final String? username;
@@ -30,6 +31,7 @@ class ChatDetailsWidget extends StatefulWidget {
   final String? productlocation;
   final DocumentReference? userRef;
   final ConversationsRecord? conversationsDoc;
+  final DocumentReference? currentUserRef;
 
   @override
   _ChatDetailsWidgetState createState() => _ChatDetailsWidgetState();
@@ -163,8 +165,10 @@ class _ChatDetailsWidgetState extends State<ChatDetailsWidget> {
                               return Column(
                                 mainAxisSize: MainAxisSize.max,
                                 children: [
-                                  if ((widget.userRef !=
-                                          currentUserReference) &&
+                                  if ((widget.conversationsDoc!.users!
+                                              .toList()
+                                              .first !=
+                                          currentUserUid) &&
                                       (listViewChatsRecord.message != null &&
                                           listViewChatsRecord.message != ''))
                                     Column(
