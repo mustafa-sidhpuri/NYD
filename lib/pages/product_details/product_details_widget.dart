@@ -539,6 +539,7 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                                           .first,
                                       productlocation: FFAppState().setLocation,
                                       userRef: widget.productData!.userRef,
+                                      currentUserRef: currentUserReference!,
                                     ),
                                   ),
                                   (r) => false,
