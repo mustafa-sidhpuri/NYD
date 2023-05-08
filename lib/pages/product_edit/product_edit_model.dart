@@ -25,8 +25,8 @@ class ProductEditModel extends FlutterFlowModel {
   String? dropDownValue1;
   FormFieldController<String>? dropDownValueController1;
   // State field(s) for DropDown widget.
-  String? dropDownValue2;
-  FormFieldController<String>? dropDownValueController2;
+  TextEditingController? subCategoryController;
+  String? Function(BuildContext, String?)? subCategoryControllerValidator;
   // State field(s) for DropDown widget.
   String? dropDownValue3;
   FormFieldController<String>? dropDownValueController3;
@@ -37,6 +37,7 @@ class ProductEditModel extends FlutterFlowModel {
 
   void dispose() {
     textController1?.dispose();
+    subCategoryController?.dispose();
     textController2?.dispose();
   }
 

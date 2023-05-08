@@ -55,6 +55,12 @@ class _ProductEditWidgetState extends State<ProductEditWidget> {
       widget.productData!.description,
       'null',
     ));
+    _model.subCategoryController ??= TextEditingController(
+        text: valueOrDefault<String>(
+          widget.productData!.subCategory,
+          'null',
+        ));
+
   }
 
   @override
@@ -113,56 +119,79 @@ class _ProductEditWidgetState extends State<ProductEditWidget> {
                           hoverColor: Colors.transparent,
                           highlightColor: Colors.transparent,
                           onTap: () async {
-                            currentUserLocationValue =
-                                await getCurrentUserLocation(
-                                    defaultLocation: LatLng(0.0, 0.0));
 
-                            final postsUpdateData = {
-                              ...createPostsRecordData(
-                                name: _model.textController1.text,
-                                description: _model.textController2.text,
-                                categoryId: '12345678',
-                                postType: _model.dropDownValue1,
-                                foodType: _model.dropDownValue3,
-                                updatedAt: getCurrentTimestamp,
-                                public: false,
-                                isPickedUp: false,
-                                subCategory: _model.dropDownValue2,
-                                latlong: currentUserLocationValue,
-                                address: FFAppState().setLocation,
-                                userRef: currentUserReference,
-                                postedBy: currentUserUid,
-                              ),
-                              'images': FFAppState().mediaUrl,
-                            };
-                            await widget.productData!.reference
-                                .update(postsUpdateData);
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text(
-                                  'Product Update SuccessFully',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                  ),
+                            if(_model.textController1.text.isNotEmpty&&
+                                _model.textController2.text.isNotEmpty&&
+                                _model.subCategoryController.text.isNotEmpty&&
+                                FFAppState().mediaUrl == 5
+                            ){
+
+                              currentUserLocationValue =
+                              await getCurrentUserLocation(
+                                  defaultLocation: LatLng(0.0, 0.0));
+
+                              final postsUpdateData = {
+                                ...createPostsRecordData(
+                                  name: _model.textController1.text,
+                                  description: _model.textController2.text,
+                                  categoryId: '12345678',
+                                  postType: _model.dropDownValue1,
+                                  foodType: _model.dropDownValue3,
+                                  updatedAt: getCurrentTimestamp,
+                                  public: false,
+                                  isPickedUp: false,
+                                  subCategory: _model.subCategoryController.text,
+                                  latlong: currentUserLocationValue,
+                                  address: FFAppState().setLocation,
+                                  userRef: currentUserReference,
+                                  postedBy: currentUserUid,
                                 ),
-                                duration: Duration(milliseconds: 4000),
-                                backgroundColor:
-                                    FlutterFlowTheme.of(context).primary,
-                              ),
-                            );
-                            FFAppState().update(() {
-                              FFAppState().mediaUrl = [];
-                            });
-                            await Navigator.pushAndRemoveUntil(
-                              context,
-                              PageTransition(
-                                type: PageTransitionType.fade,
-                                duration: Duration(milliseconds: 0),
-                                reverseDuration: Duration(milliseconds: 0),
-                                child: NavBarPage(initialPage: 'homePage'),
-                              ),
-                              (r) => false,
-                            );
+                                'images': FFAppState().mediaUrl,
+                              };
+                              await widget.productData!.reference
+                                  .update(postsUpdateData);
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(
+                                    'Product Update SuccessFully',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                  duration: Duration(milliseconds: 4000),
+                                  backgroundColor:
+                                  FlutterFlowTheme.of(context).primary,
+                                ),
+                              );
+                              FFAppState().update(() {
+                                FFAppState().mediaUrl = [];
+                              });
+                              await Navigator.pushAndRemoveUntil(
+                                context,
+                                PageTransition(
+                                  type: PageTransitionType.fade,
+                                  duration: Duration(milliseconds: 0),
+                                  reverseDuration: Duration(milliseconds: 0),
+                                  child: NavBarPage(initialPage: 'homePage'),
+                                ),
+                                    (r) => false,
+                              );
+                            }else{
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(
+                                    'Product Details cant be empty',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                  duration: Duration(milliseconds: 4000),
+                                  backgroundColor:
+                                  FlutterFlowTheme.of(context).primary,
+                                ),
+                              );
+                            }
+
                           },
                           child: Text(
                             'Save',
@@ -353,25 +382,7 @@ class _ProductEditWidgetState extends State<ProductEditWidget> {
                             },
                           ),
                         ),
-                        if (widget.productData!.images!.toList().length == 0)
-                          Padding(
-                            padding: EdgeInsetsDirectional.fromSTEB(
-                                0.0, 40.0, 0.0, 0.0),
-                            child: Container(
-                              width: 100.0,
-                              height: 85.0,
-                              decoration: BoxDecoration(
-                                color: FlutterFlowTheme.of(context).tertiary,
-                                image: DecorationImage(
-                                  fit: BoxFit.cover,
-                                  image: Image.network(
-                                    'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/sample-app-property-finder-834ebu/assets/lhbo8hbkycdw/addCoverImage@2x.png',
-                                  ).image,
-                                ),
-                                borderRadius: BorderRadius.circular(12.0),
-                              ),
-                            ),
-                          ),
+
                       ],
                     ),
                   ),
@@ -509,7 +520,7 @@ class _ProductEditWidgetState extends State<ProductEditWidget> {
                     padding:
                         EdgeInsetsDirectional.fromSTEB(0.0, 26.0, 0.0, 0.0),
                     child: Text(
-                      'Category',
+                      'Offer',
                       style: FlutterFlowTheme.of(context).labelMedium.override(
                             fontFamily: 'Roboto',
                             color: Color(0xFF7D8180),
@@ -562,41 +573,69 @@ class _ProductEditWidgetState extends State<ProductEditWidget> {
                           ),
                     ),
                   ),
-                  FlutterFlowDropDown<String>(
-                    controller: _model.dropDownValueController2 ??=
-                        FormFieldController<String>(
-                      _model.dropDownValue2 ??= valueOrDefault<String>(
-                        widget.productData!.subCategory,
-                        'null',
+                  Padding(
+                    padding: EdgeInsetsDirectional.fromSTEB(10.0, 0.0, 10.0, 0.0),
+                    child: TextFormField(
+                      controller: _model.subCategoryController,
+                      obscureText: false,
+                      decoration: InputDecoration(
+                        hintText: 'Add Sub-Category',
+                        hintStyle:
+                        FlutterFlowTheme.of(context).bodySmall.override(
+                          fontFamily: 'Roboto',
+                          fontSize: 14.0,
+                          fontWeight: FontWeight.w500,
+                        ),
+                        enabledBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Color(0xFF000000).withOpacity(0.1),
+                            width: 1.0,
+                          ),
+                          borderRadius: const BorderRadius.only(
+                            topLeft: Radius.circular(4.0),
+                            topRight: Radius.circular(4.0),
+                          ),
+                        ),
+                        focusedBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Color(0xFF000000).withOpacity(0.1),
+                            width: 1.0,
+                          ),
+                          borderRadius: const BorderRadius.only(
+                            topLeft: Radius.circular(4.0),
+                            topRight: Radius.circular(4.0),
+                          ),
+                        ),
+                        errorBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Color(0x00000000),
+                            width: 1.0,
+                          ),
+                          borderRadius: const BorderRadius.only(
+                            topLeft: Radius.circular(4.0),
+                            topRight: Radius.circular(4.0),
+                          ),
+                        ),
+                        focusedErrorBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Color(0x00000000),
+                            width: 1.0,
+                          ),
+                          borderRadius: const BorderRadius.only(
+                            topLeft: Radius.circular(4.0),
+                            topRight: Radius.circular(4.0),
+                          ),
+                        ),
                       ),
+                      style: FlutterFlowTheme.of(context).bodyMedium.override(
+                        fontFamily: 'Roboto',
+                        fontSize: 14.0,
+                      ),
+                      validator: _model.subCategoryControllerValidator
+                          .asValidator(context),
                     ),
-                    options: ['Raw', 'Backed'],
-                    optionLabels: ['Raw', 'Backed'],
-                    onChanged: (val) =>
-                        setState(() => _model.dropDownValue2 = val),
-                    height: 50.0,
-                    searchHintTextStyle:
-                        FlutterFlowTheme.of(context).bodyLarge.override(
-                              fontFamily: 'Roboto',
-                              color: FlutterFlowTheme.of(context).secondaryText,
-                            ),
-                    textStyle: FlutterFlowTheme.of(context).bodyMedium,
-                    hintText: 'Raw/Baked',
-                    searchHintText: 'Search for an item...',
-                    icon: Icon(
-                      Icons.keyboard_arrow_down,
-                      color: Colors.black,
-                      size: 22.0,
-                    ),
-                    fillColor: FlutterFlowTheme.of(context).secondaryBackground,
-                    elevation: 2.0,
-                    borderColor: Colors.transparent,
-                    borderWidth: 0.0,
-                    borderRadius: 0.0,
-                    margin:
-                        EdgeInsetsDirectional.fromSTEB(12.0, 4.0, 12.0, 4.0),
-                    isSearchable: false,
                   ),
+                
                   Padding(
                     padding:
                         EdgeInsetsDirectional.fromSTEB(0.0, 26.0, 0.0, 0.0),
@@ -685,7 +724,7 @@ class _ProductEditWidgetState extends State<ProductEditWidget> {
                       children: [
                         Divider(
                           thickness: 1.0,
-                          color: FlutterFlowTheme.of(context).secondaryText,
+                          color: Colors.black.withOpacity(0.1),
                         ),
                       ],
                     ),

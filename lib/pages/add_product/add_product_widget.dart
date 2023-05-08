@@ -85,83 +85,101 @@ class _AddProductWidgetState extends State<AddProductWidget> {
                   hoverColor: Colors.transparent,
                   highlightColor: Colors.transparent,
                   onTap: () async {
-                    _model.uploadedFileUrl = "";
-                    final selectedMedia =
-                        await selectMediaWithSourceBottomSheet(
-                      context: context,
-                      allowPhoto: true,
-                      backgroundColor: FlutterFlowTheme.of(context).tertiary,
-                      textColor: Colors.black,
-                      pickerFontFamily: 'Lexend Deca',
-                    );
-                    LoadingOverlay.show(context);
-                    if (selectedMedia != null &&
-                        selectedMedia.every((m) =>
-                            validateFileFormat(m.storagePath, context))) {
-                      setState(() => _model.isDataUploading = true);
-                      var selectedUploadedFiles = <FFUploadedFile>[];
-                      var downloadUrls = <String>[];
-                      try {
-                        selectedUploadedFiles = selectedMedia
-                            .map((m) => FFUploadedFile(
-                                  name: m.storagePath.split('/').last,
-                                  bytes: m.bytes,
-                                  height: m.dimensions?.height,
-                                  width: m.dimensions?.width,
-                                  blurHash: m.blurHash,
-                                ))
-                            .toList();
+                   if(FFAppState().mediaUrl.length == 5){
 
-                        downloadUrls = (await Future.wait(
-                          selectedMedia.map(
-                            (m) async =>
-                                await uploadData(m.storagePath, m.bytes),
-                          ),
-                        ))
-                            .where((u) => u != null)
-                            .map((u) => u!)
-                            .toList();
-                      } finally {
-                        LoadingOverlay.hide();
-                        _model.isDataUploading = false;
-                      }
-                     LoadingOverlay.hide();
-                      if (selectedUploadedFiles.length ==
-                              selectedMedia.length &&
-                          downloadUrls.length == selectedMedia.length) {
-                        setState(() {
-                          _model.uploadedLocalFile =
-                              selectedUploadedFiles.first;
-                          _model.uploadedFileUrl = downloadUrls.first;
-                        });
-                      } else {
-                        setState(() {});
-                        return;
-                      }
-                    }
-                    if (_model.uploadedFileUrl != null &&
-                        _model.uploadedFileUrl != '') {
-                      setState(() {
-                        FFAppState().addToMediaUrl(valueOrDefault<String>(
-                          _model.uploadedFileUrl,
-                          'null',
-                        ));
-                      });
-                    } else {
-                      LoadingOverlay.hide();
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text(
-                            'please select atleast one image',
-                            style: TextStyle(
-                              color: FlutterFlowTheme.of(context).primaryText,
-                            ),
-                          ),
-                          duration: Duration(milliseconds: 4000),
-                          backgroundColor: FlutterFlowTheme.of(context).primary,
-                        ),
-                      );
-                    }
+                     ScaffoldMessenger.of(context).showSnackBar(
+                       SnackBar(
+                         content: Text(
+                           'Maximum 5 images select',
+                           style: TextStyle(
+                             color: Colors.white,
+                           ),
+                         ),
+                         duration: Duration(milliseconds: 4000),
+                         backgroundColor: FlutterFlowTheme.of(context).primary,
+                       ),
+                     );
+                   }
+                      else{
+                     _model.uploadedFileUrl = "";
+                     final selectedMedia =
+                     await selectMediaWithSourceBottomSheet(
+                       context: context,
+                       allowPhoto: true,
+                       backgroundColor: FlutterFlowTheme.of(context).tertiary,
+                       textColor: Colors.black,
+                       pickerFontFamily: 'Lexend Deca',
+                     );
+                     LoadingOverlay.show(context);
+                     if (selectedMedia != null &&
+                         selectedMedia.every((m) =>
+                             validateFileFormat(m.storagePath, context))) {
+                       setState(() => _model.isDataUploading = true);
+                       var selectedUploadedFiles = <FFUploadedFile>[];
+                       var downloadUrls = <String>[];
+                       try {
+                         selectedUploadedFiles = selectedMedia
+                             .map((m) => FFUploadedFile(
+                           name: m.storagePath.split('/').last,
+                           bytes: m.bytes,
+                           height: m.dimensions?.height,
+                           width: m.dimensions?.width,
+                           blurHash: m.blurHash,
+                         ))
+                             .toList();
+
+                         downloadUrls = (await Future.wait(
+                           selectedMedia.map(
+                                 (m) async =>
+                             await uploadData(m.storagePath, m.bytes),
+                           ),
+                         ))
+                             .where((u) => u != null)
+                             .map((u) => u!)
+                             .toList();
+                       } finally {
+                         LoadingOverlay.hide();
+                         _model.isDataUploading = false;
+                       }
+                       LoadingOverlay.hide();
+                       if (selectedUploadedFiles.length ==
+                           selectedMedia.length &&
+                           downloadUrls.length == selectedMedia.length) {
+                         setState(() {
+                           _model.uploadedLocalFile =
+                               selectedUploadedFiles.first;
+                           _model.uploadedFileUrl = downloadUrls.first;
+                         });
+                       } else {
+                         setState(() {});
+                         return;
+                       }
+                     }
+                     if (_model.uploadedFileUrl != null &&
+                         _model.uploadedFileUrl != '') {
+                       setState(() {
+                         FFAppState().addToMediaUrl(valueOrDefault<String>(
+                           _model.uploadedFileUrl,
+                           'null',
+                         ));
+                       });
+                     } else {
+                       LoadingOverlay.hide();
+                       ScaffoldMessenger.of(context).showSnackBar(
+                         SnackBar(
+                           content: Text(
+                             'please select atleast one image',
+                             style: TextStyle(
+                               color: Colors.white,
+                             ),
+                           ),
+                           duration: Duration(milliseconds: 4000),
+                           backgroundColor: FlutterFlowTheme.of(context).primary,
+                         ),
+                       );
+                     }
+                   }
+
                   },
                   child: Container(
                     decoration: BoxDecoration(
@@ -469,11 +487,50 @@ class _AddProductWidgetState extends State<AddProductWidget> {
                           hoverColor: Colors.transparent,
                           highlightColor: Colors.transparent,
                           onTap: () async {
+
+                            if((FFAppState().mediaUrl.length < 5)){
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(
+                                    'Maximum 5 images select',
+                                    style: FlutterFlowTheme.of(context)
+                                        .bodySmall
+                                        .override(
+                                      fontFamily: 'Roboto',
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                  duration: Duration(milliseconds: 4000),
+                                  backgroundColor:
+                                  FlutterFlowTheme.of(context).primary,
+                                ),
+                              );
+                            }
+                            if(_model.textController1.text.isEmpty  ||
+                                _model.textController2.text.isEmpty ){
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(
+                                    'Product Details cant be empty',
+                                    style: FlutterFlowTheme.of(context)
+                                        .bodySmall
+                                        .override(
+                                      fontFamily: 'Roboto',
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                  duration: Duration(milliseconds: 4000),
+                                  backgroundColor:
+                                  FlutterFlowTheme.of(context).primary,
+                                ),
+                              );
+                            }
                             if ((_model.textController1.text != null &&
                                     _model.textController1.text != '') &&
                                 (_model.textController2.text != null &&
-                                    _model.textController2.text != '') &&
-                                (FFAppState().mediaUrl.length > 0)) {
+                                    _model.textController2.text != '')
+                                && (FFAppState().mediaUrl.length == 5)
+                                ) {
                               await Navigator.push(
                                 context,
                                 MaterialPageRoute(
@@ -483,23 +540,6 @@ class _AddProductWidgetState extends State<AddProductWidget> {
                                         _model.textController2.text,
                                     images: FFAppState().mediaUrl.toList(),
                                   ),
-                                ),
-                              );
-                            } else {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text(
-                                    'Product Details cant be empty',
-                                    style: FlutterFlowTheme.of(context)
-                                        .bodySmall
-                                        .override(
-                                          fontFamily: 'Roboto',
-                                          color: Colors.white,
-                                        ),
-                                  ),
-                                  duration: Duration(milliseconds: 4000),
-                                  backgroundColor:
-                                      FlutterFlowTheme.of(context).primary,
                                 ),
                               );
                             }

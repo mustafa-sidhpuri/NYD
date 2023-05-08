@@ -16,12 +16,12 @@ class AddProductDetailModel extends FlutterFlowModel {
   // State field(s) for DropDown widget.
   String? dropDownValue1;
   FormFieldController<String>? dropDownValueController1;
+  // State field(s) for Sub-Category widget.
+  TextEditingController? subCategoryController;
+  String? Function(BuildContext, String?)? subCategoryControllerValidator;
   // State field(s) for DropDown widget.
   String? dropDownValue2;
   FormFieldController<String>? dropDownValueController2;
-  // State field(s) for DropDown widget.
-  String? dropDownValue3;
-  FormFieldController<String>? dropDownValueController3;
   // Stores action output result for [Backend Call - Create Document] action in Container widget.
   PostsRecord? postData;
 
@@ -29,8 +29,10 @@ class AddProductDetailModel extends FlutterFlowModel {
 
   void initState(BuildContext context) {}
 
-  void dispose() {}
+  void dispose() {
+    subCategoryController?.dispose();
+  }
 
-  /// Additional helper methods are added here.
+/// Additional helper methods are added here.
 
 }

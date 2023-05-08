@@ -1,5 +1,3 @@
-import 'package:n_y_d_app/components/LoadingWidget.dart';
-
 import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_drop_down.dart';
@@ -41,6 +39,8 @@ class _AddProductDetailWidgetState extends State<AddProductDetailWidget> {
   void initState() {
     super.initState();
     _model = createModel(context, () => AddProductDetailModel());
+
+    _model.subCategoryController ??= TextEditingController();
   }
 
   @override
@@ -90,7 +90,7 @@ class _AddProductDetailWidgetState extends State<AddProductDetailWidget> {
                       ),
                       Padding(
                         padding:
-                            EdgeInsetsDirectional.fromSTEB(72.0, 0.0, 0.0, 0.0),
+                        EdgeInsetsDirectional.fromSTEB(72.0, 0.0, 0.0, 0.0),
                         child: Text(
                           'Add Product Details',
                           style: FlutterFlowTheme.of(context).headlineSmall,
@@ -102,28 +102,28 @@ class _AddProductDetailWidgetState extends State<AddProductDetailWidget> {
                 Padding(
                   padding: EdgeInsetsDirectional.fromSTEB(0.0, 26.0, 0.0, 0.0),
                   child: Text(
-                    'Category',
+                    'Offer',
                     style: FlutterFlowTheme.of(context).labelMedium.override(
-                          fontFamily: 'Roboto',
-                          color: Color(0xFF7D8180),
-                        ),
+                      fontFamily: 'Roboto',
+                      color: Color(0xFF7D8180),
+                    ),
                   ),
                 ),
                 FlutterFlowDropDown<String>(
                   controller: _model.dropDownValueController1 ??=
                       FormFieldController<String>(
-                    _model.dropDownValue1 ??= '',
-                  ),
+                        _model.dropDownValue1 ??= '',
+                      ),
                   options: ['Free', 'Exchange'],
                   optionLabels: ['Free', 'Exchange'],
                   onChanged: (val) =>
                       setState(() => _model.dropDownValue1 = val),
                   height: 50.0,
                   searchHintTextStyle:
-                      FlutterFlowTheme.of(context).bodyLarge.override(
-                            fontFamily: 'Roboto',
-                            color: FlutterFlowTheme.of(context).secondaryText,
-                          ),
+                  FlutterFlowTheme.of(context).bodyLarge.override(
+                    fontFamily: 'Roboto',
+                    color: FlutterFlowTheme.of(context).secondaryText,
+                  ),
                   textStyle: FlutterFlowTheme.of(context).bodyMedium,
                   hintText: 'Add Category',
                   searchHintText: 'Search for an item...',
@@ -145,69 +145,100 @@ class _AddProductDetailWidgetState extends State<AddProductDetailWidget> {
                   child: Text(
                     'Sub-category',
                     style: FlutterFlowTheme.of(context).labelMedium.override(
-                          fontFamily: 'Roboto',
-                          color: Color(0xFF7D8180),
-                        ),
+                      fontFamily: 'Roboto',
+                      color: Color(0xFF7D8180),
+                    ),
                   ),
                 ),
-                FlutterFlowDropDown<String>(
-                  controller: _model.dropDownValueController2 ??=
-                      FormFieldController<String>(
-                    _model.dropDownValue2 ??= '',
+                Padding(
+                  padding: EdgeInsetsDirectional.fromSTEB(10.0, 0.0, 10.0, 0.0),
+                  child: TextFormField(
+                    controller: _model.subCategoryController,
+                    obscureText: false,
+                    decoration: InputDecoration(
+                      hintText: 'Add Sub-Category',
+                      hintStyle:
+                      FlutterFlowTheme.of(context).bodySmall.override(
+                        fontFamily: 'Roboto',
+                        fontSize: 14.0,
+                        fontWeight: FontWeight.w500,
+                      ),
+                      enabledBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Color(0xFF000000).withOpacity(0.1),
+                          width: 1.0,
+                        ),
+                        borderRadius: const BorderRadius.only(
+                          topLeft: Radius.circular(4.0),
+                          topRight: Radius.circular(4.0),
+                        ),
+                      ),
+                      focusedBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Color(0xFF000000).withOpacity(0.1),
+                          width: 1.0,
+                        ),
+                        borderRadius: const BorderRadius.only(
+                          topLeft: Radius.circular(4.0),
+                          topRight: Radius.circular(4.0),
+                        ),
+                      ),
+                      errorBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Color(0x00000000),
+                          width: 1.0,
+                        ),
+                        borderRadius: const BorderRadius.only(
+                          topLeft: Radius.circular(4.0),
+                          topRight: Radius.circular(4.0),
+                        ),
+                      ),
+                      focusedErrorBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Color(0x00000000),
+                          width: 1.0,
+                        ),
+                        borderRadius: const BorderRadius.only(
+                          topLeft: Radius.circular(4.0),
+                          topRight: Radius.circular(4.0),
+                        ),
+                      ),
+                    ),
+                    style: FlutterFlowTheme.of(context).bodyMedium.override(
+                      fontFamily: 'Roboto',
+                      fontSize: 14.0,
+                    ),
+                    validator: _model.subCategoryControllerValidator
+                        .asValidator(context),
                   ),
-                  options: ['Raw', 'Backed'],
-                  optionLabels: ['Raw', 'Backed'],
-                  onChanged: (val) =>
-                      setState(() => _model.dropDownValue2 = val),
-                  height: 50.0,
-                  searchHintTextStyle:
-                      FlutterFlowTheme.of(context).bodyLarge.override(
-                            fontFamily: 'Roboto',
-                            color: FlutterFlowTheme.of(context).secondaryText,
-                          ),
-                  textStyle: FlutterFlowTheme.of(context).bodyMedium,
-                  hintText: 'Raw/Baked',
-                  searchHintText: 'Search for an item...',
-                  icon: Icon(
-                    Icons.keyboard_arrow_down,
-                    color: Colors.black,
-                    size: 22.0,
-                  ),
-                  fillColor: FlutterFlowTheme.of(context).secondaryBackground,
-                  elevation: 2.0,
-                  borderColor: Colors.transparent,
-                  borderWidth: 0.0,
-                  borderRadius: 0.0,
-                  margin: EdgeInsetsDirectional.fromSTEB(12.0, 4.0, 12.0, 4.0),
-                  isSearchable: false,
                 ),
                 Padding(
                   padding: EdgeInsetsDirectional.fromSTEB(0.0, 26.0, 0.0, 0.0),
                   child: Text(
                     'Condition',
                     style: FlutterFlowTheme.of(context).labelMedium.override(
-                          fontFamily: 'Roboto',
-                          color: Color(0xFF7D8180),
-                        ),
+                      fontFamily: 'Roboto',
+                      color: Color(0xFF7D8180),
+                    ),
                   ),
                 ),
                 FlutterFlowDropDown<String>(
-                  controller: _model.dropDownValueController3 ??=
+                  controller: _model.dropDownValueController2 ??=
                       FormFieldController<String>(
-                    _model.dropDownValue3 ??= '',
-                  ),
+                        _model.dropDownValue2 ??= '',
+                      ),
                   options: ['Veg', 'Non-veg'],
-                  optionLabels: ['Veg', 'Non-veg'],
+                  optionLabels: ['Raw', 'Cooked'],
                   onChanged: (val) =>
-                      setState(() => _model.dropDownValue3 = val),
+                      setState(() => _model.dropDownValue2 = val),
                   height: 50.0,
                   searchHintTextStyle:
-                      FlutterFlowTheme.of(context).bodyLarge.override(
-                            fontFamily: 'Roboto',
-                            color: FlutterFlowTheme.of(context).secondaryText,
-                          ),
+                  FlutterFlowTheme.of(context).bodyLarge.override(
+                    fontFamily: 'Roboto',
+                    color: FlutterFlowTheme.of(context).secondaryText,
+                  ),
                   textStyle: FlutterFlowTheme.of(context).bodyMedium,
-                  hintText: 'Veg/Non-veg',
+                  hintText: 'Raw/Cooked',
                   searchHintText: 'Search for an item...',
                   icon: Icon(
                     Icons.keyboard_arrow_down,
@@ -227,9 +258,9 @@ class _AddProductDetailWidgetState extends State<AddProductDetailWidget> {
                   child: Text(
                     'Location',
                     style: FlutterFlowTheme.of(context).labelMedium.override(
-                          fontFamily: 'Roboto',
-                          color: Color(0xFF7D8180),
-                        ),
+                      fontFamily: 'Roboto',
+                      color: Color(0xFF7D8180),
+                    ),
                   ),
                 ),
                 Padding(
@@ -242,9 +273,9 @@ class _AddProductDetailWidgetState extends State<AddProductDetailWidget> {
                       Text(
                         FFAppState().setLocation,
                         style: FlutterFlowTheme.of(context).bodyMedium.override(
-                              fontFamily: 'Roboto',
-                              fontSize: 16.0,
-                            ),
+                          fontFamily: 'Roboto',
+                          fontSize: 16.0,
+                        ),
                       ),
                       Icon(
                         Icons.location_on_outlined,
@@ -261,7 +292,7 @@ class _AddProductDetailWidgetState extends State<AddProductDetailWidget> {
                     children: [
                       Divider(
                         thickness: 1.0,
-                        color: FlutterFlowTheme.of(context).secondaryText,
+                        color: Color(0xFF000000).withOpacity(0.1),
                       ),
                     ],
                   ),
@@ -269,7 +300,7 @@ class _AddProductDetailWidgetState extends State<AddProductDetailWidget> {
                 Expanded(
                   child: Padding(
                     padding:
-                        EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 30.0),
+                    EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 30.0),
                     child: Row(
                       mainAxisSize: MainAxisSize.max,
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -281,16 +312,15 @@ class _AddProductDetailWidgetState extends State<AddProductDetailWidget> {
                           hoverColor: Colors.transparent,
                           highlightColor: Colors.transparent,
                           onTap: () async {
-                            LoadingOverlay.show(context);
                             currentUserLocationValue =
-                                await getCurrentUserLocation(
-                                    defaultLocation: LatLng(0.0, 0.0));
+                            await getCurrentUserLocation(
+                                defaultLocation: LatLng(0.0, 0.0));
                             if ((_model.dropDownValue1 != null &&
-                                    _model.dropDownValue1 != '') &&
+                                _model.dropDownValue1 != '') &&
+                                (_model.subCategoryController.text != null &&
+                                    _model.subCategoryController.text != '') &&
                                 (_model.dropDownValue2 != null &&
-                                    _model.dropDownValue2 != '') &&
-                                (_model.dropDownValue3 != null &&
-                                    _model.dropDownValue3 != '')) {
+                                    _model.dropDownValue2 != '')) {
                               final postsCreateData = {
                                 ...createPostsRecordData(
                                   name: valueOrDefault<String>(
@@ -307,7 +337,7 @@ class _AddProductDetailWidgetState extends State<AddProductDetailWidget> {
                                     'Free',
                                   ),
                                   foodType: valueOrDefault<String>(
-                                    _model.dropDownValue3,
+                                    _model.dropDownValue2,
                                     'Veg',
                                   ),
                                   latlong: currentUserLocationValue,
@@ -316,10 +346,8 @@ class _AddProductDetailWidgetState extends State<AddProductDetailWidget> {
                                   updatedAt: getCurrentTimestamp,
                                   public: true,
                                   isPickedUp: false,
-                                  subCategory: valueOrDefault<String>(
-                                    _model.dropDownValue2,
-                                    'Raw',
-                                  ),
+                                  subCategory:
+                                  _model.subCategoryController.text,
                                   postedByName: currentUserDisplayName,
                                   postedByProfile: currentUserPhoto,
                                   userRef: currentUserReference,
@@ -328,7 +356,7 @@ class _AddProductDetailWidgetState extends State<AddProductDetailWidget> {
                                 'images': widget.images,
                               };
                               var postsRecordReference =
-                                  PostsRecord.collection.doc();
+                              PostsRecord.collection.doc();
                               await postsRecordReference.set(postsCreateData);
                               _model.postData = PostsRecord.getDocumentFromData(
                                   postsCreateData, postsRecordReference);
@@ -342,13 +370,12 @@ class _AddProductDetailWidgetState extends State<AddProductDetailWidget> {
                                   ),
                                   duration: Duration(milliseconds: 4000),
                                   backgroundColor:
-                                      FlutterFlowTheme.of(context).primary,
+                                  FlutterFlowTheme.of(context).primary,
                                 ),
                               );
                               FFAppState().update(() {
                                 FFAppState().mediaUrl = [];
                               });
-                              LoadingOverlay.hide();
                               await Navigator.pushAndRemoveUntil(
                                 context,
                                 PageTransition(
@@ -357,10 +384,9 @@ class _AddProductDetailWidgetState extends State<AddProductDetailWidget> {
                                   reverseDuration: Duration(milliseconds: 0),
                                   child: NavBarPage(initialPage: 'sellingPage'),
                                 ),
-                                (r) => false,
+                                    (r) => false,
                               );
                             } else {
-                              LoadingOverlay.hide();
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
                                   content: Text(
@@ -368,13 +394,13 @@ class _AddProductDetailWidgetState extends State<AddProductDetailWidget> {
                                     style: FlutterFlowTheme.of(context)
                                         .bodyMedium
                                         .override(
-                                          fontFamily: 'Roboto',
-                                          color: Colors.white,
-                                        ),
+                                      fontFamily: 'Roboto',
+                                      color: Colors.white,
+                                    ),
                                   ),
                                   duration: Duration(milliseconds: 4000),
                                   backgroundColor:
-                                      FlutterFlowTheme.of(context).primary,
+                                  FlutterFlowTheme.of(context).primary,
                                 ),
                               );
                             }
@@ -395,11 +421,11 @@ class _AddProductDetailWidgetState extends State<AddProductDetailWidget> {
                                 style: FlutterFlowTheme.of(context)
                                     .bodyMedium
                                     .override(
-                                      fontFamily: 'Roboto',
-                                      color: Colors.white,
-                                      fontSize: 16.0,
-                                      fontWeight: FontWeight.w600,
-                                    ),
+                                  fontFamily: 'Roboto',
+                                  color: Colors.white,
+                                  fontSize: 16.0,
+                                  fontWeight: FontWeight.w600,
+                                ),
                               ),
                             ),
                           ),
@@ -416,3 +442,4 @@ class _AddProductDetailWidgetState extends State<AddProductDetailWidget> {
     );
   }
 }
+
