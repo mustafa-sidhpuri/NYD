@@ -376,7 +376,7 @@ class _ProductEditWidgetState extends State<ProductEditWidget> {
                     ),
                   ),
                   Text(
-                    'Product Name',
+                    'Title',
                     style: FlutterFlowTheme.of(context).labelMedium.override(
                           fontFamily: 'Roboto',
                           color: Color(0xFF7D8180),
@@ -386,7 +386,7 @@ class _ProductEditWidgetState extends State<ProductEditWidget> {
                     controller: _model.textController1,
                     obscureText: false,
                     decoration: InputDecoration(
-                      hintText: 'Add Product Name',
+                      hintText: 'Add Title',
                       hintStyle:
                           FlutterFlowTheme.of(context).bodySmall.override(
                                 fontFamily: 'Roboto',

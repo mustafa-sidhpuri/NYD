@@ -55,23 +55,11 @@ class _SellingPageWidgetState extends State<SellingPageWidget> {
                 padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 12.0),
                 child: Row(
                   mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(
-                      Icons.arrow_back_ios,
-                      color: Colors.black,
-                      size: 24.0,
-                    ),
                     Text(
-                      'Selling',
+                      'Items',
                       style: FlutterFlowTheme.of(context).headlineSmall,
-                    ),
-                    Text(
-                      '.',
-                      style: FlutterFlowTheme.of(context).bodyMedium.override(
-                            fontFamily: 'Roboto',
-                            color: Colors.white,
-                          ),
                     ),
                   ],
                 ),
@@ -91,7 +79,7 @@ class _SellingPageWidgetState extends State<SellingPageWidget> {
                           indicatorColor: FlutterFlowTheme.of(context).primary,
                           tabs: [
                             Tab(
-                              text: 'For sale',
+                              text: 'For Sale',
                             ),
                             Tab(
                               text: 'Picked Up',

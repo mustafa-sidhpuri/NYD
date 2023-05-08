@@ -101,7 +101,6 @@ class _AddProductWidgetState extends State<AddProductWidget> {
                       setState(() => _model.isDataUploading = true);
                       var selectedUploadedFiles = <FFUploadedFile>[];
                       var downloadUrls = <String>[];
-                      print(";;;;;;;"+selectedMedia.toList().toString());
                       try {
                         selectedUploadedFiles = selectedMedia
                             .map((m) => FFUploadedFile(
@@ -321,7 +320,7 @@ class _AddProductWidgetState extends State<AddProductWidget> {
                     ),
                   ),
                 Text(
-                  'Product Name',
+                  'Title',
                   style: FlutterFlowTheme.of(context).labelMedium.override(
                         fontFamily: 'Roboto',
                         color: Color(0xFF7D8180),
@@ -332,7 +331,7 @@ class _AddProductWidgetState extends State<AddProductWidget> {
                   textCapitalization: TextCapitalization.words,
                   obscureText: false,
                   decoration: InputDecoration(
-                    hintText: 'Add Product Name',
+                    hintText: 'Add title',
                     hintStyle: FlutterFlowTheme.of(context).bodySmall.override(
                           fontFamily: 'Roboto',
                           color: Color(0xFFE6E6E6),
