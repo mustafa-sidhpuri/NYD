@@ -1,4 +1,5 @@
 import 'package:n_y_d_app/components/LoadingWidget.dart';
+import 'package:n_y_d_app/components/cached_network_image.dart';
 
 import '/backend/firebase_storage/storage.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
@@ -264,22 +265,28 @@ class _AddProductWidgetState extends State<AddProductWidget> {
                                       ClipRRect(
                                         borderRadius:
                                             BorderRadius.circular(12.0),
-                                        child: Image.network(
-                                          valueOrDefault<String>(
-                                            galleryItem,
-                                            'null',
-                                          ),
+                                        child: CachedNetworkImageWidget(
+                                          image: galleryItem,
                                           width: 100.0,
                                           height: 85.0,
-                                          fit: BoxFit.cover,
-                                          loadingBuilder: (context,child,imageChunk){
-                                            if(imageChunk == null){
-                                              return child;
-                                            }else{
-                                              return CircularProgressIndicator();
-                                            }
-                                          },
-                                        ),
+                                        )
+
+                                        // Image.network(
+                                        //   valueOrDefault<String>(
+                                        //     galleryItem,
+                                        //     'null',
+                                        //   ),
+                                        //   width: 100.0,
+                                        //   height: 85.0,
+                                        //   fit: BoxFit.cover,
+                                        //   loadingBuilder: (context,child,imageChunk){
+                                        //     if(imageChunk == null){
+                                        //       return child;
+                                        //     }else{
+                                        //       return CircularProgressIndicator();
+                                        //     }
+                                        //   },
+                                        // ),
                                       ),
                                       InkWell(
                                         splashColor: Colors.transparent,
