@@ -1,3 +1,6 @@
+import 'package:geolocator/geolocator.dart';
+import 'package:permission_handler/permission_handler.dart';
+
 import '../../components/cached_network_image.dart';
 import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
@@ -28,31 +31,52 @@ class _HomePageWidgetState extends State<HomePageWidget> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
   LatLng? currentUserLocationValue;
 
+  Position? position;
+
+  Future<void> _requestPermission() async {
+    print('0000000000');
+    PermissionStatus status = await Permission.locationWhenInUse.request();
+    print('222222222222');
+
+      if (status == PermissionStatus.denied ||
+          status == PermissionStatus.permanentlyDenied) {
+        Permission.locationWhenInUse.request();
+      } else {
+        print('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@');
+        position = await Geolocator.getCurrentPosition(
+          desiredAccuracy: LocationAccuracy.high,
+        );
+        SchedulerBinding.instance.addPostFrameCallback((_) async {
+          currentUserLocationValue = LatLng(position?.latitude ?? 0, position?.longitude ?? 0);
+          await actions.getLocation(
+            currentUserLocationValue,
+          );
+          FFAppState().update(() {
+            FFAppState().setLocation = FFAppState().userlocation;
+          });
+
+          final usersUpdateData = createUsersRecordData(
+            userAddress: FFAppState().setLocation,
+            latlng: currentUserLocationValue,
+          );
+          await currentUserReference!.update(usersUpdateData);
+        });
+
+        print('3333333#################################');
+        //  currentUserLocationValue = LatLng(position.latitude,position.longitude);
+        print('Location service is enabled and permission is granted.');
+      }
+
+
+  }
+
   @override
   void initState() {
     super.initState();
     _model = createModel(context, () => HomePageModel());
-
+    _requestPermission();
     // On page load action.
-    SchedulerBinding.instance.addPostFrameCallback((_) async {
-      currentUserLocationValue =
-          await getCurrentUserLocation(defaultLocation: LatLng(0.0, 0.0));
-      await actions.getLocation(
-        currentUserLocationValue,
-      );
-      FFAppState().update(() {
-        FFAppState().setLocation = FFAppState().userlocation;
-      });
 
-      final usersUpdateData = createUsersRecordData(
-        userAddress: FFAppState().setLocation,
-        latlng: currentUserLocationValue,
-      );
-      await currentUserReference!.update(usersUpdateData);
-    });
-
-    getCurrentUserLocation(defaultLocation: LatLng(0.0, 0.0), cached: true)
-        .then((loc) => setState(() => currentUserLocationValue = loc));
     _model.textController ??= TextEditingController();
   }
 
@@ -131,18 +155,15 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                     builder: (context) => Container(
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(12.0),
-                          border: Border.all(color: Colors.grey)
-                      ),
+                          border: Border.all(color: Colors.grey)),
                       child: ClipRRect(
                           borderRadius: BorderRadius.circular(12.0),
                           child: CachedNetworkImageWidget(
                             image: currentUserPhoto,
                             height: 41,
                             width: 41,
-                          )
-                      ),
+                          )),
                     ),
-
                   ),
                 ],
               ),
@@ -329,8 +350,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                     child: FutureBuilder<List<PostsRecord>>(
                       future: PostsRecord.search(
                         term: FFAppState().searchstring,
-                        location: getCurrentUserLocation(
-                            defaultLocation: LatLng(37.4298229, -122.1735655)),
+                        location: currentUserLocationValue,
                         searchRadiusMeters: 5000.0,
                       ),
                       builder: (context, snapshot) {
@@ -359,15 +379,10 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                         }
                         return RefreshIndicator(
                           onRefresh: () async {
-                            currentUserLocationValue =
-                                await getCurrentUserLocation(
-                                    defaultLocation: LatLng(0.0, 0.0));
                             setState(() => _model.algoliaSearchResults = null);
                             await PostsRecord.search(
                               term: _model.textController.text,
-                              location: getCurrentUserLocation(
-                                  defaultLocation:
-                                      LatLng(37.4298229, -122.1735655)),
+                              location: currentUserLocationValue,
                               searchRadiusMeters: 5000.0,
                             )
                                 .then((r) => _model.algoliaSearchResults = r)
@@ -382,7 +397,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                               crossAxisCount: 2,
                               crossAxisSpacing: 10.0,
                               mainAxisSpacing: 10.0,
-                              childAspectRatio: 0.8,
+                              childAspectRatio: 0.87,
                             ),
                             shrinkWrap: true,
                             scrollDirection: Axis.vertical,
@@ -436,8 +451,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                               topRight: Radius.circular(12.0),
                                             ),
                                             child: CachedNetworkImageWidget(
-                                              image:
-                                              gridViewPostsRecord.images!
+                                              image: gridViewPostsRecord.images!
                                                   .toList()
                                                   .first,
                                               width: double.infinity,
@@ -451,10 +465,10 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                             child: Text(
                                               gridViewPostsRecord.name!
                                                   .maybeHandleOverflow(
-                                                maxChars: 50,
+                                                maxChars: 20,
                                                 replacement: '…',
                                               ),
-                                              maxLines: 2,
+                                              maxLines: 1,
                                               style:
                                                   FlutterFlowTheme.of(context)
                                                       .bodyMedium
@@ -587,8 +601,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                     child: FutureBuilder<List<PostsRecord>>(
                       future: PostsRecord.search(
                         term: FFAppState().searchstring,
-                        location: getCurrentUserLocation(
-                            defaultLocation: LatLng(37.4298229, -122.1735655)),
+                        location: currentUserLocationValue,
                         searchRadiusMeters: 5000.0,
                       ),
                       builder: (context, snapshot) {
@@ -674,8 +687,8 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                               borderRadius:
                                                   BorderRadius.circular(12.0),
                                               child: CachedNetworkImageWidget(
-                                                image:
-                                                listViewPostsRecord.images!
+                                                image: listViewPostsRecord
+                                                    .images!
                                                     .toList()
                                                     .first,
                                                 width: 80.0,

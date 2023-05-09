@@ -517,7 +517,7 @@ class _ChatDetailsWidgetState extends State<ChatDetailsWidget> {
                                     child: Icon(
                                       Icons.send_rounded,
                                       color: Color(0xFF7D8180),
-                                      size: 24.0,
+                                      size: 28.0,
                                     ),
                                   ),
                                 ),
