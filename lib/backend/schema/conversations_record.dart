@@ -42,6 +42,9 @@ abstract class ConversationsRecord
   @BuiltValueField(wireName: 'posted_by_location')
   String? get postedByLocation;
 
+  @BuiltValueField(wireName: 'create_user_refrence')
+  DocumentReference? get createUserRefrence;
+
   @BuiltValueField(wireName: kDocumentReferenceField)
   DocumentReference? get ffRef;
   DocumentReference get reference => ffRef!;
@@ -89,6 +92,7 @@ Map<String, dynamic> createConversationsRecordData({
   String? lastMessageBy,
   DocumentReference? postedByRefrence,
   String? postedByLocation,
+  DocumentReference? createUserRefrence,
 }) {
   final firestoreData = serializers.toFirestore(
     ConversationsRecord.serializer,
@@ -104,7 +108,8 @@ Map<String, dynamic> createConversationsRecordData({
         ..userDetails = null
         ..users = null
         ..postedByRefrence = postedByRefrence
-        ..postedByLocation = postedByLocation,
+        ..postedByLocation = postedByLocation
+        ..createUserRefrence = createUserRefrence,
     ),
   );
 
