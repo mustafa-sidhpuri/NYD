@@ -18,7 +18,7 @@ class ChatListItemWidget extends StatefulWidget {
     this.productImage,
   }) : super(key: key);
 
-  final String? profileImageChat;
+  final Widget? profileImageChat;
   final String? nameText;
   final String? discriptionText;
   final String? dateText;
@@ -74,9 +74,7 @@ class _ChatListItemWidgetState extends State<ChatListItemWidget> {
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                   ),
-                  child: CachedNetworkImageWidget(
-                    image:  widget.profileImageChat!,
-                  )
+                  child: widget.profileImageChat
                 ),
                 Container(
                   width: 200.0,

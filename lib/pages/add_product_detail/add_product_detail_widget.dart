@@ -1,3 +1,4 @@
+import '../../components/LoadingWidget.dart';
 import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_drop_down.dart';
@@ -312,6 +313,7 @@ class _AddProductDetailWidgetState extends State<AddProductDetailWidget> {
                           hoverColor: Colors.transparent,
                           highlightColor: Colors.transparent,
                           onTap: () async {
+                            LoadingOverlay.show(context);
                             currentUserLocationValue =
                             await getCurrentUserLocation(
                                 defaultLocation: LatLng(0.0, 0.0));
@@ -376,6 +378,7 @@ class _AddProductDetailWidgetState extends State<AddProductDetailWidget> {
                               FFAppState().update(() {
                                 FFAppState().mediaUrl = [];
                               });
+                              LoadingOverlay.hide();
                               await Navigator.pushAndRemoveUntil(
                                 context,
                                 PageTransition(
@@ -387,6 +390,7 @@ class _AddProductDetailWidgetState extends State<AddProductDetailWidget> {
                                     (r) => false,
                               );
                             } else {
+                              LoadingOverlay.hide();
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
                                   content: Text(

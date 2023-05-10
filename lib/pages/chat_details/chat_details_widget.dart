@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:n_y_d_app/main.dart';
 
+import '../../components/cached_network_image.dart';
 import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
 import '/components/chat_list_item_widget.dart';
@@ -123,7 +124,15 @@ class _ChatDetailsWidgetState extends State<ChatDetailsWidget> {
                       model: _model.chatListItemModel,
                       updateCallback: () => setState(() {}),
                       child: ChatListItemWidget(
-                        profileImageChat: widget.profileimage,
+                        profileImageChat: FutureBuilder<DocumentSnapshot>(
+                          future: widget.postData!.userRef!.get(),
+                          builder: (context, snapshot) {
+                            return snapshot.hasData
+                                ? CachedNetworkImageWidget(
+                                image: snapshot.data!["photo_url"])
+                                : Icon(Icons.person);
+                          },
+                        ),
                         nameText: widget.username,
                         discriptionText: widget.productname,
                         dateText: widget.productlocation,

@@ -31,7 +31,7 @@ class _ChatMainWidgetState extends State<ChatMainWidget> {
 
   @override
   void dispose() {
-    _model.dispose();
+    // _model.dispose();
 
     super.dispose();
   }
@@ -97,12 +97,13 @@ class _ChatMainWidgetState extends State<ChatMainWidget> {
                         children: [
                           StreamBuilder<List<ConversationsRecord>>(
                             stream: queryConversationsRecord(
-                                queryBuilder: (conversationsRecord) =>
-                                    conversationsRecord.where('users',
-                                        arrayContains: currentUserUid)
-                                .orderBy('last_message_at',
-                                    descending: true),
-                                ),
+                              queryBuilder: (conversationsRecord) =>
+                                  conversationsRecord
+                                      .where('users',
+                                          arrayContains: currentUserUid)
+                                      .orderBy('last_message_at',
+                                          descending: true),
+                            ),
                             builder: (context, snapshot) {
                               // Customize what your widget looks like when it's loading.
                               if (!snapshot.hasData) {
@@ -173,14 +174,11 @@ class _ChatMainWidgetState extends State<ChatMainWidget> {
                                                 listViewConversationsRecord
                                                     .productName,
                                             profileimage:
-                                                valueOrDefault<String>(
-                                              listViewConversationsRecord
-                                                  .userDetails!
-                                                  .toList()
-                                                  .last
-                                                  .userImage,
-                                              '                                \'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/wedding-app-anuwld/assets/udoiek8lgxbr/userUpload@2x.png\',',
-                                            ),
+                                                listViewConversationsRecord
+                                                    .userDetails!
+                                                    .toList()
+                                                    .first
+                                                    .userImage,
                                             productimage:
                                                 listViewConversationsRecord
                                                     .productImage,
@@ -229,30 +227,36 @@ class _ChatMainWidgetState extends State<ChatMainWidget> {
                                                           .userId ==
                                                       currentUserUid)
                                                     Container(
-                                                        width: 53.0,
-                                                        height: 53.0,
-                                                        clipBehavior:
-                                                            Clip.antiAlias,
-                                                        decoration:
-                                                            BoxDecoration(
-                                                          shape:
-                                                              BoxShape.circle,
-                                                        ),
-                                                        child:
-                                                            CachedNetworkImageWidget(
-                                                          image:
-                                                              listViewConversationsRecord
-                                                                  .userDetails!
-                                                                  .toList()
-                                                                  .last
-                                                                  .userImage!,
-                                                        )),
+                                                      width: 53.0,
+                                                      height: 53.0,
+                                                      clipBehavior:
+                                                          Clip.antiAlias,
+                                                      decoration: BoxDecoration(
+                                                       // color: Colors.black,
+                                                        border: Border.all(
+                                                            color: Colors.black
+                                                                .withOpacity(
+                                                                    0.5)),
+                                                        shape: BoxShape.circle,
+                                                      ),
+                                                      child: FutureBuilder<DocumentSnapshot>(
+                                                        future: listViewConversationsRecord.postedByRefrence!.get(),
+                                                        builder: (context, snapshot) {
+                                                          return snapshot.hasData
+                                                              ? CachedNetworkImageWidget(
+                                                              image: snapshot.data!["photo_url"])
+                                                              : Icon(Icons.person);
+                                                        },
+                                                      ),
+
+                                                    ),
                                                   if (listViewConversationsRecord
                                                           .userDetails!
                                                           .toList()
                                                           .first
                                                           .userId !=
                                                       currentUserUid)
+
                                                     Container(
                                                         width: 53.0,
                                                         height: 53.0,
@@ -260,6 +264,7 @@ class _ChatMainWidgetState extends State<ChatMainWidget> {
                                                             Clip.antiAlias,
                                                         decoration:
                                                             BoxDecoration(
+                                                              color: Colors.yellow,
                                                           shape:
                                                               BoxShape.circle,
                                                         ),
@@ -269,11 +274,12 @@ class _ChatMainWidgetState extends State<ChatMainWidget> {
                                                               listViewConversationsRecord
                                                                   .userDetails!
                                                                   .toList()
-                                                                  .last
+                                                                  .first
                                                                   .userImage!,
                                                           height: 100,
                                                           width: 100,
-                                                        )),
+                                                        )
+                                                    ),
                                                   Padding(
                                                     padding:
                                                         EdgeInsetsDirectional
@@ -524,45 +530,56 @@ class _ChatMainWidgetState extends State<ChatMainWidget> {
                                   });
                                   return InkWell(
                                     onTap: () async {
-                                      // already read then no action to perform
-                                      if (read) {
-                                        return;
-                                      }
-
                                       final postData =
                                           await PostsRecord.getDocumentOnce(
                                               listViewNotificationsRecord
                                                   .postData!);
-                                      List<Map<String, dynamic>> usersData =
-                                          listViewNotificationsRecord.users!
-                                              .map((p0) => {
-                                                    "read": p0.read,
-                                                    "user_id": p0.userId,
-                                                    "user_profile":
-                                                        p0.userProfile
-                                                  })
-                                              .toList();
-
-                                      usersData.forEach((u) {
-                                        if (currentUserUid == u["user_id"]) {
-                                          u["read"] = true;
-                                        }
-                                      });
-                                      await listViewNotificationsRecord
-                                          .reference
-                                          .update({"users": usersData});
-                                      await Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) =>
-                                              ProductDetailsWidget(
-                                            productData: postData,
-                                            productId:
-                                                listViewNotificationsRecord
-                                                    .postData,
+                                      // already read then redirect only action to perform
+                                      if (read) {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                ProductDetailsWidget(
+                                              productData: postData,
+                                              productId:
+                                                  listViewNotificationsRecord
+                                                      .postData,
+                                            ),
                                           ),
-                                        ),
-                                      );
+                                        );
+                                      } else {
+                                        List<Map<String, dynamic>> usersData =
+                                            listViewNotificationsRecord.users!
+                                                .map((p0) => {
+                                                      "read": p0.read,
+                                                      "user_id": p0.userId,
+                                                      "user_profile":
+                                                          p0.userProfile
+                                                    })
+                                                .toList();
+
+                                        usersData.forEach((u) {
+                                          if (currentUserUid == u["user_id"]) {
+                                            u["read"] = true;
+                                          }
+                                        });
+                                        await listViewNotificationsRecord
+                                            .reference
+                                            .update({"users": usersData});
+                                        await Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                ProductDetailsWidget(
+                                              productData: postData,
+                                              productId:
+                                                  listViewNotificationsRecord
+                                                      .postData,
+                                            ),
+                                          ),
+                                        );
+                                      }
                                     },
                                     child: Container(
                                       height: 77.0,

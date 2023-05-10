@@ -123,6 +123,7 @@ class _ProductEditWidgetState extends State<ProductEditWidget> {
                           hoverColor: Colors.transparent,
                           highlightColor: Colors.transparent,
                           onTap: () async {
+                            LoadingOverlay.show(context);
                             if (_model.textController1.text.isNotEmpty &&
                                 _model.textController2.text.isNotEmpty &&
                                 _model.subCategoryController.text.isNotEmpty &&
@@ -168,6 +169,7 @@ class _ProductEditWidgetState extends State<ProductEditWidget> {
                               FFAppState().update(() {
                                 FFAppState().mediaUrl = [];
                               });
+                              LoadingOverlay.hide();
                               await Navigator.pushAndRemoveUntil(
                                 context,
                                 PageTransition(
@@ -179,6 +181,7 @@ class _ProductEditWidgetState extends State<ProductEditWidget> {
                                 (r) => false,
                               );
                             } else {
+                              LoadingOverlay.hide();
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
                                   content: Text(
@@ -588,6 +591,9 @@ class _ProductEditWidgetState extends State<ProductEditWidget> {
                           ),
                         ),
                       ),
+                      maxLines: 8,
+                      minLines: 1,
+                      keyboardType: TextInputType.multiline,
                       style: FlutterFlowTheme.of(context).bodyMedium,
                       validator:
                           _model.textController2Validator.asValidator(context),

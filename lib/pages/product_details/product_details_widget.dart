@@ -346,8 +346,14 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
                             ),
-                            child: CachedNetworkImageWidget(
-                              image: widget.productData!.postedByProfile!,
+                            child: FutureBuilder<DocumentSnapshot>(
+                                future: widget.productData!.userRef!.get(),
+                                builder: (context, snapshot) {
+                                  return snapshot.hasData
+                                      ? CachedNetworkImageWidget(
+                                          image: snapshot.data!["photo_url"])
+                                      : Icon(Icons.person);
+                                },
                             ),
                           ),
                         ),
@@ -403,25 +409,28 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                       style: FlutterFlowTheme.of(context).bodyMedium,
                     ),
                   ),
-                  Padding(
-                    padding:
-                        EdgeInsetsDirectional.fromSTEB(0.0, 11.0, 0.0, 0.0),
-                    child: Text(
-                      valueOrDefault<String>(
-                        widget.productData!.description,
-                        'product description',
+                  SizedBox(
+                    height: 12,
+                  ),
+                  Expanded(
+                    child: SingleChildScrollView(
+                      child: Text(
+                        valueOrDefault<String>(
+                          widget.productData!.description,
+                          'product description',
+                        ),
+                        style: FlutterFlowTheme.of(context).bodyMedium.override(
+                              fontFamily: 'Roboto',
+                              color: Color(0xFF7D8180),
+                              fontSize: 12.0,
+                            ),
                       ),
-                      style: FlutterFlowTheme.of(context).bodyMedium.override(
-                            fontFamily: 'Roboto',
-                            color: Color(0xFF7D8180),
-                            fontSize: 12.0,
-                          ),
                     ),
                   ),
-                  Spacer(),
+                  //Spacer(),
                   Padding(
                     padding:
-                        EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 30.0),
+                        EdgeInsetsDirectional.fromSTEB(0.0, 20.0, 0.0, 30.0),
                     child: Row(
                       mainAxisSize: MainAxisSize.max,
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -495,7 +504,6 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                               onTap: () async {
                                 // Added action that will return conversation refrence if there, else
                                 // we have to create a conversation.
-                                // TODO: Riddhi
                                 ConversationsRecord? convRef = await actions
                                     .getConversationData(widget.productId!.id);
                                 if (convRef == null) {
@@ -533,14 +541,6 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                                             widget.productData!.postedByName!,
                                       }
                                     ]
-                                    // function.getUserDetailList(
-                                    //   currentUserUid,
-                                    //   currentUserPhoto,
-                                    //   currentUserDisplayName,
-                                    //   widget.productData!.postedBy!,
-                                    //   widget.productData!.postedByProfile!,
-                                    //   widget.productData!.postedByName!,
-                                    // ),
                                   };
 
                                   await ConversationsRecord.collection
@@ -548,13 +548,16 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                                       .set(conversationsCreateData);
 
                                   List<String> convIds = widget
-                                      .productData!.conversations?.map((p0) => p0).toList()??[];
-                                  
+                                          .productData!.conversations
+                                          ?.map((p0) => p0)
+                                          .toList() ??
+                                      [];
+
                                   convRef = await actions.getConversationData(
                                       widget.productId!.id);
                                   convIds.add(convRef!.ffRef!.id);
-                                  await widget.productData!.ffRef!.update(
-                                      {"conversations":convIds });
+                                  await widget.productData!.ffRef!
+                                      .update({"conversations": convIds});
                                 }
                                 await Navigator.push(
                                   context,
