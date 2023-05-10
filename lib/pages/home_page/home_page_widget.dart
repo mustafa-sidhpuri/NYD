@@ -34,15 +34,15 @@ class _HomePageWidgetState extends State<HomePageWidget> {
   Position? position;
 
   Future<void> _requestPermission() async {
-    print('0000000000');
+
     PermissionStatus status = await Permission.locationWhenInUse.request();
-    print('222222222222');
+
 
       if (status == PermissionStatus.denied ||
           status == PermissionStatus.permanentlyDenied) {
         Permission.locationWhenInUse.request();
       } else {
-        print('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@');
+
         position = await Geolocator.getCurrentPosition(
           desiredAccuracy: LocationAccuracy.high,
         );
@@ -62,7 +62,6 @@ class _HomePageWidgetState extends State<HomePageWidget> {
           await currentUserReference!.update(usersUpdateData);
         });
 
-        print('3333333#################################');
         //  currentUserLocationValue = LatLng(position.latitude,position.longitude);
         print('Location service is enabled and permission is granted.');
       }
