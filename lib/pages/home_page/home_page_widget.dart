@@ -534,7 +534,10 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                                       .fromSTEB(
                                                           5.0, 0.0, 0.0, 0.0),
                                                   child: Text(
-                                                    '0 Conversations',
+                                                    gridViewPostsRecord.conversations?.length == null ?
+                                                    '0 Conversations':
+                                                    '${gridViewPostsRecord.conversations?.length} ${"Conversations"}',
+
                                                     style: FlutterFlowTheme.of(
                                                             context)
                                                         .bodyMedium
@@ -819,7 +822,9 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                                   fit: BoxFit.cover,
                                                 ),
                                                 Text(
-                                                  '  0 Conversations',
+                                                  listViewPostsRecord.conversations?.length == null ?
+                                                  '0 Conversations':
+                                                  '${listViewPostsRecord.conversations?.length} ${"Conversations"}',
                                                   style: FlutterFlowTheme.of(
                                                           context)
                                                       .bodyMedium

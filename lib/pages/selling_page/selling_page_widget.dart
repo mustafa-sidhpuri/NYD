@@ -268,7 +268,7 @@ class _SellingPageWidgetState extends State<SellingPageWidget> {
                                                               fit: BoxFit.cover,
                                                             ),
                                                             Text(
-                                                              ' ${valueOrDefault<String>(
+                                                              '  ${valueOrDefault<String>(
                                                                 dateTimeFormat(
                                                                     'jm',
                                                                     listViewPostsRecord
@@ -303,7 +303,9 @@ class _SellingPageWidgetState extends State<SellingPageWidget> {
                                                               fit: BoxFit.cover,
                                                             ),
                                                             Text(
-                                                              '  0 Conversations',
+                                                              listViewPostsRecord.conversations?.length == null ?
+                                                              '  0 Conversations':
+                                                              '  ${listViewPostsRecord.conversations?.length} ${"Conversations"}',
                                                               style: FlutterFlowTheme
                                                                       .of(context)
                                                                   .bodyMedium
