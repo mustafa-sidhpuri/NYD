@@ -1,4 +1,4 @@
-package com.nyd.app
+package com.food.share.app
 
 import io.flutter.embedding.android.FlutterActivity
 

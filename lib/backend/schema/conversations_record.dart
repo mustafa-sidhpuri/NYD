@@ -42,6 +42,9 @@ abstract class ConversationsRecord
   @BuiltValueField(wireName: 'posted_by_location')
   String? get postedByLocation;
 
+  @BuiltValueField(wireName: 'create_user_refrence')
+  DocumentReference? get createUserRefrence;
+
   @BuiltValueField(wireName: kDocumentReferenceField)
   DocumentReference? get ffRef;
   DocumentReference get reference => ffRef!;
@@ -66,15 +69,15 @@ abstract class ConversationsRecord
 
   static Future<ConversationsRecord> getDocumentOnce(DocumentReference ref) =>
       ref.get().then(
-          (s) => serializers.deserializeWith(serializer, serializedData(s))!);
+              (s) => serializers.deserializeWith(serializer, serializedData(s))!);
 
   ConversationsRecord._();
   factory ConversationsRecord(
-          [void Function(ConversationsRecordBuilder) updates]) =
-      _$ConversationsRecord;
+      [void Function(ConversationsRecordBuilder) updates]) =
+  _$ConversationsRecord;
 
   static ConversationsRecord getDocumentFromData(
-          Map<String, dynamic> data, DocumentReference reference) =>
+      Map<String, dynamic> data, DocumentReference reference) =>
       serializers.deserializeWith(serializer,
           {...mapFromFirestore(data), kDocumentReferenceField: reference})!;
 }
@@ -89,11 +92,12 @@ Map<String, dynamic> createConversationsRecordData({
   String? lastMessageBy,
   DocumentReference? postedByRefrence,
   String? postedByLocation,
+  DocumentReference? createUserRefrence,
 }) {
   final firestoreData = serializers.toFirestore(
     ConversationsRecord.serializer,
     ConversationsRecord(
-      (c) => c
+          (c) => c
         ..productId = productId
         ..productName = productName
         ..productImage = productImage
@@ -104,9 +108,11 @@ Map<String, dynamic> createConversationsRecordData({
         ..userDetails = null
         ..users = null
         ..postedByRefrence = postedByRefrence
-        ..postedByLocation = postedByLocation,
+        ..postedByLocation = postedByLocation
+        ..createUserRefrence = createUserRefrence,
     ),
   );
 
   return firestoreData;
 }
+

@@ -7,7 +7,7 @@ part of 'conversations_record.dart';
 // **************************************************************************
 
 Serializer<ConversationsRecord> _$conversationsRecordSerializer =
-    new _$ConversationsRecordSerializer();
+new _$ConversationsRecordSerializer();
 
 class _$ConversationsRecordSerializer
     implements StructuredSerializer<ConversationsRecord> {
@@ -80,7 +80,7 @@ class _$ConversationsRecordSerializer
         ..add('user_details')
         ..add(serializers.serialize(value,
             specifiedType:
-                const FullType(BuiltList, const [const FullType(UserStruct)])));
+            const FullType(BuiltList, const [const FullType(UserStruct)])));
     }
     value = object.users;
     if (value != null) {
@@ -88,7 +88,7 @@ class _$ConversationsRecordSerializer
         ..add('users')
         ..add(serializers.serialize(value,
             specifiedType:
-                const FullType(BuiltList, const [const FullType(String)])));
+            const FullType(BuiltList, const [const FullType(String)])));
     }
     value = object.postedByRefrence;
     if (value != null) {
@@ -104,6 +104,14 @@ class _$ConversationsRecordSerializer
         ..add('posted_by_location')
         ..add(serializers.serialize(value,
             specifiedType: const FullType(String)));
+    }
+    value = object.createUserRefrence;
+    if (value != null) {
+      result
+        ..add('create_user_refrence')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(
+                DocumentReference, const [const FullType.nullable(Object)])));
     }
     value = object.ffRef;
     if (value != null) {
@@ -160,15 +168,15 @@ class _$ConversationsRecordSerializer
           break;
         case 'user_details':
           result.userDetails.replace(serializers.deserialize(value,
-                  specifiedType: const FullType(
-                      BuiltList, const [const FullType(UserStruct)]))!
-              as BuiltList<Object?>);
+              specifiedType: const FullType(
+                  BuiltList, const [const FullType(UserStruct)]))!
+          as BuiltList<Object?>);
           break;
         case 'users':
           result.users.replace(serializers.deserialize(value,
-                  specifiedType: const FullType(
-                      BuiltList, const [const FullType(String)]))!
-              as BuiltList<Object?>);
+              specifiedType: const FullType(
+                  BuiltList, const [const FullType(String)]))!
+          as BuiltList<Object?>);
           break;
         case 'posted_by_refrence':
           result.postedByRefrence = serializers.deserialize(value,
@@ -179,6 +187,12 @@ class _$ConversationsRecordSerializer
         case 'posted_by_location':
           result.postedByLocation = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String?;
+          break;
+        case 'create_user_refrence':
+          result.createUserRefrence = serializers.deserialize(value,
+              specifiedType: const FullType(DocumentReference, const [
+                const FullType.nullable(Object)
+              ])) as DocumentReference<Object?>?;
           break;
         case 'Document__Reference__Field':
           result.ffRef = serializers.deserialize(value,
@@ -217,30 +231,33 @@ class _$ConversationsRecord extends ConversationsRecord {
   @override
   final String? postedByLocation;
   @override
+  final DocumentReference<Object?>? createUserRefrence;
+  @override
   final DocumentReference<Object?>? ffRef;
 
   factory _$ConversationsRecord(
-          [void Function(ConversationsRecordBuilder)? updates]) =>
+      [void Function(ConversationsRecordBuilder)? updates]) =>
       (new ConversationsRecordBuilder()..update(updates))._build();
 
   _$ConversationsRecord._(
       {this.productId,
-      this.productName,
-      this.productImage,
-      this.lastMessage,
-      this.chats,
-      this.lastMessageAt,
-      this.lastMessageBy,
-      this.userDetails,
-      this.users,
-      this.postedByRefrence,
-      this.postedByLocation,
-      this.ffRef})
+        this.productName,
+        this.productImage,
+        this.lastMessage,
+        this.chats,
+        this.lastMessageAt,
+        this.lastMessageBy,
+        this.userDetails,
+        this.users,
+        this.postedByRefrence,
+        this.postedByLocation,
+        this.createUserRefrence,
+        this.ffRef})
       : super._();
 
   @override
   ConversationsRecord rebuild(
-          void Function(ConversationsRecordBuilder) updates) =>
+      void Function(ConversationsRecordBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
@@ -262,6 +279,7 @@ class _$ConversationsRecord extends ConversationsRecord {
         users == other.users &&
         postedByRefrence == other.postedByRefrence &&
         postedByLocation == other.postedByLocation &&
+        createUserRefrence == other.createUserRefrence &&
         ffRef == other.ffRef;
   }
 
@@ -279,6 +297,7 @@ class _$ConversationsRecord extends ConversationsRecord {
     _$hash = $jc(_$hash, users.hashCode);
     _$hash = $jc(_$hash, postedByRefrence.hashCode);
     _$hash = $jc(_$hash, postedByLocation.hashCode);
+    _$hash = $jc(_$hash, createUserRefrence.hashCode);
     _$hash = $jc(_$hash, ffRef.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
@@ -287,18 +306,19 @@ class _$ConversationsRecord extends ConversationsRecord {
   @override
   String toString() {
     return (newBuiltValueToStringHelper(r'ConversationsRecord')
-          ..add('productId', productId)
-          ..add('productName', productName)
-          ..add('productImage', productImage)
-          ..add('lastMessage', lastMessage)
-          ..add('chats', chats)
-          ..add('lastMessageAt', lastMessageAt)
-          ..add('lastMessageBy', lastMessageBy)
-          ..add('userDetails', userDetails)
-          ..add('users', users)
-          ..add('postedByRefrence', postedByRefrence)
-          ..add('postedByLocation', postedByLocation)
-          ..add('ffRef', ffRef))
+      ..add('productId', productId)
+      ..add('productName', productName)
+      ..add('productImage', productImage)
+      ..add('lastMessage', lastMessage)
+      ..add('chats', chats)
+      ..add('lastMessageAt', lastMessageAt)
+      ..add('lastMessageBy', lastMessageBy)
+      ..add('userDetails', userDetails)
+      ..add('users', users)
+      ..add('postedByRefrence', postedByRefrence)
+      ..add('postedByLocation', postedByLocation)
+      ..add('createUserRefrence', createUserRefrence)
+      ..add('ffRef', ffRef))
         .toString();
   }
 }
@@ -357,6 +377,12 @@ class ConversationsRecordBuilder
   set postedByLocation(String? postedByLocation) =>
       _$this._postedByLocation = postedByLocation;
 
+  DocumentReference<Object?>? _createUserRefrence;
+  DocumentReference<Object?>? get createUserRefrence =>
+      _$this._createUserRefrence;
+  set createUserRefrence(DocumentReference<Object?>? createUserRefrence) =>
+      _$this._createUserRefrence = createUserRefrence;
+
   DocumentReference<Object?>? _ffRef;
   DocumentReference<Object?>? get ffRef => _$this._ffRef;
   set ffRef(DocumentReference<Object?>? ffRef) => _$this._ffRef = ffRef;
@@ -379,6 +405,7 @@ class ConversationsRecordBuilder
       _users = $v.users?.toBuilder();
       _postedByRefrence = $v.postedByRefrence;
       _postedByLocation = $v.postedByLocation;
+      _createUserRefrence = $v.createUserRefrence;
       _ffRef = $v.ffRef;
       _$v = null;
     }
@@ -415,6 +442,7 @@ class ConversationsRecordBuilder
               users: _users?.build(),
               postedByRefrence: postedByRefrence,
               postedByLocation: postedByLocation,
+              createUserRefrence: createUserRefrence,
               ffRef: ffRef);
     } catch (_) {
       late String _$failedField;

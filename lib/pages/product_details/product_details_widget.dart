@@ -522,6 +522,7 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                                           widget.productData!.reference.id,
                                       postedByRefrence:
                                           widget.productData!.userRef,
+                                      createUserRefrence: currentUserReference,
                                       postedByLocation:
                                           widget.productData!.address,
                                     ),
@@ -575,6 +576,7 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                                       productimage: widget.productData!.images!
                                           .toList()
                                           .first,
+
                                       conversationsDoc: convRef,
                                       productlocation:
                                           widget.productData!.address,

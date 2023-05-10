@@ -80,7 +80,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'NYD App',
+      title: 'Food Share',
       localizationsDelegates: [
         FFLocalizationsDelegate(),
         GlobalMaterialLocalizations.delegate,
@@ -95,10 +95,10 @@ class _MyAppState extends State<MyApp> {
       home: initialUser == null || displaySplashImage
           ? Builder(
               builder: (context) => Container(
-                color: Colors.transparent,
+                color: Colors.white,
                 child: Image.asset(
-                  'assets/images/splashScreen@2x.png',
-                  fit: BoxFit.cover,
+                  'assets/images/FoodShare.png',
+                  //fit: BoxFit.cover,
                 ),
               ),
             )

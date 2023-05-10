@@ -232,23 +232,31 @@ class _ChatMainWidgetState extends State<ChatMainWidget> {
                                                       clipBehavior:
                                                           Clip.antiAlias,
                                                       decoration: BoxDecoration(
-                                                       // color: Colors.black,
+                                                        // color: Colors.black,
                                                         border: Border.all(
                                                             color: Colors.black
                                                                 .withOpacity(
                                                                     0.5)),
                                                         shape: BoxShape.circle,
                                                       ),
-                                                      child: FutureBuilder<DocumentSnapshot>(
-                                                        future: listViewConversationsRecord.postedByRefrence!.get(),
-                                                        builder: (context, snapshot) {
-                                                          return snapshot.hasData
+                                                      child: FutureBuilder<
+                                                          DocumentSnapshot>(
+                                                        future:
+                                                            listViewConversationsRecord
+                                                                .postedByRefrence!
+                                                                .get(),
+                                                        builder: (context,
+                                                            snapshot) {
+                                                          return snapshot
+                                                                  .hasData
                                                               ? CachedNetworkImageWidget(
-                                                              image: snapshot.data!["photo_url"])
-                                                              : Icon(Icons.person);
+                                                                  image: snapshot
+                                                                          .data![
+                                                                      "photo_url"])
+                                                              : Icon(
+                                                                  Icons.person);
                                                         },
                                                       ),
-
                                                     ),
                                                   if (listViewConversationsRecord
                                                           .userDetails!
@@ -256,29 +264,32 @@ class _ChatMainWidgetState extends State<ChatMainWidget> {
                                                           .first
                                                           .userId !=
                                                       currentUserUid)
-
                                                     Container(
-                                                        width: 53.0,
-                                                        height: 53.0,
-                                                        clipBehavior:
-                                                            Clip.antiAlias,
-                                                        decoration:
-                                                            BoxDecoration(
-                                                              color: Colors.yellow,
-                                                          shape:
-                                                              BoxShape.circle,
-                                                        ),
-                                                        child:
-                                                            CachedNetworkImageWidget(
-                                                          image:
-                                                              listViewConversationsRecord
-                                                                  .userDetails!
-                                                                  .toList()
-                                                                  .first
-                                                                  .userImage!,
-                                                          height: 100,
-                                                          width: 100,
-                                                        )
+                                                      width: 53.0,
+                                                      height: 53.0,
+                                                      clipBehavior:
+                                                          Clip.antiAlias,
+                                                      decoration: BoxDecoration(
+                                                        color: Colors.yellow,
+                                                        shape: BoxShape.circle,
+                                                      ),
+                                                      child: FutureBuilder<
+                                                          DocumentSnapshot>(
+                                                        future: listViewConversationsRecord
+                                                            .createUserRefrence!
+                                                            .get(),
+                                                        builder: (context,
+                                                            snapshot) {
+                                                          return snapshot
+                                                                  .hasData
+                                                              ? CachedNetworkImageWidget(
+                                                                  image: snapshot
+                                                                          .data![
+                                                                      "photo_url"])
+                                                              : Icon(
+                                                                  Icons.person);
+                                                        },
+                                                      ),
                                                     ),
                                                   Padding(
                                                     padding:
@@ -605,18 +616,28 @@ class _ChatMainWidgetState extends State<ChatMainWidget> {
                                               child: Container(
                                                   width: 42.0,
                                                   height: 42.0,
+                                                  clipBehavior: Clip.antiAlias,
                                                   decoration: BoxDecoration(
+                                                    border: Border.all(
+                                                        color: Colors.black
+                                                            .withOpacity(0.5)),
                                                     color: FlutterFlowTheme.of(
                                                             context)
                                                         .secondaryBackground,
                                                     shape: BoxShape.circle,
                                                   ),
-                                                  child:
-                                                      CachedNetworkImageWidget(
-                                                    image:
-                                                        listViewNotificationsRecord
-                                                            .userProfile,
-                                                  )),
+                                                  child: listViewNotificationsRecord
+                                                                  .userProfile !=
+                                                              null &&
+                                                          listViewNotificationsRecord
+                                                                  .userProfile !=
+                                                              ""
+                                                      ? CachedNetworkImageWidget(
+                                                          image:
+                                                              listViewNotificationsRecord
+                                                                  .userProfile,
+                                                        )
+                                                      : Icon(Icons.person)),
                                             ),
                                           ),
                                           Row(
