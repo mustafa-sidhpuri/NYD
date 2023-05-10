@@ -105,6 +105,14 @@ class _$ConversationsRecordSerializer
         ..add(serializers.serialize(value,
             specifiedType: const FullType(String)));
     }
+    value = object.createUserRefrence;
+    if (value != null) {
+      result
+        ..add('create_user_refrence')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(
+                DocumentReference, const [const FullType.nullable(Object)])));
+    }
     value = object.ffRef;
     if (value != null) {
       result
@@ -180,6 +188,12 @@ class _$ConversationsRecordSerializer
           result.postedByLocation = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String?;
           break;
+        case 'create_user_refrence':
+          result.createUserRefrence = serializers.deserialize(value,
+              specifiedType: const FullType(DocumentReference, const [
+                const FullType.nullable(Object)
+              ])) as DocumentReference<Object?>?;
+          break;
         case 'Document__Reference__Field':
           result.ffRef = serializers.deserialize(value,
               specifiedType: const FullType(DocumentReference, const [
@@ -217,6 +231,8 @@ class _$ConversationsRecord extends ConversationsRecord {
   @override
   final String? postedByLocation;
   @override
+  final DocumentReference<Object?>? createUserRefrence;
+  @override
   final DocumentReference<Object?>? ffRef;
 
   factory _$ConversationsRecord(
@@ -235,6 +251,7 @@ class _$ConversationsRecord extends ConversationsRecord {
       this.users,
       this.postedByRefrence,
       this.postedByLocation,
+      this.createUserRefrence,
       this.ffRef})
       : super._();
 
@@ -262,6 +279,7 @@ class _$ConversationsRecord extends ConversationsRecord {
         users == other.users &&
         postedByRefrence == other.postedByRefrence &&
         postedByLocation == other.postedByLocation &&
+        createUserRefrence == other.createUserRefrence &&
         ffRef == other.ffRef;
   }
 
@@ -279,6 +297,7 @@ class _$ConversationsRecord extends ConversationsRecord {
     _$hash = $jc(_$hash, users.hashCode);
     _$hash = $jc(_$hash, postedByRefrence.hashCode);
     _$hash = $jc(_$hash, postedByLocation.hashCode);
+    _$hash = $jc(_$hash, createUserRefrence.hashCode);
     _$hash = $jc(_$hash, ffRef.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
@@ -298,6 +317,7 @@ class _$ConversationsRecord extends ConversationsRecord {
           ..add('users', users)
           ..add('postedByRefrence', postedByRefrence)
           ..add('postedByLocation', postedByLocation)
+          ..add('createUserRefrence', createUserRefrence)
           ..add('ffRef', ffRef))
         .toString();
   }
@@ -357,6 +377,12 @@ class ConversationsRecordBuilder
   set postedByLocation(String? postedByLocation) =>
       _$this._postedByLocation = postedByLocation;
 
+  DocumentReference<Object?>? _createUserRefrence;
+  DocumentReference<Object?>? get createUserRefrence =>
+      _$this._createUserRefrence;
+  set createUserRefrence(DocumentReference<Object?>? createUserRefrence) =>
+      _$this._createUserRefrence = createUserRefrence;
+
   DocumentReference<Object?>? _ffRef;
   DocumentReference<Object?>? get ffRef => _$this._ffRef;
   set ffRef(DocumentReference<Object?>? ffRef) => _$this._ffRef = ffRef;
@@ -379,6 +405,7 @@ class ConversationsRecordBuilder
       _users = $v.users?.toBuilder();
       _postedByRefrence = $v.postedByRefrence;
       _postedByLocation = $v.postedByLocation;
+      _createUserRefrence = $v.createUserRefrence;
       _ffRef = $v.ffRef;
       _$v = null;
     }
@@ -415,6 +442,7 @@ class ConversationsRecordBuilder
               users: _users?.build(),
               postedByRefrence: postedByRefrence,
               postedByLocation: postedByLocation,
+              createUserRefrence: createUserRefrence,
               ffRef: ffRef);
     } catch (_) {
       late String _$failedField;
