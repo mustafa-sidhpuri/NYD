@@ -345,7 +345,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                 Expanded(
                   child: Padding(
                     padding:
-                        EdgeInsetsDirectional.fromSTEB(0.0, 20.0, 0.0, 0.0),
+                        EdgeInsetsDirectional.fromSTEB(0.0, 20.0, 0.0, 20.0),
                     child: FutureBuilder<List<PostsRecord>>(
                       future: PostsRecord.search(
                         term: FFAppState().searchstring,
@@ -394,8 +394,8 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                             gridDelegate:
                                 SliverGridDelegateWithFixedCrossAxisCount(
                               crossAxisCount: 2,
-                              crossAxisSpacing: 10.0,
-                              mainAxisSpacing: 10.0,
+                              crossAxisSpacing: 20.0,
+                              mainAxisSpacing: 20.0,
                               childAspectRatio: 0.87,
                             ),
                             shrinkWrap: true,

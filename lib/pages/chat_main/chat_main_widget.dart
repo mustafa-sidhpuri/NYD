@@ -232,7 +232,6 @@ class _ChatMainWidgetState extends State<ChatMainWidget> {
                                                       clipBehavior:
                                                           Clip.antiAlias,
                                                       decoration: BoxDecoration(
-                                                        // color: Colors.black,
                                                         border: Border.all(
                                                             color: Colors.black
                                                                 .withOpacity(
@@ -270,7 +269,6 @@ class _ChatMainWidgetState extends State<ChatMainWidget> {
                                                       clipBehavior:
                                                           Clip.antiAlias,
                                                       decoration: BoxDecoration(
-                                                        color: Colors.yellow,
                                                         shape: BoxShape.circle,
                                                       ),
                                                       child: FutureBuilder<
