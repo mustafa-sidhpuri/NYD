@@ -394,9 +394,9 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                             gridDelegate:
                                 SliverGridDelegateWithFixedCrossAxisCount(
                               crossAxisCount: 2,
-                              crossAxisSpacing: 20.0,
-                              mainAxisSpacing: 20.0,
-                              childAspectRatio: 0.87,
+                              crossAxisSpacing: 10.0,
+                              mainAxisSpacing: 10.0,
+                              childAspectRatio: 0.84,
                             ),
                             shrinkWrap: true,
                             scrollDirection: Axis.vertical,

@@ -143,11 +143,12 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
                                   ),
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.circular(22.0),
-                                    child: CachedNetworkImageWidget(
+                                    child: currentUserPhoto != "" && currentUserPhoto != null?
+                                    CachedNetworkImageWidget(
                                       image: currentUserPhoto,
                                       height: 100,
                                       width: 100,
-                                    )
+                                    ):Icon(Icons.person)
                                   ),
                                 ),
                               ),
