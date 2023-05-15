@@ -34,12 +34,36 @@ class _PushNotificationsHandlerState extends State<PushNotificationsHandler> {
       return;
     }
 
-    final notification = await FirebaseMessaging.instance.getInitialMessage();
-    if (notification != null) {
-      print("****************************************************"+notification.toString());
-      await _handlePushNotification(notification);
-    }
-    FirebaseMessaging.onMessageOpenedApp.listen(_handlePushNotification);
+    FirebaseMessaging.instance.getInitialMessage().then((message) {
+      print("FirebaseMessaging.instance.getInitialMessage");
+      if(message != null){
+        print("New Notification");
+      }
+    });
+
+    FirebaseMessaging.onMessage.listen((message) {
+      print("FirebaseMessaging.onMessage.listen");
+      if(message.notification != null){
+        print("yessss calleddd");
+        LocalNotificationService.createanddisplaynotification(message);
+      }
+    });
+
+    FirebaseMessaging.onMessageOpenedApp.listen((message) {
+      print("FirebaseMessaging.onMessageOpenedApp.listen");
+      if (message.notification != null) {
+        print(message.notification!.title);
+        print(message.notification!.body);
+        //print("message.data22 ${message.data['_id']}");
+      }
+    });
+
+    // final notification = await FirebaseMessaging.instance.getInitialMessage();
+    // if (notification != null) {
+    //   print("****************************************************"+notification.toString());
+    //   await _handlePushNotification(notification);
+    // }
+    // FirebaseMessaging.onMessageOpenedApp.listen(_handlePushNotification);
   }
 
   Future _handlePushNotification(RemoteMessage message) async {
@@ -75,12 +99,7 @@ class _PushNotificationsHandlerState extends State<PushNotificationsHandler> {
         setState(() => _loading = false);
       }
     }
-    FirebaseMessaging.onMessage.listen((event) {
-      if(message.notification != null){
-        print("yessss calleddd");
-        LocalNotificationService.createanddisplaynotification(message);
-      }
-    });
+
   }
 
   @override
