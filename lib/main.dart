@@ -64,7 +64,7 @@ class _MyAppState extends State<MyApp> {
       ..listen((user) => initialUser ?? setState(() => initialUser = user));
     jwtTokenStream.listen((_) {});
     Future.delayed(
-      Duration(seconds: 1),
+      Duration(seconds: 3),
       () => setState(() => displaySplashImage = false),
     );
   }
@@ -193,7 +193,7 @@ class _NavBarPageState extends State<NavBarPage> {
               Icons.soap_sharp,
               size: 23.0,
             ),
-            label: 'Selling',
+            label: 'Items',
             tooltip: '',
           ),
           BottomNavigationBarItem(

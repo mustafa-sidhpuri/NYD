@@ -74,7 +74,7 @@ class _AddProductWidgetState extends State<AddProductWidget> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        'Add Product',
+                        'Post Item',
                         style: FlutterFlowTheme.of(context).headlineSmall,
                       ),
                     ],
@@ -86,7 +86,7 @@ class _AddProductWidgetState extends State<AddProductWidget> {
                   hoverColor: Colors.transparent,
                   highlightColor: Colors.transparent,
                   onTap: () async {
-                   if(FFAppState().mediaUrl.length == 1){
+                   if(FFAppState().mediaUrl.length ==5){
 
                      ScaffoldMessenger.of(context).showSnackBar(
                        SnackBar(
@@ -166,18 +166,18 @@ class _AddProductWidgetState extends State<AddProductWidget> {
                        });
                      } else {
                        LoadingOverlay.hide();
-                       ScaffoldMessenger.of(context).showSnackBar(
-                         SnackBar(
-                           content: Text(
-                             'please select atleast one image',
-                             style: TextStyle(
-                               color: Colors.white,
-                             ),
-                           ),
-                           duration: Duration(milliseconds: 4000),
-                           backgroundColor: FlutterFlowTheme.of(context).primary,
-                         ),
-                       );
+                       // ScaffoldMessenger.of(context).showSnackBar(
+                       //   SnackBar(
+                       //     content: Text(
+                       //       'Maximum 5 images select',
+                       //       style: TextStyle(
+                       //         color: Colors.white,
+                       //       ),
+                       //     ),
+                       //     duration: Duration(milliseconds: 4000),
+                       //     backgroundColor: FlutterFlowTheme.of(context).primary,
+                       //   ),
+                       // );
                      }
                    }
 
@@ -270,23 +270,6 @@ class _AddProductWidgetState extends State<AddProductWidget> {
                                           width: 100.0,
                                           height: 85.0,
                                         )
-
-                                        // Image.network(
-                                        //   valueOrDefault<String>(
-                                        //     galleryItem,
-                                        //     'null',
-                                        //   ),
-                                        //   width: 100.0,
-                                        //   height: 85.0,
-                                        //   fit: BoxFit.cover,
-                                        //   loadingBuilder: (context,child,imageChunk){
-                                        //     if(imageChunk == null){
-                                        //       return child;
-                                        //     }else{
-                                        //       return CircularProgressIndicator();
-                                        //     }
-                                        //   },
-                                        // ),
                                       ),
                                       InkWell(
                                         splashColor: Colors.transparent,
@@ -425,7 +408,7 @@ class _AddProductWidgetState extends State<AddProductWidget> {
                   textCapitalization: TextCapitalization.words,
                   obscureText: false,
                   decoration: InputDecoration(
-                    hintText: 'Add Product Description',
+                    hintText: 'Add post Description',
                     hintStyle: FlutterFlowTheme.of(context).bodySmall.override(
                           fontFamily: 'Roboto',
                           color: Color(0xFFE6E6E6),
@@ -479,103 +462,131 @@ class _AddProductWidgetState extends State<AddProductWidget> {
                   validator:
                       _model.textController2Validator.asValidator(context),
                 ),
-                Expanded(
-                  child: Padding(
-                    padding:
-                        EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 30.0),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        InkWell(
-                          splashColor: Colors.transparent,
-                          focusColor: Colors.transparent,
-                          hoverColor: Colors.transparent,
-                          highlightColor: Colors.transparent,
-                          onTap: () async {
+                Spacer(),
+                Padding(
+                  padding:
+                      EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 30.0),
+                  child: InkWell(
+                    splashColor: Colors.transparent,
+                    focusColor: Colors.transparent,
+                    hoverColor: Colors.transparent,
+                    highlightColor: Colors.transparent,
+                    onTap: () async {
 
-                            if((FFAppState().mediaUrl.length < 1)){
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text(
-                                    'Maximum 5 images select',
-                                    style: FlutterFlowTheme.of(context)
-                                        .bodySmall
-                                        .override(
-                                      fontFamily: 'Roboto',
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                  duration: Duration(milliseconds: 4000),
-                                  backgroundColor:
-                                  FlutterFlowTheme.of(context).primary,
-                                ),
-                              );
-                            }
-                            if(_model.textController1.text.isEmpty  ||
-                                _model.textController2.text.isEmpty ){
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text(
-                                    'Product Details cant be empty',
-                                    style: FlutterFlowTheme.of(context)
-                                        .bodySmall
-                                        .override(
-                                      fontFamily: 'Roboto',
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                  duration: Duration(milliseconds: 4000),
-                                  backgroundColor:
-                                  FlutterFlowTheme.of(context).primary,
-                                ),
-                              );
-                            }
-                            if ((_model.textController1.text != null &&
-                                    _model.textController1.text != '') &&
-                                (_model.textController2.text != null &&
-                                    _model.textController2.text != '')
-                                && (FFAppState().mediaUrl.length == 1)
-                                ) {
-                              await Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => AddProductDetailWidget(
-                                    productName: _model.textController1.text,
-                                    productDescription:
-                                        _model.textController2.text,
-                                    images: FFAppState().mediaUrl.toList(),
-                                  ),
-                                ),
-                              );
-                            }
-                          },
-                          child: Container(
-                            height: 43.0,
-                            decoration: BoxDecoration(
-                              color: FlutterFlowTheme.of(context).primary,
-                              borderRadius: BorderRadius.circular(22.0),
-                              shape: BoxShape.rectangle,
-                            ),
-                            child: Padding(
-                              padding: EdgeInsetsDirectional.fromSTEB(
-                                  150.0, 12.0, 150.0, 12.0),
-                              child: Text(
-                                'Next',
-                                style: FlutterFlowTheme.of(context)
-                                    .bodyMedium
-                                    .override(
-                                      fontFamily: 'Roboto',
-                                      color: Colors.white,
-                                      fontSize: 16.0,
-                                      fontWeight: FontWeight.w600,
-                                    ),
+                      if(_model.textController1.text == ''){
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(
+                              'Title can\'t be empty',
+                              style: FlutterFlowTheme.of(context)
+                                  .bodySmall
+                                  .override(
+                                fontFamily: 'Roboto',
+                                color: Colors.white,
                               ),
                             ),
+                            duration: Duration(milliseconds: 4000),
+                            backgroundColor:
+                            FlutterFlowTheme.of(context).primary,
                           ),
-                        ),
-                      ],
+                        );
+                        return;
+                      }
+                      if(_model.textController2.text == ''){
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(
+                              'Description can\'t be empty',
+                              style: FlutterFlowTheme.of(context)
+                                  .bodySmall
+                                  .override(
+                                fontFamily: 'Roboto',
+                                color: Colors.white,
+                              ),
+                            ),
+                            duration: Duration(milliseconds: 4000),
+                            backgroundColor:
+                            FlutterFlowTheme.of(context).primary,
+                          ),
+                        );
+                        return;
+                      }
+                      if(FFAppState().mediaUrl.length == 0){
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(
+                              'Please select atleast one image',
+                              style: FlutterFlowTheme.of(context)
+                                  .bodySmall
+                                  .override(
+                                fontFamily: 'Roboto',
+                                color: Colors.white,
+                              ),
+                            ),
+                            duration: Duration(milliseconds: 4000),
+                            backgroundColor:
+                            FlutterFlowTheme.of(context).primary,
+                          ),
+                        );
+                        return;
+                      }
+
+                      if ((_model.textController1.text != null &&
+                          _model.textController1.text != '') &&
+                          (_model.textController2.text != null &&
+                              _model.textController2.text != '') &&
+                          (FFAppState().mediaUrl.length > 0)) {
+                        await Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => AddProductDetailWidget(
+                              productName: _model.textController1.text,
+                              productDescription:
+                              _model.textController2.text,
+                              images: FFAppState().mediaUrl.toList(),
+                            ),
+                          ),
+                        );
+                      }
+                      // else {
+                      //   ScaffoldMessenger.of(context).showSnackBar(
+                      //     SnackBar(
+                      //       content: Text(
+                      //         'Post Details cant be empty',
+                      //         style: FlutterFlowTheme.of(context)
+                      //             .bodySmall
+                      //             .override(
+                      //           fontFamily: 'Roboto',
+                      //           color: Colors.white,
+                      //         ),
+                      //       ),
+                      //       duration: Duration(milliseconds: 4000),
+                      //       backgroundColor:
+                      //       FlutterFlowTheme.of(context).primary,
+                      //     ),
+                      //   );
+                      // }
+                    },
+                    child: Container(
+                      padding: EdgeInsets.symmetric(vertical: 12),
+                      alignment: Alignment.center,
+                      height: 43.0,
+                      decoration: BoxDecoration(
+                        color: FlutterFlowTheme.of(context).primary,
+                        borderRadius: BorderRadius.circular(22.0),
+                        shape: BoxShape.rectangle,
+                      ),
+                      child: Text(
+                        'Next',
+                        style: FlutterFlowTheme.of(context)
+                            .bodyMedium
+                            .override(
+                              fontFamily: 'Roboto',
+                              color: Colors.white,
+                              fontSize: 16.0,
+                              fontWeight: FontWeight.w600,
+                            ),
+                      ),
                     ),
                   ),
                 ),

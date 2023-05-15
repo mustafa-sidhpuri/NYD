@@ -203,7 +203,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                   fontFamily: 'Roboto',
                                   color: Color(0xFF7D8180),
                                 ),
-                            hintText: 'Search items for sale',
+                            hintText: 'Search items nearby',
                             hintStyle: FlutterFlowTheme.of(context)
                                 .bodyMedium
                                 .override(

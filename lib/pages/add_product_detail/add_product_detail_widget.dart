@@ -93,7 +93,7 @@ class _AddProductDetailWidgetState extends State<AddProductDetailWidget> {
                         padding:
                         EdgeInsetsDirectional.fromSTEB(72.0, 0.0, 0.0, 0.0),
                         child: Text(
-                          'Add Product Details',
+                          'Add Post Details',
                           style: FlutterFlowTheme.of(context).headlineSmall,
                         ),
                       ),
@@ -126,7 +126,7 @@ class _AddProductDetailWidgetState extends State<AddProductDetailWidget> {
                     color: FlutterFlowTheme.of(context).secondaryText,
                   ),
                   textStyle: FlutterFlowTheme.of(context).bodyMedium,
-                  hintText: 'Add Category',
+                  hintText: 'Free/Exchange',
                   searchHintText: 'Search for an item...',
                   icon: Icon(
                     Icons.keyboard_arrow_down,
@@ -144,7 +144,7 @@ class _AddProductDetailWidgetState extends State<AddProductDetailWidget> {
                 Padding(
                   padding: EdgeInsetsDirectional.fromSTEB(0.0, 26.0, 0.0, 0.0),
                   child: Text(
-                    'Sub-category',
+                    'Category',
                     style: FlutterFlowTheme.of(context).labelMedium.override(
                       fontFamily: 'Roboto',
                       color: Color(0xFF7D8180),
@@ -157,11 +157,12 @@ class _AddProductDetailWidgetState extends State<AddProductDetailWidget> {
                     controller: _model.subCategoryController,
                     obscureText: false,
                     decoration: InputDecoration(
-                      hintText: 'Add Sub-Category',
+                      hintText: 'Add Category',
                       hintStyle:
                       FlutterFlowTheme.of(context).bodySmall.override(
                         fontFamily: 'Roboto',
                         fontSize: 14.0,
+                        color: Colors.grey,
                         fontWeight: FontWeight.w500,
                       ),
                       enabledBorder: UnderlineInputBorder(
@@ -313,14 +314,74 @@ class _AddProductDetailWidgetState extends State<AddProductDetailWidget> {
                           hoverColor: Colors.transparent,
                           highlightColor: Colors.transparent,
                           onTap: () async {
+                            if(_model.subCategoryController.text == ''){
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(
+                                    'Category can\'t be empty',
+                                    style: FlutterFlowTheme.of(context)
+                                        .bodySmall
+                                        .override(
+                                      fontFamily: 'Roboto',
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                  duration: Duration(milliseconds: 4000),
+                                  backgroundColor:
+                                  FlutterFlowTheme.of(context).primary,
+                                ),
+                              );
+                              return;
+                            }
+                            if(_model.dropDownValue1 == ''){
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(
+                                    'Offer can\'t be empty',
+                                    style: FlutterFlowTheme.of(context)
+                                        .bodySmall
+                                        .override(
+                                      fontFamily: 'Roboto',
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                  duration: Duration(milliseconds: 4000),
+                                  backgroundColor:
+                                  FlutterFlowTheme.of(context).primary,
+                                ),
+                              );
+                              return;
+                            }
+
+
+
+                            if(_model.dropDownValue2 == ''){
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(
+                                    'Condition can\'t be empty',
+                                    style: FlutterFlowTheme.of(context)
+                                        .bodySmall
+                                        .override(
+                                      fontFamily: 'Roboto',
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                  duration: Duration(milliseconds: 4000),
+                                  backgroundColor:
+                                  FlutterFlowTheme.of(context).primary,
+                                ),
+                              );
+                              return;
+                            }
+
                             LoadingOverlay.show(context);
                             currentUserLocationValue =
                             await getCurrentUserLocation(
                                 defaultLocation: LatLng(0.0, 0.0));
                             if ((_model.dropDownValue1 != null &&
                                 _model.dropDownValue1 != '') &&
-                                (_model.subCategoryController.text != null &&
-                                    _model.subCategoryController.text != '') &&
+                                (_model.subCategoryController.text != '') &&
                                 (_model.dropDownValue2 != null &&
                                     _model.dropDownValue2 != '')) {
                               final postsCreateData = {
@@ -365,7 +426,7 @@ class _AddProductDetailWidgetState extends State<AddProductDetailWidget> {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
                                   content: Text(
-                                    'Product Added Successfully',
+                                    'Post Added Successfully',
                                     style: TextStyle(
                                       color: Colors.white,
                                     ),
@@ -389,25 +450,8 @@ class _AddProductDetailWidgetState extends State<AddProductDetailWidget> {
                                 ),
                                     (r) => false,
                               );
-                            } else {
-                              LoadingOverlay.hide();
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text(
-                                    'Product Details cant be empty',
-                                    style: FlutterFlowTheme.of(context)
-                                        .bodyMedium
-                                        .override(
-                                      fontFamily: 'Roboto',
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                  duration: Duration(milliseconds: 4000),
-                                  backgroundColor:
-                                  FlutterFlowTheme.of(context).primary,
-                                ),
-                              );
                             }
+
 
                             setState(() {});
                           },
