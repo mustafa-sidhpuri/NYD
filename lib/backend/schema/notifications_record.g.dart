@@ -91,6 +91,14 @@ class _$NotificationsRecordSerializer
         ..add(serializers.serialize(value,
             specifiedType: const FullType(String)));
     }
+    value = object.userRef;
+    if (value != null) {
+      result
+        ..add('user_ref')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(
+                DocumentReference, const [const FullType.nullable(Object)])));
+    }
     value = object.ffRef;
     if (value != null) {
       result
@@ -156,6 +164,12 @@ class _$NotificationsRecordSerializer
           result.userProfile = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String?;
           break;
+        case 'user_ref':
+          result.userRef = serializers.deserialize(value,
+              specifiedType: const FullType(DocumentReference, const [
+                const FullType.nullable(Object)
+              ])) as DocumentReference<Object?>?;
+          break;
         case 'Document__Reference__Field':
           result.ffRef = serializers.deserialize(value,
               specifiedType: const FullType(DocumentReference, const [
@@ -189,6 +203,8 @@ class _$NotificationsRecord extends NotificationsRecord {
   @override
   final String? userProfile;
   @override
+  final DocumentReference<Object?>? userRef;
+  @override
   final DocumentReference<Object?>? ffRef;
 
   factory _$NotificationsRecord(
@@ -205,6 +221,7 @@ class _$NotificationsRecord extends NotificationsRecord {
       this.postData,
       this.usersId,
       this.userProfile,
+      this.userRef,
       this.ffRef})
       : super._();
 
@@ -230,6 +247,7 @@ class _$NotificationsRecord extends NotificationsRecord {
         postData == other.postData &&
         usersId == other.usersId &&
         userProfile == other.userProfile &&
+        userRef == other.userRef &&
         ffRef == other.ffRef;
   }
 
@@ -245,6 +263,7 @@ class _$NotificationsRecord extends NotificationsRecord {
     _$hash = $jc(_$hash, postData.hashCode);
     _$hash = $jc(_$hash, usersId.hashCode);
     _$hash = $jc(_$hash, userProfile.hashCode);
+    _$hash = $jc(_$hash, userRef.hashCode);
     _$hash = $jc(_$hash, ffRef.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
@@ -262,6 +281,7 @@ class _$NotificationsRecord extends NotificationsRecord {
           ..add('postData', postData)
           ..add('usersId', usersId)
           ..add('userProfile', userProfile)
+          ..add('userRef', userRef)
           ..add('ffRef', ffRef))
         .toString();
   }
@@ -311,6 +331,10 @@ class NotificationsRecordBuilder
   String? get userProfile => _$this._userProfile;
   set userProfile(String? userProfile) => _$this._userProfile = userProfile;
 
+  DocumentReference<Object?>? _userRef;
+  DocumentReference<Object?>? get userRef => _$this._userRef;
+  set userRef(DocumentReference<Object?>? userRef) => _$this._userRef = userRef;
+
   DocumentReference<Object?>? _ffRef;
   DocumentReference<Object?>? get ffRef => _$this._ffRef;
   set ffRef(DocumentReference<Object?>? ffRef) => _$this._ffRef = ffRef;
@@ -331,6 +355,7 @@ class NotificationsRecordBuilder
       _postData = $v.postData;
       _usersId = $v.usersId?.toBuilder();
       _userProfile = $v.userProfile;
+      _userRef = $v.userRef;
       _ffRef = $v.ffRef;
       _$v = null;
     }
@@ -365,6 +390,7 @@ class NotificationsRecordBuilder
               postData: postData,
               usersId: _usersId?.build(),
               userProfile: userProfile,
+              userRef: userRef,
               ffRef: ffRef);
     } catch (_) {
       late String _$failedField;
