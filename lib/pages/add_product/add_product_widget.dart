@@ -86,7 +86,7 @@ class _AddProductWidgetState extends State<AddProductWidget> {
                   hoverColor: Colors.transparent,
                   highlightColor: Colors.transparent,
                   onTap: () async {
-                   if(FFAppState().mediaUrl.length == 5){
+                   if(FFAppState().mediaUrl.length == 1){
 
                      ScaffoldMessenger.of(context).showSnackBar(
                        SnackBar(
@@ -495,7 +495,7 @@ class _AddProductWidgetState extends State<AddProductWidget> {
                           highlightColor: Colors.transparent,
                           onTap: () async {
 
-                            if((FFAppState().mediaUrl.length < 5)){
+                            if((FFAppState().mediaUrl.length < 1)){
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
                                   content: Text(
@@ -536,7 +536,7 @@ class _AddProductWidgetState extends State<AddProductWidget> {
                                     _model.textController1.text != '') &&
                                 (_model.textController2.text != null &&
                                     _model.textController2.text != '')
-                                && (FFAppState().mediaUrl.length == 5)
+                                && (FFAppState().mediaUrl.length == 1)
                                 ) {
                               await Navigator.push(
                                 context,

@@ -1,3 +1,4 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +8,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'auth/firebase_auth/firebase_user_provider.dart';
 import 'auth/firebase_auth/auth_util.dart';
 
+import 'backend/push_notifications/local_notification_service.dart';
 import 'backend/push_notifications/push_notifications_util.dart';
 import 'backend/firebase/firebase_config.dart';
 import 'flutter_flow/flutter_flow_theme.dart';
@@ -14,15 +16,21 @@ import 'flutter_flow/flutter_flow_util.dart';
 import 'flutter_flow/internationalization.dart';
 import 'index.dart';
 
+
+Future<void> backgroundHandler(RemoteMessage message) async {
+  print("000000"+message.data.toString());
+  print("11111111"+message.notification!.title.toString());
+}
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await initFirebase();
-
+  FirebaseMessaging.onBackgroundMessage(backgroundHandler);
   await FlutterFlowTheme.initialize();
 
   final appState = FFAppState(); // Initialize FFAppState
   await appState.initializePersistedState();
-
+  LocalNotificationService.initialize();
   runApp(ChangeNotifierProvider(
     create: (context) => appState,
     child: MyApp(),

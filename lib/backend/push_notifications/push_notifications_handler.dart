@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:n_y_d_app/backend/push_notifications/local_notification_service.dart';
+
 import 'serialization_util.dart';
 import '../backend.dart';
 import '../../flutter_flow/flutter_flow_theme.dart';
@@ -34,13 +36,18 @@ class _PushNotificationsHandlerState extends State<PushNotificationsHandler> {
 
     final notification = await FirebaseMessaging.instance.getInitialMessage();
     if (notification != null) {
+      print("****************************************************"+notification.toString());
       await _handlePushNotification(notification);
     }
     FirebaseMessaging.onMessageOpenedApp.listen(_handlePushNotification);
   }
 
   Future _handlePushNotification(RemoteMessage message) async {
+
+
+
     if (_handledMessageIds.contains(message.messageId)) {
+      print("--------------------------------------------------"+message.messageId.toString());
       return;
     }
     _handledMessageIds.add(message.messageId);
@@ -60,12 +67,20 @@ class _PushNotificationsHandlerState extends State<PushNotificationsHandler> {
         );
       }
     } catch (e) {
+      print("errorr================================================="+e.toString());
       print('Error: $e');
     } finally {
       if (mounted) {
+        print("finallyy================================================="+mounted.toString());
         setState(() => _loading = false);
       }
     }
+    FirebaseMessaging.onMessage.listen((event) {
+      if(message.notification != null){
+        print("yessss calleddd");
+        LocalNotificationService.createanddisplaynotification(message);
+      }
+    });
   }
 
   @override
