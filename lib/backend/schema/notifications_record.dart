@@ -34,6 +34,9 @@ abstract class NotificationsRecord
   @BuiltValueField(wireName: 'user_profile')
   String? get userProfile;
 
+  @BuiltValueField(wireName: 'user_ref')
+  DocumentReference? get userRef;
+
   @BuiltValueField(wireName: kDocumentReferenceField)
   DocumentReference? get ffRef;
   DocumentReference get reference => ffRef!;
@@ -56,15 +59,15 @@ abstract class NotificationsRecord
 
   static Future<NotificationsRecord> getDocumentOnce(DocumentReference ref) =>
       ref.get().then(
-          (s) => serializers.deserializeWith(serializer, serializedData(s))!);
+              (s) => serializers.deserializeWith(serializer, serializedData(s))!);
 
   NotificationsRecord._();
   factory NotificationsRecord(
-          [void Function(NotificationsRecordBuilder) updates]) =
-      _$NotificationsRecord;
+      [void Function(NotificationsRecordBuilder) updates]) =
+  _$NotificationsRecord;
 
   static NotificationsRecord getDocumentFromData(
-          Map<String, dynamic> data, DocumentReference reference) =>
+      Map<String, dynamic> data, DocumentReference reference) =>
       serializers.deserializeWith(serializer,
           {...mapFromFirestore(data), kDocumentReferenceField: reference})!;
 }
@@ -77,11 +80,12 @@ Map<String, dynamic> createNotificationsRecordData({
   String? title,
   DocumentReference? postData,
   String? userProfile,
+  DocumentReference? userRef,
 }) {
   final firestoreData = serializers.toFirestore(
     NotificationsRecord.serializer,
     NotificationsRecord(
-      (n) => n
+          (n) => n
         ..conversationId = conversationId
         ..createdAt = createdAt
         ..message = message
@@ -90,9 +94,11 @@ Map<String, dynamic> createNotificationsRecordData({
         ..users = null
         ..postData = postData
         ..usersId = null
-        ..userProfile = userProfile,
+        ..userProfile = userProfile
+        ..userRef = userRef,
     ),
   );
 
   return firestoreData;
 }
+

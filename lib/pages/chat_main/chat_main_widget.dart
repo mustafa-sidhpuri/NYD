@@ -612,30 +612,42 @@ class _ChatMainWidgetState extends State<ChatMainWidget> {
                                                   .fromSTEB(
                                                       28.0, 0.0, 16.0, 0.0),
                                               child: Container(
-                                                  width: 42.0,
-                                                  height: 42.0,
-                                                  clipBehavior: Clip.antiAlias,
-                                                  decoration: BoxDecoration(
-                                                    border: Border.all(
-                                                        color: Colors.black
-                                                            .withOpacity(0.5)),
-                                                    color: FlutterFlowTheme.of(
-                                                            context)
-                                                        .secondaryBackground,
-                                                    shape: BoxShape.circle,
-                                                  ),
-                                                  child: listViewNotificationsRecord
-                                                                  .userProfile !=
-                                                              null &&
-                                                          listViewNotificationsRecord
-                                                                  .userProfile !=
-                                                              ""
-                                                      ? CachedNetworkImageWidget(
-                                                          image:
-                                                              listViewNotificationsRecord
-                                                                  .userProfile,
-                                                        )
-                                                      : Icon(Icons.person)),
+                                                width: 42.0,
+                                                height: 42.0,
+                                                clipBehavior: Clip.antiAlias,
+                                                decoration: BoxDecoration(
+                                                  border: Border.all(
+                                                      color: Colors.black
+                                                          .withOpacity(0.5)),
+                                                  color: FlutterFlowTheme.of(
+                                                          context)
+                                                      .secondaryBackground,
+                                                  shape: BoxShape.circle,
+                                                ),
+                                                child:
+                                                    listViewNotificationsRecord
+                                                                .userRef !=
+                                                            null
+                                                        ? FutureBuilder<
+                                                            DocumentSnapshot>(
+                                                            future:
+                                                                listViewNotificationsRecord
+                                                                    .userRef!
+                                                                    .get(),
+                                                            builder: (context,
+                                                                snapshot) {
+                                                              return snapshot
+                                                                      .hasData
+                                                                  ? CachedNetworkImageWidget(
+                                                                      image: snapshot
+                                                                              .data![
+                                                                          "photo_url"])
+                                                                  : Icon(Icons
+                                                                      .person);
+                                                            },
+                                                          )
+                                                        : Icon(Icons.person),
+                                              ),
                                             ),
                                           ),
                                           Row(

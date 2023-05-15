@@ -7,7 +7,7 @@ part of 'notifications_record.dart';
 // **************************************************************************
 
 Serializer<NotificationsRecord> _$notificationsRecordSerializer =
-    new _$NotificationsRecordSerializer();
+new _$NotificationsRecordSerializer();
 
 class _$NotificationsRecordSerializer
     implements StructuredSerializer<NotificationsRecord> {
@@ -82,7 +82,7 @@ class _$NotificationsRecordSerializer
         ..add('users_id')
         ..add(serializers.serialize(value,
             specifiedType:
-                const FullType(BuiltList, const [const FullType(String)])));
+            const FullType(BuiltList, const [const FullType(String)])));
     }
     value = object.userProfile;
     if (value != null) {
@@ -90,6 +90,14 @@ class _$NotificationsRecordSerializer
         ..add('user_profile')
         ..add(serializers.serialize(value,
             specifiedType: const FullType(String)));
+    }
+    value = object.userRef;
+    if (value != null) {
+      result
+        ..add('user_ref')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(
+                DocumentReference, const [const FullType.nullable(Object)])));
     }
     value = object.ffRef;
     if (value != null) {
@@ -136,9 +144,9 @@ class _$NotificationsRecordSerializer
           break;
         case 'users':
           result.users.replace(serializers.deserialize(value,
-                  specifiedType: const FullType(
-                      BuiltList, const [const FullType(UsersStruct)]))!
-              as BuiltList<Object?>);
+              specifiedType: const FullType(
+                  BuiltList, const [const FullType(UsersStruct)]))!
+          as BuiltList<Object?>);
           break;
         case 'postData':
           result.postData = serializers.deserialize(value,
@@ -148,13 +156,19 @@ class _$NotificationsRecordSerializer
           break;
         case 'users_id':
           result.usersId.replace(serializers.deserialize(value,
-                  specifiedType: const FullType(
-                      BuiltList, const [const FullType(String)]))!
-              as BuiltList<Object?>);
+              specifiedType: const FullType(
+                  BuiltList, const [const FullType(String)]))!
+          as BuiltList<Object?>);
           break;
         case 'user_profile':
           result.userProfile = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String?;
+          break;
+        case 'user_ref':
+          result.userRef = serializers.deserialize(value,
+              specifiedType: const FullType(DocumentReference, const [
+                const FullType.nullable(Object)
+              ])) as DocumentReference<Object?>?;
           break;
         case 'Document__Reference__Field':
           result.ffRef = serializers.deserialize(value,
@@ -189,28 +203,31 @@ class _$NotificationsRecord extends NotificationsRecord {
   @override
   final String? userProfile;
   @override
+  final DocumentReference<Object?>? userRef;
+  @override
   final DocumentReference<Object?>? ffRef;
 
   factory _$NotificationsRecord(
-          [void Function(NotificationsRecordBuilder)? updates]) =>
+      [void Function(NotificationsRecordBuilder)? updates]) =>
       (new NotificationsRecordBuilder()..update(updates))._build();
 
   _$NotificationsRecord._(
       {this.conversationId,
-      this.createdAt,
-      this.message,
-      this.postId,
-      this.title,
-      this.users,
-      this.postData,
-      this.usersId,
-      this.userProfile,
-      this.ffRef})
+        this.createdAt,
+        this.message,
+        this.postId,
+        this.title,
+        this.users,
+        this.postData,
+        this.usersId,
+        this.userProfile,
+        this.userRef,
+        this.ffRef})
       : super._();
 
   @override
   NotificationsRecord rebuild(
-          void Function(NotificationsRecordBuilder) updates) =>
+      void Function(NotificationsRecordBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
@@ -230,6 +247,7 @@ class _$NotificationsRecord extends NotificationsRecord {
         postData == other.postData &&
         usersId == other.usersId &&
         userProfile == other.userProfile &&
+        userRef == other.userRef &&
         ffRef == other.ffRef;
   }
 
@@ -245,6 +263,7 @@ class _$NotificationsRecord extends NotificationsRecord {
     _$hash = $jc(_$hash, postData.hashCode);
     _$hash = $jc(_$hash, usersId.hashCode);
     _$hash = $jc(_$hash, userProfile.hashCode);
+    _$hash = $jc(_$hash, userRef.hashCode);
     _$hash = $jc(_$hash, ffRef.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
@@ -253,16 +272,17 @@ class _$NotificationsRecord extends NotificationsRecord {
   @override
   String toString() {
     return (newBuiltValueToStringHelper(r'NotificationsRecord')
-          ..add('conversationId', conversationId)
-          ..add('createdAt', createdAt)
-          ..add('message', message)
-          ..add('postId', postId)
-          ..add('title', title)
-          ..add('users', users)
-          ..add('postData', postData)
-          ..add('usersId', usersId)
-          ..add('userProfile', userProfile)
-          ..add('ffRef', ffRef))
+      ..add('conversationId', conversationId)
+      ..add('createdAt', createdAt)
+      ..add('message', message)
+      ..add('postId', postId)
+      ..add('title', title)
+      ..add('users', users)
+      ..add('postData', postData)
+      ..add('usersId', usersId)
+      ..add('userProfile', userProfile)
+      ..add('userRef', userRef)
+      ..add('ffRef', ffRef))
         .toString();
   }
 }
@@ -311,6 +331,10 @@ class NotificationsRecordBuilder
   String? get userProfile => _$this._userProfile;
   set userProfile(String? userProfile) => _$this._userProfile = userProfile;
 
+  DocumentReference<Object?>? _userRef;
+  DocumentReference<Object?>? get userRef => _$this._userRef;
+  set userRef(DocumentReference<Object?>? userRef) => _$this._userRef = userRef;
+
   DocumentReference<Object?>? _ffRef;
   DocumentReference<Object?>? get ffRef => _$this._ffRef;
   set ffRef(DocumentReference<Object?>? ffRef) => _$this._ffRef = ffRef;
@@ -331,6 +355,7 @@ class NotificationsRecordBuilder
       _postData = $v.postData;
       _usersId = $v.usersId?.toBuilder();
       _userProfile = $v.userProfile;
+      _userRef = $v.userRef;
       _ffRef = $v.ffRef;
       _$v = null;
     }
@@ -365,6 +390,7 @@ class NotificationsRecordBuilder
               postData: postData,
               usersId: _usersId?.build(),
               userProfile: userProfile,
+              userRef: userRef,
               ffRef: ffRef);
     } catch (_) {
       late String _$failedField;
