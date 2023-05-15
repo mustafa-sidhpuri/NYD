@@ -7,6 +7,42 @@
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:672578937697:android:47fbdd4d156f1d44735b20",
+        "android_client_info": {
+          "package_name": "com.food.share.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "672578937697-qrm8dtqi7c57k92ugeovaqj0531p64t3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCU9QUwMmSU_J1N4dGnyxnAutpfhWQeCzs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "672578937697-qrm8dtqi7c57k92ugeovaqj0531p64t3.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "672578937697-dj7ini0iisb1duvboauotn4r6f9pl8pq.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.nyd.app"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:672578937697:android:961f0e8ec85a3e70735b20",
         "android_client_info": {
           "package_name": "com.nyd.app"
