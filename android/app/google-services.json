@@ -9,7 +9,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:672578937697:android:961f0e8ec85a3e70735b20",
         "android_client_info": {
-          "package_name": "com.food.share.app"
+          "package_name": "com.nyd.app"
         }
       },
       "oauth_client": [
@@ -17,7 +17,7 @@
           "client_id": "672578937697-6hou41ldbg2kb6fip93vle9gt4hdhp4r.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.food.share.appp",
+            "package_name": "com.nyd.app",
             "certificate_hash": "9bbb3186b2189ef16d8f272bdab59362c395cbb4"
           }
         },
@@ -42,7 +42,7 @@
               "client_id": "672578937697-dj7ini0iisb1duvboauotn4r6f9pl8pq.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.food.share.app"
+                "bundle_id": "com.nyd.app"
               }
             }
           ]
