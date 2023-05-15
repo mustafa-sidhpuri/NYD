@@ -8,7 +8,6 @@ import '/flutter_flow/upload_data.dart';
 import '/pages/add_product_detail/add_product_detail_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'add_product_model.dart';
 export 'add_product_model.dart';
@@ -57,6 +56,7 @@ class _AddProductWidgetState extends State<AddProductWidget> {
     return GestureDetector(
       onTap: () => FocusScope.of(context).requestFocus(_unfocusNode),
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
         key: scaffoldKey,
         backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
         body: SafeArea(
@@ -86,101 +86,97 @@ class _AddProductWidgetState extends State<AddProductWidget> {
                   hoverColor: Colors.transparent,
                   highlightColor: Colors.transparent,
                   onTap: () async {
-                   if(FFAppState().mediaUrl.length ==5){
+                    if (FFAppState().mediaUrl.length == 5) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(
+                            'Maximum 5 images select',
+                            style: TextStyle(
+                              color: Colors.white,
+                            ),
+                          ),
+                          duration: Duration(milliseconds: 4000),
+                          backgroundColor: FlutterFlowTheme.of(context).primary,
+                        ),
+                      );
+                    } else {
+                      _model.uploadedFileUrl = "";
+                      final selectedMedia =
+                          await selectMediaWithSourceBottomSheet(
+                        context: context,
+                        allowPhoto: true,
+                        backgroundColor: FlutterFlowTheme.of(context).tertiary,
+                        textColor: Colors.black,
+                        pickerFontFamily: 'Lexend Deca',
+                      );
+                      LoadingOverlay.show(context);
+                      if (selectedMedia != null &&
+                          selectedMedia.every((m) =>
+                              validateFileFormat(m.storagePath, context))) {
+                        setState(() => _model.isDataUploading = true);
+                        var selectedUploadedFiles = <FFUploadedFile>[];
+                        var downloadUrls = <String>[];
+                        try {
+                          selectedUploadedFiles = selectedMedia
+                              .map((m) => FFUploadedFile(
+                                    name: m.storagePath.split('/').last,
+                                    bytes: m.bytes,
+                                    height: m.dimensions?.height,
+                                    width: m.dimensions?.width,
+                                    blurHash: m.blurHash,
+                                  ))
+                              .toList();
 
-                     ScaffoldMessenger.of(context).showSnackBar(
-                       SnackBar(
-                         content: Text(
-                           'Maximum 5 images select',
-                           style: TextStyle(
-                             color: Colors.white,
-                           ),
-                         ),
-                         duration: Duration(milliseconds: 4000),
-                         backgroundColor: FlutterFlowTheme.of(context).primary,
-                       ),
-                     );
-                   }
-                      else{
-                     _model.uploadedFileUrl = "";
-                     final selectedMedia =
-                     await selectMediaWithSourceBottomSheet(
-                       context: context,
-                       allowPhoto: true,
-                       backgroundColor: FlutterFlowTheme.of(context).tertiary,
-                       textColor: Colors.black,
-                       pickerFontFamily: 'Lexend Deca',
-                     );
-                     LoadingOverlay.show(context);
-                     if (selectedMedia != null &&
-                         selectedMedia.every((m) =>
-                             validateFileFormat(m.storagePath, context))) {
-                       setState(() => _model.isDataUploading = true);
-                       var selectedUploadedFiles = <FFUploadedFile>[];
-                       var downloadUrls = <String>[];
-                       try {
-                         selectedUploadedFiles = selectedMedia
-                             .map((m) => FFUploadedFile(
-                           name: m.storagePath.split('/').last,
-                           bytes: m.bytes,
-                           height: m.dimensions?.height,
-                           width: m.dimensions?.width,
-                           blurHash: m.blurHash,
-                         ))
-                             .toList();
-
-                         downloadUrls = (await Future.wait(
-                           selectedMedia.map(
-                                 (m) async =>
-                             await uploadData(m.storagePath, m.bytes),
-                           ),
-                         ))
-                             .where((u) => u != null)
-                             .map((u) => u!)
-                             .toList();
-                       } finally {
-                         LoadingOverlay.hide();
-                         _model.isDataUploading = false;
-                       }
-                       LoadingOverlay.hide();
-                       if (selectedUploadedFiles.length ==
-                           selectedMedia.length &&
-                           downloadUrls.length == selectedMedia.length) {
-                         setState(() {
-                           _model.uploadedLocalFile =
-                               selectedUploadedFiles.first;
-                           _model.uploadedFileUrl = downloadUrls.first;
-                         });
-                       } else {
-                         setState(() {});
-                         return;
-                       }
-                     }
-                     if (_model.uploadedFileUrl != null &&
-                         _model.uploadedFileUrl != '') {
-                       setState(() {
-                         FFAppState().addToMediaUrl(valueOrDefault<String>(
-                           _model.uploadedFileUrl,
-                           'null',
-                         ));
-                       });
-                     } else {
-                       LoadingOverlay.hide();
-                       // ScaffoldMessenger.of(context).showSnackBar(
-                       //   SnackBar(
-                       //     content: Text(
-                       //       'Maximum 5 images select',
-                       //       style: TextStyle(
-                       //         color: Colors.white,
-                       //       ),
-                       //     ),
-                       //     duration: Duration(milliseconds: 4000),
-                       //     backgroundColor: FlutterFlowTheme.of(context).primary,
-                       //   ),
-                       // );
-                     }
-                   }
-
+                          downloadUrls = (await Future.wait(
+                            selectedMedia.map(
+                              (m) async =>
+                                  await uploadData(m.storagePath, m.bytes),
+                            ),
+                          ))
+                              .where((u) => u != null)
+                              .map((u) => u!)
+                              .toList();
+                        } finally {
+                          LoadingOverlay.hide();
+                          _model.isDataUploading = false;
+                        }
+                        LoadingOverlay.hide();
+                        if (selectedUploadedFiles.length ==
+                                selectedMedia.length &&
+                            downloadUrls.length == selectedMedia.length) {
+                          setState(() {
+                            _model.uploadedLocalFile =
+                                selectedUploadedFiles.first;
+                            _model.uploadedFileUrl = downloadUrls.first;
+                          });
+                        } else {
+                          setState(() {});
+                          return;
+                        }
+                      }
+                      if (_model.uploadedFileUrl != '') {
+                        setState(() {
+                          FFAppState().addToMediaUrl(valueOrDefault<String>(
+                            _model.uploadedFileUrl,
+                            'null',
+                          ));
+                        });
+                      } else {
+                        LoadingOverlay.hide();
+                        // ScaffoldMessenger.of(context).showSnackBar(
+                        //   SnackBar(
+                        //     content: Text(
+                        //       'Maximum 5 images select',
+                        //       style: TextStyle(
+                        //         color: Colors.white,
+                        //       ),
+                        //     ),
+                        //     duration: Duration(milliseconds: 4000),
+                        //     backgroundColor: FlutterFlowTheme.of(context).primary,
+                        //   ),
+                        // );
+                      }
+                    }
                   },
                   child: Container(
                     decoration: BoxDecoration(
@@ -235,6 +231,7 @@ class _AddProductWidgetState extends State<AddProductWidget> {
                 ),
                 if (FFAppState().mediaUrl.length > 0)
                   Expanded(
+                    flex: 4,
                     child: Padding(
                       padding:
                           EdgeInsetsDirectional.fromSTEB(0.0, 40.0, 0.0, 40.0),
@@ -263,14 +260,13 @@ class _AddProductWidgetState extends State<AddProductWidget> {
                                     alignment: AlignmentDirectional(1.0, -1.0),
                                     children: [
                                       ClipRRect(
-                                        borderRadius:
-                                            BorderRadius.circular(12.0),
-                                        child: CachedNetworkImageWidget(
-                                          image: galleryItem,
-                                          width: 100.0,
-                                          height: 85.0,
-                                        )
-                                      ),
+                                          borderRadius:
+                                              BorderRadius.circular(12.0),
+                                          child: CachedNetworkImageWidget(
+                                            image: galleryItem,
+                                            width: 100.0,
+                                            height: 85.0,
+                                          )),
                                       InkWell(
                                         splashColor: Colors.transparent,
                                         focusColor: Colors.transparent,
@@ -337,6 +333,7 @@ class _AddProductWidgetState extends State<AddProductWidget> {
                 TextFormField(
                   controller: _model.textController1,
                   textCapitalization: TextCapitalization.words,
+                  textInputAction: TextInputAction.next,
                   obscureText: false,
                   decoration: InputDecoration(
                     hintText: 'Add title',
@@ -464,16 +461,14 @@ class _AddProductWidgetState extends State<AddProductWidget> {
                 ),
                 Spacer(),
                 Padding(
-                  padding:
-                      EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 30.0),
+                  padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 30.0),
                   child: InkWell(
                     splashColor: Colors.transparent,
                     focusColor: Colors.transparent,
                     hoverColor: Colors.transparent,
                     highlightColor: Colors.transparent,
                     onTap: () async {
-
-                      if(_model.textController1.text == ''){
+                      if (_model.textController1.text == '') {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
                             content: Text(
@@ -481,18 +476,18 @@ class _AddProductWidgetState extends State<AddProductWidget> {
                               style: FlutterFlowTheme.of(context)
                                   .bodySmall
                                   .override(
-                                fontFamily: 'Roboto',
-                                color: Colors.white,
-                              ),
+                                    fontFamily: 'Roboto',
+                                    color: Colors.white,
+                                  ),
                             ),
                             duration: Duration(milliseconds: 4000),
                             backgroundColor:
-                            FlutterFlowTheme.of(context).primary,
+                                FlutterFlowTheme.of(context).primary,
                           ),
                         );
                         return;
                       }
-                      if(_model.textController2.text == ''){
+                      if (_model.textController2.text == '') {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
                             content: Text(
@@ -500,18 +495,18 @@ class _AddProductWidgetState extends State<AddProductWidget> {
                               style: FlutterFlowTheme.of(context)
                                   .bodySmall
                                   .override(
-                                fontFamily: 'Roboto',
-                                color: Colors.white,
-                              ),
+                                    fontFamily: 'Roboto',
+                                    color: Colors.white,
+                                  ),
                             ),
                             duration: Duration(milliseconds: 4000),
                             backgroundColor:
-                            FlutterFlowTheme.of(context).primary,
+                                FlutterFlowTheme.of(context).primary,
                           ),
                         );
                         return;
                       }
-                      if(FFAppState().mediaUrl.length == 0){
+                      if (FFAppState().mediaUrl.length == 0) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
                             content: Text(
@@ -519,30 +514,27 @@ class _AddProductWidgetState extends State<AddProductWidget> {
                               style: FlutterFlowTheme.of(context)
                                   .bodySmall
                                   .override(
-                                fontFamily: 'Roboto',
-                                color: Colors.white,
-                              ),
+                                    fontFamily: 'Roboto',
+                                    color: Colors.white,
+                                  ),
                             ),
                             duration: Duration(milliseconds: 4000),
                             backgroundColor:
-                            FlutterFlowTheme.of(context).primary,
+                                FlutterFlowTheme.of(context).primary,
                           ),
                         );
                         return;
                       }
 
-                      if ((_model.textController1.text != null &&
-                          _model.textController1.text != '') &&
-                          (_model.textController2.text != null &&
-                              _model.textController2.text != '') &&
+                      if ((_model.textController1.text != '') &&
+                          (_model.textController2.text != '') &&
                           (FFAppState().mediaUrl.length > 0)) {
                         await Navigator.push(
                           context,
                           MaterialPageRoute(
                             builder: (context) => AddProductDetailWidget(
                               productName: _model.textController1.text,
-                              productDescription:
-                              _model.textController2.text,
+                              productDescription: _model.textController2.text,
                               images: FFAppState().mediaUrl.toList(),
                             ),
                           ),
@@ -578,9 +570,7 @@ class _AddProductWidgetState extends State<AddProductWidget> {
                       ),
                       child: Text(
                         'Next',
-                        style: FlutterFlowTheme.of(context)
-                            .bodyMedium
-                            .override(
+                        style: FlutterFlowTheme.of(context).bodyMedium.override(
                               fontFamily: 'Roboto',
                               color: Colors.white,
                               fontSize: 16.0,

@@ -6,9 +6,7 @@ import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/form_field_controller.dart';
 import '/main.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'add_product_detail_model.dart';
 export 'add_product_detail_model.dart';
@@ -91,7 +89,7 @@ class _AddProductDetailWidgetState extends State<AddProductDetailWidget> {
                       ),
                       Padding(
                         padding:
-                        EdgeInsetsDirectional.fromSTEB(72.0, 0.0, 0.0, 0.0),
+                            EdgeInsetsDirectional.fromSTEB(72.0, 0.0, 0.0, 0.0),
                         child: Text(
                           'Add Post Details',
                           style: FlutterFlowTheme.of(context).headlineSmall,
@@ -105,26 +103,26 @@ class _AddProductDetailWidgetState extends State<AddProductDetailWidget> {
                   child: Text(
                     'Offer',
                     style: FlutterFlowTheme.of(context).labelMedium.override(
-                      fontFamily: 'Roboto',
-                      color: Color(0xFF7D8180),
-                    ),
+                          fontFamily: 'Roboto',
+                          color: Color(0xFF7D8180),
+                        ),
                   ),
                 ),
                 FlutterFlowDropDown<String>(
                   controller: _model.dropDownValueController1 ??=
                       FormFieldController<String>(
-                        _model.dropDownValue1 ??= '',
-                      ),
+                    _model.dropDownValue1 ??= '',
+                  ),
                   options: ['Free', 'Exchange'],
                   optionLabels: ['Free', 'Exchange'],
                   onChanged: (val) =>
                       setState(() => _model.dropDownValue1 = val),
                   height: 50.0,
                   searchHintTextStyle:
-                  FlutterFlowTheme.of(context).bodyLarge.override(
-                    fontFamily: 'Roboto',
-                    color: FlutterFlowTheme.of(context).secondaryText,
-                  ),
+                      FlutterFlowTheme.of(context).bodyLarge.override(
+                            fontFamily: 'Roboto',
+                            color: FlutterFlowTheme.of(context).secondaryText,
+                          ),
                   textStyle: FlutterFlowTheme.of(context).bodyMedium,
                   hintText: 'Free/Exchange',
                   searchHintText: 'Search for an item...',
@@ -146,9 +144,9 @@ class _AddProductDetailWidgetState extends State<AddProductDetailWidget> {
                   child: Text(
                     'Category',
                     style: FlutterFlowTheme.of(context).labelMedium.override(
-                      fontFamily: 'Roboto',
-                      color: Color(0xFF7D8180),
-                    ),
+                          fontFamily: 'Roboto',
+                          color: Color(0xFF7D8180),
+                        ),
                   ),
                 ),
                 Padding(
@@ -159,12 +157,12 @@ class _AddProductDetailWidgetState extends State<AddProductDetailWidget> {
                     decoration: InputDecoration(
                       hintText: 'Add Category',
                       hintStyle:
-                      FlutterFlowTheme.of(context).bodySmall.override(
-                        fontFamily: 'Roboto',
-                        fontSize: 14.0,
-                        color: Colors.grey,
-                        fontWeight: FontWeight.w500,
-                      ),
+                          FlutterFlowTheme.of(context).bodySmall.override(
+                                fontFamily: 'Roboto',
+                                fontSize: 14.0,
+                                color: Colors.grey,
+                                fontWeight: FontWeight.w500,
+                              ),
                       enabledBorder: UnderlineInputBorder(
                         borderSide: BorderSide(
                           color: Color(0xFF000000).withOpacity(0.1),
@@ -207,9 +205,9 @@ class _AddProductDetailWidgetState extends State<AddProductDetailWidget> {
                       ),
                     ),
                     style: FlutterFlowTheme.of(context).bodyMedium.override(
-                      fontFamily: 'Roboto',
-                      fontSize: 14.0,
-                    ),
+                          fontFamily: 'Roboto',
+                          fontSize: 14.0,
+                        ),
                     validator: _model.subCategoryControllerValidator
                         .asValidator(context),
                   ),
@@ -219,26 +217,26 @@ class _AddProductDetailWidgetState extends State<AddProductDetailWidget> {
                   child: Text(
                     'Condition',
                     style: FlutterFlowTheme.of(context).labelMedium.override(
-                      fontFamily: 'Roboto',
-                      color: Color(0xFF7D8180),
-                    ),
+                          fontFamily: 'Roboto',
+                          color: Color(0xFF7D8180),
+                        ),
                   ),
                 ),
                 FlutterFlowDropDown<String>(
                   controller: _model.dropDownValueController2 ??=
                       FormFieldController<String>(
-                        _model.dropDownValue2 ??= '',
-                      ),
+                    _model.dropDownValue2 ??= '',
+                  ),
                   options: ['Veg', 'Non-veg'],
                   optionLabels: ['Raw', 'Cooked'],
                   onChanged: (val) =>
                       setState(() => _model.dropDownValue2 = val),
                   height: 50.0,
                   searchHintTextStyle:
-                  FlutterFlowTheme.of(context).bodyLarge.override(
-                    fontFamily: 'Roboto',
-                    color: FlutterFlowTheme.of(context).secondaryText,
-                  ),
+                      FlutterFlowTheme.of(context).bodyLarge.override(
+                            fontFamily: 'Roboto',
+                            color: FlutterFlowTheme.of(context).secondaryText,
+                          ),
                   textStyle: FlutterFlowTheme.of(context).bodyMedium,
                   hintText: 'Raw/Cooked',
                   searchHintText: 'Search for an item...',
@@ -260,9 +258,9 @@ class _AddProductDetailWidgetState extends State<AddProductDetailWidget> {
                   child: Text(
                     'Location',
                     style: FlutterFlowTheme.of(context).labelMedium.override(
-                      fontFamily: 'Roboto',
-                      color: Color(0xFF7D8180),
-                    ),
+                          fontFamily: 'Roboto',
+                          color: Color(0xFF7D8180),
+                        ),
                   ),
                 ),
                 Padding(
@@ -275,9 +273,9 @@ class _AddProductDetailWidgetState extends State<AddProductDetailWidget> {
                       Text(
                         FFAppState().setLocation,
                         style: FlutterFlowTheme.of(context).bodyMedium.override(
-                          fontFamily: 'Roboto',
-                          fontSize: 16.0,
-                        ),
+                              fontFamily: 'Roboto',
+                              fontSize: 16.0,
+                            ),
                       ),
                       Icon(
                         Icons.location_on_outlined,
@@ -299,186 +297,167 @@ class _AddProductDetailWidgetState extends State<AddProductDetailWidget> {
                     ],
                   ),
                 ),
-                Expanded(
-                  child: Padding(
-                    padding:
-                    EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 30.0),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        InkWell(
-                          splashColor: Colors.transparent,
-                          focusColor: Colors.transparent,
-                          hoverColor: Colors.transparent,
-                          highlightColor: Colors.transparent,
-                          onTap: () async {
-                            if(_model.subCategoryController.text == ''){
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text(
-                                    'Category can\'t be empty',
-                                    style: FlutterFlowTheme.of(context)
-                                        .bodySmall
-                                        .override(
-                                      fontFamily: 'Roboto',
-                                      color: Colors.white,
-                                    ),
+                Spacer(),
+                Padding(
+                  padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 30.0),
+                  child: InkWell(
+                    splashColor: Colors.transparent,
+                    focusColor: Colors.transparent,
+                    hoverColor: Colors.transparent,
+                    highlightColor: Colors.transparent,
+                    onTap: () async {
+                      if (_model.subCategoryController.text == '') {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(
+                              'Category can\'t be empty',
+                              style: FlutterFlowTheme.of(context)
+                                  .bodySmall
+                                  .override(
+                                    fontFamily: 'Roboto',
+                                    color: Colors.white,
                                   ),
-                                  duration: Duration(milliseconds: 4000),
-                                  backgroundColor:
-                                  FlutterFlowTheme.of(context).primary,
-                                ),
-                              );
-                              return;
-                            }
-                            if(_model.dropDownValue1 == ''){
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text(
-                                    'Offer can\'t be empty',
-                                    style: FlutterFlowTheme.of(context)
-                                        .bodySmall
-                                        .override(
-                                      fontFamily: 'Roboto',
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                  duration: Duration(milliseconds: 4000),
-                                  backgroundColor:
-                                  FlutterFlowTheme.of(context).primary,
-                                ),
-                              );
-                              return;
-                            }
-
-
-
-                            if(_model.dropDownValue2 == ''){
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text(
-                                    'Condition can\'t be empty',
-                                    style: FlutterFlowTheme.of(context)
-                                        .bodySmall
-                                        .override(
-                                      fontFamily: 'Roboto',
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                  duration: Duration(milliseconds: 4000),
-                                  backgroundColor:
-                                  FlutterFlowTheme.of(context).primary,
-                                ),
-                              );
-                              return;
-                            }
-
-                            LoadingOverlay.show(context);
-                            currentUserLocationValue =
-                            await getCurrentUserLocation(
-                                defaultLocation: LatLng(0.0, 0.0));
-                            if ((_model.dropDownValue1 != null &&
-                                _model.dropDownValue1 != '') &&
-                                (_model.subCategoryController.text != '') &&
-                                (_model.dropDownValue2 != null &&
-                                    _model.dropDownValue2 != '')) {
-                              final postsCreateData = {
-                                ...createPostsRecordData(
-                                  name: valueOrDefault<String>(
-                                    widget.productName,
-                                    '\"\"',
-                                  ),
-                                  description: valueOrDefault<String>(
-                                    widget.productDescription,
-                                    '\"\"',
-                                  ),
-                                  categoryId: '123456987',
-                                  postType: valueOrDefault<String>(
-                                    _model.dropDownValue1,
-                                    'Free',
-                                  ),
-                                  foodType: valueOrDefault<String>(
-                                    _model.dropDownValue2,
-                                    'Veg',
-                                  ),
-                                  latlong: currentUserLocationValue,
-                                  address: FFAppState().setLocation,
-                                  createdAt: getCurrentTimestamp,
-                                  updatedAt: getCurrentTimestamp,
-                                  public: true,
-                                  isPickedUp: false,
-                                  subCategory:
-                                  _model.subCategoryController.text,
-                                  postedByName: currentUserDisplayName,
-                                  postedByProfile: currentUserPhoto,
-                                  userRef: currentUserReference,
-                                  postedBy: currentUserUid,
-                                ),
-                                'images': widget.images,
-                              };
-                              var postsRecordReference =
-                              PostsRecord.collection.doc();
-                              await postsRecordReference.set(postsCreateData);
-                              _model.postData = PostsRecord.getDocumentFromData(
-                                  postsCreateData, postsRecordReference);
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text(
-                                    'Post Added Successfully',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                  duration: Duration(milliseconds: 4000),
-                                  backgroundColor:
-                                  FlutterFlowTheme.of(context).primary,
-                                ),
-                              );
-                              FFAppState().update(() {
-                                FFAppState().mediaUrl = [];
-                              });
-                              LoadingOverlay.hide();
-                              await Navigator.pushAndRemoveUntil(
-                                context,
-                                PageTransition(
-                                  type: PageTransitionType.fade,
-                                  duration: Duration(milliseconds: 0),
-                                  reverseDuration: Duration(milliseconds: 0),
-                                  child: NavBarPage(initialPage: 'sellingPage'),
-                                ),
-                                    (r) => false,
-                              );
-                            }
-
-
-                            setState(() {});
-                          },
-                          child: Container(
-                            height: 43.0,
-                            decoration: BoxDecoration(
-                              color: FlutterFlowTheme.of(context).primary,
-                              borderRadius: BorderRadius.circular(22.0),
                             ),
-                            child: Padding(
-                              padding: EdgeInsetsDirectional.fromSTEB(
-                                  150.0, 12.0, 150.0, 12.0),
-                              child: Text(
-                                'Post',
-                                style: FlutterFlowTheme.of(context)
-                                    .bodyMedium
-                                    .override(
-                                  fontFamily: 'Roboto',
-                                  color: Colors.white,
-                                  fontSize: 16.0,
-                                  fontWeight: FontWeight.w600,
-                                ),
+                            duration: Duration(milliseconds: 4000),
+                            backgroundColor:
+                                FlutterFlowTheme.of(context).primary,
+                          ),
+                        );
+                        return;
+                      }
+                      if (_model.dropDownValue1 == '') {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(
+                              'Offer can\'t be empty',
+                              style: FlutterFlowTheme.of(context)
+                                  .bodySmall
+                                  .override(
+                                    fontFamily: 'Roboto',
+                                    color: Colors.white,
+                                  ),
+                            ),
+                            duration: Duration(milliseconds: 4000),
+                            backgroundColor:
+                                FlutterFlowTheme.of(context).primary,
+                          ),
+                        );
+                        return;
+                      }
+
+                      if (_model.dropDownValue2 == '') {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(
+                              'Condition can\'t be empty',
+                              style: FlutterFlowTheme.of(context)
+                                  .bodySmall
+                                  .override(
+                                    fontFamily: 'Roboto',
+                                    color: Colors.white,
+                                  ),
+                            ),
+                            duration: Duration(milliseconds: 4000),
+                            backgroundColor:
+                                FlutterFlowTheme.of(context).primary,
+                          ),
+                        );
+                        return;
+                      }
+
+                      LoadingOverlay.show(context);
+                      currentUserLocationValue = await getCurrentUserLocation(
+                          defaultLocation: LatLng(0.0, 0.0));
+                      if ((_model.dropDownValue1 != null &&
+                              _model.dropDownValue1 != '') &&
+                          (_model.subCategoryController.text != '') &&
+                          (_model.dropDownValue2 != null &&
+                              _model.dropDownValue2 != '')) {
+                        final postsCreateData = {
+                          ...createPostsRecordData(
+                            name: valueOrDefault<String>(
+                              widget.productName,
+                              '\"\"',
+                            ),
+                            description: valueOrDefault<String>(
+                              widget.productDescription,
+                              '\"\"',
+                            ),
+                            categoryId: '123456987',
+                            postType: valueOrDefault<String>(
+                              _model.dropDownValue1,
+                              'Free',
+                            ),
+                            foodType: valueOrDefault<String>(
+                              _model.dropDownValue2,
+                              'Veg',
+                            ),
+                            latlong: currentUserLocationValue,
+                            address: FFAppState().setLocation,
+                            createdAt: getCurrentTimestamp,
+                            updatedAt: getCurrentTimestamp,
+                            public: true,
+                            isPickedUp: false,
+                            subCategory: _model.subCategoryController.text,
+                            postedByName: currentUserDisplayName,
+                            postedByProfile: currentUserPhoto,
+                            userRef: currentUserReference,
+                            postedBy: currentUserUid,
+                          ),
+                          'images': widget.images,
+                        };
+                        var postsRecordReference = PostsRecord.collection.doc();
+                        await postsRecordReference.set(postsCreateData);
+                        _model.postData = PostsRecord.getDocumentFromData(
+                            postsCreateData, postsRecordReference);
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(
+                              'Post Added Successfully',
+                              style: TextStyle(
+                                color: Colors.white,
                               ),
                             ),
+                            duration: Duration(milliseconds: 4000),
+                            backgroundColor:
+                                FlutterFlowTheme.of(context).primary,
                           ),
-                        ),
-                      ],
+                        );
+                        FFAppState().update(() {
+                          FFAppState().mediaUrl = [];
+                        });
+                        LoadingOverlay.hide();
+                        await Navigator.pushAndRemoveUntil(
+                          context,
+                          PageTransition(
+                            type: PageTransitionType.fade,
+                            duration: Duration(milliseconds: 0),
+                            reverseDuration: Duration(milliseconds: 0),
+                            child: NavBarPage(initialPage: 'sellingPage'),
+                          ),
+                          (r) => false,
+                        );
+                      }
+
+                      setState(() {});
+                    },
+                    child: Container(
+                      height: 43.0,
+                      padding: EdgeInsets.symmetric(vertical: 12),
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        color: FlutterFlowTheme.of(context).primary,
+                        borderRadius: BorderRadius.circular(22.0),
+                      ),
+                      child: Text(
+                        'Post',
+                        style: FlutterFlowTheme.of(context).bodyMedium.override(
+                              fontFamily: 'Roboto',
+                              color: Colors.white,
+                              fontSize: 16.0,
+                              fontWeight: FontWeight.w600,
+                            ),
+                      ),
                     ),
                   ),
                 ),
@@ -490,4 +469,3 @@ class _AddProductDetailWidgetState extends State<AddProductDetailWidget> {
     );
   }
 }
-
