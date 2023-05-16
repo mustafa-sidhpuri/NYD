@@ -76,40 +76,40 @@ class _PushNotificationsHandlerState extends State<PushNotificationsHandler> {
     // FirebaseMessaging.onMessageOpenedApp.listen(_handlePushNotification);
   }
 
-  Future _handlePushNotification(RemoteMessage message) async {
-    if (_handledMessageIds.contains(message.messageId)) {
-      print("--------------------------------------------------" +
-          message.messageId.toString());
-      return;
-    }
-    _handledMessageIds.add(message.messageId);
-
-    if (mounted) {
-      setState(() => _loading = true);
-    }
-    try {
-      final initialPageName = message.data['initialPageName'] as String;
-      final initialParameterData = getInitialParameterData(message.data);
-      final pageBuilder = pageBuilderMap[initialPageName];
-      if (pageBuilder != null) {
-        final page = await pageBuilder(initialParameterData);
-        await Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => page),
-        );
-      }
-    } catch (e) {
-      print("errorr=================================================" +
-          e.toString());
-      print('Error: $e');
-    } finally {
-      if (mounted) {
-        print("finallyy=================================================" +
-            mounted.toString());
-        setState(() => _loading = false);
-      }
-    }
-  }
+  // Future _handlePushNotification(RemoteMessage message) async {
+  //   if (_handledMessageIds.contains(message.messageId)) {
+  //     print("--------------------------------------------------" +
+  //         message.messageId.toString());
+  //     return;
+  //   }
+  //   _handledMessageIds.add(message.messageId);
+  //
+  //   if (mounted) {
+  //     setState(() => _loading = true);
+  //   }
+  //   try {
+  //     final initialPageName = message.data['initialPageName'] as String;
+  //     final initialParameterData = getInitialParameterData(message.data);
+  //     final pageBuilder = pageBuilderMap[initialPageName];
+  //     if (pageBuilder != null) {
+  //       final page = await pageBuilder(initialParameterData);
+  //       await Navigator.push(
+  //         context,
+  //         MaterialPageRoute(builder: (context) => page),
+  //       );
+  //     }
+  //   } catch (e) {
+  //     print("errorr=================================================" +
+  //         e.toString());
+  //     print('Error: $e');
+  //   } finally {
+  //     if (mounted) {
+  //       print("finallyy=================================================" +
+  //           mounted.toString());
+  //       setState(() => _loading = false);
+  //     }
+  //   }
+  // }
 
   @override
   void initState() {

@@ -1,9 +1,6 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
-import '../../main.dart';
 
 class LocalNotificationService {
   static final FlutterLocalNotificationsPlugin _notificationsPlugin =
@@ -12,7 +9,7 @@ class LocalNotificationService {
   static void initialize() {
     // initializationSettings  for Android and ios
     InitializationSettings initializationSettings = InitializationSettings(
-        android: AndroidInitializationSettings("ic_launcher"),
+        android: AndroidInitializationSettings("@mipmap/ic_launcher"),
         iOS: DarwinInitializationSettings(
             requestAlertPermission: true,
             requestBadgePermission: true,
@@ -24,10 +21,6 @@ class LocalNotificationService {
       initializationSettings,
       onDidReceiveNotificationResponse: (id) async {
         print("onSelectNotification");
-        if (id != null) {
-          print("Router Value1234 $id");
-
-        }
       },
     );
   }

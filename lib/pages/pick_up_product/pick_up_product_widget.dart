@@ -477,7 +477,6 @@ class _PickUpProductWidgetState extends State<PickUpProductWidget> {
                                 hoverColor: Colors.transparent,
                                 highlightColor: Colors.transparent,
                                 onTap: () async {
-                                  if (widget.pickupProductDoc!.public == true) {
                                     final postsUpdateData =
                                         createPostsRecordData(
                                       pickup: createPickupStruct(
@@ -499,25 +498,7 @@ class _PickUpProductWidgetState extends State<PickUpProductWidget> {
                                             initialPage: 'sellingPage'),
                                       ),
                                     );
-                                  } else {
-                                    ScaffoldMessenger.of(context)
-                                        .clearSnackBars();
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                        content: Text(
-                                          'Product is not in List',
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 14.0,
-                                          ),
-                                        ),
-                                        duration: Duration(milliseconds: 4000),
-                                        backgroundColor:
-                                            FlutterFlowTheme.of(context)
-                                                .primary,
-                                      ),
-                                    );
-                                  }
+
                                 },
                                 child: Container(
                                   decoration: BoxDecoration(
