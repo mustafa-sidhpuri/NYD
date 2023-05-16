@@ -5,17 +5,19 @@ class CachedNetworkImageWidget extends StatelessWidget {
   final String? image;
   final double? height;
   final double? width;
-  const CachedNetworkImageWidget({Key? key, required this.image,  this.height,  this.width}) : super(key: key);
-
+  const CachedNetworkImageWidget(
+      {Key? key, required this.image, this.height, this.width,this.fit})
+      : super(key: key);
+  final BoxFit? fit;
   @override
   Widget build(BuildContext context) {
-    return  CachedNetworkImage(
-      imageUrl: image??"",
+    return CachedNetworkImage(
+      imageUrl: image ?? "",
       height: height,
       width: width,
       placeholder: (context, url) => Center(child: CircularProgressIndicator()),
       errorWidget: (context, url, error) => Icon(Icons.person),
-      fit: BoxFit.cover,
+      fit: fit??BoxFit.cover,
     );
   }
 }
