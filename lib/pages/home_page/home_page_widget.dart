@@ -8,12 +8,10 @@ import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/pages/product_details/product_details_widget.dart';
 import '/custom_code/actions/index.dart' as actions;
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'home_page_model.dart';
 export 'home_page_model.dart';
@@ -34,39 +32,35 @@ class _HomePageWidgetState extends State<HomePageWidget> {
   Position? position;
 
   Future<void> _requestPermission() async {
-
     PermissionStatus status = await Permission.locationWhenInUse.request();
 
-
-      if (status == PermissionStatus.denied ||
-          status == PermissionStatus.permanentlyDenied) {
-        Permission.locationWhenInUse.request();
-      } else {
-
-        position = await Geolocator.getCurrentPosition(
-          desiredAccuracy: LocationAccuracy.high,
+    if (status == PermissionStatus.denied ||
+        status == PermissionStatus.permanentlyDenied) {
+      Permission.locationWhenInUse.request();
+    } else {
+      position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high,
+      );
+      SchedulerBinding.instance.addPostFrameCallback((_) async {
+        currentUserLocationValue =
+            LatLng(position?.latitude ?? 0, position?.longitude ?? 0);
+        await actions.getLocation(
+          currentUserLocationValue,
         );
-        SchedulerBinding.instance.addPostFrameCallback((_) async {
-          currentUserLocationValue = LatLng(position?.latitude ?? 0, position?.longitude ?? 0);
-          await actions.getLocation(
-            currentUserLocationValue,
-          );
-          FFAppState().update(() {
-            FFAppState().setLocation = FFAppState().userlocation;
-          });
-
-          final usersUpdateData = createUsersRecordData(
-            userAddress: FFAppState().setLocation,
-            latlng: currentUserLocationValue,
-          );
-          await currentUserReference!.update(usersUpdateData);
+        FFAppState().update(() {
+          FFAppState().setLocation = FFAppState().userlocation;
         });
 
-        //  currentUserLocationValue = LatLng(position.latitude,position.longitude);
-        print('Location service is enabled and permission is granted.');
-      }
+        final usersUpdateData = createUsersRecordData(
+          userAddress: FFAppState().setLocation,
+          latlng: currentUserLocationValue,
+        );
+        await currentUserReference!.update(usersUpdateData);
+      });
 
-
+      //  currentUserLocationValue = LatLng(position.latitude,position.longitude);
+      print('Location service is enabled and permission is granted.');
+    }
   }
 
   @override
@@ -425,6 +419,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                       );
                                     },
                                     child: Container(
+                                      padding: EdgeInsets.only(bottom: 7),
                                       decoration: BoxDecoration(
                                         color: Colors.white,
                                         boxShadow: [
@@ -442,19 +437,24 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
-                                          ClipRRect(
-                                            borderRadius: BorderRadius.only(
-                                              bottomLeft: Radius.circular(0.0),
-                                              bottomRight: Radius.circular(0.0),
-                                              topLeft: Radius.circular(12.0),
-                                              topRight: Radius.circular(12.0),
-                                            ),
-                                            child: CachedNetworkImageWidget(
-                                              image: gridViewPostsRecord.images!
-                                                  .toList()
-                                                  .first,
-                                              width: double.infinity,
-                                              height: 130.0,
+                                          Expanded(
+                                            child: ClipRRect(
+                                              borderRadius: BorderRadius.only(
+                                                bottomLeft:
+                                                    Radius.circular(0.0),
+                                                bottomRight:
+                                                    Radius.circular(0.0),
+                                                topLeft: Radius.circular(12.0),
+                                                topRight: Radius.circular(12.0),
+                                              ),
+                                              child: CachedNetworkImageWidget(
+                                                image: gridViewPostsRecord
+                                                    .images!
+                                                    .toList()
+                                                    .first,
+                                                width: double.infinity,
+                                                // height: 130.0,
+                                              ),
                                             ),
                                           ),
                                           Padding(
@@ -534,10 +534,12 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                                       .fromSTEB(
                                                           5.0, 0.0, 0.0, 0.0),
                                                   child: Text(
-                                                    gridViewPostsRecord.conversations?.length == null ?
-                                                    '0 Conversations':
-                                                    '${gridViewPostsRecord.conversations?.length} ${"Conversations"}',
-
+                                                    gridViewPostsRecord
+                                                                .conversations
+                                                                ?.length ==
+                                                            null
+                                                        ? '0 Conversations'
+                                                        : '${gridViewPostsRecord.conversations?.length} ${"Conversations"}',
                                                     style: FlutterFlowTheme.of(
                                                             context)
                                                         .bodyMedium
@@ -822,9 +824,12 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                                   fit: BoxFit.cover,
                                                 ),
                                                 Text(
-                                                  listViewPostsRecord.conversations?.length == null ?
-                                                  '0 Conversations':
-                                                  '${listViewPostsRecord.conversations?.length} ${"Conversations"}',
+                                                  listViewPostsRecord
+                                                              .conversations
+                                                              ?.length ==
+                                                          null
+                                                      ? '0 Conversations'
+                                                      : '${listViewPostsRecord.conversations?.length} ${"Conversations"}',
                                                   style: FlutterFlowTheme.of(
                                                           context)
                                                       .bodyMedium

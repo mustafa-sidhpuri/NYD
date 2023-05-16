@@ -156,103 +156,96 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                   Padding(
                     padding:
                         EdgeInsetsDirectional.fromSTEB(0.0, 27.0, 0.0, 0.0),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Container(
-                          width: 346.0,
-                          height: 199.0,
-                          decoration: BoxDecoration(
-                            color: FlutterFlowTheme.of(context)
-                                .secondaryBackground,
-                            borderRadius: BorderRadius.circular(12.0),
-                          ),
-                          child: Builder(
-                            builder: (context) {
-                              final productImages =
-                                  widget.productData!.images!.toList();
-                              return Container(
-                                width: double.infinity,
-                                height: 500.0,
-                                child: Stack(
-                                  children: [
-                                    Padding(
-                                      padding: EdgeInsetsDirectional.fromSTEB(
-                                          0.0, 0.0, 0.0, 35.0),
-                                      child: PageView.builder(
-                                        controller: _model
-                                                .pageViewController ??=
-                                            PageController(
-                                                initialPage: min(0,
-                                                    productImages.length - 1)),
-                                        scrollDirection: Axis.horizontal,
-                                        itemCount: productImages.length,
-                                        itemBuilder:
-                                            (context, productImagesIndex) {
-                                          final productImagesItem =
-                                              productImages[productImagesIndex];
-                                          return ClipRRect(
-                                              borderRadius:
-                                                  BorderRadius.circular(12.0),
-                                              child: CachedNetworkImageWidget(
-                                                image: productImagesItem,
-                                                width: 100.0,
-                                                height: 100.0,
-                                              ));
-                                        },
-                                      ),
-                                    ),
-                                    Align(
-                                      alignment: AlignmentDirectional(0.0, 1.0),
-                                      child: Padding(
-                                        padding: EdgeInsetsDirectional.fromSTEB(
-                                            0.0, 0.0, 0.0, 10.0),
-                                        child: smooth_page_indicator
-                                            .SmoothPageIndicator(
-                                          controller:
-                                              _model.pageViewController ??=
-                                                  PageController(
-                                                      initialPage: min(
-                                                          0,
-                                                          productImages.length -
-                                                              1)),
-                                          count: productImages.length,
-                                          axisDirection: Axis.horizontal,
-                                          onDotClicked: (i) async {
-                                            await _model.pageViewController!
-                                                .animateToPage(
-                                              i,
-                                              duration:
-                                                  Duration(milliseconds: 500),
-                                              curve: Curves.ease,
-                                            );
-                                          },
-                                          effect: smooth_page_indicator
-                                              .ExpandingDotsEffect(
-                                            expansionFactor: 2.0,
-                                            spacing: 8.0,
-                                            radius: 16.0,
-                                            dotWidth: 10.0,
-                                            dotHeight: 10.0,
-                                            dotColor:
-                                                FlutterFlowTheme.of(context)
-                                                    .accent2,
-                                            activeDotColor:
-                                                FlutterFlowTheme.of(context)
-                                                    .primary,
-                                            paintStyle: PaintingStyle.fill,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
+                    child: Container(
+                      height: 199.0,
+                      decoration: BoxDecoration(
+                        color: FlutterFlowTheme.of(context)
+                            .secondaryBackground,
+                        borderRadius: BorderRadius.circular(12.0),
+                      ),
+                      child: Builder(
+                        builder: (context) {
+                          final productImages =
+                              widget.productData!.images!.toList();
+                          return Container(
+                            width: double.infinity,
+                            height: 500.0,
+                            child: Stack(
+                              children: [
+                                Padding(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                      0.0, 0.0, 0.0, 35.0),
+                                  child: PageView.builder(
+                                    controller: _model
+                                            .pageViewController ??=
+                                        PageController(
+                                            initialPage: min(0,
+                                                productImages.length - 1)),
+                                    scrollDirection: Axis.horizontal,
+                                    itemCount: productImages.length,
+                                    itemBuilder:
+                                        (context, productImagesIndex) {
+                                      final productImagesItem =
+                                          productImages[productImagesIndex];
+                                      return ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(12.0),
+                                          child: CachedNetworkImageWidget(
+                                            image: productImagesItem,
+                                            width: 100.0,
+                                            height: 100.0,
+                                          ));
+                                    },
+                                  ),
                                 ),
-                              );
-                            },
-                          ),
-                        ),
-                      ],
+                                Align(
+                                  alignment: AlignmentDirectional(0.0, 1.0),
+                                  child: Padding(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                        0.0, 0.0, 0.0, 10.0),
+                                    child: smooth_page_indicator
+                                        .SmoothPageIndicator(
+                                      controller:
+                                          _model.pageViewController ??=
+                                              PageController(
+                                                  initialPage: min(
+                                                      0,
+                                                      productImages.length -
+                                                          1)),
+                                      count: productImages.length,
+                                      axisDirection: Axis.horizontal,
+                                      onDotClicked: (i) async {
+                                        await _model.pageViewController!
+                                            .animateToPage(
+                                          i,
+                                          duration:
+                                              Duration(milliseconds: 500),
+                                          curve: Curves.ease,
+                                        );
+                                      },
+                                      effect: smooth_page_indicator
+                                          .ExpandingDotsEffect(
+                                        expansionFactor: 2.0,
+                                        spacing: 8.0,
+                                        radius: 16.0,
+                                        dotWidth: 10.0,
+                                        dotHeight: 10.0,
+                                        dotColor:
+                                            FlutterFlowTheme.of(context)
+                                                .accent2,
+                                        activeDotColor:
+                                            FlutterFlowTheme.of(context)
+                                                .primary,
+                                        paintStyle: PaintingStyle.fill,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                      ),
                     ),
                   ),
                   Padding(
@@ -347,13 +340,13 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                               shape: BoxShape.circle,
                             ),
                             child: FutureBuilder<DocumentSnapshot>(
-                                future: widget.productData!.userRef!.get(),
-                                builder: (context, snapshot) {
-                                  return snapshot.hasData
-                                      ? CachedNetworkImageWidget(
-                                          image: snapshot.data!["photo_url"])
-                                      : Icon(Icons.person);
-                                },
+                              future: widget.productData!.userRef!.get(),
+                              builder: (context, snapshot) {
+                                return snapshot.hasData
+                                    ? CachedNetworkImageWidget(
+                                        image: snapshot.data!["photo_url"])
+                                    : Icon(Icons.person);
+                              },
                             ),
                           ),
                         ),
@@ -576,7 +569,6 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                                       productimage: widget.productData!.images!
                                           .toList()
                                           .first,
-
                                       conversationsDoc: convRef,
                                       productlocation:
                                           widget.productData!.address,

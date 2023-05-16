@@ -63,241 +63,273 @@ class _AddProductDetailWidgetState extends State<AddProductDetailWidget> {
           child: Padding(
             padding: EdgeInsetsDirectional.fromSTEB(22.0, 0.0, 22.0, 0.0),
             child: Column(
-              mainAxisSize: MainAxisSize.max,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(0.0, 30.0, 0.0, 0.0),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.max,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      InkWell(
-                        splashColor: Colors.transparent,
-                        focusColor: Colors.transparent,
-                        hoverColor: Colors.transparent,
-                        highlightColor: Colors.transparent,
-                        onTap: () async {
-                          Navigator.pop(context);
-                        },
-                        child: Icon(
-                          Icons.arrow_back_ios,
-                          color: Colors.black,
-                          size: 24.0,
-                        ),
-                      ),
-                      Padding(
-                        padding:
-                            EdgeInsetsDirectional.fromSTEB(72.0, 0.0, 0.0, 0.0),
-                        child: Text(
-                          'Add Post Details',
-                          style: FlutterFlowTheme.of(context).headlineSmall,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(0.0, 26.0, 0.0, 0.0),
-                  child: Text(
-                    'Offer',
-                    style: FlutterFlowTheme.of(context).labelMedium.override(
-                          fontFamily: 'Roboto',
-                          color: Color(0xFF7D8180),
-                        ),
-                  ),
-                ),
-                FlutterFlowDropDown<String>(
-                  controller: _model.dropDownValueController1 ??=
-                      FormFieldController<String>(
-                    _model.dropDownValue1 ??= '',
-                  ),
-                  options: ['Free', 'Exchange'],
-                  optionLabels: ['Free', 'Exchange'],
-                  onChanged: (val) =>
-                      setState(() => _model.dropDownValue1 = val),
-                  height: 50.0,
-                  searchHintTextStyle:
-                      FlutterFlowTheme.of(context).bodyLarge.override(
-                            fontFamily: 'Roboto',
-                            color: FlutterFlowTheme.of(context).secondaryText,
-                          ),
-                  textStyle: FlutterFlowTheme.of(context).bodyMedium,
-                  hintText: 'Free/Exchange',
-                  searchHintText: 'Search for an item...',
-                  icon: Icon(
-                    Icons.keyboard_arrow_down,
-                    color: Colors.black,
-                    size: 22.0,
-                  ),
-                  fillColor: FlutterFlowTheme.of(context).secondaryBackground,
-                  elevation: 2.0,
-                  borderColor: Colors.transparent,
-                  borderWidth: 0.0,
-                  borderRadius: 0.0,
-                  margin: EdgeInsetsDirectional.fromSTEB(12.0, 4.0, 12.0, 4.0),
-                  isSearchable: false,
-                ),
-                Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(0.0, 26.0, 0.0, 0.0),
-                  child: Text(
-                    'Category',
-                    style: FlutterFlowTheme.of(context).labelMedium.override(
-                          fontFamily: 'Roboto',
-                          color: Color(0xFF7D8180),
-                        ),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(10.0, 0.0, 10.0, 0.0),
-                  child: TextFormField(
-                    controller: _model.subCategoryController,
-                    obscureText: false,
-                    decoration: InputDecoration(
-                      hintText: 'Add Category',
-                      hintStyle:
-                          FlutterFlowTheme.of(context).bodySmall.override(
-                                fontFamily: 'Roboto',
-                                fontSize: 14.0,
-                                color: Colors.grey,
-                                fontWeight: FontWeight.w500,
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: EdgeInsetsDirectional.fromSTEB(
+                              0.0, 30.0, 0.0, 0.0),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.max,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              InkWell(
+                                splashColor: Colors.transparent,
+                                focusColor: Colors.transparent,
+                                hoverColor: Colors.transparent,
+                                highlightColor: Colors.transparent,
+                                onTap: () async {
+                                  Navigator.pop(context);
+                                },
+                                child: Icon(
+                                  Icons.arrow_back_ios,
+                                  color: Colors.black,
+                                  size: 24.0,
+                                ),
                               ),
-                      enabledBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Color(0xFF000000).withOpacity(0.1),
-                          width: 1.0,
-                        ),
-                        borderRadius: const BorderRadius.only(
-                          topLeft: Radius.circular(4.0),
-                          topRight: Radius.circular(4.0),
-                        ),
-                      ),
-                      focusedBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Color(0xFF000000).withOpacity(0.1),
-                          width: 1.0,
-                        ),
-                        borderRadius: const BorderRadius.only(
-                          topLeft: Radius.circular(4.0),
-                          topRight: Radius.circular(4.0),
-                        ),
-                      ),
-                      errorBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Color(0x00000000),
-                          width: 1.0,
-                        ),
-                        borderRadius: const BorderRadius.only(
-                          topLeft: Radius.circular(4.0),
-                          topRight: Radius.circular(4.0),
-                        ),
-                      ),
-                      focusedErrorBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Color(0x00000000),
-                          width: 1.0,
-                        ),
-                        borderRadius: const BorderRadius.only(
-                          topLeft: Radius.circular(4.0),
-                          topRight: Radius.circular(4.0),
-                        ),
-                      ),
-                    ),
-                    style: FlutterFlowTheme.of(context).bodyMedium.override(
-                          fontFamily: 'Roboto',
-                          fontSize: 14.0,
-                        ),
-                    validator: _model.subCategoryControllerValidator
-                        .asValidator(context),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(0.0, 26.0, 0.0, 0.0),
-                  child: Text(
-                    'Condition',
-                    style: FlutterFlowTheme.of(context).labelMedium.override(
-                          fontFamily: 'Roboto',
-                          color: Color(0xFF7D8180),
-                        ),
-                  ),
-                ),
-                FlutterFlowDropDown<String>(
-                  controller: _model.dropDownValueController2 ??=
-                      FormFieldController<String>(
-                    _model.dropDownValue2 ??= '',
-                  ),
-                  options: ['Veg', 'Non-veg'],
-                  optionLabels: ['Raw', 'Cooked'],
-                  onChanged: (val) =>
-                      setState(() => _model.dropDownValue2 = val),
-                  height: 50.0,
-                  searchHintTextStyle:
-                      FlutterFlowTheme.of(context).bodyLarge.override(
-                            fontFamily: 'Roboto',
-                            color: FlutterFlowTheme.of(context).secondaryText,
+                              Padding(
+                                padding: EdgeInsetsDirectional.fromSTEB(
+                                    72.0, 0.0, 0.0, 0.0),
+                                child: Text(
+                                  'Add Post Details',
+                                  style: FlutterFlowTheme.of(context)
+                                      .headlineSmall,
+                                ),
+                              ),
+                            ],
                           ),
-                  textStyle: FlutterFlowTheme.of(context).bodyMedium,
-                  hintText: 'Raw/Cooked',
-                  searchHintText: 'Search for an item...',
-                  icon: Icon(
-                    Icons.keyboard_arrow_down,
-                    color: Colors.black,
-                    size: 22.0,
-                  ),
-                  fillColor: FlutterFlowTheme.of(context).secondaryBackground,
-                  elevation: 2.0,
-                  borderColor: Colors.transparent,
-                  borderWidth: 0.0,
-                  borderRadius: 0.0,
-                  margin: EdgeInsetsDirectional.fromSTEB(12.0, 4.0, 12.0, 4.0),
-                  isSearchable: false,
-                ),
-                Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(0.0, 26.0, 0.0, 0.0),
-                  child: Text(
-                    'Location',
-                    style: FlutterFlowTheme.of(context).labelMedium.override(
-                          fontFamily: 'Roboto',
-                          color: Color(0xFF7D8180),
                         ),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(8.0, 6.0, 8.0, 0.0),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.max,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        FFAppState().setLocation,
-                        style: FlutterFlowTheme.of(context).bodyMedium.override(
-                              fontFamily: 'Roboto',
-                              fontSize: 16.0,
+                        Padding(
+                          padding: EdgeInsetsDirectional.fromSTEB(
+                              0.0, 26.0, 0.0, 0.0),
+                          child: Text(
+                            'Offer',
+                            style: FlutterFlowTheme.of(context)
+                                .labelMedium
+                                .override(
+                                  fontFamily: 'Roboto',
+                                  color: Color(0xFF7D8180),
+                                ),
+                          ),
+                        ),
+                        FlutterFlowDropDown<String>(
+                          controller: _model.dropDownValueController1 ??=
+                              FormFieldController<String>(
+                            _model.dropDownValue1 ??= '',
+                          ),
+                          options: ['Free', 'Exchange'],
+                          optionLabels: ['Free', 'Exchange'],
+                          onChanged: (val) =>
+                              setState(() => _model.dropDownValue1 = val),
+                          height: 50.0,
+                          searchHintTextStyle: FlutterFlowTheme.of(context)
+                              .bodyLarge
+                              .override(
+                                fontFamily: 'Roboto',
+                                color:
+                                    FlutterFlowTheme.of(context).secondaryText,
+                              ),
+                          textStyle: FlutterFlowTheme.of(context).bodyMedium,
+                          hintText: 'Free/Exchange',
+                          searchHintText: 'Search for an item...',
+                          icon: Icon(
+                            Icons.keyboard_arrow_down,
+                            color: Colors.black,
+                            size: 22.0,
+                          ),
+                          fillColor:
+                              FlutterFlowTheme.of(context).secondaryBackground,
+                          elevation: 2.0,
+                          borderColor: Colors.transparent,
+                          borderWidth: 0.0,
+                          borderRadius: 0.0,
+                          margin: EdgeInsetsDirectional.fromSTEB(
+                              12.0, 4.0, 12.0, 4.0),
+                          isSearchable: false,
+                        ),
+                        Padding(
+                          padding: EdgeInsetsDirectional.fromSTEB(
+                              0.0, 26.0, 0.0, 0.0),
+                          child: Text(
+                            'Category',
+                            style: FlutterFlowTheme.of(context)
+                                .labelMedium
+                                .override(
+                                  fontFamily: 'Roboto',
+                                  color: Color(0xFF7D8180),
+                                ),
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsetsDirectional.fromSTEB(
+                              10.0, 0.0, 10.0, 0.0),
+                          child: TextFormField(
+                            controller: _model.subCategoryController,
+                            obscureText: false,
+                            decoration: InputDecoration(
+                              hintText: 'Add Category',
+                              hintStyle: FlutterFlowTheme.of(context)
+                                  .bodySmall
+                                  .override(
+                                    fontFamily: 'Roboto',
+                                    fontSize: 14.0,
+                                    color: Colors.grey,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                              enabledBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: Color(0xFF000000).withOpacity(0.1),
+                                  width: 1.0,
+                                ),
+                                borderRadius: const BorderRadius.only(
+                                  topLeft: Radius.circular(4.0),
+                                  topRight: Radius.circular(4.0),
+                                ),
+                              ),
+                              focusedBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: Color(0xFF000000).withOpacity(0.1),
+                                  width: 1.0,
+                                ),
+                                borderRadius: const BorderRadius.only(
+                                  topLeft: Radius.circular(4.0),
+                                  topRight: Radius.circular(4.0),
+                                ),
+                              ),
+                              errorBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: Color(0x00000000),
+                                  width: 1.0,
+                                ),
+                                borderRadius: const BorderRadius.only(
+                                  topLeft: Radius.circular(4.0),
+                                  topRight: Radius.circular(4.0),
+                                ),
+                              ),
+                              focusedErrorBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: Color(0x00000000),
+                                  width: 1.0,
+                                ),
+                                borderRadius: const BorderRadius.only(
+                                  topLeft: Radius.circular(4.0),
+                                  topRight: Radius.circular(4.0),
+                                ),
+                              ),
                             ),
-                      ),
-                      Icon(
-                        Icons.location_on_outlined,
-                        color: Colors.black,
-                        size: 24.0,
-                      ),
-                    ],
+                            style: FlutterFlowTheme.of(context)
+                                .bodyMedium
+                                .override(
+                                  fontFamily: 'Roboto',
+                                  fontSize: 14.0,
+                                ),
+                            validator: _model.subCategoryControllerValidator
+                                .asValidator(context),
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsetsDirectional.fromSTEB(
+                              0.0, 26.0, 0.0, 0.0),
+                          child: Text(
+                            'Condition',
+                            style: FlutterFlowTheme.of(context)
+                                .labelMedium
+                                .override(
+                                  fontFamily: 'Roboto',
+                                  color: Color(0xFF7D8180),
+                                ),
+                          ),
+                        ),
+                        FlutterFlowDropDown<String>(
+                          controller: _model.dropDownValueController2 ??=
+                              FormFieldController<String>(
+                            _model.dropDownValue2 ??= '',
+                          ),
+                          options: ['Veg', 'Non-veg'],
+                          optionLabels: ['Raw', 'Cooked'],
+                          onChanged: (val) =>
+                              setState(() => _model.dropDownValue2 = val),
+                          height: 50.0,
+                          searchHintTextStyle: FlutterFlowTheme.of(context)
+                              .bodyLarge
+                              .override(
+                                fontFamily: 'Roboto',
+                                color:
+                                    FlutterFlowTheme.of(context).secondaryText,
+                              ),
+                          textStyle: FlutterFlowTheme.of(context).bodyMedium,
+                          hintText: 'Raw/Cooked',
+                          searchHintText: 'Search for an item...',
+                          icon: Icon(
+                            Icons.keyboard_arrow_down,
+                            color: Colors.black,
+                            size: 22.0,
+                          ),
+                          fillColor:
+                              FlutterFlowTheme.of(context).secondaryBackground,
+                          elevation: 2.0,
+                          borderColor: Colors.transparent,
+                          borderWidth: 0.0,
+                          borderRadius: 0.0,
+                          margin: EdgeInsetsDirectional.fromSTEB(
+                              12.0, 4.0, 12.0, 4.0),
+                          isSearchable: false,
+                        ),
+                        Padding(
+                          padding: EdgeInsetsDirectional.fromSTEB(
+                              0.0, 26.0, 0.0, 0.0),
+                          child: Text(
+                            'Location',
+                            style: FlutterFlowTheme.of(context)
+                                .labelMedium
+                                .override(
+                                  fontFamily: 'Roboto',
+                                  color: Color(0xFF7D8180),
+                                ),
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsetsDirectional.fromSTEB(
+                              8.0, 6.0, 8.0, 0.0),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.max,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                FFAppState().setLocation,
+                                style: FlutterFlowTheme.of(context)
+                                    .bodyMedium
+                                    .override(
+                                      fontFamily: 'Roboto',
+                                      fontSize: 16.0,
+                                    ),
+                              ),
+                              Icon(
+                                Icons.location_on_outlined,
+                                color: Colors.black,
+                                size: 24.0,
+                              ),
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsetsDirectional.fromSTEB(
+                              10.0, 0.0, 10.0, 0.0),
+                          child: Divider(
+                            thickness: 1.0,
+                            color: Color(0xFF000000).withOpacity(0.1),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-                Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(10.0, 0.0, 10.0, 0.0),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      Divider(
-                        thickness: 1.0,
-                        color: Color(0xFF000000).withOpacity(0.1),
-                      ),
-                    ],
-                  ),
-                ),
-                Spacer(),
                 Padding(
                   padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 30.0),
                   child: InkWell(
