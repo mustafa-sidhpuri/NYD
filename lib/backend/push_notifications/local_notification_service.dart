@@ -1,49 +1,49 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
-class LocalNotificationService{
+import '../../main.dart';
 
+class LocalNotificationService {
   static final FlutterLocalNotificationsPlugin _notificationsPlugin =
-  FlutterLocalNotificationsPlugin();
+      FlutterLocalNotificationsPlugin();
 
   static void initialize() {
-    // initializationSettings  for Android
-    const InitializationSettings initializationSettings =
-    InitializationSettings(
-      android: AndroidInitializationSettings("@mipmap/ic_launcher"),
-    );
+    // initializationSettings  for Android and ios
+    InitializationSettings initializationSettings = InitializationSettings(
+        android: AndroidInitializationSettings("ic_launcher"),
+        iOS: DarwinInitializationSettings(
+            requestAlertPermission: true,
+            requestBadgePermission: true,
+            requestSoundPermission: true,
+            onDidReceiveLocalNotification: (int id, String? title, String? body,
+                String? payload) async {}));
 
     _notificationsPlugin.initialize(
       initializationSettings,
-      // onSelectNotification: (String? id) async {
-      //   print("onSelectNotification");
-      //   if (id!.isNotEmpty) {
-      //     print("Router Value1234 $id");
-      //
-      //     // Navigator.of(context).push(
-      //     //   MaterialPageRoute(
-      //     //     builder: (context) => DemoScreen(
-      //     //       id: id,
-      //     //     ),
-      //     //   ),
-      //     // );
-      //
-      //
-      //   }
-      // },
+      onDidReceiveNotificationResponse: (id) async {
+        print("onSelectNotification");
+        if (id != null) {
+          print("Router Value1234 $id");
+
+        }
+      },
     );
   }
+
   static void createanddisplaynotification(RemoteMessage message) async {
+    // Notification Dialog for Android and ios
     try {
       final id = DateTime.now().millisecondsSinceEpoch ~/ 1000;
       const NotificationDetails notificationDetails = NotificationDetails(
-        android: AndroidNotificationDetails(
-          "freefoodapp",
-          "freefoodappchannel",
-          importance: Importance.max,
-          priority: Priority.high,
-        ),
-      );
+          android: AndroidNotificationDetails(
+            "freefoodapp",
+            "freefoodappchannel",
+            importance: Importance.max,
+            priority: Priority.high,
+          ),
+          iOS: DarwinNotificationDetails());
 
       await _notificationsPlugin.show(
         id,
@@ -56,5 +56,4 @@ class LocalNotificationService{
       print(e);
     }
   }
-
 }

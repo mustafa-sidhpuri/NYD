@@ -215,7 +215,8 @@ class _PublicProfileWidgetState extends State<PublicProfileWidget> {
                           stream: queryPostsRecord(
                             queryBuilder: (postsRecord) => postsRecord.where(
                                 'posted_by',
-                                isEqualTo: columnUsersRecord.uid),
+                                isEqualTo: columnUsersRecord.uid) .orderBy('created_at',
+                                descending: true),
                           ),
                           builder: (context, snapshot) {
                             // Customize what your widget looks like when it's loading.

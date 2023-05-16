@@ -36,14 +36,17 @@ class _PushNotificationsHandlerState extends State<PushNotificationsHandler> {
 
     FirebaseMessaging.instance.getInitialMessage().then((message) {
       print("FirebaseMessaging.instance.getInitialMessage");
-      if(message != null){
+      if (message != null) {
         print("New Notification");
+        // Navigator.of(context).push(MaterialPageRoute(
+        //   builder: (context) => HomePageWidget(),
+        // ));
       }
     });
 
     FirebaseMessaging.onMessage.listen((message) {
       print("FirebaseMessaging.onMessage.listen");
-      if(message.notification != null){
+      if (message.notification != null) {
         print("yessss calleddd");
         LocalNotificationService.createanddisplaynotification(message);
       }
@@ -54,6 +57,13 @@ class _PushNotificationsHandlerState extends State<PushNotificationsHandler> {
       if (message.notification != null) {
         print(message.notification!.title);
         print(message.notification!.body);
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => NavBarPage(
+                initialPage: 'homePage'),
+          ),
+        );
         //print("message.data22 ${message.data['_id']}");
       }
     });
@@ -67,11 +77,9 @@ class _PushNotificationsHandlerState extends State<PushNotificationsHandler> {
   }
 
   Future _handlePushNotification(RemoteMessage message) async {
-
-
-
     if (_handledMessageIds.contains(message.messageId)) {
-      print("--------------------------------------------------"+message.messageId.toString());
+      print("--------------------------------------------------" +
+          message.messageId.toString());
       return;
     }
     _handledMessageIds.add(message.messageId);
@@ -91,15 +99,16 @@ class _PushNotificationsHandlerState extends State<PushNotificationsHandler> {
         );
       }
     } catch (e) {
-      print("errorr================================================="+e.toString());
+      print("errorr=================================================" +
+          e.toString());
       print('Error: $e');
     } finally {
       if (mounted) {
-        print("finallyy================================================="+mounted.toString());
+        print("finallyy=================================================" +
+            mounted.toString());
         setState(() => _loading = false);
       }
     }
-
   }
 
   @override
@@ -113,7 +122,7 @@ class _PushNotificationsHandlerState extends State<PushNotificationsHandler> {
       ? Container(
           color: Colors.transparent,
           child: Image.asset(
-            'assets/images/splashScreen@2x.png',
+            'assets/images/FoodShare.png',
             fit: BoxFit.cover,
           ),
         )

@@ -351,6 +351,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
                           final usersCreateData = {
                             ...createUsersRecordData(
                               displayName: _model.nameController.text,
+                              photoUrl: "",
                             ),
                             'created_time': FieldValue.serverTimestamp(),
                           };

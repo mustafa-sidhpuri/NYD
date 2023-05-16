@@ -1,3 +1,5 @@
+import 'package:n_y_d_app/components/cached_network_image.dart';
+
 import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_autocomplete_options_list.dart';
@@ -124,11 +126,10 @@ class _PickUpProductWidgetState extends State<PickUpProductWidget> {
                       children: [
                         ClipRRect(
                           borderRadius: BorderRadius.circular(10.0),
-                          child: Image.network(
-                            widget.pickupProductDoc!.images!.toList()[0],
+                          child: CachedNetworkImageWidget(
+                           image: widget.pickupProductDoc!.images!.toList()[0],
                             width: 75.0,
                             height: 65.0,
-                            fit: BoxFit.cover,
                           ),
                         ),
                         Padding(
@@ -544,13 +545,26 @@ class _PickUpProductWidgetState extends State<PickUpProductWidget> {
                                           decoration: BoxDecoration(
                                             shape: BoxShape.circle,
                                           ),
-                                          child: Image.network(
-                                            valueOrDefault<String>(
-                                              searchUserItem.photoUrl,
-                                              'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/wedding-app-anuwld/assets/udoiek8lgxbr/userUpload@2x.png',
-                                            ),
-                                            fit: BoxFit.cover,
+                                          child: FutureBuilder<DocumentSnapshot>(
+                                            future:  searchUserItem.reference.get(),
+                                            builder: (context, snapshot) {
+                                              return snapshot.hasData
+                                                  ? snapshot.data!["photo_url"] != null &&
+                                                  snapshot.data!["photo_url"] != ""?
+                                              CachedNetworkImageWidget(
+                                                  image: snapshot.data!["photo_url"]):Icon(Icons.person)
+                                                  : Icon(Icons.person);
+                                            },
                                           ),
+
+
+                                          // Image.network(
+                                          //   valueOrDefault<String>(
+                                          //     searchUserItem.photoUrl,
+                                          //     'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/wedding-app-anuwld/assets/udoiek8lgxbr/userUpload@2x.png',
+                                          //   ),
+                                          //   fit: BoxFit.cover,
+                                          // ),
                                         ),
                                       ),
                                       Padding(

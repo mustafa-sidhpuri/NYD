@@ -104,7 +104,7 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                           ),
                         ),
                         Text(
-                          'Product Details',
+                          'Post Details',
                           style: FlutterFlowTheme.of(context).headlineSmall,
                         ),
                         if (widget.productData!.postedBy ==
