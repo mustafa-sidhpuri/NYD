@@ -591,23 +591,27 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                   Positioned(
                                     right: 10,
                                     top: 10,
-                                    child: Container(
-                                      padding:EdgeInsets.all(4),
-                                      decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        borderRadius: BorderRadius.circular(6),
-                                        boxShadow: [
-                                          BoxShadow(
-                                              color:Color(0x190E2B).withOpacity(0.3),
-                                              offset: const Offset(3, 3),
-                                              blurRadius: 10),
-                                           BoxShadow(
-                                              color: Color(0xECECFF),
-                                              offset: Offset(-3, -3),
-                                              blurRadius: 15),
-                                        ],
+                                    child: InkWell(
+                                      onTap: () async{
+                                      },
+                                      child: Container(
+                                        padding:EdgeInsets.all(4),
+                                        decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius: BorderRadius.circular(6),
+                                          boxShadow: [
+                                            BoxShadow(
+                                                color:Color(0x190E2B).withOpacity(0.3),
+                                                offset: const Offset(3, 3),
+                                                blurRadius: 10),
+                                             BoxShadow(
+                                                color: Color(0xECECFF),
+                                                offset: Offset(-3, -3),
+                                                blurRadius: 15),
+                                          ],
+                                        ),
+                                        child: Icon(Icons.favorite_border,color: Colors.red,)
                                       ),
-                                      child: Icon(Icons.favorite_border,color: Colors.red,)
                                     ),
                                   ),
                                 ],
