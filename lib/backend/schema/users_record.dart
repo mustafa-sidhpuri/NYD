@@ -27,18 +27,13 @@ abstract class UsersRecord implements Built<UsersRecord, UsersRecordBuilder> {
   @BuiltValueField(wireName: 'phone_number')
   String? get phoneNumber;
 
-  String? get bio;
-
-  bool? get isHost;
-
-  int? get numberProperties;
-
-  int? get numberActiveBookings;
-
   @BuiltValueField(wireName: 'user_address')
   String? get userAddress;
 
   LatLng? get latlng;
+
+  @BuiltValueField(wireName: 'saved_post')
+  BuiltList<DocumentReference>? get savedPost;
 
   @BuiltValueField(wireName: kDocumentReferenceField)
   DocumentReference? get ffRef;
@@ -51,11 +46,8 @@ abstract class UsersRecord implements Built<UsersRecord, UsersRecordBuilder> {
     ..photoUrl = ''
     ..uid = ''
     ..phoneNumber = ''
-    ..bio = ''
-    ..isHost = false
-    ..numberProperties = 0
-    ..numberActiveBookings = 0
-    ..userAddress = '';
+    ..userAddress = ''
+    ..savedPost = ListBuilder();
 
   static CollectionReference get collection =>
       FirebaseFirestore.instance.collection('users');
@@ -86,10 +78,6 @@ Map<String, dynamic> createUsersRecordData({
   String? uid,
   DateTime? createdTime,
   String? phoneNumber,
-  String? bio,
-  bool? isHost,
-  int? numberProperties,
-  int? numberActiveBookings,
   String? userAddress,
   LatLng? latlng,
 }) {
@@ -104,12 +92,9 @@ Map<String, dynamic> createUsersRecordData({
         ..uid = uid
         ..createdTime = createdTime
         ..phoneNumber = phoneNumber
-        ..bio = bio
-        ..isHost = isHost
-        ..numberProperties = numberProperties
-        ..numberActiveBookings = numberActiveBookings
         ..userAddress = userAddress
-        ..latlng = latlng,
+        ..latlng = latlng
+        ..savedPost = null,
     ),
   );
 
