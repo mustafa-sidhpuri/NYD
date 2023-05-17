@@ -1,5 +1,6 @@
 import 'package:n_y_d_app/components/cached_network_image.dart';
 
+import '../help/help_screen.dart';
 import '/auth/base_auth_user_provider.dart';
 import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
@@ -383,60 +384,208 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
                   ),
                   Padding(
                     padding:
-                        EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 20.0),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          mainAxisSize: MainAxisSize.max,
-                          children: [
-                            Align(
-                              alignment: AlignmentDirectional(0.0, 0.0),
-                              child: Container(
-                                width: 36.0,
-                                height: 34.0,
-                                decoration: BoxDecoration(
-                                  color: FlutterFlowTheme.of(context)
-                                      .secondaryBackground,
-                                  boxShadow: [
-                                    BoxShadow(
-                                      blurRadius: 6.0,
-                                      color: Color(0x330065FD),
-                                      offset: Offset(2.0, 2.0),
-                                    )
-                                  ],
-                                  borderRadius: BorderRadius.circular(7.0),
-                                ),
+                    EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 20.0),
+                    child: InkWell(
+                      splashColor: Colors.transparent,
+                      focusColor: Colors.transparent,
+                      hoverColor: Colors.transparent,
+                      highlightColor: Colors.transparent,
+                      onTap: () async {
+                        // await Navigator.push(
+                        //   context,
+                        //   PageTransition(
+                        //     type: PageTransitionType.fade,
+                        //     duration: Duration(milliseconds: 0),
+                        //     reverseDuration: Duration(milliseconds: 0),
+                        //     child: ForgotPasswordWidget(),
+                        //   ),
+                        // );
+                      },
+                      child: Row(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
+                            mainAxisSize: MainAxisSize.max,
+                            children: [
+                              Align(
                                 alignment: AlignmentDirectional(0.0, 0.0),
-                                child: Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
-                                      7.0, 7.0, 7.0, 7.0),
-                                  child: SvgPicture.asset(
-                                    'assets/images/Group_(1).svg',
-                                    fit: BoxFit.cover,
+                                child: Container(
+                                  width: 36.0,
+                                  height: 34.0,
+                                  decoration: BoxDecoration(
+                                    color: FlutterFlowTheme.of(context)
+                                        .secondaryBackground,
+                                    boxShadow: [
+                                      BoxShadow(
+                                        blurRadius: 6.0,
+                                        color: Color(0x330065FD),
+                                        offset: Offset(2.0, 2.0),
+                                      )
+                                    ],
+                                    borderRadius: BorderRadius.circular(7.0),
+                                  ),
+                                  alignment: AlignmentDirectional(0.0, 0.0),
+                                  child: Padding(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                        7.0, 7.0, 7.0, 7.0),
+                                    child: SvgPicture.asset(
+                                      'assets/images/Group_(2).svg',
+                                      fit: BoxFit.cover,
+                                    ),
                                   ),
                                 ),
                               ),
-                            ),
-                            Padding(
-                              padding: EdgeInsetsDirectional.fromSTEB(
-                                  20.0, 0.0, 0.0, 0.0),
-                              child: Text(
-                                'Terms & Conditions',
-                                style: FlutterFlowTheme.of(context).titleSmall,
+                              Padding(
+                                padding: EdgeInsetsDirectional.fromSTEB(
+                                    20.0, 0.0, 0.0, 0.0),
+                                child: Text(
+                                  'Saved',
+                                  style:
+                                  FlutterFlowTheme.of(context).titleSmall,
+                                ),
                               ),
-                            ),
-                          ],
-                        ),
-                        Icon(
-                          Icons.arrow_forward_ios,
-                          color: Colors.black,
-                          size: 24.0,
-                        ),
-                      ],
+                            ],
+                          ),
+                          Icon(
+                            Icons.arrow_forward_ios,
+                            color: Colors.black,
+                            size: 24.0,
+                          ),
+                        ],
+                      ),
                     ),
                   ),
+                  Padding(
+                    padding:
+                    EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 20.0),
+                    child: InkWell(
+                      splashColor: Colors.transparent,
+                      focusColor: Colors.transparent,
+                      hoverColor: Colors.transparent,
+                      highlightColor: Colors.transparent,
+                      onTap: () async {
+                        await Navigator.push(
+                          context,
+                          PageTransition(
+                            type: PageTransitionType.fade,
+                            duration: Duration(milliseconds: 0),
+                            reverseDuration: Duration(milliseconds: 0),
+                            child: HelpScreen(),
+                          ),
+                        );
+                      },
+                      child: Row(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
+                            mainAxisSize: MainAxisSize.max,
+                            children: [
+                              Align(
+                                alignment: AlignmentDirectional(0.0, 0.0),
+                                child: Container(
+                                  width: 36.0,
+                                  height: 34.0,
+                                  decoration: BoxDecoration(
+                                    color: FlutterFlowTheme.of(context)
+                                        .secondaryBackground,
+                                    boxShadow: [
+                                      BoxShadow(
+                                        blurRadius: 6.0,
+                                        color: Color(0x330065FD),
+                                        offset: Offset(2.0, 2.0),
+                                      )
+                                    ],
+                                    borderRadius: BorderRadius.circular(7.0),
+                                  ),
+                                  alignment: AlignmentDirectional(0.0, 0.0),
+                                  child: Padding(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                        7.0, 7.0, 7.0, 7.0),
+                                    child: SvgPicture.asset(
+                                      'assets/images/Group_(2).svg',
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding: EdgeInsetsDirectional.fromSTEB(
+                                    20.0, 0.0, 0.0, 0.0),
+                                child: Text(
+                                  'Help',
+                                  style:
+                                  FlutterFlowTheme.of(context).titleSmall,
+                                ),
+                              ),
+                            ],
+                          ),
+                          Icon(
+                            Icons.arrow_forward_ios,
+                            color: Colors.black,
+                            size: 24.0,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  // Padding(
+                  //   padding:
+                  //       EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 20.0),
+                  //   child: Row(
+                  //     mainAxisSize: MainAxisSize.max,
+                  //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //     children: [
+                  //       Row(
+                  //         mainAxisSize: MainAxisSize.max,
+                  //         children: [
+                  //           Align(
+                  //             alignment: AlignmentDirectional(0.0, 0.0),
+                  //             child: Container(
+                  //               width: 36.0,
+                  //               height: 34.0,
+                  //               decoration: BoxDecoration(
+                  //                 color: FlutterFlowTheme.of(context)
+                  //                     .secondaryBackground,
+                  //                 boxShadow: [
+                  //                   BoxShadow(
+                  //                     blurRadius: 6.0,
+                  //                     color: Color(0x330065FD),
+                  //                     offset: Offset(2.0, 2.0),
+                  //                   )
+                  //                 ],
+                  //                 borderRadius: BorderRadius.circular(7.0),
+                  //               ),
+                  //               alignment: AlignmentDirectional(0.0, 0.0),
+                  //               child: Padding(
+                  //                 padding: EdgeInsetsDirectional.fromSTEB(
+                  //                     7.0, 7.0, 7.0, 7.0),
+                  //                 child: SvgPicture.asset(
+                  //                   'assets/images/Group_(1).svg',
+                  //                   fit: BoxFit.cover,
+                  //                 ),
+                  //               ),
+                  //             ),
+                  //           ),
+                  //           Padding(
+                  //             padding: EdgeInsetsDirectional.fromSTEB(
+                  //                 20.0, 0.0, 0.0, 0.0),
+                  //             child: Text(
+                  //               'Terms & Conditions',
+                  //               style: FlutterFlowTheme.of(context).titleSmall,
+                  //             ),
+                  //           ),
+                  //         ],
+                  //       ),
+                  //       Icon(
+                  //         Icons.arrow_forward_ios,
+                  //         color: Colors.black,
+                  //         size: 24.0,
+                  //       ),
+                  //     ],
+                  //   ),
+                  // ),
                   Padding(
                     padding:
                         EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 20.0),

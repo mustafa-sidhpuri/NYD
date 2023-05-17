@@ -588,6 +588,28 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                         ),
                                       ),
                                     ),
+                                  Positioned(
+                                    right: 10,
+                                    top: 10,
+                                    child: Container(
+                                      padding:EdgeInsets.all(4),
+                                      decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius: BorderRadius.circular(6),
+                                        boxShadow: [
+                                          BoxShadow(
+                                              color:Color(0x190E2B).withOpacity(0.3),
+                                              offset: const Offset(3, 3),
+                                              blurRadius: 10),
+                                           BoxShadow(
+                                              color: Color(0xECECFF),
+                                              offset: Offset(-3, -3),
+                                              blurRadius: 15),
+                                        ],
+                                      ),
+                                      child: Icon(Icons.favorite_border,color: Colors.red,)
+                                    ),
+                                  ),
                                 ],
                               );
                             },
@@ -661,194 +683,220 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                     ),
                                   );
                                 },
-                                child: Container(
-                                  height: 100.0,
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    boxShadow: [
-                                      BoxShadow(
-                                        blurRadius: 6.0,
-                                        color: Color(0x340065FD),
-                                        offset: Offset(2.0, 2.0),
-                                      )
-                                    ],
-                                  ),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.max,
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      Stack(
-                                        alignment:
-                                            AlignmentDirectional(-0.65, -0.75),
-                                        children: [
-                                          Padding(
-                                            padding:
-                                                EdgeInsetsDirectional.fromSTEB(
-                                                    10.0, 10.0, 0.0, 10.0),
-                                            child: ClipRRect(
-                                              borderRadius:
-                                                  BorderRadius.circular(12.0),
-                                              child: CachedNetworkImageWidget(
-                                                image: listViewPostsRecord
-                                                    .images!
-                                                    .toList()
-                                                    .first,
-                                                width: 80.0,
-                                                height: 80.0,
-                                              ),
-                                            ),
-                                          ),
-                                          if (listViewPostsRecord.postType ==
-                                              'Free')
-                                            Container(
-                                              width: 32.0,
-                                              height: 30.0,
-                                              decoration: BoxDecoration(
-                                                color:
-                                                    FlutterFlowTheme.of(context)
-                                                        .primary,
-                                                borderRadius: BorderRadius.only(
-                                                  bottomLeft:
-                                                      Radius.circular(0.0),
-                                                  bottomRight:
-                                                      Radius.circular(35.0),
-                                                  topLeft:
-                                                      Radius.circular(12.0),
-                                                  topRight:
-                                                      Radius.circular(0.0),
-                                                ),
-                                              ),
-                                              child: Align(
-                                                alignment: AlignmentDirectional(
-                                                    -0.1, 0.0),
-                                                child: Text(
-                                                  'FREE',
-                                                  style: FlutterFlowTheme.of(
-                                                          context)
-                                                      .bodyMedium
-                                                      .override(
-                                                        fontFamily: 'Roboto',
-                                                        color: Colors.white,
-                                                        fontSize: 8.0,
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                      ),
-                                                ),
-                                              ),
-                                            ),
+                                child: Stack(
+                                  children: [
+                                    Container(
+                                      height: 100.0,
+                                      decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        boxShadow: [
+                                          BoxShadow(
+                                            blurRadius: 6.0,
+                                            color: Color(0x340065FD),
+                                            offset: Offset(2.0, 2.0),
+                                          )
                                         ],
                                       ),
-                                      Padding(
-                                        padding: EdgeInsetsDirectional.fromSTEB(
-                                            20.0, 15.0, 0.0, 7.0),
-                                        child: Column(
-                                          mainAxisSize: MainAxisSize.max,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceEvenly,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Padding(
-                                              padding: EdgeInsetsDirectional
-                                                  .fromSTEB(0.0, 0.0, 0.0, 6.0),
-                                              child: Text(
-                                                listViewPostsRecord.name!
-                                                    .maybeHandleOverflow(
-                                                  maxChars: 25,
-                                                  replacement: '…',
-                                                ),
-                                                style:
-                                                    FlutterFlowTheme.of(context)
-                                                        .labelMedium
-                                                        .override(
-                                                          fontFamily: 'Roboto',
-                                                          color: Colors.black,
-                                                          fontSize: 15.0,
-                                                          fontWeight:
-                                                              FontWeight.w600,
-                                                        ),
-                                              ),
-                                            ),
-                                            Padding(
-                                              padding: EdgeInsetsDirectional
-                                                  .fromSTEB(0.0, 0.0, 0.0, 7.0),
-                                              child: Row(
-                                                mainAxisSize: MainAxisSize.max,
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.start,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.end,
-                                                children: [
-                                                  SvgPicture.asset(
-                                                    'assets/images/Group_(3).svg',
-                                                    width: 14.0,
-                                                    height: 14.0,
-                                                    fit: BoxFit.cover,
+                                      child: Row(
+                                        mainAxisSize: MainAxisSize.max,
+                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: [
+                                          Stack(
+                                            alignment:
+                                                AlignmentDirectional(-0.65, -0.75),
+                                            children: [
+                                              Padding(
+                                                padding:
+                                                    EdgeInsetsDirectional.fromSTEB(
+                                                        10.0, 10.0, 0.0, 10.0),
+                                                child: ClipRRect(
+                                                  borderRadius:
+                                                      BorderRadius.circular(12.0),
+                                                  child: CachedNetworkImageWidget(
+                                                    image: listViewPostsRecord
+                                                        .images!
+                                                        .toList()
+                                                        .first,
+                                                    width: 80.0,
+                                                    height: 80.0,
                                                   ),
-                                                  Padding(
-                                                    padding:
-                                                        EdgeInsetsDirectional
-                                                            .fromSTEB(3.0, 3.0,
-                                                                30.0, 0.0),
-                                                    child: Text(
-                                                      '12:00 PM 19 Apr, 23',
-                                                      style:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .labelSmall
-                                                              .override(
-                                                                fontFamily:
-                                                                    'Roboto',
-                                                                color: Color(
-                                                                    0xFF7D8180),
-                                                                fontSize: 10.0,
-                                                              ),
+                                                ),
+                                              ),
+                                              if (listViewPostsRecord.postType ==
+                                                  'Free')
+                                                Container(
+                                                  width: 32.0,
+                                                  height: 30.0,
+                                                  decoration: BoxDecoration(
+                                                    color:
+                                                        FlutterFlowTheme.of(context)
+                                                            .primary,
+                                                    borderRadius: BorderRadius.only(
+                                                      bottomLeft:
+                                                          Radius.circular(0.0),
+                                                      bottomRight:
+                                                          Radius.circular(35.0),
+                                                      topLeft:
+                                                          Radius.circular(12.0),
+                                                      topRight:
+                                                          Radius.circular(0.0),
                                                     ),
                                                   ),
-                                                ],
-                                              ),
-                                            ),
-                                            Row(
+                                                  child: Align(
+                                                    alignment: AlignmentDirectional(
+                                                        -0.1, 0.0),
+                                                    child: Text(
+                                                      'FREE',
+                                                      style: FlutterFlowTheme.of(
+                                                              context)
+                                                          .bodyMedium
+                                                          .override(
+                                                            fontFamily: 'Roboto',
+                                                            color: Colors.white,
+                                                            fontSize: 8.0,
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                          ),
+                                                    ),
+                                                  ),
+                                                ),
+                                            ],
+                                          ),
+                                          Padding(
+                                            padding: EdgeInsetsDirectional.fromSTEB(
+                                                20.0, 15.0, 0.0, 7.0),
+                                            child: Column(
                                               mainAxisSize: MainAxisSize.max,
                                               mainAxisAlignment:
-                                                  MainAxisAlignment.start,
+                                                  MainAxisAlignment.spaceEvenly,
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.start,
                                               children: [
-                                                SvgPicture.asset(
-                                                  'assets/images/Group_(4).svg',
-                                                  width: 14.0,
-                                                  height: 14.0,
-                                                  fit: BoxFit.cover,
+                                                Padding(
+                                                  padding: EdgeInsetsDirectional
+                                                      .fromSTEB(0.0, 0.0, 0.0, 6.0),
+                                                  child: Text(
+                                                    listViewPostsRecord.name!
+                                                        .maybeHandleOverflow(
+                                                      maxChars: 25,
+                                                      replacement: '…',
+                                                    ),
+                                                    style:
+                                                        FlutterFlowTheme.of(context)
+                                                            .labelMedium
+                                                            .override(
+                                                              fontFamily: 'Roboto',
+                                                              color: Colors.black,
+                                                              fontSize: 15.0,
+                                                              fontWeight:
+                                                                  FontWeight.w600,
+                                                            ),
+                                                  ),
                                                 ),
-                                                Text(
-                                                  listViewPostsRecord
-                                                              .conversations
-                                                              ?.length ==
-                                                          null
-                                                      ? '0 Conversations'
-                                                      : '${listViewPostsRecord.conversations?.length} ${"Conversations"}',
-                                                  style: FlutterFlowTheme.of(
-                                                          context)
-                                                      .bodyMedium
-                                                      .override(
-                                                        fontFamily: 'Roboto',
-                                                        color:
-                                                            Color(0xFF7D8180),
-                                                        fontSize: 11.0,
-                                                        fontWeight:
-                                                            FontWeight.w500,
+                                                Padding(
+                                                  padding: EdgeInsetsDirectional
+                                                      .fromSTEB(0.0, 0.0, 0.0, 7.0),
+                                                  child: Row(
+                                                    mainAxisSize: MainAxisSize.max,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.start,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment.end,
+                                                    children: [
+                                                      SvgPicture.asset(
+                                                        'assets/images/Group_(3).svg',
+                                                        width: 14.0,
+                                                        height: 14.0,
+                                                        fit: BoxFit.cover,
                                                       ),
+                                                      Padding(
+                                                        padding:
+                                                            EdgeInsetsDirectional
+                                                                .fromSTEB(3.0, 3.0,
+                                                                    30.0, 0.0),
+                                                        child: Text(
+                                                          '12:00 PM 19 Apr, 23',
+                                                          style:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .labelSmall
+                                                                  .override(
+                                                                    fontFamily:
+                                                                        'Roboto',
+                                                                    color: Color(
+                                                                        0xFF7D8180),
+                                                                    fontSize: 10.0,
+                                                                  ),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                                Row(
+                                                  mainAxisSize: MainAxisSize.max,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.start,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    SvgPicture.asset(
+                                                      'assets/images/Group_(4).svg',
+                                                      width: 14.0,
+                                                      height: 14.0,
+                                                      fit: BoxFit.cover,
+                                                    ),
+                                                    Text(
+                                                      listViewPostsRecord
+                                                                  .conversations
+                                                                  ?.length ==
+                                                              null
+                                                          ? '0 Conversations'
+                                                          : '${listViewPostsRecord.conversations?.length} ${"Conversations"}',
+                                                      style: FlutterFlowTheme.of(
+                                                              context)
+                                                          .bodyMedium
+                                                          .override(
+                                                            fontFamily: 'Roboto',
+                                                            color:
+                                                                Color(0xFF7D8180),
+                                                            fontSize: 11.0,
+                                                            fontWeight:
+                                                                FontWeight.w500,
+                                                          ),
+                                                    ),
+                                                  ],
                                                 ),
                                               ],
                                             ),
-                                          ],
-                                        ),
+                                          ),
+                                        ],
                                       ),
-                                    ],
-                                  ),
+                                    ),
+                                    Positioned(
+                                      bottom: 10,
+                                      right: 10,
+                                      child: Container(
+                                          padding:EdgeInsets.all(4),
+                                          decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            borderRadius: BorderRadius.circular(6),
+                                            boxShadow: [
+                                              BoxShadow(
+                                                  color:Color(0x190E2B).withOpacity(0.3),
+                                                  offset: const Offset(3, 3),
+                                                  blurRadius: 10),
+                                              BoxShadow(
+                                                  color: Color(0xECECFF),
+                                                  offset: Offset(-3, -3),
+                                                  blurRadius: 15),
+                                            ],
+                                          ),
+                                          child: Icon(Icons.favorite_border,color: Colors.red,)
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
                             );

@@ -595,7 +595,7 @@ class _ProductEditWidgetState extends State<ProductEditWidget> {
                       controller: _model.textController2,
                       obscureText: false,
                       decoration: InputDecoration(
-                        hintText: 'Add Product Description',
+                        hintText: 'Add Post Description',
                         hintStyle:
                             FlutterFlowTheme.of(context).bodySmall.override(
                                   fontFamily: 'Roboto',
@@ -681,7 +681,7 @@ class _ProductEditWidgetState extends State<ProductEditWidget> {
                               color: FlutterFlowTheme.of(context).secondaryText,
                             ),
                     textStyle: FlutterFlowTheme.of(context).bodyMedium,
-                    hintText: 'Add Category',
+                    hintText: 'Free/Exchange',
                     searchHintText: 'Search for an item...',
                     icon: Icon(
                       Icons.keyboard_arrow_down,
@@ -701,7 +701,7 @@ class _ProductEditWidgetState extends State<ProductEditWidget> {
                     padding:
                         EdgeInsetsDirectional.fromSTEB(0.0, 26.0, 0.0, 0.0),
                     child: Text(
-                      'Sub-category',
+                      'Category',
                       style: FlutterFlowTheme.of(context).labelMedium.override(
                             fontFamily: 'Roboto',
                             color: Color(0xFF7D8180),
@@ -715,7 +715,7 @@ class _ProductEditWidgetState extends State<ProductEditWidget> {
                       controller: _model.subCategoryController,
                       obscureText: false,
                       decoration: InputDecoration(
-                        hintText: 'Add Sub-Category',
+                        hintText: 'Rice, Flour, Vegetables, Dairy Products etc..',
                         hintStyle:
                             FlutterFlowTheme.of(context).bodySmall.override(
                                   fontFamily: 'Roboto',
@@ -790,8 +790,8 @@ class _ProductEditWidgetState extends State<ProductEditWidget> {
                         'null',
                       ),
                     ),
-                    options: ['Veg', 'Non-veg'],
-                    optionLabels: ['Veg', 'Non-veg'],
+                    options: ['Raw', 'Cooked'],
+                    optionLabels: ['Raw', 'Cooked'],
                     onChanged: (val) =>
                         setState(() => _model.dropDownValue3 = val),
                     height: 50.0,
@@ -801,7 +801,7 @@ class _ProductEditWidgetState extends State<ProductEditWidget> {
                               color: FlutterFlowTheme.of(context).secondaryText,
                             ),
                     textStyle: FlutterFlowTheme.of(context).bodyMedium,
-                    hintText: 'Veg/Non-veg',
+                    hintText: 'Raw/Cooked',
                     searchHintText: 'Search for an item...',
                     icon: Icon(
                       Icons.keyboard_arrow_down,

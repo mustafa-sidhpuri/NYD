@@ -1,3 +1,6 @@
+import 'package:n_y_d_app/components/constants.dart';
+import 'package:n_y_d_app/components/search_location_api.dart';
+
 import '../../components/LoadingWidget.dart';
 import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
@@ -33,6 +36,7 @@ class _AddProductDetailWidgetState extends State<AddProductDetailWidget> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
   final _unfocusNode = FocusNode();
   LatLng? currentUserLocationValue;
+  List<AutocompletePrediction> placePredictions = [];
 
   @override
   void initState() {
@@ -40,6 +44,27 @@ class _AddProductDetailWidgetState extends State<AddProductDetailWidget> {
     _model = createModel(context, () => AddProductDetailModel());
 
     _model.subCategoryController ??= TextEditingController();
+  }
+
+  void placeAutocomplete(String query) async {
+    Uri uri =
+        Uri.https("maps.googleapis.com", 'maps/api/place/autocomplete/json', {
+      "input": query,
+      "key": apiKey,
+    });
+
+    String? response = await NetworkUtility.fetchUrl(uri);
+
+    if (response != null) {
+      print(response);
+      // PlaceAutocompleteResponse result =
+      //     PlaceAutocompleteResponse.parseAutocompleteResult(response);
+      // if (result.predictions != null) {
+      //   setState(() {
+      //     placePredictions = result.predictions!;
+      //   });
+      // }
+    }
   }
 
   @override
@@ -172,7 +197,7 @@ class _AddProductDetailWidgetState extends State<AddProductDetailWidget> {
                             controller: _model.subCategoryController,
                             obscureText: false,
                             decoration: InputDecoration(
-                              hintText: 'Add Category',
+                              hintText: 'Rice, Flour, Vegetables, Dairy Products etc..',
                               hintStyle: FlutterFlowTheme.of(context)
                                   .bodySmall
                                   .override(
@@ -250,7 +275,7 @@ class _AddProductDetailWidgetState extends State<AddProductDetailWidget> {
                               FormFieldController<String>(
                             _model.dropDownValue2 ??= '',
                           ),
-                          options: ['Veg', 'Non-veg'],
+                          options: ['Raw', 'Cooked'],
                           optionLabels: ['Raw', 'Cooked'],
                           onChanged: (val) =>
                               setState(() => _model.dropDownValue2 = val),
@@ -326,6 +351,66 @@ class _AddProductDetailWidgetState extends State<AddProductDetailWidget> {
                             color: Color(0xFF000000).withOpacity(0.1),
                           ),
                         ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 10, right: 10),
+                          child: TextFormField(
+                            onChanged: (value) {
+                              placeAutocomplete(value);
+                            },
+                            textInputAction: TextInputAction.search,
+                            decoration: InputDecoration(
+                              hintText: "Search your location",
+                              suffixIcon: Icon(
+                                Icons.location_on_outlined,
+                                color: Colors.black,
+                                size: 24.0,
+                              ),
+                            ),
+                          ),
+                        ),
+                        InkWell(
+                          onTap: (){
+                            //print(object)
+                            placeAutocomplete("Dubai");
+                          },
+                          child: Container(
+                            color: Colors.pinkAccent,
+                            height: 250,
+                            child: ListView.builder(
+                                padding: EdgeInsets.zero,
+                                scrollDirection: Axis.vertical,
+                                itemCount: placePredictions.length,
+                                itemBuilder: (context, index) {
+                                  return Column(
+                                    children: [
+                                      ListTile(
+                                        onTap: (){},
+                                        horizontalTitleGap: 0,
+                                        leading: Icon(
+                                          Icons.location_on_outlined,
+                                          color: Colors.black,
+                                          size: 24.0,
+                                        ),
+                                        title: Text(
+                                          placePredictions[index].description!,
+                                          maxLines: 2,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                      ),
+                                      Divider(
+                                        height: 2,
+                                        thickness: 2,
+                                        color: Colors.grey,
+                                      )
+                                    ],
+                                  );
+                                })
+                          ),
+                        )
+
                       ],
                     ),
                   ),
@@ -422,7 +507,7 @@ class _AddProductDetailWidgetState extends State<AddProductDetailWidget> {
                             ),
                             foodType: valueOrDefault<String>(
                               _model.dropDownValue2,
-                              'Veg',
+                              'Cooked',
                             ),
                             latlong: currentUserLocationValue,
                             address: FFAppState().setLocation,

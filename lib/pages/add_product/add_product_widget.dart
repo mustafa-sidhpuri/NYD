@@ -579,24 +579,6 @@ class _AddProductWidgetState extends State<AddProductWidget> {
                           ),
                         );
                       }
-                      // else {
-                      //   ScaffoldMessenger.of(context).showSnackBar(
-                      //     SnackBar(
-                      //       content: Text(
-                      //         'Post Details cant be empty',
-                      //         style: FlutterFlowTheme.of(context)
-                      //             .bodySmall
-                      //             .override(
-                      //           fontFamily: 'Roboto',
-                      //           color: Colors.white,
-                      //         ),
-                      //       ),
-                      //       duration: Duration(milliseconds: 4000),
-                      //       backgroundColor:
-                      //       FlutterFlowTheme.of(context).primary,
-                      //     ),
-                      //   );
-                      // }
                     },
                     child: Container(
                       padding: EdgeInsets.symmetric(vertical: 12),

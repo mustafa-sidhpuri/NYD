@@ -1,6 +1,8 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
+import '../backend.dart';
+
 
 class LocalNotificationService {
   static final FlutterLocalNotificationsPlugin _notificationsPlugin =
@@ -9,7 +11,7 @@ class LocalNotificationService {
   static void initialize() {
     // initializationSettings  for Android and ios
     InitializationSettings initializationSettings = InitializationSettings(
-        android: AndroidInitializationSettings("@mipmap/ic_launcher"),
+        android: AndroidInitializationSettings("@drawable/ic_notification"),
         iOS: DarwinInitializationSettings(
             requestAlertPermission: true,
             requestBadgePermission: true,
@@ -34,6 +36,8 @@ class LocalNotificationService {
             "freefoodapp",
             "freefoodappchannel",
             importance: Importance.max,
+            color: Colors.white,
+            icon:"@drawable/ic_notification",
             priority: Priority.high,
           ),
           iOS: DarwinNotificationDetails());
