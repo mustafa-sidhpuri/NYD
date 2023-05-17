@@ -80,7 +80,6 @@ Map<String, dynamic> createUsersRecordData({
   String? phoneNumber,
   String? userAddress,
   LatLng? latlng,
-  List<DocumentReference>? savedPost,
 }) {
   final firestoreData = serializers.toFirestore(
     UsersRecord.serializer,

@@ -79,23 +79,24 @@ class FFAppState extends ChangeNotifier {
     _mediaUrl.removeAt(_index);
   }
 
-  List<DocumentReference> _savePost = [];
-  List<DocumentReference> get savePost => _savePost;
-  set savePost(List<DocumentReference> _value) {
-    _savePost = _value;
+  List<DocumentReference> _savedPost = [];
+  List<DocumentReference> get savedPost => _savedPost;
+  set savedPost(List<DocumentReference> _value) {
+    _savedPost = _value;
   }
 
-  void addToSavePost(DocumentReference _value) {
-    _savePost.add(_value);
+  void addToSavedPost(DocumentReference _value) {
+    _savedPost.add(_value);
   }
 
-  void removeFromSavePost(DocumentReference _value) {
-    _savePost.remove(_value);
+  void removeFromSavedPost(DocumentReference _value) {
+    _savedPost.remove(_value);
   }
 
-  void removeAtIndexFromSavePost(int _index) {
-    _savePost.removeAt(_index);
+  void removeAtIndexFromSavedPost(int _index) {
+    _savedPost.removeAt(_index);
   }
+
 
   bool _showFullList = true;
   bool get showFullList => _showFullList;

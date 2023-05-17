@@ -593,13 +593,11 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                     top: 10,
                                     child: InkWell(
                                       onTap: () async{
-                                        FFAppState().addToSavePost(gridViewPostsRecord.reference);
-                                        final usersUpdateData = createUsersRecordData(
-                                          savedPost: FFAppState().savePost
-                                        );
-                                        print(FFAppState().savePost.toList().toString());
-                                        print(usersUpdateData);
-                                        await currentUserReference!.update(usersUpdateData);
+
+                                        FFAppState().addToSavedPost(gridViewPostsRecord.reference);
+
+                                        await currentUserReference!.update({"saved_post": FFAppState().savedPost});
+
                                       },
                                       child: Container(
                                         padding:EdgeInsets.all(4),
