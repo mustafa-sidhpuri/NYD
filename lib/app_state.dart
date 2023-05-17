@@ -198,6 +198,24 @@ class FFAppState extends ChangeNotifier {
   set searchstring(String _value) {
     _searchstring = _value;
   }
+
+  List<DocumentReference> _savedPost = [];
+  List<DocumentReference> get savedPost => _savedPost;
+  set savedPost(List<DocumentReference> _value) {
+    _savedPost = _value;
+  }
+
+  void addToSavedPost(DocumentReference _value) {
+    _savedPost.add(_value);
+  }
+
+  void removeFromSavedPost(DocumentReference _value) {
+    _savedPost.remove(_value);
+  }
+
+  void removeAtIndexFromSavedPost(int _index) {
+    _savedPost.removeAt(_index);
+  }
 }
 
 LatLng? _latLngFromString(String? val) {

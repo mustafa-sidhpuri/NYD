@@ -565,6 +565,33 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                         ),
                                       ),
                                     ),
+                                  InkWell(
+                                    splashColor: Colors.transparent,
+                                    focusColor: Colors.transparent,
+                                    hoverColor: Colors.transparent,
+                                    highlightColor: Colors.transparent,
+                                    onTap: () async {
+                                      setState(() {
+                                        FFAppState().addToSavedPost(
+                                            gridViewPostsRecord.reference);
+                                      });
+                                    },
+                                    child: Container(
+                                      width: 30.0,
+                                      height: 30.0,
+                                      decoration: BoxDecoration(
+                                        color: FlutterFlowTheme.of(context)
+                                            .secondaryBackground,
+                                      ),
+                                      alignment:
+                                          AlignmentDirectional(1.0, -1.0),
+                                      child: Icon(
+                                        Icons.favorite_border,
+                                        color: Colors.black,
+                                        size: 24.0,
+                                      ),
+                                    ),
+                                  ),
                                 ],
                               );
                             },
