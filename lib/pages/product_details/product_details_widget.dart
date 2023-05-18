@@ -410,26 +410,26 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                       child: Text(
                         valueOrDefault<String>(
                           widget.productData!.description,
-                          'product description',
+                       'post description',
                         ),
                         style: FlutterFlowTheme.of(context).bodyMedium.override(
                               fontFamily: 'Roboto',
                               color: Color(0xFF7D8180),
-                              fontSize: 12.0,
+                              fontSize: 14.0,
                             ),
                       ),
                     ),
                   ),
                   //Spacer(),
+                  if (widget.productData!.postedBy ==
+                      productDetailsUsersRecord.uid)
                   Padding(
                     padding:
-                        EdgeInsetsDirectional.fromSTEB(0.0, 20.0, 0.0, 30.0),
+                        EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 30.0),
                     child: Row(
                       mainAxisSize: MainAxisSize.max,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        if (widget.productData!.postedBy ==
-                            productDetailsUsersRecord.uid)
                           InkWell(
                             splashColor: Colors.transparent,
                             focusColor: Colors.transparent,
@@ -446,6 +446,7 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                               );
                             },
                             child: Container(
+                              padding: EdgeInsets.symmetric(vertical: 10,horizontal: 110),
                               height: 43.0,
                               decoration: BoxDecoration(
                                 color: FlutterFlowTheme.of(context)
@@ -456,23 +457,18 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                                   width: 2.0,
                                 ),
                               ),
-                              alignment: AlignmentDirectional(0.0, 0.0),
-                              child: Padding(
-                                padding: EdgeInsetsDirectional.fromSTEB(
-                                    130.0, 0.0, 130.0, 0.0),
-                                child: Text(
-                                  'Picked Up',
-                                  textAlign: TextAlign.center,
-                                  style: FlutterFlowTheme.of(context)
-                                      .bodyMedium
-                                      .override(
-                                        fontFamily: 'Roboto',
-                                        color: FlutterFlowTheme.of(context)
-                                            .primary,
-                                        fontSize: 16.0,
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                ),
+                              child: Text(
+                                'Picked Up',
+                                textAlign: TextAlign.center,
+                                style: FlutterFlowTheme.of(context)
+                                    .bodyMedium
+                                    .override(
+                                      fontFamily: 'Roboto',
+                                      color: FlutterFlowTheme.of(context)
+                                          .primary,
+                                      fontSize: 16.0,
+                                      fontWeight: FontWeight.w600,
+                                    ),
                               ),
                             ),
                           ),
@@ -480,132 +476,122 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                     ),
                   ),
                   if (widget.productData!.postedBy != currentUserUid)
-                    Expanded(
-                      child: Padding(
-                        padding:
-                            EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 34.0),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.max,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            InkWell(
-                              splashColor: Colors.transparent,
-                              focusColor: Colors.transparent,
-                              hoverColor: Colors.transparent,
-                              highlightColor: Colors.transparent,
-                              onTap: () async {
-                                // Added action that will return conversation refrence if there, else
-                                // we have to create a conversation.
-                                ConversationsRecord? convRef = await actions
-                                    .getConversationData(widget.productId!.id);
-                                if (convRef == null) {
-                                  await actions.storeChatUsers(
-                                    currentUserUid,
-                                    widget.productData!.postedBy!,
-                                  );
-
-                                  final conversationsCreateData = {
-                                    ...createConversationsRecordData(
-                                      productName: widget.productData!.name,
-                                      productImage: widget.productData!.images!
-                                          .toList()
-                                          .first,
-                                      productId:
-                                          widget.productData!.reference.id,
-                                      postedByRefrence:
-                                          widget.productData!.userRef,
-                                      createUserRefrence: currentUserReference,
-                                      postedByLocation:
-                                          widget.productData!.address,
-                                    ),
-                                    'users': FFAppState().chatUsers,
-                                    'user_details': [
-                                      {
-                                        "user_id": currentUserUid,
-                                        "user_image": currentUserPhoto,
-                                        "user_name": currentUserDisplayName,
-                                      },
-                                      {
-                                        "user_id":
-                                            widget.productData!.postedBy!,
-                                        "user_image": widget
-                                            .productData!.postedByProfile!,
-                                        "user_name":
-                                            widget.productData!.postedByName!,
-                                      }
-                                    ]
-                                  };
-
-                                  await ConversationsRecord.collection
-                                      .doc()
-                                      .set(conversationsCreateData);
-
-                                  List<String> convIds = widget
-                                          .productData!.conversations
-                                          ?.map((p0) => p0)
-                                          .toList() ??
-                                      [];
-
-                                  convRef = await actions.getConversationData(
-                                      widget.productId!.id);
-                                  convIds.add(convRef!.ffRef!.id);
-                                  await widget.productData!.ffRef!
-                                      .update({"conversations": convIds});
-                                }
-                                await Navigator.push(
-                                  context,
-                                  PageTransition(
-                                    type: PageTransitionType.fade,
-                                    duration: Duration(milliseconds: 0),
-                                    reverseDuration: Duration(milliseconds: 0),
-                                    child: ChatDetailsWidget(
-                                      postData: widget.productData,
-                                      username:
-                                          widget.productData!.postedByName,
-                                      productname: widget.productData!.name,
-                                      profileimage:
-                                          widget.productData!.postedByProfile,
-                                      productimage: widget.productData!.images!
-                                          .toList()
-                                          .first,
-                                      conversationsDoc: convRef,
-                                      productlocation:
-                                          widget.productData!.address,
-                                      userRef: widget.productData!.userRef,
-                                    ),
-                                  ),
+                    Padding(
+                      padding:
+                          EdgeInsetsDirectional.fromSTEB(0.0, 20.0, 0.0, 34.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          InkWell(
+                            splashColor: Colors.transparent,
+                            focusColor: Colors.transparent,
+                            hoverColor: Colors.transparent,
+                            highlightColor: Colors.transparent,
+                            onTap: () async {
+                              // Added action that will return conversation refrence if there, else
+                              // we have to create a conversation.
+                              ConversationsRecord? convRef = await actions
+                                  .getConversationData(widget.productId!.id);
+                              if (convRef == null) {
+                                await actions.storeChatUsers(
+                                  currentUserUid,
+                                  widget.productData!.postedBy!,
                                 );
-                              },
-                              child: Container(
-                                height: 43.0,
-                                decoration: BoxDecoration(
-                                  color: FlutterFlowTheme.of(context).primary,
-                                  borderRadius: BorderRadius.circular(22.0),
-                                ),
-                                alignment: AlignmentDirectional(0.0, 0.0),
-                                child: Align(
-                                  alignment: AlignmentDirectional(0.0, 0.0),
-                                  child: Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        103.0, 0.0, 103.0, 0.0),
-                                    child: Text(
-                                      'Start Conversation',
-                                      style: FlutterFlowTheme.of(context)
-                                          .bodyMedium
-                                          .override(
-                                            fontFamily: 'Roboto',
-                                            color: Colors.white,
-                                            fontSize: 16.0,
-                                            fontWeight: FontWeight.w600,
-                                          ),
-                                    ),
+
+                                final conversationsCreateData = {
+                                  ...createConversationsRecordData(
+                                    productName: widget.productData!.name,
+                                    productImage: widget.productData!.images!
+                                        .toList()
+                                        .first,
+                                    productId:
+                                        widget.productData!.reference.id,
+                                    postedByRefrence:
+                                        widget.productData!.userRef,
+                                    createUserRefrence: currentUserReference,
+                                    postedByLocation:
+                                        widget.productData!.address,
+                                  ),
+                                  'users': FFAppState().chatUsers,
+                                  'user_details': [
+                                    {
+                                      "user_id": currentUserUid,
+                                      "user_image": currentUserPhoto,
+                                      "user_name": currentUserDisplayName,
+                                    },
+                                    {
+                                      "user_id":
+                                          widget.productData!.postedBy!,
+                                      "user_image": widget
+                                          .productData!.postedByProfile!,
+                                      "user_name":
+                                          widget.productData!.postedByName!,
+                                    }
+                                  ]
+                                };
+
+                                await ConversationsRecord.collection
+                                    .doc()
+                                    .set(conversationsCreateData);
+
+                                List<String> convIds = widget
+                                        .productData!.conversations
+                                        ?.map((p0) => p0)
+                                        .toList() ??
+                                    [];
+
+                                convRef = await actions.getConversationData(
+                                    widget.productId!.id);
+                                convIds.add(convRef!.ffRef!.id);
+                                await widget.productData!.ffRef!
+                                    .update({"conversations": convIds});
+                              }
+                              await Navigator.push(
+                                context,
+                                PageTransition(
+                                  type: PageTransitionType.fade,
+                                  duration: Duration(milliseconds: 0),
+                                  reverseDuration: Duration(milliseconds: 0),
+                                  child: ChatDetailsWidget(
+                                    postData: widget.productData,
+                                    username:
+                                        widget.productData!.postedByName,
+                                    productname: widget.productData!.name,
+                                    profileimage:
+                                        widget.productData!.postedByProfile,
+                                    productimage: widget.productData!.images!
+                                        .toList()
+                                        .first,
+                                    conversationsDoc: convRef,
+                                    productlocation:
+                                        widget.productData!.address,
+                                    userRef: widget.productData!.userRef,
                                   ),
                                 ),
+                              );
+                            },
+                            child: Container(
+                              padding: EdgeInsets.symmetric(vertical: 12,horizontal: 90),
+                              height: 43.0,
+                              decoration: BoxDecoration(
+                                color: FlutterFlowTheme.of(context).primary,
+                                borderRadius: BorderRadius.circular(22.0),
+                              ),
+                              child: Text(
+                                'Start Conversation',
+                                style: FlutterFlowTheme.of(context)
+                                    .bodyMedium
+                                    .override(
+                                      fontFamily: 'Roboto',
+                                      color: Colors.white,
+                                      fontSize: 16.0,
+                                      fontWeight: FontWeight.w600,
+                                    ),
                               ),
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     ),
                 ],

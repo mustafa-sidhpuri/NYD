@@ -264,7 +264,8 @@ class _PickUpProductWidgetState extends State<PickUpProductWidget> {
                                   key: _model.textFieldKey,
                                   controller: textEditingController,
                                   focusNode: focusNode,
-                                  onEditingComplete: onEditingComplete,
+                                  textInputAction: TextInputAction.done,
+                                  //onEditingComplete: onEditingComplete,
                                   onChanged: (_) => EasyDebounce.debounce(
                                     '_model.textController',
                                     Duration(milliseconds: 0),
@@ -462,6 +463,7 @@ class _PickUpProductWidgetState extends State<PickUpProductWidget> {
                             .where((e) => e.uid != currentUserUid)
                             .toList();
                         return ListView.builder(
+                        physics: NeverScrollableScrollPhysics(),
                           padding: EdgeInsets.zero,
                           shrinkWrap: true,
                           scrollDirection: Axis.vertical,

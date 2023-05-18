@@ -1,3 +1,5 @@
+import 'package:n_y_d_app/pages/product_details/product_details_widget.dart';
+
 import '../../components/cached_network_image.dart';
 import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
@@ -247,15 +249,30 @@ class _PublicProfileWidgetState extends State<PublicProfileWidget> {
                               itemBuilder: (context, gridViewIndex) {
                                 final gridViewPostsRecord =
                                     gridViewPostsRecordList[gridViewIndex];
-                                return ClipRRect(
-                                  borderRadius: BorderRadius.circular(12.0),
-                                  child: CachedNetworkImageWidget(
-                                    image: gridViewPostsRecord.images!
-                                        .toList()
-                                        .first,
-                                    width: 105.0,
-                                    height: 105.0,
-                                  )
+                                return InkWell(
+                                  onTap: () async{
+                                    await Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            ProductDetailsWidget(
+                                              productData: gridViewPostsRecord,
+                                              productId:
+                                              gridViewPostsRecord.reference,
+                                            ),
+                                      ),
+                                    );
+                                  },
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(12.0),
+                                    child: CachedNetworkImageWidget(
+                                      image: gridViewPostsRecord.images!
+                                          .toList()
+                                          .first,
+                                      width: 105.0,
+                                      height: 105.0,
+                                    )
+                                  ),
                                 );
                               },
                             );

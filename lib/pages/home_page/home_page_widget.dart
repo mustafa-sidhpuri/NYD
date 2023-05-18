@@ -49,6 +49,8 @@ class _HomePageWidgetState extends State<HomePageWidget> {
         );
         FFAppState().update(() {
           FFAppState().setLocation = FFAppState().userlocation;
+          FFAppState().savedPost =
+              (currentUserDocument?.savedPost?.toList() ?? []).toList();
         });
 
         final usersUpdateData = createUsersRecordData(
@@ -592,31 +594,54 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                     right: 10,
                                     top: 10,
                                     child: InkWell(
-                                      onTap: () async{
-
-                                        FFAppState().addToSavedPost(gridViewPostsRecord.reference);
-
-                                        await currentUserReference!.update({"saved_post": FFAppState().savedPost});
-
+                                      onTap: () async {
+                                        if (FFAppState().savedPost.contains(
+                                            gridViewPostsRecord.reference)) {
+                                          FFAppState().removeFromSavedPost(
+                                              gridViewPostsRecord.reference);
+                                          await currentUserReference!.update({
+                                            "saved_post": FFAppState().savedPost
+                                          });
+                                          setState(() {});
+                                        } else {
+                                          FFAppState().addToSavedPost(
+                                              gridViewPostsRecord.reference);
+                                          await currentUserReference!.update({
+                                            "saved_post": FFAppState().savedPost
+                                          });
+                                          setState(() {});
+                                        }
                                       },
                                       child: Container(
-                                        padding:EdgeInsets.all(4),
-                                        decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          borderRadius: BorderRadius.circular(6),
-                                          boxShadow: [
-                                            BoxShadow(
-                                                color:Color(0x190E2B).withOpacity(0.3),
-                                                offset: const Offset(3, 3),
-                                                blurRadius: 10),
-                                             BoxShadow(
-                                                color: Color(0xECECFF),
-                                                offset: Offset(-3, -3),
-                                                blurRadius: 15),
-                                          ],
-                                        ),
-                                        child: Icon(Icons.favorite_border,color: Colors.red,)
-                                      ),
+                                          padding: EdgeInsets.all(4),
+                                          decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            borderRadius:
+                                                BorderRadius.circular(6),
+                                            boxShadow: [
+                                              BoxShadow(
+                                                  color: Color(0x190E2B)
+                                                      .withOpacity(0.3),
+                                                  offset: const Offset(3, 3),
+                                                  blurRadius: 10),
+                                              BoxShadow(
+                                                  color: Color(0xECECFF),
+                                                  offset: Offset(-3, -3),
+                                                  blurRadius: 15),
+                                            ],
+                                          ),
+                                          child: FFAppState()
+                                                  .savedPost
+                                                  .contains(gridViewPostsRecord
+                                                      .reference)
+                                              ? Icon(
+                                                  Icons.favorite,
+                                                  color: Colors.red,
+                                                )
+                                              : Icon(
+                                                  Icons.favorite_border,
+                                                  color: Colors.red,
+                                                )),
                                     ),
                                   ),
                                 ],
@@ -708,22 +733,25 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                       ),
                                       child: Row(
                                         mainAxisSize: MainAxisSize.max,
-                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
                                         crossAxisAlignment:
                                             CrossAxisAlignment.center,
                                         children: [
                                           Stack(
-                                            alignment:
-                                                AlignmentDirectional(-0.65, -0.75),
+                                            alignment: AlignmentDirectional(
+                                                -0.65, -0.75),
                                             children: [
                                               Padding(
-                                                padding:
-                                                    EdgeInsetsDirectional.fromSTEB(
+                                                padding: EdgeInsetsDirectional
+                                                    .fromSTEB(
                                                         10.0, 10.0, 0.0, 10.0),
                                                 child: ClipRRect(
                                                   borderRadius:
-                                                      BorderRadius.circular(12.0),
-                                                  child: CachedNetworkImageWidget(
+                                                      BorderRadius.circular(
+                                                          12.0),
+                                                  child:
+                                                      CachedNetworkImageWidget(
                                                     image: listViewPostsRecord
                                                         .images!
                                                         .toList()
@@ -733,16 +761,18 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                                   ),
                                                 ),
                                               ),
-                                              if (listViewPostsRecord.postType ==
+                                              if (listViewPostsRecord
+                                                      .postType ==
                                                   'Free')
                                                 Container(
                                                   width: 32.0,
                                                   height: 30.0,
                                                   decoration: BoxDecoration(
-                                                    color:
-                                                        FlutterFlowTheme.of(context)
-                                                            .primary,
-                                                    borderRadius: BorderRadius.only(
+                                                    color: FlutterFlowTheme.of(
+                                                            context)
+                                                        .primary,
+                                                    borderRadius:
+                                                        BorderRadius.only(
                                                       bottomLeft:
                                                           Radius.circular(0.0),
                                                       bottomRight:
@@ -754,15 +784,17 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                                     ),
                                                   ),
                                                   child: Align(
-                                                    alignment: AlignmentDirectional(
-                                                        -0.1, 0.0),
+                                                    alignment:
+                                                        AlignmentDirectional(
+                                                            -0.1, 0.0),
                                                     child: Text(
                                                       'FREE',
-                                                      style: FlutterFlowTheme.of(
-                                                              context)
+                                                      style: FlutterFlowTheme
+                                                              .of(context)
                                                           .bodyMedium
                                                           .override(
-                                                            fontFamily: 'Roboto',
+                                                            fontFamily:
+                                                                'Roboto',
                                                             color: Colors.white,
                                                             fontSize: 8.0,
                                                             fontWeight:
@@ -774,8 +806,9 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                             ],
                                           ),
                                           Padding(
-                                            padding: EdgeInsetsDirectional.fromSTEB(
-                                                20.0, 15.0, 0.0, 7.0),
+                                            padding:
+                                                EdgeInsetsDirectional.fromSTEB(
+                                                    20.0, 15.0, 0.0, 7.0),
                                             child: Column(
                                               mainAxisSize: MainAxisSize.max,
                                               mainAxisAlignment:
@@ -785,30 +818,33 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                               children: [
                                                 Padding(
                                                   padding: EdgeInsetsDirectional
-                                                      .fromSTEB(0.0, 0.0, 0.0, 6.0),
+                                                      .fromSTEB(
+                                                          0.0, 0.0, 0.0, 6.0),
                                                   child: Text(
                                                     listViewPostsRecord.name!
                                                         .maybeHandleOverflow(
                                                       maxChars: 25,
                                                       replacement: '…',
                                                     ),
-                                                    style:
-                                                        FlutterFlowTheme.of(context)
-                                                            .labelMedium
-                                                            .override(
-                                                              fontFamily: 'Roboto',
-                                                              color: Colors.black,
-                                                              fontSize: 15.0,
-                                                              fontWeight:
-                                                                  FontWeight.w600,
-                                                            ),
+                                                    style: FlutterFlowTheme.of(
+                                                            context)
+                                                        .labelMedium
+                                                        .override(
+                                                          fontFamily: 'Roboto',
+                                                          color: Colors.black,
+                                                          fontSize: 15.0,
+                                                          fontWeight:
+                                                              FontWeight.w600,
+                                                        ),
                                                   ),
                                                 ),
                                                 Padding(
                                                   padding: EdgeInsetsDirectional
-                                                      .fromSTEB(0.0, 0.0, 0.0, 7.0),
+                                                      .fromSTEB(
+                                                          0.0, 0.0, 0.0, 7.0),
                                                   child: Row(
-                                                    mainAxisSize: MainAxisSize.max,
+                                                    mainAxisSize:
+                                                        MainAxisSize.max,
                                                     mainAxisAlignment:
                                                         MainAxisAlignment.start,
                                                     crossAxisAlignment:
@@ -823,28 +859,31 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                                       Padding(
                                                         padding:
                                                             EdgeInsetsDirectional
-                                                                .fromSTEB(3.0, 3.0,
-                                                                    30.0, 0.0),
+                                                                .fromSTEB(
+                                                                    3.0,
+                                                                    3.0,
+                                                                    30.0,
+                                                                    0.0),
                                                         child: Text(
                                                           '12:00 PM 19 Apr, 23',
-                                                          style:
-                                                              FlutterFlowTheme.of(
-                                                                      context)
-                                                                  .labelSmall
-                                                                  .override(
-                                                                    fontFamily:
-                                                                        'Roboto',
-                                                                    color: Color(
-                                                                        0xFF7D8180),
-                                                                    fontSize: 10.0,
-                                                                  ),
+                                                          style: FlutterFlowTheme
+                                                                  .of(context)
+                                                              .labelSmall
+                                                              .override(
+                                                                fontFamily:
+                                                                    'Roboto',
+                                                                color: Color(
+                                                                    0xFF7D8180),
+                                                                fontSize: 10.0,
+                                                              ),
                                                         ),
                                                       ),
                                                     ],
                                                   ),
                                                 ),
                                                 Row(
-                                                  mainAxisSize: MainAxisSize.max,
+                                                  mainAxisSize:
+                                                      MainAxisSize.max,
                                                   mainAxisAlignment:
                                                       MainAxisAlignment.start,
                                                   crossAxisAlignment:
@@ -863,13 +902,14 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                                               null
                                                           ? '0 Conversations'
                                                           : '${listViewPostsRecord.conversations?.length} ${"Conversations"}',
-                                                      style: FlutterFlowTheme.of(
-                                                              context)
+                                                      style: FlutterFlowTheme
+                                                              .of(context)
                                                           .bodyMedium
                                                           .override(
-                                                            fontFamily: 'Roboto',
-                                                            color:
-                                                                Color(0xFF7D8180),
+                                                            fontFamily:
+                                                                'Roboto',
+                                                            color: Color(
+                                                                0xFF7D8180),
                                                             fontSize: 11.0,
                                                             fontWeight:
                                                                 FontWeight.w500,
@@ -886,23 +926,55 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                     Positioned(
                                       bottom: 10,
                                       right: 10,
-                                      child: Container(
-                                          padding:EdgeInsets.all(4),
-                                          decoration: BoxDecoration(
-                                            color: Colors.white,
-                                            borderRadius: BorderRadius.circular(6),
-                                            boxShadow: [
-                                              BoxShadow(
-                                                  color:Color(0x190E2B).withOpacity(0.3),
-                                                  offset: const Offset(3, 3),
-                                                  blurRadius: 10),
-                                              BoxShadow(
-                                                  color: Color(0xECECFF),
-                                                  offset: Offset(-3, -3),
-                                                  blurRadius: 15),
-                                            ],
-                                          ),
-                                          child: Icon(Icons.favorite_border,color: Colors.red,)
+                                      child: InkWell(
+                                        onTap: () async {
+                                          if (FFAppState().savedPost.contains(
+                                              listViewPostsRecord.reference)) {
+                                            FFAppState().removeFromSavedPost(
+                                                listViewPostsRecord.reference);
+                                            await currentUserReference!.update({
+                                              "saved_post": FFAppState().savedPost
+                                            });
+                                            setState(() {});
+                                          } else {
+                                            FFAppState().addToSavedPost(
+                                                listViewPostsRecord.reference);
+                                            await currentUserReference!.update({
+                                              "saved_post": FFAppState().savedPost
+                                            });
+                                            setState(() {});
+                                          }
+                                        },
+                                        child: Container(
+                                            padding: EdgeInsets.all(4),
+                                            decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              borderRadius:
+                                              BorderRadius.circular(6),
+                                              boxShadow: [
+                                                BoxShadow(
+                                                    color: Color(0x190E2B)
+                                                        .withOpacity(0.3),
+                                                    offset: const Offset(3, 3),
+                                                    blurRadius: 10),
+                                                BoxShadow(
+                                                    color: Color(0xECECFF),
+                                                    offset: Offset(-3, -3),
+                                                    blurRadius: 15),
+                                              ],
+                                            ),
+                                            child: FFAppState()
+                                                .savedPost
+                                                .contains(listViewPostsRecord
+                                                .reference)
+                                                ? Icon(
+                                              Icons.favorite,
+                                              color: Colors.red,
+                                            )
+                                                : Icon(
+                                              Icons.favorite_border,
+                                              color: Colors.red,
+                                            )),
                                       ),
                                     ),
                                   ],

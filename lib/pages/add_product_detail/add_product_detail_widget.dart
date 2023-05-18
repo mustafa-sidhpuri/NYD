@@ -1,6 +1,8 @@
+import 'dart:convert';
+
 import 'package:n_y_d_app/components/constants.dart';
 import 'package:n_y_d_app/components/search_location_api.dart';
-
+import 'package:http/http.dart' as http;
 import '../../components/LoadingWidget.dart';
 import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
@@ -37,7 +39,9 @@ class _AddProductDetailWidgetState extends State<AddProductDetailWidget> {
   final _unfocusNode = FocusNode();
   LatLng? currentUserLocationValue;
   List<AutocompletePrediction> placePredictions = [];
-
+  TextEditingController locationField = TextEditingController();
+  double? latitude;
+  double? longitude;
   @override
   void initState() {
     super.initState();
@@ -56,14 +60,54 @@ class _AddProductDetailWidgetState extends State<AddProductDetailWidget> {
     String? response = await NetworkUtility.fetchUrl(uri);
 
     if (response != null) {
-      print(response);
-      // PlaceAutocompleteResponse result =
-      //     PlaceAutocompleteResponse.parseAutocompleteResult(response);
-      // if (result.predictions != null) {
-      //   setState(() {
-      //     placePredictions = result.predictions!;
-      //   });
-      // }
+      //print(response);
+      PlaceAutocompleteResponse result =
+          PlaceAutocompleteResponse.parseAutocompleteResult(response);
+      if (result.predictions != null) {
+        setState(() {
+          placePredictions = result.predictions!;
+        });
+      }
+    }
+  }
+
+  Future<Map<String, dynamic>?> getLocationFromAddress(String address) async {
+    final apiKey =
+        "AIzaSyAZuQe6qz_GdmxUJ2PBs6xA4Lm5LAjj0CQ"; // Replace with your Google Geocoding API key
+    final encodedAddress = Uri.encodeQueryComponent(address);
+    final url =
+        'https://maps.googleapis.com/maps/api/geocode/json?address=$encodedAddress&key=$apiKey';
+
+    final response = await http.get(Uri.parse(url));
+    if (response.statusCode == 200) {
+      final decodedData = json.decode(response.body);
+      if (decodedData['status'] == 'OK') {
+        final results = decodedData['results'] as List<dynamic>;
+        if (results.isNotEmpty) {
+          final location = results[0]['geometry']['location'];
+          final latitude = location['lat'];
+          final longitude = location['lng'];
+
+          return {
+            'latitude': latitude,
+            'longitude': longitude,
+          };
+        }
+      }
+    }
+    return null;
+  }
+
+  void getCoordinates(String selectedAddress) async {
+    final address = selectedAddress;
+    final coordinates = await getLocationFromAddress(address);
+    if (coordinates != null) {
+      latitude = coordinates['latitude'];
+      longitude = coordinates['longitude'];
+      print('Latitude: $latitude');
+      print('Longitude: $longitude');
+    } else {
+      print('Failed to retrieve coordinates.');
     }
   }
 
@@ -197,7 +241,8 @@ class _AddProductDetailWidgetState extends State<AddProductDetailWidget> {
                             controller: _model.subCategoryController,
                             obscureText: false,
                             decoration: InputDecoration(
-                              hintText: 'Rice, Flour, Vegetables, Dairy Products etc..',
+                              hintText:
+                                  'Rice, Flour, Vegetables, Dairy Products etc..',
                               hintStyle: FlutterFlowTheme.of(context)
                                   .bodySmall
                                   .override(
@@ -319,65 +364,36 @@ class _AddProductDetailWidgetState extends State<AddProductDetailWidget> {
                           ),
                         ),
                         Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(
-                              8.0, 6.0, 8.0, 0.0),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.max,
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                FFAppState().setLocation,
-                                style: FlutterFlowTheme.of(context)
-                                    .bodyMedium
-                                    .override(
-                                      fontFamily: 'Roboto',
-                                      fontSize: 16.0,
-                                    ),
-                              ),
-                              Icon(
-                                Icons.location_on_outlined,
-                                color: Colors.black,
-                                size: 24.0,
-                              ),
-                            ],
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(
-                              10.0, 0.0, 10.0, 0.0),
-                          child: Divider(
-                            thickness: 1.0,
-                            color: Color(0xFF000000).withOpacity(0.1),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        Padding(
                           padding: const EdgeInsets.only(left: 10, right: 10),
                           child: TextFormField(
+                            controller: locationField,
                             onChanged: (value) {
                               placeAutocomplete(value);
                             },
                             textInputAction: TextInputAction.search,
                             decoration: InputDecoration(
+                              border: InputBorder.none,
                               hintText: "Search your location",
                               suffixIcon: Icon(
                                 Icons.location_on_outlined,
                                 color: Colors.black,
                                 size: 24.0,
                               ),
+                              enabledBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: Color(0xFF000000).withOpacity(0.1),
+                                ),
+                              ),
+                              focusedBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: Color(0xFF000000).withOpacity(0.1),
+                                ),
+                              ),
                             ),
                           ),
                         ),
-                        InkWell(
-                          onTap: (){
-                            //print(object)
-                            placeAutocomplete("Dubai");
-                          },
-                          child: Container(
-                            color: Colors.pinkAccent,
+                        Container(
+                            //color: Colors.pinkAccent,
                             height: 250,
                             child: ListView.builder(
                                 padding: EdgeInsets.zero,
@@ -387,7 +403,14 @@ class _AddProductDetailWidgetState extends State<AddProductDetailWidget> {
                                   return Column(
                                     children: [
                                       ListTile(
-                                        onTap: (){},
+                                        onTap: () async {
+                                          locationField.text =
+                                              placePredictions[index]
+                                                  .description!;
+                                          setState(() {});
+                                          getCoordinates(locationField.text);
+                                          placePredictions.clear();
+                                        },
                                         horizontalTitleGap: 0,
                                         leading: Icon(
                                           Icons.location_on_outlined,
@@ -407,10 +430,7 @@ class _AddProductDetailWidgetState extends State<AddProductDetailWidget> {
                                       )
                                     ],
                                   );
-                                })
-                          ),
-                        )
-
+                                }))
                       ],
                     ),
                   ),
@@ -481,6 +501,25 @@ class _AddProductDetailWidgetState extends State<AddProductDetailWidget> {
                         );
                         return;
                       }
+                      if (locationField.text == '') {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(
+                              'Location can\'t be empty',
+                              style: FlutterFlowTheme.of(context)
+                                  .bodySmall
+                                  .override(
+                                    fontFamily: 'Roboto',
+                                    color: Colors.white,
+                                  ),
+                            ),
+                            duration: Duration(milliseconds: 4000),
+                            backgroundColor:
+                                FlutterFlowTheme.of(context).primary,
+                          ),
+                        );
+                        return;
+                      }
 
                       LoadingOverlay.show(context);
                       currentUserLocationValue = await getCurrentUserLocation(
@@ -509,8 +548,8 @@ class _AddProductDetailWidgetState extends State<AddProductDetailWidget> {
                               _model.dropDownValue2,
                               'Cooked',
                             ),
-                            latlong: currentUserLocationValue,
-                            address: FFAppState().setLocation,
+                            latlong: LatLng(latitude!, longitude!),
+                            address: locationField.text,
                             createdAt: getCurrentTimestamp,
                             updatedAt: getCurrentTimestamp,
                             public: true,
