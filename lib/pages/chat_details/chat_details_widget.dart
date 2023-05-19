@@ -83,8 +83,8 @@ class _ChatDetailsWidgetState extends State<ChatDetailsWidget> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Padding(
-                      padding:
-                          EdgeInsetsDirectional.fromSTEB(22.0, 30.0, 22.0, 18.0),
+                      padding: EdgeInsetsDirectional.fromSTEB(
+                          22.0, 30.0, 22.0, 18.0),
                       child: Row(
                         mainAxisSize: MainAxisSize.max,
                         mainAxisAlignment: MainAxisAlignment.start,
@@ -134,7 +134,7 @@ class _ChatDetailsWidgetState extends State<ChatDetailsWidget> {
                             builder: (context, snapshot) {
                               return snapshot.hasData
                                   ? CachedNetworkImageWidget(
-                                  image: snapshot.data!["photo_url"])
+                                      image: snapshot.data!["photo_url"])
                                   : Icon(Icons.person);
                             },
                           ),
@@ -188,13 +188,15 @@ class _ChatDetailsWidgetState extends State<ChatDetailsWidget> {
                                         currentUserUid,
                                     child: Column(
                                       mainAxisSize: MainAxisSize.max,
-                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
                                         Padding(
-                                          padding: EdgeInsetsDirectional.fromSTEB(
-                                              0.0, 5.0, 0.0, 5.0),
+                                          padding:
+                                              EdgeInsetsDirectional.fromSTEB(
+                                                  0.0, 5.0, 0.0, 5.0),
                                           child: Text(
                                             //7:00 PM Apr 20
                                             '${dateTimeFormat('jm', DateTime.tryParse(listViewChatsRecord.createdAt!))} ${dateTimeFormat('MMMd', DateTime.tryParse(listViewChatsRecord.createdAt!))}',
@@ -224,19 +226,20 @@ class _ChatDetailsWidgetState extends State<ChatDetailsWidget> {
                                               ),
                                               child: Padding(
                                                 padding: EdgeInsetsDirectional
-                                                    .fromSTEB(8.0, 8.0, 8.0, 8.0),
+                                                    .fromSTEB(
+                                                        8.0, 8.0, 8.0, 8.0),
                                                 child: Text(
                                                   listViewChatsRecord.message ??
                                                       "",
-                                                  style:
-                                                      FlutterFlowTheme.of(context)
-                                                          .bodyMedium
-                                                          .override(
-                                                            fontFamily: 'Roboto',
-                                                            fontSize: 15.0,
-                                                            fontWeight:
-                                                                FontWeight.normal,
-                                                          ),
+                                                  style: FlutterFlowTheme.of(
+                                                          context)
+                                                      .bodyMedium
+                                                      .override(
+                                                        fontFamily: 'Roboto',
+                                                        fontSize: 15.0,
+                                                        fontWeight:
+                                                            FontWeight.normal,
+                                                      ),
                                                 ),
                                               ),
                                             ),
@@ -247,11 +250,13 @@ class _ChatDetailsWidgetState extends State<ChatDetailsWidget> {
                                     replacement: Column(
                                       mainAxisSize: MainAxisSize.max,
                                       mainAxisAlignment: MainAxisAlignment.end,
-                                      crossAxisAlignment: CrossAxisAlignment.end,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.end,
                                       children: [
                                         Padding(
-                                          padding: EdgeInsetsDirectional.fromSTEB(
-                                              0.0, 5.0, 0.0, 5.0),
+                                          padding:
+                                              EdgeInsetsDirectional.fromSTEB(
+                                                  0.0, 5.0, 0.0, 5.0),
                                           child: Text(
                                             '${dateTimeFormat('jm', DateTime.tryParse(listViewChatsRecord.createdAt!))} ${dateTimeFormat('MMMd', DateTime.tryParse(listViewChatsRecord.createdAt!))}',
                                             style: FlutterFlowTheme.of(context)
@@ -272,26 +277,28 @@ class _ChatDetailsWidgetState extends State<ChatDetailsWidget> {
                                               CrossAxisAlignment.center,
                                           children: [
                                             Padding(
-                                              padding:
-                                                  EdgeInsetsDirectional.fromSTEB(
+                                              padding: EdgeInsetsDirectional
+                                                  .fromSTEB(
                                                       50.0, 0.0, 0.0, 0.0),
                                               child: Container(
                                                 constraints: BoxConstraints(
                                                   maxWidth: 260.0,
                                                 ),
                                                 decoration: BoxDecoration(
-                                                  color:
-                                                      FlutterFlowTheme.of(context)
-                                                          .primary,
+                                                  color: FlutterFlowTheme.of(
+                                                          context)
+                                                      .primary,
                                                   borderRadius:
-                                                      BorderRadius.circular(8.0),
+                                                      BorderRadius.circular(
+                                                          8.0),
                                                 ),
                                                 child: Padding(
                                                   padding: EdgeInsetsDirectional
                                                       .fromSTEB(
                                                           8.0, 8.0, 8.0, 8.0),
                                                   child: Text(
-                                                    listViewChatsRecord.message ??
+                                                    listViewChatsRecord
+                                                            .message ??
                                                         "",
                                                     style: FlutterFlowTheme.of(
                                                             context)
@@ -321,7 +328,9 @@ class _ChatDetailsWidgetState extends State<ChatDetailsWidget> {
                 ),
               ),
               Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(22.0, 0.0, 0.0, 46.0),
+                padding: currentUserUid == widget.postData!.postedBy
+                    ? EdgeInsetsDirectional.fromSTEB(22.0, 0.0, 0.0, 46.0)
+                    : EdgeInsetsDirectional.fromSTEB(11.0, 0.0, 0.0, 46.0),
                 child: Column(
                   mainAxisSize: MainAxisSize.max,
                   children: [
@@ -335,9 +344,12 @@ class _ChatDetailsWidgetState extends State<ChatDetailsWidget> {
                               if (widget.postData?.public == true) {
                                 final postsUpdateData = createPostsRecordData(
                                   pickup: createPickupStruct(
-                                    userId: widget.conversationsDoc?.userDetails?.first.userId,
-                                    userName: widget.conversationsDoc?.userDetails?.first.userName,
-                                    userImage:widget.conversationsDoc?.userDetails?.first.userImage,
+                                    userId: widget.conversationsDoc?.userDetails
+                                        ?.first.userId,
+                                    userName: widget.conversationsDoc
+                                        ?.userDetails?.first.userName,
+                                    userImage: widget.conversationsDoc
+                                        ?.userDetails?.first.userImage,
                                     pickupTime: getCurrentTimestamp,
                                     clearUnsetFields: false,
                                   ),
@@ -467,8 +479,8 @@ class _ChatDetailsWidgetState extends State<ChatDetailsWidget> {
                                             EdgeInsetsDirectional.fromSTEB(
                                                 15.0, 15.0, 15.0, 15.0),
                                       ),
-                                      style:
-                                          FlutterFlowTheme.of(context).bodyMedium,
+                                      style: FlutterFlowTheme.of(context)
+                                          .bodyMedium,
                                       maxLines: 5,
                                       minLines: 1,
                                       keyboardType: TextInputType.multiline,
@@ -499,8 +511,7 @@ class _ChatDetailsWidgetState extends State<ChatDetailsWidget> {
                                             "last_message_at": DateTime.now()
                                                 .millisecondsSinceEpoch,
                                             "last_message_by": currentUserUid,
-                                            "last_message":
-                                                textController.text
+                                            "last_message": textController.text
                                           });
                                           await ChatsRecord.createDoc(widget
                                                   .conversationsDoc!.reference)

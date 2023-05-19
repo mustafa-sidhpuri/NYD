@@ -532,28 +532,24 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                                 await widget.productData!.ffRef!
                                     .update({"conversations": convIds});
                               }
-                              await Navigator.push(
-                                context,
-                                PageTransition(
-                                  type: PageTransitionType.fade,
-                                  duration: Duration(milliseconds: 0),
-                                  reverseDuration: Duration(milliseconds: 0),
-                                  child: ChatDetailsWidget(
-                                    postData: widget.productData,
-                                    username: widget.productData!.postedByName,
-                                    productname: widget.productData!.name,
-                                    profileimage:
-                                        widget.productData!.postedByProfile,
-                                    productimage: widget.productData!.images!
-                                        .toList()
-                                        .first,
-                                    conversationsDoc: convRef,
-                                    productlocation:
-                                        widget.productData!.address,
-                                    userRef: widget.productData!.userRef,
-                                  ),
+
+
+                              Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => ChatDetailsWidget(
+                                  postData: widget.productData,
+                                  username: widget.productData!.postedByName,
+                                  productname: widget.productData!.name,
+                                  profileimage:
+                                  widget.productData!.postedByProfile,
+                                  productimage: widget.productData!.images!
+                                      .toList()
+                                      .first,
+                                  conversationsDoc: convRef,
+                                  productlocation:
+                                  widget.productData!.address,
+                                  userRef: widget.productData!.userRef,
                                 ),
-                              );
+                              ));
                             },
                             child: Container(
                               padding: EdgeInsets.symmetric(

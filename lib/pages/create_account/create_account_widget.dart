@@ -53,7 +53,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
           padding: EdgeInsetsDirectional.fromSTEB(22.0, 0.0, 22.0, 0.0),
           child: SingleChildScrollView(
             child: Column(
-              mainAxisSize: MainAxisSize.max,
+              //mainAxisSize: MainAxisSize.max,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
@@ -418,6 +418,9 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
                       ),
                     ),
                   ],
+                ),
+                SizedBox(
+                  height: 200,
                 ),
               ],
             ),

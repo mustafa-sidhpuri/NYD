@@ -99,8 +99,7 @@ class _ChatMainWidgetState extends State<ChatMainWidget> {
                             stream: queryConversationsRecord(
                               queryBuilder: (conversationsRecord) =>
                                   conversationsRecord
-                                      .where('users',
-                                          arrayContains: currentUserUid)
+                                      .where('users', arrayContains: currentUserUid)
                                       .orderBy('last_message_at',
                                           descending: true),
                             ),
@@ -118,22 +117,21 @@ class _ChatMainWidgetState extends State<ChatMainWidget> {
                                   ),
                                 );
                               }
-                              if (snapshot.data!.isEmpty) {
-                                return Center(
-                                  child: SizedBox(
-                                    child: Text("No Data Found",style: TextStyle(fontSize: 18,color: Colors.black),),
-                                  ),
-                                );
-                              }
-                              List<ConversationsRecord>
-                                  listViewConversationsRecordList =
-                                  snapshot.data!;
+                              // if (snapshot.data!.isEmpty) {
+                              //   return Center(
+                              //     child: SizedBox(
+                              //       child: Text("No Data Found",style: TextStyle(fontSize: 18,color: Colors.black),),
+                              //     ),
+                              //   );
+                              // }
+                              List<ConversationsRecord>listViewConversationsRecordList = snapshot.data!;
                               return ListView.builder(
                                 padding: EdgeInsets.zero,
                                 scrollDirection: Axis.vertical,
                                 itemCount:
                                     listViewConversationsRecordList.length,
                                 itemBuilder: (context, listViewIndex) {
+                                  print(listViewConversationsRecordList.length);
                                   final listViewConversationsRecord =
                                       listViewConversationsRecordList[
                                           listViewIndex];

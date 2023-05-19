@@ -76,14 +76,14 @@ class _LoginWidgetState extends State<LoginWidget>
       key: scaffoldKey,
       backgroundColor: Colors.white,
       body: SafeArea(
-        child: Form(
-          key: _model.formKey,
-          autovalidateMode: AutovalidateMode.disabled,
-          child: Padding(
-            padding: EdgeInsetsDirectional.fromSTEB(22.0, 0.0, 22.0, 0.0),
-            child: SingleChildScrollView(
+        child: SingleChildScrollView(
+          child: Form(
+            key: _model.formKey,
+            autovalidateMode: AutovalidateMode.disabled,
+            child: Padding(
+              padding: const EdgeInsets.only(left: 22.0,right: 22),
               child: Column(
-                mainAxisSize: MainAxisSize.max,
+                //mainAxisSize: MainAxisSize.max,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Padding(
@@ -322,12 +322,9 @@ class _LoginWidgetState extends State<LoginWidget>
                       ),
                     ],
                   ),
-                  Container(
-                    height: 60.0,
-                    decoration: BoxDecoration(
-                      color: FlutterFlowTheme.of(context).secondaryBackground,
-                    ),
-                  ),
+                SizedBox(
+                  height: 60,
+                ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -366,11 +363,8 @@ class _LoginWidgetState extends State<LoginWidget>
                       ),
                     ],
                   ),
-                  Container(
-                    height: 20.0,
-                    decoration: BoxDecoration(
-                      color: FlutterFlowTheme.of(context).secondaryBackground,
-                    ),
+                  SizedBox(
+                    height: 200,
                   ),
                 ],
               ),

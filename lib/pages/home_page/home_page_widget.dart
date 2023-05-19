@@ -155,16 +155,21 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                     ),
                     AuthUserStreamWidget(
                       builder: (context) => Container(
+                        height: 41,
+                        width: 41,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(40.0),
                             border: Border.all(color: Colors.grey)),
                         child: ClipRRect(
                             borderRadius: BorderRadius.circular(40.0),
-                            child: CachedNetworkImageWidget(
+                            child: currentUserPhoto != "" && currentUserPhoto != null?
+                            CachedNetworkImageWidget(
                               image: currentUserPhoto,
                               height: 41,
                               width: 41,
-                            )),
+                            ):Icon(Icons.person)
+
+                        ),
                       ),
                     ),
                   ],
