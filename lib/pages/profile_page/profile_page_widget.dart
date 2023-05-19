@@ -99,16 +99,10 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
                             focusColor: Colors.transparent,
                             hoverColor: Colors.transparent,
                             highlightColor: Colors.transparent,
-                            onTap: () async {
-                              await Navigator.push(
-                                context,
-                                PageTransition(
-                                  type: PageTransitionType.fade,
-                                  duration: Duration(milliseconds: 0),
-                                  reverseDuration: Duration(milliseconds: 0),
-                                  child: EditProfileWidget(),
-                                ),
-                              );
+                            onTap: ()  {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => EditProfileWidget(),
+                              ));
                             },
                             child: Text(
                               'Edit',
@@ -141,6 +135,8 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
                               children: [
                                 AuthUserStreamWidget(
                                   builder: (context) => Container(
+                                    height: 100,
+                                    width: 100,
                                     decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(22.0),
                                         border: Border.all(color: Colors.grey)),
@@ -231,16 +227,10 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
                         focusColor: Colors.transparent,
                         hoverColor: Colors.transparent,
                         highlightColor: Colors.transparent,
-                        onTap: () async {
-                          await Navigator.push(
-                            context,
-                            PageTransition(
-                              type: PageTransitionType.fade,
-                              duration: Duration(milliseconds: 0),
-                              reverseDuration: Duration(milliseconds: 0),
-                              child: PublicProfileWidget(),
-                            ),
-                          );
+                        onTap: ()  {
+                          Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => PublicProfileWidget(),
+                          ));
                         },
                         child: Row(
                           mainAxisSize: MainAxisSize.max,
@@ -319,16 +309,10 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
                         focusColor: Colors.transparent,
                         hoverColor: Colors.transparent,
                         highlightColor: Colors.transparent,
-                        onTap: () async {
-                          await Navigator.push(
-                            context,
-                            PageTransition(
-                              type: PageTransitionType.fade,
-                              duration: Duration(milliseconds: 0),
-                              reverseDuration: Duration(milliseconds: 0),
-                              child: ForgotPasswordWidget(),
-                            ),
-                          );
+                        onTap: ()  {
+                          Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => ForgotPasswordWidget(),
+                          ));
                         },
                         child: Row(
                           mainAxisSize: MainAxisSize.max,
@@ -389,16 +373,10 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
                       padding:
                       EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 20.0),
                       child: InkWell(
-                        onTap: () async {
-                          await Navigator.push(
-                            context,
-                            PageTransition(
-                              type: PageTransitionType.fade,
-                              duration: Duration(milliseconds: 0),
-                              reverseDuration: Duration(milliseconds: 0),
-                              child: TermsCondition(),
-                            ),
-                          );
+                        onTap: ()  {
+                          Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => TermsCondition(),
+                          ));
                         },
                         child: Row(
                           mainAxisSize: MainAxisSize.max,
@@ -462,16 +440,10 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
                         focusColor: Colors.transparent,
                         hoverColor: Colors.transparent,
                         highlightColor: Colors.transparent,
-                        onTap: () async {
-                          await Navigator.push(
-                            context,
-                            PageTransition(
-                              type: PageTransitionType.fade,
-                              duration: Duration(milliseconds: 0),
-                              reverseDuration: Duration(milliseconds: 0),
-                              child: SavedScreen(),
-                            ),
-                          );
+                        onTap: ()  {
+                          Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => SavedScreen(),
+                          ));
                         },
                         child: Row(
                           mainAxisSize: MainAxisSize.max,
@@ -536,16 +508,10 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
                         focusColor: Colors.transparent,
                         hoverColor: Colors.transparent,
                         highlightColor: Colors.transparent,
-                        onTap: () async {
-                          await Navigator.push(
-                            context,
-                            PageTransition(
-                              type: PageTransitionType.fade,
-                              duration: Duration(milliseconds: 0),
-                              reverseDuration: Duration(milliseconds: 0),
-                              child: HelpScreen(),
-                            ),
-                          );
+                        onTap: ()  {
+                          Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => HelpScreen(),
+                          ));
                         },
                         child: Row(
                           mainAxisSize: MainAxisSize.max,
@@ -640,12 +606,22 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
                             } else {
                               Navigator.pop(context);
                             }
-                            await Navigator.push(
+                            await Navigator.pushAndRemoveUntil(
                               context,
-                              MaterialPageRoute(
-                                builder: (context) => LoginWidget(),
+                              PageTransition(
+                                type: PageTransitionType.fade,
+                                duration: Duration(milliseconds: 0),
+                                reverseDuration: Duration(milliseconds: 0),
+                                child: LoginWidget(),
                               ),
+                                  (r) => false,
                             );
+                            // await Navigator.push(
+                            //   context,
+                            //   MaterialPageRoute(
+                            //     builder: (context) => LoginWidget(),
+                            //   ),
+                            // );
                           } else {
                             return;
                           }

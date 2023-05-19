@@ -42,12 +42,17 @@ class _AddProductDetailWidgetState extends State<AddProductDetailWidget> {
   TextEditingController locationField = TextEditingController();
   double? latitude;
   double? longitude;
+  bool? setLocation = false;
+
+  TextEditingController subCategoryController = TextEditingController();
+  String? Function(BuildContext, String?)? subCategoryControllerValidator;
+
   @override
   void initState() {
     super.initState();
     _model = createModel(context, () => AddProductDetailModel());
-
-    _model.subCategoryController ??= TextEditingController();
+    locationField = TextEditingController(text:  FFAppState().setLocation,);
+    subCategoryController = TextEditingController();
   }
 
   void placeAutocomplete(String query) async {
@@ -238,7 +243,8 @@ class _AddProductDetailWidgetState extends State<AddProductDetailWidget> {
                           padding: EdgeInsetsDirectional.fromSTEB(
                               10.0, 0.0, 10.0, 0.0),
                           child: TextFormField(
-                            controller: _model.subCategoryController,
+                            cursorColor: Colors.grey,
+                            controller: subCategoryController,
                             obscureText: false,
                             decoration: InputDecoration(
                               hintText:
@@ -298,7 +304,7 @@ class _AddProductDetailWidgetState extends State<AddProductDetailWidget> {
                                   fontFamily: 'Roboto',
                                   fontSize: 14.0,
                                 ),
-                            validator: _model.subCategoryControllerValidator
+                            validator: subCategoryControllerValidator
                                 .asValidator(context),
                           ),
                         ),
@@ -366,6 +372,7 @@ class _AddProductDetailWidgetState extends State<AddProductDetailWidget> {
                         Padding(
                           padding: const EdgeInsets.only(left: 10, right: 10),
                           child: TextFormField(
+                            cursorColor: Colors.grey,
                             controller: locationField,
                             onChanged: (value) {
                               placeAutocomplete(value);
@@ -374,6 +381,10 @@ class _AddProductDetailWidgetState extends State<AddProductDetailWidget> {
                             decoration: InputDecoration(
                               border: InputBorder.none,
                               hintText: "Search your location",
+                              hintStyle: TextStyle(
+                                color: Colors.grey,
+                                fontSize: 14
+                              ),
                               suffixIcon: Icon(
                                 Icons.location_on_outlined,
                                 color: Colors.black,
@@ -408,6 +419,7 @@ class _AddProductDetailWidgetState extends State<AddProductDetailWidget> {
                                               placePredictions[index]
                                                   .description!;
                                           setState(() {});
+                                          setLocation = true;
                                           getCoordinates(locationField.text);
                                           placePredictions.clear();
                                         },
@@ -419,6 +431,10 @@ class _AddProductDetailWidgetState extends State<AddProductDetailWidget> {
                                         ),
                                         title: Text(
                                           placePredictions[index].description!,
+                                          style: TextStyle(
+                                            fontSize: 14,
+                                            color: Colors.black
+                                          ),
                                           maxLines: 2,
                                           overflow: TextOverflow.ellipsis,
                                         ),
@@ -436,14 +452,14 @@ class _AddProductDetailWidgetState extends State<AddProductDetailWidget> {
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 30.0),
+                  padding: EdgeInsetsDirectional.fromSTEB(0.0, 20.0, 0.0, 30.0),
                   child: InkWell(
                     splashColor: Colors.transparent,
                     focusColor: Colors.transparent,
                     hoverColor: Colors.transparent,
                     highlightColor: Colors.transparent,
                     onTap: () async {
-                      if (_model.subCategoryController.text == '') {
+                      if (subCategoryController.text == '') {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
                             content: Text(
@@ -526,20 +542,19 @@ class _AddProductDetailWidgetState extends State<AddProductDetailWidget> {
                           defaultLocation: LatLng(0.0, 0.0));
                       if ((_model.dropDownValue1 != null &&
                               _model.dropDownValue1 != '') &&
-                          (_model.subCategoryController.text != '') &&
+                          (subCategoryController.text != '') &&
                           (_model.dropDownValue2 != null &&
                               _model.dropDownValue2 != '')) {
                         final postsCreateData = {
                           ...createPostsRecordData(
                             name: valueOrDefault<String>(
                               widget.productName,
-                              '\"\"',
+                              '',
                             ),
                             description: valueOrDefault<String>(
                               widget.productDescription,
-                              '\"\"',
+                              '',
                             ),
-                            categoryId: '123456987',
                             postType: valueOrDefault<String>(
                               _model.dropDownValue1,
                               'Free',
@@ -548,13 +563,14 @@ class _AddProductDetailWidgetState extends State<AddProductDetailWidget> {
                               _model.dropDownValue2,
                               'Cooked',
                             ),
-                            latlong: LatLng(latitude!, longitude!),
+                            latlong: setLocation == true?
+                            LatLng(latitude!, longitude!):currentUserLocationValue,
                             address: locationField.text,
                             createdAt: getCurrentTimestamp,
                             updatedAt: getCurrentTimestamp,
                             public: true,
                             isPickedUp: false,
-                            subCategory: _model.subCategoryController.text,
+                            subCategory: subCategoryController.text,
                             postedByName: currentUserDisplayName,
                             postedByProfile: currentUserPhoto,
                             userRef: currentUserReference,

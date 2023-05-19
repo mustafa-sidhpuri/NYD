@@ -138,16 +138,14 @@ class _PublicProfileWidgetState extends State<PublicProfileWidget> {
                             builder: (context) => Container(
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(22.0),
-                                  border: Border.all(color: Colors.grey)
-                              ),
+                                  border: Border.all(color: Colors.grey)),
                               child: ClipRRect(
                                   borderRadius: BorderRadius.circular(22.0),
                                   child: CachedNetworkImageWidget(
                                     image: currentUserPhoto,
                                     height: 100,
                                     width: 100,
-                                  )
-                              ),
+                                  )),
                             ),
                           ),
                         ],
@@ -215,10 +213,10 @@ class _PublicProfileWidgetState extends State<PublicProfileWidget> {
                             EdgeInsetsDirectional.fromSTEB(0.0, 12.0, 0.0, 0.0),
                         child: StreamBuilder<List<PostsRecord>>(
                           stream: queryPostsRecord(
-                            queryBuilder: (postsRecord) => postsRecord.where(
-                                'posted_by',
-                                isEqualTo: columnUsersRecord.uid) .orderBy('created_at',
-                                descending: true),
+                            queryBuilder: (postsRecord) => postsRecord
+                                .where('posted_by',
+                                    isEqualTo: columnUsersRecord.uid)
+                                .orderBy('created_at', descending: true),
                           ),
                           builder: (context, snapshot) {
                             // Customize what your widget looks like when it's loading.
@@ -233,6 +231,19 @@ class _PublicProfileWidgetState extends State<PublicProfileWidget> {
                                 ),
                               );
                             }
+
+                            if (snapshot.data!.isEmpty) {
+                              return Center(
+                                child: SizedBox(
+                                  child: Text(
+                                    "No Post Found",
+                                    style: TextStyle(
+                                        fontSize: 18, color: Colors.black),
+                                  ),
+                                ),
+                              );
+                            }
+
                             List<PostsRecord> gridViewPostsRecordList =
                                 snapshot.data!;
                             return GridView.builder(
@@ -250,29 +261,28 @@ class _PublicProfileWidgetState extends State<PublicProfileWidget> {
                                 final gridViewPostsRecord =
                                     gridViewPostsRecordList[gridViewIndex];
                                 return InkWell(
-                                  onTap: () async{
+                                  onTap: () async {
                                     await Navigator.push(
                                       context,
                                       MaterialPageRoute(
                                         builder: (context) =>
                                             ProductDetailsWidget(
-                                              productData: gridViewPostsRecord,
-                                              productId:
+                                          productData: gridViewPostsRecord,
+                                          productId:
                                               gridViewPostsRecord.reference,
-                                            ),
+                                        ),
                                       ),
                                     );
                                   },
                                   child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(12.0),
-                                    child: CachedNetworkImageWidget(
-                                      image: gridViewPostsRecord.images!
-                                          .toList()
-                                          .first,
-                                      width: 105.0,
-                                      height: 105.0,
-                                    )
-                                  ),
+                                      borderRadius: BorderRadius.circular(12.0),
+                                      child: CachedNetworkImageWidget(
+                                        image: gridViewPostsRecord.images!
+                                            .toList()
+                                            .first,
+                                        width: 105.0,
+                                        height: 105.0,
+                                      )),
                                 );
                               },
                             );

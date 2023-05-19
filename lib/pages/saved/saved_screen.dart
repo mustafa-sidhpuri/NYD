@@ -14,6 +14,7 @@ class SavedScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: Padding(
           padding: EdgeInsetsDirectional.fromSTEB(22.0, 0.0, 22.0, 0.0),

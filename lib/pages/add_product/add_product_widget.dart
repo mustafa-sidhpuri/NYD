@@ -24,7 +24,11 @@ class _AddProductWidgetState extends State<AddProductWidget> {
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
   final _unfocusNode = FocusNode();
-
+  TextEditingController textController1 = TextEditingController();
+  String? Function(BuildContext, String?)? textController1Validator;
+  // State field(s) for TextField widget.
+  TextEditingController textController2 = TextEditingController();
+  String? Function(BuildContext, String?)? textController2Validator;
   @override
   void initState() {
     super.initState();
@@ -37,8 +41,8 @@ class _AddProductWidgetState extends State<AddProductWidget> {
       });
     });
 
-    _model.textController1 ??= TextEditingController();
-    _model.textController2 ??= TextEditingController();
+    textController1 = TextEditingController();
+    textController2 = TextEditingController();
   }
 
   @override
@@ -319,7 +323,7 @@ class _AddProductWidgetState extends State<AddProductWidget> {
                                                       topLeft:
                                                           Radius.circular(0.0),
                                                       topRight:
-                                                          Radius.circular(0.0),
+                                                          Radius.circular(10.0),
                                                     ),
                                                     shape: BoxShape.rectangle,
                                                   ),
@@ -362,7 +366,8 @@ class _AddProductWidgetState extends State<AddProductWidget> {
                                   ),
                         ),
                         TextFormField(
-                          controller: _model.textController1,
+                          cursorColor: Colors.grey,
+                          controller: textController1,
                           textCapitalization: TextCapitalization.words,
                           textInputAction: TextInputAction.next,
                           obscureText: false,
@@ -419,7 +424,7 @@ class _AddProductWidgetState extends State<AddProductWidget> {
                           maxLines: 5,
                           minLines: 1,
                           keyboardType: TextInputType.multiline,
-                          validator: _model.textController1Validator
+                          validator: textController1Validator
                               .asValidator(context),
                         ),
                         Padding(
@@ -436,7 +441,8 @@ class _AddProductWidgetState extends State<AddProductWidget> {
                           ),
                         ),
                         TextFormField(
-                          controller: _model.textController2,
+                          cursorColor: Colors.grey,
+                          controller: textController2,
                           textCapitalization: TextCapitalization.words,
                           obscureText: false,
                           decoration: InputDecoration(
@@ -492,7 +498,7 @@ class _AddProductWidgetState extends State<AddProductWidget> {
                           maxLines: 8,
                           minLines: 1,
                           keyboardType: TextInputType.multiline,
-                          validator: _model.textController2Validator
+                          validator: textController2Validator
                               .asValidator(context),
                         ),
                       ],
@@ -500,14 +506,14 @@ class _AddProductWidgetState extends State<AddProductWidget> {
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 30.0),
+                  padding: EdgeInsetsDirectional.fromSTEB(0.0, 20.0, 0.0, 30.0),
                   child: InkWell(
                     splashColor: Colors.transparent,
                     focusColor: Colors.transparent,
                     hoverColor: Colors.transparent,
                     highlightColor: Colors.transparent,
                     onTap: () async {
-                      if (_model.textController1.text == '') {
+                      if (textController1.text == '') {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
                             content: Text(
@@ -526,7 +532,7 @@ class _AddProductWidgetState extends State<AddProductWidget> {
                         );
                         return;
                       }
-                      if (_model.textController2.text == '') {
+                      if (textController2.text == '') {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
                             content: Text(
@@ -565,15 +571,15 @@ class _AddProductWidgetState extends State<AddProductWidget> {
                         return;
                       }
 
-                      if ((_model.textController1.text != '') &&
-                          (_model.textController2.text != '') &&
+                      if ((textController1.text != '') &&
+                          (textController2.text != '') &&
                           (FFAppState().mediaUrl.length > 0)) {
                         await Navigator.push(
                           context,
                           MaterialPageRoute(
                             builder: (context) => AddProductDetailWidget(
-                              productName: _model.textController1.text,
-                              productDescription: _model.textController2.text,
+                              productName: textController1.text,
+                              productDescription: textController2.text,
                               images: FFAppState().mediaUrl.toList(),
                             ),
                           ),

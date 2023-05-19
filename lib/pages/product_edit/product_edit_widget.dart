@@ -1,7 +1,11 @@
-import 'package:n_y_d_app/components/cached_network_image.dart';
+import 'dart:convert';
 
+import 'package:n_y_d_app/components/cached_network_image.dart';
+import 'package:http/http.dart' as http;
 import '../../backend/firebase_storage/storage.dart';
 import '../../components/LoadingWidget.dart';
+import '../../components/constants.dart';
+import '../../components/search_location_api.dart';
 import '../../flutter_flow/upload_data.dart';
 import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
@@ -38,6 +42,18 @@ class _ProductEditWidgetState extends State<ProductEditWidget> {
   final _unfocusNode = FocusNode();
   LatLng? currentUserLocationValue;
 
+  TextEditingController textController1 = TextEditingController();
+  String? Function(BuildContext, String?)? textController1Validator;
+  // State field(s) for TextField widget.
+  TextEditingController textController2 = TextEditingController();
+  String? Function(BuildContext, String?)? textController2Validator;
+  TextEditingController subCategoryController = TextEditingController();
+  String? Function(BuildContext, String?)? subCategoryControllerValidator;
+  List<AutocompletePrediction> placePredictions = [];
+  TextEditingController locationField = TextEditingController();
+  double? latitude;
+  double? longitude;
+  bool? setLocation = false;
   @override
   void initState() {
     super.initState();
@@ -49,22 +65,85 @@ class _ProductEditWidgetState extends State<ProductEditWidget> {
         FFAppState().mediaUrl = widget.productData!.images!.toList().toList();
       });
     });
-
-    _model.textController1 ??= TextEditingController(
+    locationField = TextEditingController(
+      text: widget.productData!.address,
+    );
+    textController1 = TextEditingController(
         text: valueOrDefault<String>(
       widget.productData!.name,
       'null',
     ));
-    _model.textController2 ??= TextEditingController(
+    textController2 = TextEditingController(
         text: valueOrDefault<String>(
       widget.productData!.description,
       'null',
     ));
-    _model.subCategoryController ??= TextEditingController(
+    subCategoryController = TextEditingController(
         text: valueOrDefault<String>(
       widget.productData!.subCategory,
       'null',
     ));
+  }
+
+  void placeAutocomplete(String query) async {
+    Uri uri =
+        Uri.https("maps.googleapis.com", 'maps/api/place/autocomplete/json', {
+      "input": query,
+      "key": apiKey,
+    });
+
+    String? response = await NetworkUtility.fetchUrl(uri);
+
+    if (response != null) {
+      //print(response);
+      PlaceAutocompleteResponse result =
+          PlaceAutocompleteResponse.parseAutocompleteResult(response);
+      if (result.predictions != null) {
+        setState(() {
+          placePredictions = result.predictions!;
+        });
+      }
+    }
+  }
+
+  Future<Map<String, dynamic>?> getLocationFromAddress(String address) async {
+    final apiKey =
+        "AIzaSyAZuQe6qz_GdmxUJ2PBs6xA4Lm5LAjj0CQ"; // Replace with your Google Geocoding API key
+    final encodedAddress = Uri.encodeQueryComponent(address);
+    final url =
+        'https://maps.googleapis.com/maps/api/geocode/json?address=$encodedAddress&key=$apiKey';
+
+    final response = await http.get(Uri.parse(url));
+    if (response.statusCode == 200) {
+      final decodedData = json.decode(response.body);
+      if (decodedData['status'] == 'OK') {
+        final results = decodedData['results'] as List<dynamic>;
+        if (results.isNotEmpty) {
+          final location = results[0]['geometry']['location'];
+          final latitude = location['lat'];
+          final longitude = location['lng'];
+
+          return {
+            'latitude': latitude,
+            'longitude': longitude,
+          };
+        }
+      }
+    }
+    return null;
+  }
+
+  void getCoordinates(String selectedAddress) async {
+    final address = selectedAddress;
+    final coordinates = await getLocationFromAddress(address);
+    if (coordinates != null) {
+      latitude = coordinates['latitude'];
+      longitude = coordinates['longitude'];
+      print('Latitude: $latitude');
+      print('Longitude: $longitude');
+    } else {
+      print('Failed to retrieve coordinates.');
+    }
   }
 
   @override
@@ -123,7 +202,6 @@ class _ProductEditWidgetState extends State<ProductEditWidget> {
                           hoverColor: Colors.transparent,
                           highlightColor: Colors.transparent,
                           onTap: () async {
-
                             if (FFAppState().mediaUrl.length == 0) {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
@@ -132,18 +210,18 @@ class _ProductEditWidgetState extends State<ProductEditWidget> {
                                     style: FlutterFlowTheme.of(context)
                                         .bodySmall
                                         .override(
-                                      fontFamily: 'Roboto',
-                                      color: Colors.white,
-                                    ),
+                                          fontFamily: 'Roboto',
+                                          color: Colors.white,
+                                        ),
                                   ),
                                   duration: Duration(milliseconds: 4000),
                                   backgroundColor:
-                                  FlutterFlowTheme.of(context).primary,
+                                      FlutterFlowTheme.of(context).primary,
                                 ),
                               );
                               return;
                             }
-                            if (_model.textController1.text == '') {
+                            if (textController1.text == '') {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
                                   content: Text(
@@ -151,18 +229,18 @@ class _ProductEditWidgetState extends State<ProductEditWidget> {
                                     style: FlutterFlowTheme.of(context)
                                         .bodySmall
                                         .override(
-                                      fontFamily: 'Roboto',
-                                      color: Colors.white,
-                                    ),
+                                          fontFamily: 'Roboto',
+                                          color: Colors.white,
+                                        ),
                                   ),
                                   duration: Duration(milliseconds: 4000),
                                   backgroundColor:
-                                  FlutterFlowTheme.of(context).primary,
+                                      FlutterFlowTheme.of(context).primary,
                                 ),
                               );
                               return;
                             }
-                            if (_model.textController2.text == '') {
+                            if (textController2.text == '') {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
                                   content: Text(
@@ -170,18 +248,18 @@ class _ProductEditWidgetState extends State<ProductEditWidget> {
                                     style: FlutterFlowTheme.of(context)
                                         .bodySmall
                                         .override(
-                                      fontFamily: 'Roboto',
-                                      color: Colors.white,
-                                    ),
+                                          fontFamily: 'Roboto',
+                                          color: Colors.white,
+                                        ),
                                   ),
                                   duration: Duration(milliseconds: 4000),
                                   backgroundColor:
-                                  FlutterFlowTheme.of(context).primary,
+                                      FlutterFlowTheme.of(context).primary,
                                 ),
                               );
                               return;
                             }
-                            if (_model.subCategoryController.text == '') {
+                            if (subCategoryController.text == '') {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
                                   content: Text(
@@ -189,23 +267,41 @@ class _ProductEditWidgetState extends State<ProductEditWidget> {
                                     style: FlutterFlowTheme.of(context)
                                         .bodySmall
                                         .override(
-                                      fontFamily: 'Roboto',
-                                      color: Colors.white,
-                                    ),
+                                          fontFamily: 'Roboto',
+                                          color: Colors.white,
+                                        ),
                                   ),
                                   duration: Duration(milliseconds: 4000),
                                   backgroundColor:
-                                  FlutterFlowTheme.of(context).primary,
+                                      FlutterFlowTheme.of(context).primary,
+                                ),
+                              );
+                              return;
+                            }
+                            if (locationField.text == '') {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(
+                                    'Location can\'t be empty',
+                                    style: FlutterFlowTheme.of(context)
+                                        .bodySmall
+                                        .override(
+                                          fontFamily: 'Roboto',
+                                          color: Colors.white,
+                                        ),
+                                  ),
+                                  duration: Duration(milliseconds: 4000),
+                                  backgroundColor:
+                                      FlutterFlowTheme.of(context).primary,
                                 ),
                               );
                               return;
                             }
 
-
                             LoadingOverlay.show(context);
-                            if (_model.textController1.text.isNotEmpty &&
-                                _model.textController2.text.isNotEmpty &&
-                                _model.subCategoryController.text.isNotEmpty &&
+                            if (textController1.text.isNotEmpty &&
+                                textController2.text.isNotEmpty &&
+                                subCategoryController.text.isNotEmpty &&
                                 FFAppState().mediaUrl.isNotEmpty) {
                               currentUserLocationValue =
                                   await getCurrentUserLocation(
@@ -213,18 +309,24 @@ class _ProductEditWidgetState extends State<ProductEditWidget> {
 
                               final postsUpdateData = {
                                 ...createPostsRecordData(
-                                  name: _model.textController1.text,
-                                  description: _model.textController2.text,
-                                  categoryId: '12345678',
+                                  name: textController1.text,
+                                  description: textController2.text,
                                   postType: _model.dropDownValue1,
                                   foodType: _model.dropDownValue3,
                                   updatedAt: getCurrentTimestamp,
-                                  public: false,
+                                  public: true,
                                   isPickedUp: false,
-                                  subCategory:
-                                      _model.subCategoryController.text,
-                                  latlong: currentUserLocationValue,
-                                  address: FFAppState().setLocation,
+                                  subCategory: subCategoryController.text,
+                                  latlong: setLocation == true
+                                      ? LatLng(latitude!, longitude!)
+                                      : LatLng(
+                                          widget.productData!.latlong
+                                                  ?.latitude ??
+                                              0,
+                                          widget.productData!.latlong
+                                                  ?.longitude ??
+                                              0),
+                                  address: locationField.text,
                                   userRef: currentUserReference,
                                   postedBy: currentUserUid,
                                 ),
@@ -255,7 +357,7 @@ class _ProductEditWidgetState extends State<ProductEditWidget> {
                                   type: PageTransitionType.fade,
                                   duration: Duration(milliseconds: 0),
                                   reverseDuration: Duration(milliseconds: 0),
-                                  child: NavBarPage(initialPage: 'homePage'),
+                                  child: NavBarPage(initialPage: 'sellingPage'),
                                 ),
                                 (r) => false,
                               );
@@ -289,42 +391,42 @@ class _ProductEditWidgetState extends State<ProductEditWidget> {
                             ),
                             duration: Duration(milliseconds: 4000),
                             backgroundColor:
-                            FlutterFlowTheme.of(context).primary,
+                                FlutterFlowTheme.of(context).primary,
                           ),
                         );
                       } else {
                         _model.uploadedFileUrl = "";
                         final selectedMedia =
-                        await selectMediaWithSourceBottomSheet(
+                            await selectMediaWithSourceBottomSheet(
                           context: context,
                           allowPhoto: true,
                           backgroundColor:
-                          FlutterFlowTheme.of(context).tertiary,
+                              FlutterFlowTheme.of(context).tertiary,
                           textColor: Colors.black,
                           pickerFontFamily: 'Lexend Deca',
                         );
                         LoadingOverlay.show(context);
                         if (selectedMedia != null &&
-                            selectedMedia.every((m) => validateFileFormat(
-                                m.storagePath, context))) {
+                            selectedMedia.every((m) =>
+                                validateFileFormat(m.storagePath, context))) {
                           setState(() => _model.isDataUploading = true);
                           var selectedUploadedFiles = <FFUploadedFile>[];
                           List downloadUrls = <String>[];
                           try {
                             selectedUploadedFiles = selectedMedia
                                 .map((m) => FFUploadedFile(
-                              name: m.storagePath.split('/').last,
-                              bytes: m.bytes,
-                              height: m.dimensions?.height,
-                              width: m.dimensions?.width,
-                              blurHash: m.blurHash,
-                            ))
+                                      name: m.storagePath.split('/').last,
+                                      bytes: m.bytes,
+                                      height: m.dimensions?.height,
+                                      width: m.dimensions?.width,
+                                      blurHash: m.blurHash,
+                                    ))
                                 .toList();
 
                             downloadUrls = (await Future.wait(
                               selectedMedia.map(
-                                    (m) async => await uploadData(
-                                    m.storagePath, m.bytes),
+                                (m) async =>
+                                    await uploadData(m.storagePath, m.bytes),
                               ),
                             ))
                                 .where((u) => u != null)
@@ -336,9 +438,8 @@ class _ProductEditWidgetState extends State<ProductEditWidget> {
                           }
                           LoadingOverlay.hide();
                           if (selectedUploadedFiles.length ==
-                              selectedMedia.length &&
-                              downloadUrls.length ==
-                                  selectedMedia.length) {
+                                  selectedMedia.length &&
+                              downloadUrls.length == selectedMedia.length) {
                             setState(() {
                               _model.uploadedLocalFile =
                                   selectedUploadedFiles.first;
@@ -353,8 +454,7 @@ class _ProductEditWidgetState extends State<ProductEditWidget> {
                         if (_model.uploadedFileUrl != null &&
                             _model.uploadedFileUrl != '') {
                           setState(() {
-                            FFAppState()
-                                .addToMediaUrl(_model.uploadedFileUrl);
+                            FFAppState().addToMediaUrl(_model.uploadedFileUrl);
                           });
                         } else {
                           LoadingOverlay.hide();
@@ -364,8 +464,8 @@ class _ProductEditWidgetState extends State<ProductEditWidget> {
                     child: Column(
                       children: [
                         Padding(
-                          padding:
-                              EdgeInsetsDirectional.fromSTEB(0.0, 24.0, 0.0, 0.0),
+                          padding: EdgeInsetsDirectional.fromSTEB(
+                              0.0, 24.0, 0.0, 0.0),
                           child: Row(
                             mainAxisSize: MainAxisSize.max,
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -391,8 +491,8 @@ class _ProductEditWidgetState extends State<ProductEditWidget> {
                           ),
                         ),
                         Padding(
-                          padding:
-                          EdgeInsetsDirectional.fromSTEB(0.0, 12.0, 0.0, 0.0),
+                          padding: EdgeInsetsDirectional.fromSTEB(
+                              0.0, 12.0, 0.0, 0.0),
                           child: Row(
                             mainAxisSize: MainAxisSize.max,
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -403,9 +503,10 @@ class _ProductEditWidgetState extends State<ProductEditWidget> {
                                 style: FlutterFlowTheme.of(context)
                                     .bodyMedium
                                     .override(
-                                  fontFamily: 'Roboto',
-                                  color: FlutterFlowTheme.of(context).primary,
-                                ),
+                                      fontFamily: 'Roboto',
+                                      color:
+                                          FlutterFlowTheme.of(context).primary,
+                                    ),
                               ),
                             ],
                           ),
@@ -413,7 +514,6 @@ class _ProductEditWidgetState extends State<ProductEditWidget> {
                       ],
                     ),
                   ),
-
                   Container(
                     height: 200.0,
                     decoration: BoxDecoration(),
@@ -449,14 +549,13 @@ class _ProductEditWidgetState extends State<ProductEditWidget> {
                                             AlignmentDirectional(1.0, -1.0),
                                         children: [
                                           ClipRRect(
-                                            borderRadius:
-                                                BorderRadius.circular(12.0),
-                                            child: CachedNetworkImageWidget(
-                                              image: imagesItem,
-                                              width: 100.0,
-                                              height: 85.0,
-                                            )
-                                          ),
+                                              borderRadius:
+                                                  BorderRadius.circular(12.0),
+                                              child: CachedNetworkImageWidget(
+                                                image: imagesItem,
+                                                width: 100.0,
+                                                height: 85.0,
+                                              )),
                                           InkWell(
                                             splashColor: Colors.transparent,
                                             focusColor: Colors.transparent,
@@ -485,7 +584,7 @@ class _ProductEditWidgetState extends State<ProductEditWidget> {
                                                       Radius.circular(0.0),
                                                   topLeft: Radius.circular(0.0),
                                                   topRight:
-                                                      Radius.circular(0.0),
+                                                      Radius.circular(10.0),
                                                 ),
                                                 shape: BoxShape.rectangle,
                                               ),
@@ -520,9 +619,11 @@ class _ProductEditWidgetState extends State<ProductEditWidget> {
                         ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(left: 10.0,right: 10),
+                    padding: const EdgeInsets.only(left: 10.0, right: 10),
                     child: TextFormField(
-                      controller: _model.textController1,
+                      cursorColor: Colors.grey,
+                      textInputAction: TextInputAction.done,
+                      controller: textController1,
                       obscureText: false,
                       decoration: InputDecoration(
                         hintText: 'Add Title',
@@ -574,8 +675,7 @@ class _ProductEditWidgetState extends State<ProductEditWidget> {
                         ),
                       ),
                       style: FlutterFlowTheme.of(context).bodyMedium,
-                      validator:
-                          _model.textController1Validator.asValidator(context),
+                      validator: textController1Validator.asValidator(context),
                     ),
                   ),
                   Padding(
@@ -590,9 +690,11 @@ class _ProductEditWidgetState extends State<ProductEditWidget> {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(left: 10.0,right: 10),
+                    padding: const EdgeInsets.only(left: 10.0, right: 10),
                     child: TextFormField(
-                      controller: _model.textController2,
+                      cursorColor: Colors.grey,
+                      textInputAction: TextInputAction.done,
+                      controller: textController2,
                       obscureText: false,
                       decoration: InputDecoration(
                         hintText: 'Add Post Description',
@@ -647,8 +749,7 @@ class _ProductEditWidgetState extends State<ProductEditWidget> {
                       minLines: 1,
                       keyboardType: TextInputType.multiline,
                       style: FlutterFlowTheme.of(context).bodyMedium,
-                      validator:
-                          _model.textController2Validator.asValidator(context),
+                      validator: textController2Validator.asValidator(context),
                     ),
                   ),
                   Padding(
@@ -712,10 +813,13 @@ class _ProductEditWidgetState extends State<ProductEditWidget> {
                     padding:
                         EdgeInsetsDirectional.fromSTEB(10.0, 0.0, 10.0, 0.0),
                     child: TextFormField(
-                      controller: _model.subCategoryController,
+                      cursorColor: Colors.grey,
+                      textInputAction: TextInputAction.done,
+                      controller: subCategoryController,
                       obscureText: false,
                       decoration: InputDecoration(
-                        hintText: 'Rice, Flour, Vegetables, Dairy Products etc..',
+                        hintText:
+                            'Rice, Flour, Vegetables, Dairy Products etc..',
                         hintStyle:
                             FlutterFlowTheme.of(context).bodySmall.override(
                                   fontFamily: 'Roboto',
@@ -767,8 +871,8 @@ class _ProductEditWidgetState extends State<ProductEditWidget> {
                             fontFamily: 'Roboto',
                             fontSize: 14.0,
                           ),
-                      validator: _model.subCategoryControllerValidator
-                          .asValidator(context),
+                      validator:
+                          subCategoryControllerValidator.asValidator(context),
                     ),
                   ),
                   Padding(
@@ -829,41 +933,77 @@ class _ProductEditWidgetState extends State<ProductEditWidget> {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(8.0, 6.0, 8.0, 0.0),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          FFAppState().setLocation,
-                          style:
-                              FlutterFlowTheme.of(context).bodyMedium.override(
-                                    fontFamily: 'Roboto',
-                                    fontSize: 16.0,
-                                  ),
-                        ),
-                        Icon(
+                    padding: const EdgeInsets.only(left: 10, right: 10),
+                    child: TextFormField(
+                      cursorColor: Colors.grey,
+                      controller: locationField,
+                      onChanged: (value) {
+                        placeAutocomplete(value);
+                      },
+                      textInputAction: TextInputAction.search,
+                      decoration: InputDecoration(
+                        border: InputBorder.none,
+                        hintText: "Search your location",
+                        hintStyle: TextStyle(color: Colors.grey, fontSize: 14),
+                        suffixIcon: Icon(
                           Icons.location_on_outlined,
                           color: Colors.black,
                           size: 24.0,
                         ),
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding:
-                        EdgeInsetsDirectional.fromSTEB(10.0, 0.0, 10.0, 72.0),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        Divider(
-                          thickness: 1.0,
-                          color: Colors.black.withOpacity(0.1),
+                        enabledBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Color(0xFF000000).withOpacity(0.1),
+                          ),
                         ),
-                      ],
+                        focusedBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Color(0xFF000000).withOpacity(0.1),
+                          ),
+                        ),
+                      ),
                     ),
                   ),
+                  Container(
+                      //color: Colors.pinkAccent,
+                      height: 250,
+                      child: ListView.builder(
+                          padding: EdgeInsets.zero,
+                          scrollDirection: Axis.vertical,
+                          itemCount: placePredictions.length,
+                          itemBuilder: (context, index) {
+                            return Column(
+                              children: [
+                                ListTile(
+                                  onTap: () async {
+                                    locationField.text =
+                                        placePredictions[index].description!;
+                                    setState(() {});
+                                    setLocation = true;
+                                    getCoordinates(locationField.text);
+                                    placePredictions.clear();
+                                  },
+                                  horizontalTitleGap: 0,
+                                  leading: Icon(
+                                    Icons.location_on_outlined,
+                                    color: Colors.black,
+                                    size: 24.0,
+                                  ),
+                                  title: Text(
+                                    placePredictions[index].description!,
+                                    style: TextStyle(
+                                        fontSize: 14, color: Colors.black),
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ),
+                                Divider(
+                                  height: 2,
+                                  thickness: 2,
+                                  color: Colors.grey,
+                                )
+                              ],
+                            );
+                          }))
                 ],
               ),
             ),

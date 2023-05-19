@@ -15,8 +15,8 @@ class ChatDetailsModel extends FlutterFlowModel {
   // Model for ChatListItem component.
   late ChatListItemModel chatListItemModel;
   // State field(s) for TextField widget.
-  TextEditingController? textController;
-  String? Function(BuildContext, String?)? textControllerValidator;
+  // TextEditingController? textController;
+  // String? Function(BuildContext, String?)? textControllerValidator;
 
   /// Initialization and disposal methods.
 
@@ -26,7 +26,7 @@ class ChatDetailsModel extends FlutterFlowModel {
 
   void dispose() {
     chatListItemModel.dispose();
-    textController?.dispose();
+   // textController?.dispose();
   }
 
   /// Additional helper methods are added here.

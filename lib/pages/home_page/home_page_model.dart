@@ -16,8 +16,7 @@ class HomePageModel extends FlutterFlowModel {
   ///  State fields for stateful widgets in this page.
 
   // State field(s) for TextField widget.
-  TextEditingController? textController;
-  String? Function(BuildContext, String?)? textControllerValidator;
+
   // Algolia Search Results from action on GridView
   List<PostsRecord>? algoliaSearchResults = [];
 
@@ -26,7 +25,7 @@ class HomePageModel extends FlutterFlowModel {
   void initState(BuildContext context) {}
 
   void dispose() {
-    textController?.dispose();
+   // textController?.dispose();
   }
 
   /// Additional helper methods are added here.

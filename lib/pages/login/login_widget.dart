@@ -105,6 +105,7 @@ class _LoginWidgetState extends State<LoginWidget>
                       height: 61.0,
                       decoration: BoxDecoration(),
                       child: TextFormField(
+                        cursorColor: Colors.grey,
                         controller: _model.emailAddressController,
                         //textCapitalization: TextCapitalization.words,
                         obscureText: false,
@@ -112,7 +113,10 @@ class _LoginWidgetState extends State<LoginWidget>
                           labelText: 'Email Address',
                           labelStyle: FlutterFlowTheme.of(context).bodyMedium,
                           hintText: 'Enter your email here...',
-                          hintStyle: FlutterFlowTheme.of(context).bodyMedium,
+                          hintStyle: TextStyle(
+                            color: Colors.grey,
+                            fontSize: 14
+                          ),
                           enabledBorder: OutlineInputBorder(
                             borderSide: BorderSide(
                               color: FlutterFlowTheme.of(context).lineGray,
@@ -157,6 +161,7 @@ class _LoginWidgetState extends State<LoginWidget>
                     height: 61.0,
                     decoration: BoxDecoration(),
                     child: TextFormField(
+                      cursorColor: Colors.grey,
                       controller: _model.passwordController,
                       textCapitalization: TextCapitalization.words,
                       obscureText: !_model.passwordVisibility,
@@ -164,7 +169,10 @@ class _LoginWidgetState extends State<LoginWidget>
                         labelText: 'Password',
                         labelStyle: FlutterFlowTheme.of(context).bodyMedium,
                         hintText: 'Enter your password here...',
-                        hintStyle: FlutterFlowTheme.of(context).bodyMedium,
+                        hintStyle: TextStyle(
+                            color: Colors.grey,
+                            fontSize: 14
+                        ),
                         enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(
                             color: FlutterFlowTheme.of(context).lineGray,
@@ -228,16 +236,10 @@ class _LoginWidgetState extends State<LoginWidget>
                         focusColor: Colors.transparent,
                         hoverColor: Colors.transparent,
                         highlightColor: Colors.transparent,
-                        onTap: () async {
-                          await Navigator.push(
-                            context,
-                            PageTransition(
-                              type: PageTransitionType.fade,
-                              duration: Duration(milliseconds: 0),
-                              reverseDuration: Duration(milliseconds: 0),
-                              child: ForgotPasswordWidget(),
-                            ),
-                          );
+                        onTap: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => ForgotPasswordWidget(),
+                          ));
                         },
                         child: Text(
                           'Forgot your password?',
@@ -327,9 +329,7 @@ class _LoginWidgetState extends State<LoginWidget>
                     ),
                   ),
                   Row(
-                    mainAxisSize: MainAxisSize.max,
                     mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       Padding(
                         padding:
@@ -347,20 +347,11 @@ class _LoginWidgetState extends State<LoginWidget>
                         ),
                       ),
                       InkWell(
-                        splashColor: Colors.transparent,
-                        focusColor: Colors.transparent,
-                        hoverColor: Colors.transparent,
-                        highlightColor: Colors.transparent,
-                        onTap: () async {
-                          await Navigator.push(
-                            context,
-                            PageTransition(
-                              type: PageTransitionType.fade,
-                              duration: Duration(milliseconds: 0),
-                              reverseDuration: Duration(milliseconds: 0),
-                              child: CreateAccountWidget(),
-                            ),
-                          );
+                        onTap: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => CreateAccountWidget(),
+                          ));
+
                         },
                         child: Text(
                           '  Sign Up',
@@ -369,6 +360,7 @@ class _LoginWidgetState extends State<LoginWidget>
                                     fontFamily: 'Roboto',
                                     color: FlutterFlowTheme.of(context).primary,
                                     fontWeight: FontWeight.bold,
+                                fontSize: 14.0,
                                   ),
                         ),
                       ),

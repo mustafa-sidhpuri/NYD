@@ -90,10 +90,6 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         InkWell(
-                          splashColor: Colors.transparent,
-                          focusColor: Colors.transparent,
-                          hoverColor: Colors.transparent,
-                          highlightColor: Colors.transparent,
                           onTap: () async {
                             Navigator.pop(context);
                           },
@@ -110,22 +106,12 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                         if (widget.productData!.postedBy ==
                             productDetailsUsersRecord.uid)
                           InkWell(
-                            splashColor: Colors.transparent,
-                            focusColor: Colors.transparent,
-                            hoverColor: Colors.transparent,
-                            highlightColor: Colors.transparent,
-                            onTap: () async {
-                              await Navigator.push(
-                                context,
-                                PageTransition(
-                                  type: PageTransitionType.fade,
-                                  duration: Duration(milliseconds: 0),
-                                  reverseDuration: Duration(milliseconds: 0),
-                                  child: ProductEditWidget(
-                                    productData: widget.productData,
-                                  ),
+                            onTap: ()  {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => ProductEditWidget(
+                                  productData: widget.productData,
                                 ),
-                              );
+                              ));
                             },
                             child: Text(
                               'Edit',
@@ -159,8 +145,7 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                     child: Container(
                       height: 199.0,
                       decoration: BoxDecoration(
-                        color: FlutterFlowTheme.of(context)
-                            .secondaryBackground,
+                        color: FlutterFlowTheme.of(context).secondaryBackground,
                         borderRadius: BorderRadius.circular(12.0),
                       ),
                       child: Builder(
@@ -176,25 +161,31 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                                   padding: EdgeInsetsDirectional.fromSTEB(
                                       0.0, 0.0, 0.0, 35.0),
                                   child: PageView.builder(
-                                    controller: _model
-                                            .pageViewController ??=
+                                    controller: _model.pageViewController ??=
                                         PageController(
-                                            initialPage: min(0,
-                                                productImages.length - 1)),
+                                            initialPage: min(
+                                                0, productImages.length - 1)),
                                     scrollDirection: Axis.horizontal,
                                     itemCount: productImages.length,
-                                    itemBuilder:
-                                        (context, productImagesIndex) {
+                                    itemBuilder: (context, productImagesIndex) {
                                       final productImagesItem =
                                           productImages[productImagesIndex];
                                       return ClipRRect(
-                                          borderRadius:
-                                              BorderRadius.circular(12.0),
-                                          child: CachedNetworkImageWidget(
-                                            image: productImagesItem,
-                                            width: 100.0,
-                                            height: 100.0,
-                                          ));
+                                        borderRadius:
+                                            BorderRadius.circular(12.0),
+                                        child: productImagesItem != null &&
+                                                productImagesItem != ""
+                                            ? CachedNetworkImageWidget(
+                                                image: productImagesItem,
+                                                width: 100.0,
+                                                height: 100.0,
+                                              )
+                                            : Icon(
+                                                Icons.error_outline,
+                                                color: Colors.black,
+                                                size: 30,
+                                              ),
+                                      );
                                     },
                                   ),
                                 ),
@@ -205,21 +196,17 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                                         0.0, 0.0, 0.0, 10.0),
                                     child: smooth_page_indicator
                                         .SmoothPageIndicator(
-                                      controller:
-                                          _model.pageViewController ??=
-                                              PageController(
-                                                  initialPage: min(
-                                                      0,
-                                                      productImages.length -
-                                                          1)),
+                                      controller: _model.pageViewController ??=
+                                          PageController(
+                                              initialPage: min(
+                                                  0, productImages.length - 1)),
                                       count: productImages.length,
                                       axisDirection: Axis.horizontal,
                                       onDotClicked: (i) async {
                                         await _model.pageViewController!
                                             .animateToPage(
                                           i,
-                                          duration:
-                                              Duration(milliseconds: 500),
+                                          duration: Duration(milliseconds: 500),
                                           curve: Curves.ease,
                                         );
                                       },
@@ -230,9 +217,8 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                                         radius: 16.0,
                                         dotWidth: 10.0,
                                         dotHeight: 10.0,
-                                        dotColor:
-                                            FlutterFlowTheme.of(context)
-                                                .accent2,
+                                        dotColor: FlutterFlowTheme.of(context)
+                                            .accent2,
                                         activeDotColor:
                                             FlutterFlowTheme.of(context)
                                                 .primary,
@@ -410,7 +396,7 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                       child: Text(
                         valueOrDefault<String>(
                           widget.productData!.description,
-                       'post description',
+                          'post description',
                         ),
                         style: FlutterFlowTheme.of(context).bodyMedium.override(
                               fontFamily: 'Roboto',
@@ -423,13 +409,13 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                   //Spacer(),
                   if (widget.productData!.postedBy ==
                       productDetailsUsersRecord.uid)
-                  Padding(
-                    padding:
-                        EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 30.0),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
+                    Padding(
+                      padding:
+                          EdgeInsetsDirectional.fromSTEB(0.0, 10.0, 0.0, 20.0),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
                           InkWell(
                             splashColor: Colors.transparent,
                             focusColor: Colors.transparent,
@@ -446,7 +432,8 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                               );
                             },
                             child: Container(
-                              padding: EdgeInsets.symmetric(vertical: 10,horizontal: 110),
+                              padding: EdgeInsets.symmetric(
+                                  vertical: 10, horizontal: 110),
                               height: 43.0,
                               decoration: BoxDecoration(
                                 color: FlutterFlowTheme.of(context)
@@ -464,17 +451,17 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                                     .bodyMedium
                                     .override(
                                       fontFamily: 'Roboto',
-                                      color: FlutterFlowTheme.of(context)
-                                          .primary,
+                                      color:
+                                          FlutterFlowTheme.of(context).primary,
                                       fontSize: 16.0,
                                       fontWeight: FontWeight.w600,
                                     ),
                               ),
                             ),
                           ),
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
                   if (widget.productData!.postedBy != currentUserUid)
                     Padding(
                       padding:
@@ -505,8 +492,7 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                                     productImage: widget.productData!.images!
                                         .toList()
                                         .first,
-                                    productId:
-                                        widget.productData!.reference.id,
+                                    productId: widget.productData!.reference.id,
                                     postedByRefrence:
                                         widget.productData!.userRef,
                                     createUserRefrence: currentUserReference,
@@ -521,10 +507,9 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                                       "user_name": currentUserDisplayName,
                                     },
                                     {
-                                      "user_id":
-                                          widget.productData!.postedBy!,
-                                      "user_image": widget
-                                          .productData!.postedByProfile!,
+                                      "user_id": widget.productData!.postedBy!,
+                                      "user_image":
+                                          widget.productData!.postedByProfile!,
                                       "user_name":
                                           widget.productData!.postedByName!,
                                     }
@@ -541,8 +526,8 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                                         .toList() ??
                                     [];
 
-                                convRef = await actions.getConversationData(
-                                    widget.productId!.id);
+                                convRef = await actions
+                                    .getConversationData(widget.productId!.id);
                                 convIds.add(convRef!.ffRef!.id);
                                 await widget.productData!.ffRef!
                                     .update({"conversations": convIds});
@@ -555,8 +540,7 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                                   reverseDuration: Duration(milliseconds: 0),
                                   child: ChatDetailsWidget(
                                     postData: widget.productData,
-                                    username:
-                                        widget.productData!.postedByName,
+                                    username: widget.productData!.postedByName,
                                     productname: widget.productData!.name,
                                     profileimage:
                                         widget.productData!.postedByProfile,
@@ -572,7 +556,8 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                               );
                             },
                             child: Container(
-                              padding: EdgeInsets.symmetric(vertical: 12,horizontal: 90),
+                              padding: EdgeInsets.symmetric(
+                                  vertical: 12, horizontal: 90),
                               height: 43.0,
                               decoration: BoxDecoration(
                                 color: FlutterFlowTheme.of(context).primary,

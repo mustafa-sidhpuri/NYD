@@ -261,6 +261,7 @@ class _PickUpProductWidgetState extends State<PickUpProductWidget> {
                               ) {
                                 _model.textController = textEditingController;
                                 return TextFormField(
+                                  cursorColor: Colors.grey,
                                   key: _model.textFieldKey,
                                   controller: textEditingController,
                                   focusNode: focusNode,
@@ -409,9 +410,8 @@ class _PickUpProductWidgetState extends State<PickUpProductWidget> {
                                     decoration: BoxDecoration(
                                       shape: BoxShape.circle,
                                     ),
-                                    child: Image.network(
-                                      listViewUsersRecord.photoUrl!,
-                                      fit: BoxFit.cover,
+                                    child: CachedNetworkImageWidget(
+                                      image:listViewUsersRecord.photoUrl!,
                                     ),
                                   ),
                                   Padding(

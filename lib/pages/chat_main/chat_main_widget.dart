@@ -121,7 +121,7 @@ class _ChatMainWidgetState extends State<ChatMainWidget> {
                               if (snapshot.data!.isEmpty) {
                                 return Center(
                                   child: SizedBox(
-                                    child: Text("No Data Found"),
+                                    child: Text("No Data Found",style: TextStyle(fontSize: 18,color: Colors.black),),
                                   ),
                                 );
                               }
@@ -249,11 +249,8 @@ class _ChatMainWidgetState extends State<ChatMainWidget> {
                                                           return snapshot
                                                                   .hasData
                                                               ? CachedNetworkImageWidget(
-                                                                  image: snapshot
-                                                                          .data![
-                                                                      "photo_url"])
-                                                              : Icon(
-                                                                  Icons.person);
+                                                                  image: snapshot.data!["photo_url"])
+                                                              : Icon(Icons.person);
                                                         },
                                                       ),
                                                     ),
@@ -513,7 +510,7 @@ class _ChatMainWidgetState extends State<ChatMainWidget> {
                               if (snapshot.data!.isEmpty) {
                                 return Center(
                                   child: SizedBox(
-                                    child: Text("No Data Found"),
+                                    child: Text("No Data Found",style: TextStyle(fontSize: 18,color: Colors.black),),
                                   ),
                                 );
                               }
@@ -638,10 +635,14 @@ class _ChatMainWidgetState extends State<ChatMainWidget> {
                                                                 snapshot) {
                                                               return snapshot
                                                                       .hasData
-                                                                  ? CachedNetworkImageWidget(
+                                                                  ? snapshot
+                                                                  .data![
+                                                              "photo_url"] != ""?
+                                                              CachedNetworkImageWidget(
                                                                       image: snapshot
                                                                               .data![
-                                                                          "photo_url"])
+                                                                          "photo_url"]):Icon(Icons
+                                                                  .person)
                                                                   : Icon(Icons
                                                                       .person);
                                                             },

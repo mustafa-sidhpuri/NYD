@@ -115,17 +115,17 @@ class _ForgotPasswordWidgetState extends State<ForgotPasswordWidget> {
                     height: 61.0,
                     decoration: BoxDecoration(),
                     child: TextFormField(
+                      cursorColor: Colors.grey,
                       controller: _model.emailController,
                       obscureText: false,
                       decoration: InputDecoration(
                         labelText: 'Email',
                         labelStyle: FlutterFlowTheme.of(context).bodyMedium,
                         hintText: 'Enter your name here...',
-                        hintStyle:
-                            FlutterFlowTheme.of(context).bodyMedium.override(
-                                  fontFamily: 'Roboto',
-                                  color: FlutterFlowTheme.of(context).lineGray,
-                                ),
+                        hintStyle: TextStyle(
+                            color: Colors.grey,
+                            fontSize: 14
+                        ),
                         enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(
                             color: FlutterFlowTheme.of(context).lineGray,
@@ -206,11 +206,15 @@ class _ForgotPasswordWidgetState extends State<ForgotPasswordWidget> {
                                     FlutterFlowTheme.of(context).primary,
                               ),
                             );
-                            await Navigator.push(
+                            await Navigator.pushAndRemoveUntil(
                               context,
-                              MaterialPageRoute(
-                                builder: (context) => LoginWidget(),
+                              PageTransition(
+                                type: PageTransitionType.fade,
+                                duration: Duration(milliseconds: 0),
+                                reverseDuration: Duration(milliseconds: 0),
+                                child: LoginWidget(),
                               ),
+                                  (r) => false,
                             );
                           },
                           child: Container(

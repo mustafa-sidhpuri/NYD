@@ -17,8 +17,7 @@ class AddProductDetailModel extends FlutterFlowModel {
   String? dropDownValue1;
   FormFieldController<String>? dropDownValueController1;
   // State field(s) for Sub-Category widget.
-  TextEditingController? subCategoryController;
-  String? Function(BuildContext, String?)? subCategoryControllerValidator;
+
   // State field(s) for DropDown widget.
   String? dropDownValue2;
   FormFieldController<String>? dropDownValueController2;
@@ -30,7 +29,7 @@ class AddProductDetailModel extends FlutterFlowModel {
   void initState(BuildContext context) {}
 
   void dispose() {
-    subCategoryController?.dispose();
+   // subCategoryController?.dispose();
   }
 
 /// Additional helper methods are added here.

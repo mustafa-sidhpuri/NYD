@@ -21,17 +21,17 @@ class ProductEditModel extends FlutterFlowModel {
   String uploadedFileUrl = '';
 
   // State field(s) for TextField widget.
-  TextEditingController? textController1;
-  String? Function(BuildContext, String?)? textController1Validator;
-  // State field(s) for TextField widget.
-  TextEditingController? textController2;
-  String? Function(BuildContext, String?)? textController2Validator;
+  // TextEditingController? textController1;
+  // String? Function(BuildContext, String?)? textController1Validator;
+  // // State field(s) for TextField widget.
+  // TextEditingController? textController2;
+  // String? Function(BuildContext, String?)? textController2Validator;
   // State field(s) for DropDown widget.
   String? dropDownValue1;
   FormFieldController<String>? dropDownValueController1;
   // State field(s) for DropDown widget.
-  TextEditingController? subCategoryController;
-  String? Function(BuildContext, String?)? subCategoryControllerValidator;
+  // TextEditingController? subCategoryController;
+  // String? Function(BuildContext, String?)? subCategoryControllerValidator;
   // State field(s) for DropDown widget.
   String? dropDownValue3;
   FormFieldController<String>? dropDownValueController3;
@@ -41,9 +41,7 @@ class ProductEditModel extends FlutterFlowModel {
   void initState(BuildContext context) {}
 
   void dispose() {
-    textController1?.dispose();
-    subCategoryController?.dispose();
-    textController2?.dispose();
+
   }
 
   /// Additional helper methods are added here.

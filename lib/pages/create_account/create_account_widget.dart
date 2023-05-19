@@ -116,13 +116,17 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
                     height: 61.0,
                     decoration: BoxDecoration(),
                     child: TextFormField(
+                      cursorColor: Colors.grey,
                       controller: _model.nameController,
                       obscureText: false,
                       decoration: InputDecoration(
                         labelText: 'Name',
                         labelStyle: FlutterFlowTheme.of(context).bodyMedium,
                         hintText: 'Enter your name here...',
-                        hintStyle: FlutterFlowTheme.of(context).bodyMedium,
+                        hintStyle: TextStyle(
+                            color: Colors.grey,
+                            fontSize: 14
+                        ),
                         enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(
                             color: FlutterFlowTheme.of(context).lineGray,
@@ -169,13 +173,17 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
                     height: 61.0,
                     decoration: BoxDecoration(),
                     child: TextFormField(
+                      cursorColor: Colors.grey,
                       controller: _model.emailAddressController,
                       obscureText: false,
                       decoration: InputDecoration(
                         labelText: 'Email Address',
                         labelStyle: FlutterFlowTheme.of(context).bodyMedium,
                         hintText: 'Enter your email here...',
-                        hintStyle: FlutterFlowTheme.of(context).bodyMedium,
+                        hintStyle: TextStyle(
+                            color: Colors.grey,
+                            fontSize: 14
+                        ),
                         enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(
                             color: FlutterFlowTheme.of(context).lineGray,
@@ -220,13 +228,17 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
                   height: 61.0,
                   decoration: BoxDecoration(),
                   child: TextFormField(
+                    cursorColor: Colors.grey,
                     controller: _model.passwordController,
                     obscureText: !_model.passwordVisibility,
                     decoration: InputDecoration(
                       labelText: 'Password',
                       labelStyle: FlutterFlowTheme.of(context).bodyMedium,
                       hintText: 'Enter your password here...',
-                      hintStyle: FlutterFlowTheme.of(context).bodyMedium,
+                      hintStyle: TextStyle(
+                          color: Colors.grey,
+                          fontSize: 14
+                      ),
                       enabledBorder: OutlineInputBorder(
                         borderSide: BorderSide(
                           color: FlutterFlowTheme.of(context).lineGray,

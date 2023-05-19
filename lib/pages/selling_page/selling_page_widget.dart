@@ -119,7 +119,8 @@ class _SellingPageWidgetState extends State<SellingPageWidget> {
                                     return Center(
                                       child: SizedBox(
                                         child: Text(
-                                            "No Data Found"
+                                            "No Data Found",
+                                          style: TextStyle(color: Colors.black,fontSize: 18),
                                         ),
                                       ),
                                     );
@@ -143,23 +144,15 @@ class _SellingPageWidgetState extends State<SellingPageWidget> {
                                           focusColor: Colors.transparent,
                                           hoverColor: Colors.transparent,
                                           highlightColor: Colors.transparent,
-                                          onTap: () async {
-                                            await Navigator.push(
-                                              context,
-                                              PageTransition(
-                                                type: PageTransitionType.fade,
-                                                duration:
-                                                    Duration(milliseconds: 0),
-                                                reverseDuration:
-                                                    Duration(milliseconds: 0),
-                                                child: ProductDetailsWidget(
-                                                  productData:
-                                                      listViewPostsRecord,
-                                                  productId: listViewPostsRecord
-                                                      .reference,
-                                                ),
+                                          onTap: ()  {
+                                            Navigator.of(context).push(MaterialPageRoute(
+                                              builder: (context) => ProductDetailsWidget(
+                                                productData:
+                                                listViewPostsRecord,
+                                                productId: listViewPostsRecord
+                                                    .reference,
                                               ),
-                                            );
+                                            ));
                                           },
                                           child: Container(
                                             height: 100.0,
@@ -541,7 +534,8 @@ class _SellingPageWidgetState extends State<SellingPageWidget> {
                                   return Center(
                                     child: SizedBox(
                                       child: Text(
-                                          "No Data Found"
+                                          "No Data Found",
+                                        style: TextStyle(color: Colors.black,fontSize: 18),
                                       ),
                                     ),
                                   );
@@ -578,22 +572,14 @@ class _SellingPageWidgetState extends State<SellingPageWidget> {
                                           hoverColor: Colors.transparent,
                                           highlightColor: Colors.transparent,
                                           onTap: () async {
-                                            await Navigator.push(
-                                              context,
-                                              PageTransition(
-                                                type: PageTransitionType.fade,
-                                                duration:
-                                                    Duration(milliseconds: 0),
-                                                reverseDuration:
-                                                    Duration(milliseconds: 0),
-                                                child: ProductDetailsWidget(
-                                                  productData:
-                                                      listViewPostsRecord,
-                                                  productId: listViewPostsRecord
-                                                      .reference,
-                                                ),
+                                            Navigator.of(context).push(MaterialPageRoute(
+                                              builder: (context) => ProductDetailsWidget(
+                                                productData:
+                                                listViewPostsRecord,
+                                                productId: listViewPostsRecord
+                                                    .reference,
                                               ),
-                                            );
+                                            ));
                                           },
                                           child: Container(
                                             width: 100.0,

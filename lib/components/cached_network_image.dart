@@ -15,8 +15,12 @@ class CachedNetworkImageWidget extends StatelessWidget {
       imageUrl: image ?? "",
       height: height,
       width: width,
+      memCacheWidth: 500,
+      memCacheHeight: 500,
+      maxHeightDiskCache: 500,
+      maxWidthDiskCache: 500,
       placeholder: (context, url) => Center(child: CircularProgressIndicator()),
-      errorWidget: (context, url, error) => Icon(Icons.person),
+      errorWidget: (context, url, error) => Icon(Icons.person,color: Colors.black,),
       fit: fit??BoxFit.cover,
     );
   }
