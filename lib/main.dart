@@ -1,4 +1,5 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -31,6 +32,12 @@ void main() async {
   final appState = FFAppState(); // Initialize FFAppState
   await appState.initializePersistedState();
   LocalNotificationService.initialize();
+
+  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark.copyWith(
+      statusBarColor: Colors.white, // Color for Android
+      statusBarBrightness: Brightness.light // Dark == white status bar -- for IOS.
+  ));
+
   runApp(ChangeNotifierProvider(
     create: (context) => appState,
     child: MyApp(),

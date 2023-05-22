@@ -18,6 +18,8 @@
 	<string>Food Share</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
+	<key>UIUserInterfaceStyle</key>
+    <string>Light</string>
 	<key>Appearance</key>
     <string>Light</string>
 	<key>CFBundleShortVersionString</key>

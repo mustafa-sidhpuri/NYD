@@ -26,7 +26,7 @@ abstract class FlutterFlowTheme {
 
   static FlutterFlowTheme of(BuildContext context) {
     return Theme.of(context).brightness == Brightness.dark
-        ? DarkModeTheme()
+        ? LightModeTheme()
         : LightModeTheme();
   }
 
@@ -324,10 +324,10 @@ class DarkModeTheme extends FlutterFlowTheme {
   late Color secondaryText = const Color(0xFF95A1AC);
   late Color primaryBackground = const Color(0xFFFFFFFF);
   late Color secondaryBackground = const Color(0xFFFFFFFF);
-  late Color accent1 = const Color(0xFFEEEEEE);
-  late Color accent2 = const Color(0xFFE0E0E0);
-  late Color accent3 = const Color(0xFF757575);
-  late Color accent4 = const Color(0xFF616161);
+  late Color accent1 = const Color(0xFF616161);
+  late Color accent2 = const Color(0xFF757575);
+  late Color accent3 = const Color(0xFFE0E0E0);
+  late Color accent4 = const Color(0xFFEEEEEE);
   late Color success = const Color(0xFF04A24C);
   late Color warning = const Color(0xFFFCDC0C);
   late Color error = const Color(0xFFE21C3D);
