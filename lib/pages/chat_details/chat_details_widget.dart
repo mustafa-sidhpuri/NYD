@@ -1,7 +1,4 @@
-import 'dart:developer';
-
 import 'package:n_y_d_app/main.dart';
-
 import '../../components/cached_network_image.dart';
 import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
@@ -46,11 +43,48 @@ class _ChatDetailsWidgetState extends State<ChatDetailsWidget> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
   TextEditingController textController = TextEditingController();
   String? Function(BuildContext, String?)? textControllerValidator;
-
+  ScrollController _scrollController = ScrollController();
+  //final _scrollController = ScrollController(initialScrollOffset: 2000);
   final _unfocusNode = FocusNode();
   @override
   void initState() {
     super.initState();
+
+    // _scrollController.animateTo(_scrollController.position.maxScrollExtent,
+    //     duration: Duration(microseconds: 300), curve: Curves.easeOut);
+
+    // print(_scrollController.hasClients);
+    // if (_scrollController.hasClients){
+    //   _scrollController.animateTo(
+    //     _scrollController.position.maxScrollExtent,
+    //     duration: Duration(seconds: 1),
+    //     curve: Curves.easeOut,
+    //   );
+    // }
+
+    if (!_scrollController.hasClients) {
+      print(!_scrollController.hasClients);
+      Future.delayed(Duration(milliseconds: 50), () {
+        _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
+      });
+    }
+
+    // WidgetsBinding.instance.addPostFrameCallback((_) {
+    //   print("dtaaa11111");
+    //   _scrollController.animateTo(
+    //     _scrollController.position.maxScrollExtent,
+    //     duration: const Duration(milliseconds: 300),
+    //     curve: Curves.easeOut,
+    //   );
+    //   print("dtaaa22222");
+    // });
+
+    // WidgetsBinding.instance.addPostFrameCallback((_) {
+    //   print("object");
+    //   _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
+    //   print("object");
+    // });
+
     _model = createModel(context, () => ChatDetailsModel());
 
     textController = TextEditingController();
@@ -60,6 +94,7 @@ class _ChatDetailsWidgetState extends State<ChatDetailsWidget> {
   void dispose() {
     _model.dispose();
     _unfocusNode.dispose();
+    _scrollController.dispose();
     super.dispose();
   }
 
@@ -130,15 +165,41 @@ class _ChatDetailsWidgetState extends State<ChatDetailsWidget> {
                         updateCallback: () => setState(() {}),
                         child: ChatListItemWidget(
                           profileImageChat: FutureBuilder<DocumentSnapshot>(
-                            future: widget.postData!.userRef!.get(),
+                            future:
+                            widget.conversationsDoc!.userDetails!
+                                .toList()
+                                .first
+                                .userId ==
+                                currentUserUid?
+                            widget.conversationsDoc!.postedByRefrence!
+                                .get():
+                            widget.conversationsDoc!.createUserRefrence!
+                                .get()
+                            ,
                             builder: (context, snapshot) {
                               return snapshot.hasData
-                                  ? CachedNetworkImageWidget(
-                                      image: snapshot.data!["photo_url"])
+                                  ? snapshot.data!["photo_url"] == ""
+                                      ? Icon(Icons.person)
+                                      : CachedNetworkImageWidget(
+                                          image: snapshot.data!["photo_url"])
                                   : Icon(Icons.person);
                             },
                           ),
-                          nameText: widget.username,
+                          nameText: widget.conversationsDoc!.userDetails!
+                                      .toList()
+                                      .first
+                                      .userId ==
+                                  currentUserUid
+                              ? widget.conversationsDoc!.userDetails!
+                                      .toList()
+                                      .last
+                                      .userName ??
+                                  ""
+                              : widget.conversationsDoc!.userDetails!
+                                      .toList()
+                                      .first
+                                      .userName ??
+                                  "",
                           discriptionText: widget.productname,
                           dateText: widget.productlocation,
                           productImage: widget.productimage,
@@ -173,16 +234,18 @@ class _ChatDetailsWidgetState extends State<ChatDetailsWidget> {
                             return ListView.builder(
                               padding: EdgeInsets.zero,
                               shrinkWrap: true,
+                              physics: const AlwaysScrollableScrollPhysics(),
+                              controller: _scrollController,
                               scrollDirection: Axis.vertical,
                               itemCount: listViewChatsRecordList.length,
                               itemBuilder: (context, listViewIndex) {
                                 final listViewChatsRecord =
                                     listViewChatsRecordList[listViewIndex];
-                                log((listViewChatsRecord.createdBy !=
-                                        currentUserUid)
-                                    .toString());
-                                log(listViewChatsRecord.createdBy ?? "",
-                                    name: "User id");
+                                // log((listViewChatsRecord.createdBy !=
+                                //         currentUserUid)
+                                //     .toString());
+                                // log(listViewChatsRecord.createdBy ?? "",
+                                //     name: "User id");
                                 return Visibility(
                                     visible: listViewChatsRecord.createdBy !=
                                         currentUserUid,
@@ -329,76 +392,151 @@ class _ChatDetailsWidgetState extends State<ChatDetailsWidget> {
               ),
               Padding(
                 padding: currentUserUid == widget.postData!.postedBy
-                    ? EdgeInsetsDirectional.fromSTEB(22.0, 0.0, 0.0, 46.0)
-                    : EdgeInsetsDirectional.fromSTEB(11.0, 0.0, 0.0, 46.0),
+                    ? EdgeInsetsDirectional.fromSTEB(22.0, 0.0, 0.0, 20.0)
+                    : EdgeInsetsDirectional.fromSTEB(11.0, 0.0, 0.0, 20.0),
                 child: Column(
                   mainAxisSize: MainAxisSize.max,
                   children: [
                     Row(
-                      mainAxisSize: MainAxisSize.max,
                       children: [
                         Visibility(
                           visible: currentUserUid == widget.postData!.postedBy,
                           child: InkWell(
                             onTap: () async {
-                              if (widget.postData?.public == true) {
-                                final postsUpdateData = createPostsRecordData(
-                                  pickup: createPickupStruct(
-                                    userId: widget.conversationsDoc?.userDetails
-                                        ?.first.userId,
-                                    userName: widget.conversationsDoc
-                                        ?.userDetails?.first.userName,
-                                    userImage: widget.conversationsDoc
-                                        ?.userDetails?.first.userImage,
-                                    pickupTime: getCurrentTimestamp,
-                                    clearUnsetFields: false,
-                                  ),
-                                  isPickedUp: true,
-                                  public: false,
-                                );
-                                await widget.postData!.reference
-                                    .update(postsUpdateData);
-                                await Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) =>
-                                        NavBarPage(initialPage: 'sellingPage'),
-                                  ),
-                                );
-                              } else {
-                                ScaffoldMessenger.of(context).clearSnackBars();
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    content: Text(
-                                      'Product is not in List',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 14,
+                              var confirmDialogResponse =
+                                  await showDialog<bool>(
+                                        context: context,
+                                        builder: (alertDialogContext) {
+                                          return AlertDialog(
+                                            content: Text(
+                                              'Are you sure the ' +
+                                                  widget.conversationsDoc!
+                                                      .userDetails!
+                                                      .toList()
+                                                      .first
+                                                      .userName! +
+                                                  ' has picked up your item?',
+                                              style: TextStyle(
+                                                color: Colors.black,
+                                              ),
+                                            ),
+                                            actions: [
+                                              TextButton(
+                                                onPressed: () => Navigator.pop(
+                                                    alertDialogContext, false),
+                                                child: Text(
+                                                  'Cancel',
+                                                  style: TextStyle(
+                                                    color: FlutterFlowTheme.of(
+                                                            context)
+                                                        .primary,
+                                                  ),
+                                                ),
+                                              ),
+                                              TextButton(
+                                                onPressed: () => Navigator.pop(
+                                                    alertDialogContext, true),
+                                                child: Text(
+                                                  'Confirm',
+                                                  style: TextStyle(
+                                                    color: FlutterFlowTheme.of(
+                                                            context)
+                                                        .primary,
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          );
+                                        },
+                                      ) ??
+                                      false;
+                              if (confirmDialogResponse) {
+                                if (loggedIn) {
+                                  if (widget.postData?.public == true) {
+                                    final postsUpdateData =
+                                        createPostsRecordData(
+                                      pickup: createPickupStruct(
+                                        userId: widget.conversationsDoc
+                                            ?.userDetails?.first.userId,
+                                        userName: widget.conversationsDoc
+                                            ?.userDetails?.first.userName,
+                                        userImage: widget.conversationsDoc
+                                            ?.userDetails?.first.userImage,
+                                        pickupTime: getCurrentTimestamp,
+                                        clearUnsetFields: false,
                                       ),
-                                    ),
-                                    duration: Duration(milliseconds: 4000),
-                                    backgroundColor:
-                                        FlutterFlowTheme.of(context).primary,
-                                  ),
-                                );
+                                      isPickedUp: true,
+                                      public: false,
+                                    );
+                                    await widget.postData!.reference
+                                        .update(postsUpdateData);
+                                    await Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => NavBarPage(
+                                            initialPage: 'sellingPage'),
+                                      ),
+                                    );
+                                  } else {
+                                    ScaffoldMessenger.of(context)
+                                        .clearSnackBars();
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text(
+                                          'Product is not in List',
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 14,
+                                          ),
+                                        ),
+                                        duration: Duration(milliseconds: 4000),
+                                        backgroundColor:
+                                            FlutterFlowTheme.of(context)
+                                                .primary,
+                                      ),
+                                    );
+                                  }
+                                } else {
+                                  Navigator.pop(context);
+                                }
+                              } else {
+                                return;
                               }
                             },
-                            child: Container(
-                              width: 43.0,
-                              height: 43.0,
-                              decoration: BoxDecoration(
-                                color: FlutterFlowTheme.of(context).primary,
-                                shape: BoxShape.circle,
-                              ),
-                              child: Padding(
-                                padding: EdgeInsetsDirectional.fromSTEB(
-                                    10.0, 10.0, 10.0, 10.0),
-                                child: SvgPicture.asset(
-                                  'assets/images/Group_17.svg',
-                                  width: 24.0,
-                                  height: 24.0,
-                                  fit: BoxFit.cover,
-                                ),
+                            child: Padding(
+                              padding: const EdgeInsets.only(top: 15.0),
+                              child: Column(
+                                children: [
+                                  Container(
+                                    width: 43.0,
+                                    height: 43.0,
+                                    decoration: BoxDecoration(
+                                      color:
+                                          FlutterFlowTheme.of(context).primary,
+                                      shape: BoxShape.circle,
+                                    ),
+                                    child: Padding(
+                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                          10.0, 10.0, 10.0, 10.0),
+                                      child: SvgPicture.asset(
+                                        'assets/images/Group_17.svg',
+                                        width: 24.0,
+                                        height: 24.0,
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 5,
+                                  ),
+                                  Text(
+                                    "PickUp",
+                                    style: TextStyle(
+                                      color:
+                                          FlutterFlowTheme.of(context).primary,
+                                    ),
+                                  )
+                                ],
                               ),
                             ),
                           ),
@@ -516,6 +654,11 @@ class _ChatDetailsWidgetState extends State<ChatDetailsWidget> {
                                           await ChatsRecord.createDoc(widget
                                                   .conversationsDoc!.reference)
                                               .set(chatsCreateData);
+                                          _scrollController.animateTo(
+                                              _scrollController
+                                                  .position.maxScrollExtent,
+                                              duration: Duration(seconds: 1),
+                                              curve: Curves.easeOut);
                                           setState(() {
                                             textController.clear();
                                           });

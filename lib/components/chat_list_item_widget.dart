@@ -70,10 +70,18 @@ class _ChatListItemWidgetState extends State<ChatListItemWidget> {
                 Container(
                   width: 53.0,
                   height: 53.0,
-                  clipBehavior: Clip.antiAlias,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                  ),
+                    clipBehavior:
+                    Clip.antiAlias,
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                          color: Colors.black
+                              .withOpacity(
+                              0.5)),
+                      color: FlutterFlowTheme
+                          .of(context)
+                          .secondaryBackground,
+                      shape: BoxShape.circle,
+                    ),
                   child: widget.profileImageChat
                 ),
                 Container(

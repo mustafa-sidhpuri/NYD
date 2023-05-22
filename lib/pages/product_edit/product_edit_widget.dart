@@ -936,6 +936,9 @@ class _ProductEditWidgetState extends State<ProductEditWidget> {
                     padding: const EdgeInsets.only(left: 10, right: 10),
                     child: TextFormField(
                       cursorColor: Colors.grey,
+                      style: TextStyle(
+                          color: Colors.black
+                      ),
                       controller: locationField,
                       onChanged: (value) {
                         placeAutocomplete(value);

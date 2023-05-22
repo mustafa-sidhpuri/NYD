@@ -99,7 +99,8 @@ class _ChatMainWidgetState extends State<ChatMainWidget> {
                             stream: queryConversationsRecord(
                               queryBuilder: (conversationsRecord) =>
                                   conversationsRecord
-                                      .where('users', arrayContains: currentUserUid)
+                                      .where('users',
+                                          arrayContains: currentUserUid)
                                       .orderBy('last_message_at',
                                           descending: true),
                             ),
@@ -117,21 +118,27 @@ class _ChatMainWidgetState extends State<ChatMainWidget> {
                                   ),
                                 );
                               }
-                              // if (snapshot.data!.isEmpty) {
-                              //   return Center(
-                              //     child: SizedBox(
-                              //       child: Text("No Data Found",style: TextStyle(fontSize: 18,color: Colors.black),),
-                              //     ),
-                              //   );
-                              // }
-                              List<ConversationsRecord>listViewConversationsRecordList = snapshot.data!;
+                              if (snapshot.data!.isEmpty) {
+                                return Center(
+                                  child: SizedBox(
+                                    child: Text(
+                                      "No Data Found",
+                                      style: TextStyle(
+                                          fontSize: 18, color: Colors.black),
+                                    ),
+                                  ),
+                                );
+                              }
+                              List<ConversationsRecord>
+                                  listViewConversationsRecordList =
+                                  snapshot.data!;
                               return ListView.builder(
                                 padding: EdgeInsets.zero,
                                 scrollDirection: Axis.vertical,
                                 itemCount:
                                     listViewConversationsRecordList.length,
                                 itemBuilder: (context, listViewIndex) {
-                                  print(listViewConversationsRecordList.length);
+                                  //print(listViewConversationsRecordList.length);
                                   final listViewConversationsRecord =
                                       listViewConversationsRecordList[
                                           listViewIndex];
@@ -234,6 +241,9 @@ class _ChatMainWidgetState extends State<ChatMainWidget> {
                                                             color: Colors.black
                                                                 .withOpacity(
                                                                     0.5)),
+                                                        color: FlutterFlowTheme
+                                                                .of(context)
+                                                            .secondaryBackground,
                                                         shape: BoxShape.circle,
                                                       ),
                                                       child: FutureBuilder<
@@ -246,9 +256,17 @@ class _ChatMainWidgetState extends State<ChatMainWidget> {
                                                             snapshot) {
                                                           return snapshot
                                                                   .hasData
-                                                              ? CachedNetworkImageWidget(
-                                                                  image: snapshot.data!["photo_url"])
-                                                              : Icon(Icons.person);
+                                                              ? snapshot.data![
+                                                                          "photo_url"] ==
+                                                                      ""
+                                                                  ? Icon(Icons
+                                                                      .person)
+                                                                  : CachedNetworkImageWidget(
+                                                                      image: snapshot
+                                                                              .data![
+                                                                          "photo_url"])
+                                                              : Icon(
+                                                                  Icons.person);
                                                         },
                                                       ),
                                                     ),
@@ -264,6 +282,13 @@ class _ChatMainWidgetState extends State<ChatMainWidget> {
                                                       clipBehavior:
                                                           Clip.antiAlias,
                                                       decoration: BoxDecoration(
+                                                        border: Border.all(
+                                                            color: Colors.black
+                                                                .withOpacity(
+                                                                    0.5)),
+                                                        color: FlutterFlowTheme
+                                                                .of(context)
+                                                            .secondaryBackground,
                                                         shape: BoxShape.circle,
                                                       ),
                                                       child: FutureBuilder<
@@ -275,10 +300,15 @@ class _ChatMainWidgetState extends State<ChatMainWidget> {
                                                             snapshot) {
                                                           return snapshot
                                                                   .hasData
-                                                              ? CachedNetworkImageWidget(
-                                                                  image: snapshot
-                                                                          .data![
-                                                                      "photo_url"])
+                                                              ? snapshot.data![
+                                                                          "photo_url"] ==
+                                                                      ""
+                                                                  ? Icon(Icons
+                                                                      .person)
+                                                                  : CachedNetworkImageWidget(
+                                                                      image: snapshot
+                                                                              .data![
+                                                                          "photo_url"])
                                                               : Icon(
                                                                   Icons.person);
                                                         },
@@ -508,7 +538,11 @@ class _ChatMainWidgetState extends State<ChatMainWidget> {
                               if (snapshot.data!.isEmpty) {
                                 return Center(
                                   child: SizedBox(
-                                    child: Text("No Data Found",style: TextStyle(fontSize: 18,color: Colors.black),),
+                                    child: Text(
+                                      "No Data Found",
+                                      style: TextStyle(
+                                          fontSize: 18, color: Colors.black),
+                                    ),
                                   ),
                                 );
                               }
@@ -633,14 +667,14 @@ class _ChatMainWidgetState extends State<ChatMainWidget> {
                                                                 snapshot) {
                                                               return snapshot
                                                                       .hasData
-                                                                  ? snapshot
-                                                                  .data![
-                                                              "photo_url"] != ""?
-                                                              CachedNetworkImageWidget(
-                                                                      image: snapshot
-                                                                              .data![
-                                                                          "photo_url"]):Icon(Icons
-                                                                  .person)
+                                                                  ? snapshot.data![
+                                                                              "photo_url"] !=
+                                                                          ""
+                                                                      ? CachedNetworkImageWidget(
+                                                                          image: snapshot.data![
+                                                                              "photo_url"])
+                                                                      : Icon(Icons
+                                                                          .person)
                                                                   : Icon(Icons
                                                                       .person);
                                                             },

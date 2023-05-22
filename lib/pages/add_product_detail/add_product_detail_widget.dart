@@ -372,6 +372,9 @@ class _AddProductDetailWidgetState extends State<AddProductDetailWidget> {
                         Padding(
                           padding: const EdgeInsets.only(left: 10, right: 10),
                           child: TextFormField(
+                            style: TextStyle(
+                              color: Colors.black
+                            ),
                             cursorColor: Colors.grey,
                             controller: locationField,
                             onChanged: (value) {
