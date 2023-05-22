@@ -1,4 +1,5 @@
 import 'package:n_y_d_app/main.dart';
+import 'package:n_y_d_app/pages/product_details/product_details_widget.dart';
 import '../../components/cached_network_image.dart';
 import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
@@ -163,46 +164,60 @@ class _ChatDetailsWidgetState extends State<ChatDetailsWidget> {
                       child: wrapWithModel(
                         model: _model.chatListItemModel,
                         updateCallback: () => setState(() {}),
-                        child: ChatListItemWidget(
-                          profileImageChat: FutureBuilder<DocumentSnapshot>(
-                            future:
-                            widget.conversationsDoc!.userDetails!
-                                .toList()
-                                .first
-                                .userId ==
-                                currentUserUid?
-                            widget.conversationsDoc!.postedByRefrence!
-                                .get():
-                            widget.conversationsDoc!.createUserRefrence!
-                                .get()
-                            ,
-                            builder: (context, snapshot) {
-                              return snapshot.hasData
-                                  ? snapshot.data!["photo_url"] == ""
-                                      ? Icon(Icons.person)
-                                      : CachedNetworkImageWidget(
-                                          image: snapshot.data!["photo_url"])
-                                  : Icon(Icons.person);
-                            },
+                        child: InkWell(
+                          onTap: ()async {
+                            await Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    ProductDetailsWidget(
+                                      productData:
+                                      widget.postData,
+                                      productId: widget.postData
+                                          ?.reference,
+                                    ),
+                              ),
+                            );
+                          },
+                          child: ChatListItemWidget(
+                            profileImageChat: FutureBuilder<DocumentSnapshot>(
+                              future: widget.conversationsDoc!.userDetails!
+                                          .toList()
+                                          .first
+                                          .userId ==
+                                      currentUserUid
+                                  ? widget.conversationsDoc!.postedByRefrence!
+                                      .get()
+                                  : widget.conversationsDoc!.createUserRefrence!
+                                      .get(),
+                              builder: (context, snapshot) {
+                                return snapshot.hasData
+                                    ? snapshot.data!["photo_url"] == ""
+                                        ? Icon(Icons.person)
+                                        : CachedNetworkImageWidget(
+                                            image: snapshot.data!["photo_url"])
+                                    : Icon(Icons.person);
+                              },
+                            ),
+                            nameText: widget.conversationsDoc!.userDetails!
+                                        .toList()
+                                        .first
+                                        .userId ==
+                                    currentUserUid
+                                ? widget.conversationsDoc!.userDetails!
+                                        .toList()
+                                        .last
+                                        .userName ??
+                                    ""
+                                : widget.conversationsDoc!.userDetails!
+                                        .toList()
+                                        .first
+                                        .userName ??
+                                    "",
+                            discriptionText: widget.productname,
+                            dateText: widget.productlocation,
+                            productImage: widget.productimage,
                           ),
-                          nameText: widget.conversationsDoc!.userDetails!
-                                      .toList()
-                                      .first
-                                      .userId ==
-                                  currentUserUid
-                              ? widget.conversationsDoc!.userDetails!
-                                      .toList()
-                                      .last
-                                      .userName ??
-                                  ""
-                              : widget.conversationsDoc!.userDetails!
-                                      .toList()
-                                      .first
-                                      .userName ??
-                                  "",
-                          discriptionText: widget.productname,
-                          dateText: widget.productlocation,
-                          productImage: widget.productimage,
                         ),
                       ),
                     ),
