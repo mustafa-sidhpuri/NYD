@@ -42,7 +42,7 @@ class _ProductEditWidgetState extends State<ProductEditWidget> {
     // On page load action.
     SchedulerBinding.instance.addPostFrameCallback((_) async {
       setState(() {
-        FFAppState().mediaUrl = widget.productData!.images!.toList().toList();
+        FFAppState().mediaUrl = widget.productData!.images.toList();
       });
     });
 
@@ -76,6 +76,7 @@ class _ProductEditWidgetState extends State<ProductEditWidget> {
         key: scaffoldKey,
         backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
         body: SafeArea(
+          top: true,
           child: Padding(
             padding: EdgeInsetsDirectional.fromSTEB(22.0, 0.0, 22.0, 0.0),
             child: SingleChildScrollView(
@@ -408,7 +409,7 @@ class _ProductEditWidgetState extends State<ProductEditWidget> {
                             },
                           ),
                         ),
-                        if (widget.productData!.images!.toList().length == 0)
+                        if (widget.productData!.images.length == 0)
                           Padding(
                             padding: EdgeInsetsDirectional.fromSTEB(
                                 0.0, 40.0, 0.0, 0.0),

@@ -1,85 +1,118 @@
 import 'dart:async';
 
+import '/backend/schema/util/firestore_util.dart';
+import '/backend/schema/util/schema_util.dart';
+
 import 'index.dart';
-import 'serializers.dart';
-import 'package:built_value/built_value.dart';
+import '/flutter_flow/flutter_flow_util.dart';
 
-part 'amenitities_record.g.dart';
+class AmenititiesRecord extends FirestoreRecord {
+  AmenititiesRecord._(
+    DocumentReference reference,
+    Map<String, dynamic> data,
+  ) : super(reference, data) {
+    _initializeFields();
+  }
 
-abstract class AmenititiesRecord
-    implements Built<AmenititiesRecord, AmenititiesRecordBuilder> {
-  static Serializer<AmenititiesRecord> get serializer =>
-      _$amenititiesRecordSerializer;
+  // "AC" field.
+  bool? _ac;
+  bool get ac => _ac ?? false;
+  bool hasAc() => _ac != null;
 
-  @BuiltValueField(wireName: 'AC')
-  bool? get ac;
+  // "Heater" field.
+  bool? _heater;
+  bool get heater => _heater ?? false;
+  bool hasHeater() => _heater != null;
 
-  @BuiltValueField(wireName: 'Heater')
-  bool? get heater;
+  // "Pool" field.
+  bool? _pool;
+  bool get pool => _pool ?? false;
+  bool hasPool() => _pool != null;
 
-  @BuiltValueField(wireName: 'Pool')
-  bool? get pool;
+  // "DogFriendly" field.
+  bool? _dogFriendly;
+  bool get dogFriendly => _dogFriendly ?? false;
+  bool hasDogFriendly() => _dogFriendly != null;
 
-  @BuiltValueField(wireName: 'DogFriendly')
-  bool? get dogFriendly;
+  // "Washer" field.
+  bool? _washer;
+  bool get washer => _washer ?? false;
+  bool hasWasher() => _washer != null;
 
-  @BuiltValueField(wireName: 'Washer')
-  bool? get washer;
+  // "Dryer" field.
+  bool? _dryer;
+  bool get dryer => _dryer ?? false;
+  bool hasDryer() => _dryer != null;
 
-  @BuiltValueField(wireName: 'Dryer')
-  bool? get dryer;
+  // "Workout" field.
+  bool? _workout;
+  bool get workout => _workout ?? false;
+  bool hasWorkout() => _workout != null;
 
-  @BuiltValueField(wireName: 'Workout')
-  bool? get workout;
+  // "Hip" field.
+  bool? _hip;
+  bool get hip => _hip ?? false;
+  bool hasHip() => _hip != null;
 
-  @BuiltValueField(wireName: 'Hip')
-  bool? get hip;
+  // "NightLife" field.
+  bool? _nightLife;
+  bool get nightLife => _nightLife ?? false;
+  bool hasNightLife() => _nightLife != null;
 
-  @BuiltValueField(wireName: 'NightLife')
-  bool? get nightLife;
+  // "propertyRef" field.
+  DocumentReference? _propertyRef;
+  DocumentReference? get propertyRef => _propertyRef;
+  bool hasPropertyRef() => _propertyRef != null;
 
-  DocumentReference? get propertyRef;
+  // "extraOutlets" field.
+  bool? _extraOutlets;
+  bool get extraOutlets => _extraOutlets ?? false;
+  bool hasExtraOutlets() => _extraOutlets != null;
 
-  bool? get extraOutlets;
+  // "evCharger" field.
+  bool? _evCharger;
+  bool get evCharger => _evCharger ?? false;
+  bool hasEvCharger() => _evCharger != null;
 
-  bool? get evCharger;
-
-  @BuiltValueField(wireName: kDocumentReferenceField)
-  DocumentReference? get ffRef;
-  DocumentReference get reference => ffRef!;
-
-  static void _initializeBuilder(AmenititiesRecordBuilder builder) => builder
-    ..ac = false
-    ..heater = false
-    ..pool = false
-    ..dogFriendly = false
-    ..washer = false
-    ..dryer = false
-    ..workout = false
-    ..hip = false
-    ..nightLife = false
-    ..extraOutlets = false
-    ..evCharger = false;
+  void _initializeFields() {
+    _ac = snapshotData['AC'] as bool?;
+    _heater = snapshotData['Heater'] as bool?;
+    _pool = snapshotData['Pool'] as bool?;
+    _dogFriendly = snapshotData['DogFriendly'] as bool?;
+    _washer = snapshotData['Washer'] as bool?;
+    _dryer = snapshotData['Dryer'] as bool?;
+    _workout = snapshotData['Workout'] as bool?;
+    _hip = snapshotData['Hip'] as bool?;
+    _nightLife = snapshotData['NightLife'] as bool?;
+    _propertyRef = snapshotData['propertyRef'] as DocumentReference?;
+    _extraOutlets = snapshotData['extraOutlets'] as bool?;
+    _evCharger = snapshotData['evCharger'] as bool?;
+  }
 
   static CollectionReference get collection =>
       FirebaseFirestore.instance.collection('amenitities');
 
-  static Stream<AmenititiesRecord> getDocument(DocumentReference ref) => ref
-      .snapshots()
-      .map((s) => serializers.deserializeWith(serializer, serializedData(s))!);
+  static Stream<AmenititiesRecord> getDocument(DocumentReference ref) =>
+      ref.snapshots().map((s) => AmenititiesRecord.fromSnapshot(s));
 
-  static Future<AmenititiesRecord> getDocumentOnce(DocumentReference ref) => ref
-      .get()
-      .then((s) => serializers.deserializeWith(serializer, serializedData(s))!);
+  static Future<AmenititiesRecord> getDocumentOnce(DocumentReference ref) =>
+      ref.get().then((s) => AmenititiesRecord.fromSnapshot(s));
 
-  AmenititiesRecord._();
-  factory AmenititiesRecord([void Function(AmenititiesRecordBuilder) updates]) =
-      _$AmenititiesRecord;
+  static AmenititiesRecord fromSnapshot(DocumentSnapshot snapshot) =>
+      AmenititiesRecord._(
+        snapshot.reference,
+        mapFromFirestore(snapshot.data() as Map<String, dynamic>),
+      );
 
   static AmenititiesRecord getDocumentFromData(
-          Map<String, dynamic> data, DocumentReference reference) =>
-      serializers.deserializeWith(serializer,
-          {...mapFromFirestore(data), kDocumentReferenceField: reference})!;
+    Map<String, dynamic> data,
+    DocumentReference reference,
+  ) =>
+      AmenititiesRecord._(reference, mapFromFirestore(data));
+
+  @override
+  String toString() =>
+      'AmenititiesRecord(reference: ${reference.path}, data: $snapshotData)';
 }
 
 Map<String, dynamic> createAmenititiesRecordData({
@@ -96,23 +129,21 @@ Map<String, dynamic> createAmenititiesRecordData({
   bool? extraOutlets,
   bool? evCharger,
 }) {
-  final firestoreData = serializers.toFirestore(
-    AmenititiesRecord.serializer,
-    AmenititiesRecord(
-      (a) => a
-        ..ac = ac
-        ..heater = heater
-        ..pool = pool
-        ..dogFriendly = dogFriendly
-        ..washer = washer
-        ..dryer = dryer
-        ..workout = workout
-        ..hip = hip
-        ..nightLife = nightLife
-        ..propertyRef = propertyRef
-        ..extraOutlets = extraOutlets
-        ..evCharger = evCharger,
-    ),
+  final firestoreData = mapToFirestore(
+    <String, dynamic>{
+      'AC': ac,
+      'Heater': heater,
+      'Pool': pool,
+      'DogFriendly': dogFriendly,
+      'Washer': washer,
+      'Dryer': dryer,
+      'Workout': workout,
+      'Hip': hip,
+      'NightLife': nightLife,
+      'propertyRef': propertyRef,
+      'extraOutlets': extraOutlets,
+      'evCharger': evCharger,
+    }.withoutNulls,
   );
 
   return firestoreData;

@@ -57,6 +57,7 @@ class _AddProductWidgetState extends State<AddProductWidget> {
         key: scaffoldKey,
         backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
         body: SafeArea(
+          top: true,
           child: Padding(
             padding: EdgeInsetsDirectional.fromSTEB(22.0, 0.0, 22.0, 0.0),
             child: Column(
@@ -468,7 +469,7 @@ class _AddProductWidgetState extends State<AddProductWidget> {
                                     productName: _model.textController1.text,
                                     productDescription:
                                         _model.textController2.text,
-                                    images: FFAppState().mediaUrl.toList(),
+                                    images: FFAppState().mediaUrl,
                                   ),
                                 ),
                               );

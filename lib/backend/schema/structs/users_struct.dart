@@ -1,34 +1,63 @@
-import 'dart:async';
+// ignore_for_file: unnecessary_getters_setters
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-import '../index.dart';
-import '../serializers.dart';
-import 'package:built_value/built_value.dart';
+import '/backend/schema/util/firestore_util.dart';
+import '/backend/schema/util/schema_util.dart';
 
-part 'users_struct.g.dart';
+import 'index.dart';
+import '/flutter_flow/flutter_flow_util.dart';
 
-abstract class UsersStruct implements Built<UsersStruct, UsersStructBuilder> {
-  static Serializer<UsersStruct> get serializer => _$usersStructSerializer;
+class UsersStruct extends FFFirebaseStruct {
+  UsersStruct({
+    bool? read,
+    String? userId,
+    String? userProfile,
+    FirestoreUtilData firestoreUtilData = const FirestoreUtilData(),
+  })  : _read = read,
+        _userId = userId,
+        _userProfile = userProfile,
+        super(firestoreUtilData);
 
-  bool? get read;
+  // "read" field.
+  bool? _read;
+  bool get read => _read ?? false;
+  set read(bool? val) => _read = val;
+  bool hasRead() => _read != null;
 
-  @BuiltValueField(wireName: 'user_id')
-  String? get userId;
+  // "user_id" field.
+  String? _userId;
+  String get userId => _userId ?? '';
+  set userId(String? val) => _userId = val;
+  bool hasUserId() => _userId != null;
 
-  @BuiltValueField(wireName: 'user_profile')
-  String? get userProfile;
+  // "user_profile" field.
+  String? _userProfile;
+  String get userProfile => _userProfile ?? '';
+  set userProfile(String? val) => _userProfile = val;
+  bool hasUserProfile() => _userProfile != null;
 
-  /// Utility class for Firestore updates
-  FirestoreUtilData get firestoreUtilData;
+  static UsersStruct fromMap(Map<String, dynamic> data) => UsersStruct(
+        read: data['read'] as bool?,
+        userId: data['user_id'] as String?,
+        userProfile: data['user_profile'] as String?,
+      );
 
-  static void _initializeBuilder(UsersStructBuilder builder) => builder
-    ..read = false
-    ..userId = ''
-    ..userProfile = ''
-    ..firestoreUtilData = FirestoreUtilData();
+  static UsersStruct? maybeFromMap(dynamic data) =>
+      data is Map<String, dynamic> ? UsersStruct.fromMap(data) : null;
 
-  UsersStruct._();
-  factory UsersStruct([void Function(UsersStructBuilder) updates]) =
-      _$UsersStruct;
+  Map<String, dynamic> toMap() => {
+        'read': _read,
+        'user_id': _userId,
+        'user_profile': _userProfile,
+      }.withoutNulls;
+
+  @override
+  Map<String, dynamic> toSerializableMap() => toMap();
+  static UsersStruct fromSerializableMap(Map<String, dynamic> data) =>
+      fromMap(data);
+
+  @override
+  String toString() => 'UsersStruct(${toMap()})';
 }
 
 UsersStruct createUsersStruct({
@@ -41,28 +70,24 @@ UsersStruct createUsersStruct({
   bool delete = false,
 }) =>
     UsersStruct(
-      (u) => u
-        ..read = read
-        ..userId = userId
-        ..userProfile = userProfile
-        ..firestoreUtilData = FirestoreUtilData(
-          clearUnsetFields: clearUnsetFields,
-          create: create,
-          delete: delete,
-          fieldValues: fieldValues,
-        ),
+      read: read,
+      userId: userId,
+      userProfile: userProfile,
+      firestoreUtilData: FirestoreUtilData(
+        clearUnsetFields: clearUnsetFields,
+        create: create,
+        delete: delete,
+        fieldValues: fieldValues,
+      ),
     );
 
 UsersStruct? updateUsersStruct(
   UsersStruct? users, {
   bool clearUnsetFields = true,
 }) =>
-    users != null
-        ? (users.toBuilder()
-              ..firestoreUtilData =
-                  FirestoreUtilData(clearUnsetFields: clearUnsetFields))
-            .build()
-        : null;
+    users
+      ?..firestoreUtilData =
+          FirestoreUtilData(clearUnsetFields: clearUnsetFields);
 
 void addUsersStructData(
   Map<String, dynamic> firestoreData,
@@ -86,8 +111,6 @@ void addUsersStructData(
 
   final create = users.firestoreUtilData.create;
   firestoreData.addAll(create ? mergeNestedFields(nestedData) : nestedData);
-
-  return;
 }
 
 Map<String, dynamic> getUsersFirestoreData(
@@ -97,7 +120,7 @@ Map<String, dynamic> getUsersFirestoreData(
   if (users == null) {
     return {};
   }
-  final firestoreData = serializers.toFirestore(UsersStruct.serializer, users);
+  final firestoreData = mapToFirestore(users.toMap());
 
   // Add any Firestore field values
   users.firestoreUtilData.fieldValues.forEach((k, v) => firestoreData[k] = v);
@@ -108,4 +131,4 @@ Map<String, dynamic> getUsersFirestoreData(
 List<Map<String, dynamic>> getUsersListFirestoreData(
   List<UsersStruct>? userss,
 ) =>
-    userss?.map((u) => getUsersFirestoreData(u, true)).toList() ?? [];
+    userss?.map((e) => getUsersFirestoreData(e, true)).toList() ?? [];

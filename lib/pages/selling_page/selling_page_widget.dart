@@ -44,6 +44,7 @@ class _SellingPageWidgetState extends State<SellingPageWidget> {
       key: scaffoldKey,
       backgroundColor: Colors.white,
       body: SafeArea(
+        top: true,
         child: Padding(
           padding: EdgeInsetsDirectional.fromSTEB(22.0, 30.0, 22.0, 0.0),
           child: Column(
@@ -193,9 +194,7 @@ class _SellingPageWidgetState extends State<SellingPageWidget> {
                                                     child: Image.network(
                                                       valueOrDefault<String>(
                                                         listViewPostsRecord
-                                                            .images!
-                                                            .toList()
-                                                            .first,
+                                                            .images.first,
                                                         'https://picsum.photos/seed/900/600',
                                                       ),
                                                       width: 80.0,
@@ -613,9 +612,8 @@ class _SellingPageWidgetState extends State<SellingPageWidget> {
                                                       BorderRadius.circular(
                                                           10.0),
                                                   child: Image.network(
-                                                    listViewPostsRecord.images!
-                                                        .toList()
-                                                        .first,
+                                                    listViewPostsRecord
+                                                        .images.first,
                                                     width: 75.0,
                                                     height: 65.0,
                                                     fit: BoxFit.cover,
@@ -637,7 +635,7 @@ class _SellingPageWidgetState extends State<SellingPageWidget> {
                                                     children: [
                                                       Text(
                                                         listViewPostsRecord
-                                                            .name!,
+                                                            .name,
                                                         style:
                                                             FlutterFlowTheme.of(
                                                                     context)

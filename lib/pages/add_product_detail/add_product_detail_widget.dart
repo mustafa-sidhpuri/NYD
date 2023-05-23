@@ -61,6 +61,7 @@ class _AddProductDetailWidgetState extends State<AddProductDetailWidget> {
         key: scaffoldKey,
         backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
         body: SafeArea(
+          top: true,
           child: Padding(
             padding: EdgeInsetsDirectional.fromSTEB(22.0, 0.0, 22.0, 0.0),
             child: Column(

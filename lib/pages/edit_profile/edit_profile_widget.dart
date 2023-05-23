@@ -71,6 +71,7 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
           key: scaffoldKey,
           backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
           body: SafeArea(
+            top: true,
             child: Padding(
               padding: EdgeInsetsDirectional.fromSTEB(22.0, 0.0, 22.0, 0.0),
               child: SingleChildScrollView(

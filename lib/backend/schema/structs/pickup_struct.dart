@@ -1,39 +1,73 @@
-import 'dart:async';
+// ignore_for_file: unnecessary_getters_setters
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-import '../index.dart';
-import '../serializers.dart';
-import 'package:built_value/built_value.dart';
+import '/backend/schema/util/firestore_util.dart';
+import '/backend/schema/util/schema_util.dart';
 
-part 'pickup_struct.g.dart';
+import 'index.dart';
+import '/flutter_flow/flutter_flow_util.dart';
 
-abstract class PickupStruct
-    implements Built<PickupStruct, PickupStructBuilder> {
-  static Serializer<PickupStruct> get serializer => _$pickupStructSerializer;
+class PickupStruct extends FFFirebaseStruct {
+  PickupStruct({
+    String? userId,
+    String? userName,
+    String? userImage,
+    DateTime? pickupTime,
+    FirestoreUtilData firestoreUtilData = const FirestoreUtilData(),
+  })  : _userId = userId,
+        _userName = userName,
+        _userImage = userImage,
+        _pickupTime = pickupTime,
+        super(firestoreUtilData);
 
-  @BuiltValueField(wireName: 'user_id')
-  String? get userId;
+  // "user_id" field.
+  String? _userId;
+  String get userId => _userId ?? '';
+  set userId(String? val) => _userId = val;
+  bool hasUserId() => _userId != null;
 
-  @BuiltValueField(wireName: 'user_name')
-  String? get userName;
+  // "user_name" field.
+  String? _userName;
+  String get userName => _userName ?? '';
+  set userName(String? val) => _userName = val;
+  bool hasUserName() => _userName != null;
 
-  @BuiltValueField(wireName: 'user_image')
-  String? get userImage;
+  // "user_image" field.
+  String? _userImage;
+  String get userImage => _userImage ?? '';
+  set userImage(String? val) => _userImage = val;
+  bool hasUserImage() => _userImage != null;
 
-  @BuiltValueField(wireName: 'pickup_time')
-  DateTime? get pickupTime;
+  // "pickup_time" field.
+  DateTime? _pickupTime;
+  DateTime? get pickupTime => _pickupTime;
+  set pickupTime(DateTime? val) => _pickupTime = val;
+  bool hasPickupTime() => _pickupTime != null;
 
-  /// Utility class for Firestore updates
-  FirestoreUtilData get firestoreUtilData;
+  static PickupStruct fromMap(Map<String, dynamic> data) => PickupStruct(
+        userId: data['user_id'] as String?,
+        userName: data['user_name'] as String?,
+        userImage: data['user_image'] as String?,
+        pickupTime: data['pickup_time'] as DateTime?,
+      );
 
-  static void _initializeBuilder(PickupStructBuilder builder) => builder
-    ..userId = ''
-    ..userName = ''
-    ..userImage = ''
-    ..firestoreUtilData = FirestoreUtilData();
+  static PickupStruct? maybeFromMap(dynamic data) =>
+      data is Map<String, dynamic> ? PickupStruct.fromMap(data) : null;
 
-  PickupStruct._();
-  factory PickupStruct([void Function(PickupStructBuilder) updates]) =
-      _$PickupStruct;
+  Map<String, dynamic> toMap() => {
+        'user_id': _userId,
+        'user_name': _userName,
+        'user_image': _userImage,
+        'pickup_time': _pickupTime,
+      }.withoutNulls;
+
+  @override
+  Map<String, dynamic> toSerializableMap() => toMap();
+  static PickupStruct fromSerializableMap(Map<String, dynamic> data) =>
+      fromMap(data);
+
+  @override
+  String toString() => 'PickupStruct(${toMap()})';
 }
 
 PickupStruct createPickupStruct({
@@ -47,29 +81,25 @@ PickupStruct createPickupStruct({
   bool delete = false,
 }) =>
     PickupStruct(
-      (p) => p
-        ..userId = userId
-        ..userName = userName
-        ..userImage = userImage
-        ..pickupTime = pickupTime
-        ..firestoreUtilData = FirestoreUtilData(
-          clearUnsetFields: clearUnsetFields,
-          create: create,
-          delete: delete,
-          fieldValues: fieldValues,
-        ),
+      userId: userId,
+      userName: userName,
+      userImage: userImage,
+      pickupTime: pickupTime,
+      firestoreUtilData: FirestoreUtilData(
+        clearUnsetFields: clearUnsetFields,
+        create: create,
+        delete: delete,
+        fieldValues: fieldValues,
+      ),
     );
 
 PickupStruct? updatePickupStruct(
   PickupStruct? pickup, {
   bool clearUnsetFields = true,
 }) =>
-    pickup != null
-        ? (pickup.toBuilder()
-              ..firestoreUtilData =
-                  FirestoreUtilData(clearUnsetFields: clearUnsetFields))
-            .build()
-        : null;
+    pickup
+      ?..firestoreUtilData =
+          FirestoreUtilData(clearUnsetFields: clearUnsetFields);
 
 void addPickupStructData(
   Map<String, dynamic> firestoreData,
@@ -93,8 +123,6 @@ void addPickupStructData(
 
   final create = pickup.firestoreUtilData.create;
   firestoreData.addAll(create ? mergeNestedFields(nestedData) : nestedData);
-
-  return;
 }
 
 Map<String, dynamic> getPickupFirestoreData(
@@ -104,8 +132,7 @@ Map<String, dynamic> getPickupFirestoreData(
   if (pickup == null) {
     return {};
   }
-  final firestoreData =
-      serializers.toFirestore(PickupStruct.serializer, pickup);
+  final firestoreData = mapToFirestore(pickup.toMap());
 
   // Add any Firestore field values
   pickup.firestoreUtilData.fieldValues.forEach((k, v) => firestoreData[k] = v);
@@ -116,4 +143,4 @@ Map<String, dynamic> getPickupFirestoreData(
 List<Map<String, dynamic>> getPickupListFirestoreData(
   List<PickupStruct>? pickups,
 ) =>
-    pickups?.map((p) => getPickupFirestoreData(p, true)).toList() ?? [];
+    pickups?.map((e) => getPickupFirestoreData(e, true)).toList() ?? [];

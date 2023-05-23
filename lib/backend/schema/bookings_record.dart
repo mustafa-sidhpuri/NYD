@@ -1,59 +1,69 @@
 import 'dart:async';
 
+import '/backend/schema/util/firestore_util.dart';
+import '/backend/schema/util/schema_util.dart';
+
 import 'index.dart';
-import 'serializers.dart';
-import 'package:built_value/built_value.dart';
+import '/flutter_flow/flutter_flow_util.dart';
 
-part 'bookings_record.g.dart';
+class BookingsRecord extends FirestoreRecord {
+  BookingsRecord._(
+    DocumentReference reference,
+    Map<String, dynamic> data,
+  ) : super(reference, data) {
+    _initializeFields();
+  }
 
-abstract class BookingsRecord
-    implements Built<BookingsRecord, BookingsRecordBuilder> {
-  static Serializer<BookingsRecord> get serializer =>
-      _$bookingsRecordSerializer;
+  // "hostRef" field.
+  DocumentReference? _hostRef;
+  DocumentReference? get hostRef => _hostRef;
+  bool hasHostRef() => _hostRef != null;
 
-  DocumentReference? get hostRef;
+  // "numberBooks" field.
+  int? _numberBooks;
+  int get numberBooks => _numberBooks ?? 0;
+  bool hasNumberBooks() => _numberBooks != null;
 
-  int? get numberBooks;
-
-  @BuiltValueField(wireName: kDocumentReferenceField)
-  DocumentReference? get ffRef;
-  DocumentReference get reference => ffRef!;
-
-  static void _initializeBuilder(BookingsRecordBuilder builder) =>
-      builder..numberBooks = 0;
+  void _initializeFields() {
+    _hostRef = snapshotData['hostRef'] as DocumentReference?;
+    _numberBooks = snapshotData['numberBooks'] as int?;
+  }
 
   static CollectionReference get collection =>
       FirebaseFirestore.instance.collection('bookings');
 
-  static Stream<BookingsRecord> getDocument(DocumentReference ref) => ref
-      .snapshots()
-      .map((s) => serializers.deserializeWith(serializer, serializedData(s))!);
+  static Stream<BookingsRecord> getDocument(DocumentReference ref) =>
+      ref.snapshots().map((s) => BookingsRecord.fromSnapshot(s));
 
-  static Future<BookingsRecord> getDocumentOnce(DocumentReference ref) => ref
-      .get()
-      .then((s) => serializers.deserializeWith(serializer, serializedData(s))!);
+  static Future<BookingsRecord> getDocumentOnce(DocumentReference ref) =>
+      ref.get().then((s) => BookingsRecord.fromSnapshot(s));
 
-  BookingsRecord._();
-  factory BookingsRecord([void Function(BookingsRecordBuilder) updates]) =
-      _$BookingsRecord;
+  static BookingsRecord fromSnapshot(DocumentSnapshot snapshot) =>
+      BookingsRecord._(
+        snapshot.reference,
+        mapFromFirestore(snapshot.data() as Map<String, dynamic>),
+      );
 
   static BookingsRecord getDocumentFromData(
-          Map<String, dynamic> data, DocumentReference reference) =>
-      serializers.deserializeWith(serializer,
-          {...mapFromFirestore(data), kDocumentReferenceField: reference})!;
+    Map<String, dynamic> data,
+    DocumentReference reference,
+  ) =>
+      BookingsRecord._(reference, mapFromFirestore(data));
+
+  @override
+  String toString() =>
+      'BookingsRecord(reference: ${reference.path}, data: $snapshotData)';
 }
 
 Map<String, dynamic> createBookingsRecordData({
   DocumentReference? hostRef,
   int? numberBooks,
 }) {
-  final firestoreData = serializers.toFirestore(
-    BookingsRecord.serializer,
-    BookingsRecord(
-      (b) => b
-        ..hostRef = hostRef
-        ..numberBooks = numberBooks,
-    ),
+  final firestoreData = mapToFirestore(
+    <String, dynamic>{
+      'hostRef': hostRef,
+      'numberBooks': numberBooks,
+    }.withoutNulls,
   );
 
   return firestoreData;

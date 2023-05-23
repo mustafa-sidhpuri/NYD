@@ -94,6 +94,7 @@ class _HomeWithFilterWidgetState extends State<HomeWithFilterWidget> {
           elevation: 2.0,
         ),
         body: SafeArea(
+          top: true,
           child: Stack(
             alignment: AlignmentDirectional(0.0, -0.32),
             children: [
@@ -565,9 +566,8 @@ class _HomeWithFilterWidgetState extends State<HomeWithFilterWidget> {
                                                         Radius.circular(12.0),
                                                   ),
                                                   child: Image.network(
-                                                    gridViewPostsRecord.images!
-                                                        .toList()
-                                                        .first,
+                                                    gridViewPostsRecord
+                                                        .images.first,
                                                     width: double.infinity,
                                                     height: 130.0,
                                                     fit: BoxFit.cover,
@@ -578,7 +578,7 @@ class _HomeWithFilterWidgetState extends State<HomeWithFilterWidget> {
                                                       .fromSTEB(
                                                           9.0, 9.0, 0.0, 0.0),
                                                   child: Text(
-                                                    gridViewPostsRecord.name!
+                                                    gridViewPostsRecord.name
                                                         .maybeHandleOverflow(
                                                       maxChars: 50,
                                                       replacement: '…',
@@ -822,9 +822,8 @@ class _HomeWithFilterWidgetState extends State<HomeWithFilterWidget> {
                                                 ),
                                                 child: Image.network(
                                                   valueOrDefault<String>(
-                                                    gridViewPostsRecord.images!
-                                                        .toList()
-                                                        .first,
+                                                    gridViewPostsRecord
+                                                        .images.first,
                                                     'https://picsum.photos/seed/389/600',
                                                   ),
                                                   width: double.infinity,
@@ -837,7 +836,7 @@ class _HomeWithFilterWidgetState extends State<HomeWithFilterWidget> {
                                                     .fromSTEB(
                                                         9.0, 9.0, 0.0, 0.0),
                                                 child: Text(
-                                                  gridViewPostsRecord.name!
+                                                  gridViewPostsRecord.name
                                                       .maybeHandleOverflow(
                                                     maxChars: 50,
                                                     replacement: '…',
@@ -1092,9 +1091,8 @@ class _HomeWithFilterWidgetState extends State<HomeWithFilterWidget> {
                                                 child: CachedNetworkImage(
                                                   imageUrl:
                                                       valueOrDefault<String>(
-                                                    gridViewPostsRecord.images!
-                                                        .toList()
-                                                        .first,
+                                                    gridViewPostsRecord
+                                                        .images.first,
                                                     'https://picsum.photos/seed/389/600',
                                                   ),
                                                   width: double.infinity,
@@ -1107,7 +1105,7 @@ class _HomeWithFilterWidgetState extends State<HomeWithFilterWidget> {
                                                     .fromSTEB(
                                                         9.0, 9.0, 0.0, 0.0),
                                                 child: Text(
-                                                  gridViewPostsRecord.name!
+                                                  gridViewPostsRecord.name
                                                       .maybeHandleOverflow(
                                                     maxChars: 50,
                                                     replacement: '…',
@@ -1353,9 +1351,7 @@ class _HomeWithFilterWidgetState extends State<HomeWithFilterWidget> {
                                                 ),
                                                 child: CachedNetworkImage(
                                                   imageUrl: postNamesItem
-                                                      .images!
-                                                      .toList()
-                                                      .first,
+                                                      .images.first,
                                                   width: double.infinity,
                                                   height: 130.0,
                                                   fit: BoxFit.cover,
@@ -1366,7 +1362,7 @@ class _HomeWithFilterWidgetState extends State<HomeWithFilterWidget> {
                                                     .fromSTEB(
                                                         9.0, 9.0, 0.0, 0.0),
                                                 child: Text(
-                                                  postNamesItem.name!
+                                                  postNamesItem.name
                                                       .maybeHandleOverflow(
                                                     maxChars: 50,
                                                     replacement: '…',
@@ -1603,9 +1599,7 @@ class _HomeWithFilterWidgetState extends State<HomeWithFilterWidget> {
                                                             12.0),
                                                     child: Image.network(
                                                       listViewPostsRecord
-                                                          .images!
-                                                          .toList()
-                                                          .first,
+                                                          .images.first,
                                                       width: 80.0,
                                                       height: 80.0,
                                                       fit: BoxFit.cover,
@@ -1681,7 +1675,7 @@ class _HomeWithFilterWidgetState extends State<HomeWithFilterWidget> {
                                                             .fromSTEB(0.0, 0.0,
                                                                 0.0, 6.0),
                                                     child: Text(
-                                                      listViewPostsRecord.name!
+                                                      listViewPostsRecord.name
                                                           .maybeHandleOverflow(
                                                         maxChars: 25,
                                                         replacement: '…',
@@ -1883,9 +1877,7 @@ class _HomeWithFilterWidgetState extends State<HomeWithFilterWidget> {
                                                             12.0),
                                                     child: Image.network(
                                                       listViewPostsRecord
-                                                          .images!
-                                                          .toList()
-                                                          .first,
+                                                          .images.first,
                                                       width: 80.0,
                                                       height: 80.0,
                                                       fit: BoxFit.cover,
@@ -1961,7 +1953,7 @@ class _HomeWithFilterWidgetState extends State<HomeWithFilterWidget> {
                                                             .fromSTEB(0.0, 0.0,
                                                                 0.0, 6.0),
                                                     child: Text(
-                                                      listViewPostsRecord.name!
+                                                      listViewPostsRecord.name
                                                           .maybeHandleOverflow(
                                                         maxChars: 25,
                                                         replacement: '…',
@@ -2163,9 +2155,7 @@ class _HomeWithFilterWidgetState extends State<HomeWithFilterWidget> {
                                                             12.0),
                                                     child: Image.network(
                                                       listViewPostsRecord
-                                                          .images!
-                                                          .toList()
-                                                          .first,
+                                                          .images.first,
                                                       width: 80.0,
                                                       height: 80.0,
                                                       fit: BoxFit.cover,
@@ -2241,7 +2231,7 @@ class _HomeWithFilterWidgetState extends State<HomeWithFilterWidget> {
                                                             .fromSTEB(0.0, 0.0,
                                                                 0.0, 6.0),
                                                     child: Text(
-                                                      listViewPostsRecord.name!
+                                                      listViewPostsRecord.name
                                                           .maybeHandleOverflow(
                                                         maxChars: 25,
                                                         replacement: '…',
@@ -2436,9 +2426,8 @@ class _HomeWithFilterWidgetState extends State<HomeWithFilterWidget> {
                                                         BorderRadius.circular(
                                                             12.0),
                                                     child: Image.network(
-                                                      listPostDataItem.images!
-                                                          .toList()
-                                                          .first,
+                                                      listPostDataItem
+                                                          .images.first,
                                                       width: 80.0,
                                                       height: 80.0,
                                                       fit: BoxFit.cover,
@@ -2513,7 +2502,7 @@ class _HomeWithFilterWidgetState extends State<HomeWithFilterWidget> {
                                                             .fromSTEB(0.0, 0.0,
                                                                 0.0, 6.0),
                                                     child: Text(
-                                                      listPostDataItem.name!
+                                                      listPostDataItem.name
                                                           .maybeHandleOverflow(
                                                         maxChars: 25,
                                                         replacement: '…',

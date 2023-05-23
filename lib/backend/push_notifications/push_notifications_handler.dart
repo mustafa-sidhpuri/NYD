@@ -94,13 +94,13 @@ final pageBuilderMap = <String, Future<Widget> Function(Map<String, dynamic>)>{
   'profilePage': (data) async => NavBarPage(initialPage: 'profilePage'),
   'editProfile': (data) async => EditProfileWidget(
         userProfile: await getDocumentParameter(
-            data, 'userProfile', UsersRecord.serializer),
+            data, 'userProfile', UsersRecord.fromSnapshot),
       ),
   'forgotPassword': (data) async => ForgotPasswordWidget(),
   'AddProduct': (data) async => NavBarPage(initialPage: 'AddProduct'),
   'ProductDetails': (data) async => ProductDetailsWidget(
         productData: await getDocumentParameter(
-            data, 'productData', PostsRecord.serializer),
+            data, 'productData', PostsRecord.fromSnapshot),
         productId: getParameter(data, 'productId'),
       ),
   'AddProductDetail': (data) async => AddProductDetailWidget(
@@ -117,16 +117,16 @@ final pageBuilderMap = <String, Future<Widget> Function(Map<String, dynamic>)>{
         productlocation: getParameter(data, 'productlocation'),
         userRef: getParameter(data, 'userRef'),
         conversationsDoc: await getDocumentParameter(
-            data, 'conversationsDoc', ConversationsRecord.serializer),
+            data, 'conversationsDoc', ConversationsRecord.fromSnapshot),
         currentUserRef: getParameter(data, 'currentUserRef'),
       ),
   'productEdit': (data) async => ProductEditWidget(
         productData: await getDocumentParameter(
-            data, 'productData', PostsRecord.serializer),
+            data, 'productData', PostsRecord.fromSnapshot),
       ),
   'pickUpProduct': (data) async => PickUpProductWidget(
         pickupProductDoc: await getDocumentParameter(
-            data, 'pickupProductDoc', PostsRecord.serializer),
+            data, 'pickupProductDoc', PostsRecord.fromSnapshot),
       ),
   'HomeWithFilter': (data) async => HomeWithFilterWidget(),
 };

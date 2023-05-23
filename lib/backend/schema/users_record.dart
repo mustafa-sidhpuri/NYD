@@ -1,73 +1,105 @@
 import 'dart:async';
 
+import '/backend/schema/util/firestore_util.dart';
+import '/backend/schema/util/schema_util.dart';
+
 import 'index.dart';
-import 'serializers.dart';
-import 'package:built_value/built_value.dart';
+import '/flutter_flow/flutter_flow_util.dart';
 
-part 'users_record.g.dart';
+class UsersRecord extends FirestoreRecord {
+  UsersRecord._(
+    DocumentReference reference,
+    Map<String, dynamic> data,
+  ) : super(reference, data) {
+    _initializeFields();
+  }
 
-abstract class UsersRecord implements Built<UsersRecord, UsersRecordBuilder> {
-  static Serializer<UsersRecord> get serializer => _$usersRecordSerializer;
+  // "userCity" field.
+  String? _userCity;
+  String get userCity => _userCity ?? '';
+  bool hasUserCity() => _userCity != null;
 
-  String? get userCity;
+  // "email" field.
+  String? _email;
+  String get email => _email ?? '';
+  bool hasEmail() => _email != null;
 
-  String? get email;
+  // "display_name" field.
+  String? _displayName;
+  String get displayName => _displayName ?? '';
+  bool hasDisplayName() => _displayName != null;
 
-  @BuiltValueField(wireName: 'display_name')
-  String? get displayName;
+  // "photo_url" field.
+  String? _photoUrl;
+  String get photoUrl => _photoUrl ?? '';
+  bool hasPhotoUrl() => _photoUrl != null;
 
-  @BuiltValueField(wireName: 'photo_url')
-  String? get photoUrl;
+  // "uid" field.
+  String? _uid;
+  String get uid => _uid ?? '';
+  bool hasUid() => _uid != null;
 
-  String? get uid;
+  // "created_time" field.
+  DateTime? _createdTime;
+  DateTime? get createdTime => _createdTime;
+  bool hasCreatedTime() => _createdTime != null;
 
-  @BuiltValueField(wireName: 'created_time')
-  DateTime? get createdTime;
+  // "phone_number" field.
+  String? _phoneNumber;
+  String get phoneNumber => _phoneNumber ?? '';
+  bool hasPhoneNumber() => _phoneNumber != null;
 
-  @BuiltValueField(wireName: 'phone_number')
-  String? get phoneNumber;
+  // "user_address" field.
+  String? _userAddress;
+  String get userAddress => _userAddress ?? '';
+  bool hasUserAddress() => _userAddress != null;
 
-  @BuiltValueField(wireName: 'user_address')
-  String? get userAddress;
+  // "latlng" field.
+  LatLng? _latlng;
+  LatLng? get latlng => _latlng;
+  bool hasLatlng() => _latlng != null;
 
-  LatLng? get latlng;
+  // "saved_post" field.
+  List<DocumentReference>? _savedPost;
+  List<DocumentReference> get savedPost => _savedPost ?? const [];
+  bool hasSavedPost() => _savedPost != null;
 
-  @BuiltValueField(wireName: 'saved_post')
-  BuiltList<DocumentReference>? get savedPost;
-
-  @BuiltValueField(wireName: kDocumentReferenceField)
-  DocumentReference? get ffRef;
-  DocumentReference get reference => ffRef!;
-
-  static void _initializeBuilder(UsersRecordBuilder builder) => builder
-    ..userCity = ''
-    ..email = ''
-    ..displayName = ''
-    ..photoUrl = ''
-    ..uid = ''
-    ..phoneNumber = ''
-    ..userAddress = ''
-    ..savedPost = ListBuilder();
+  void _initializeFields() {
+    _userCity = snapshotData['userCity'] as String?;
+    _email = snapshotData['email'] as String?;
+    _displayName = snapshotData['display_name'] as String?;
+    _photoUrl = snapshotData['photo_url'] as String?;
+    _uid = snapshotData['uid'] as String?;
+    _createdTime = snapshotData['created_time'] as DateTime?;
+    _phoneNumber = snapshotData['phone_number'] as String?;
+    _userAddress = snapshotData['user_address'] as String?;
+    _latlng = snapshotData['latlng'] as LatLng?;
+    _savedPost = getDataList(snapshotData['saved_post']);
+  }
 
   static CollectionReference get collection =>
       FirebaseFirestore.instance.collection('users');
 
-  static Stream<UsersRecord> getDocument(DocumentReference ref) => ref
-      .snapshots()
-      .map((s) => serializers.deserializeWith(serializer, serializedData(s))!);
+  static Stream<UsersRecord> getDocument(DocumentReference ref) =>
+      ref.snapshots().map((s) => UsersRecord.fromSnapshot(s));
 
-  static Future<UsersRecord> getDocumentOnce(DocumentReference ref) => ref
-      .get()
-      .then((s) => serializers.deserializeWith(serializer, serializedData(s))!);
+  static Future<UsersRecord> getDocumentOnce(DocumentReference ref) =>
+      ref.get().then((s) => UsersRecord.fromSnapshot(s));
 
-  UsersRecord._();
-  factory UsersRecord([void Function(UsersRecordBuilder) updates]) =
-      _$UsersRecord;
+  static UsersRecord fromSnapshot(DocumentSnapshot snapshot) => UsersRecord._(
+        snapshot.reference,
+        mapFromFirestore(snapshot.data() as Map<String, dynamic>),
+      );
 
   static UsersRecord getDocumentFromData(
-          Map<String, dynamic> data, DocumentReference reference) =>
-      serializers.deserializeWith(serializer,
-          {...mapFromFirestore(data), kDocumentReferenceField: reference})!;
+    Map<String, dynamic> data,
+    DocumentReference reference,
+  ) =>
+      UsersRecord._(reference, mapFromFirestore(data));
+
+  @override
+  String toString() =>
+      'UsersRecord(reference: ${reference.path}, data: $snapshotData)';
 }
 
 Map<String, dynamic> createUsersRecordData({
@@ -81,21 +113,18 @@ Map<String, dynamic> createUsersRecordData({
   String? userAddress,
   LatLng? latlng,
 }) {
-  final firestoreData = serializers.toFirestore(
-    UsersRecord.serializer,
-    UsersRecord(
-      (u) => u
-        ..userCity = userCity
-        ..email = email
-        ..displayName = displayName
-        ..photoUrl = photoUrl
-        ..uid = uid
-        ..createdTime = createdTime
-        ..phoneNumber = phoneNumber
-        ..userAddress = userAddress
-        ..latlng = latlng
-        ..savedPost = null,
-    ),
+  final firestoreData = mapToFirestore(
+    <String, dynamic>{
+      'userCity': userCity,
+      'email': email,
+      'display_name': displayName,
+      'photo_url': photoUrl,
+      'uid': uid,
+      'created_time': createdTime,
+      'phone_number': phoneNumber,
+      'user_address': userAddress,
+      'latlng': latlng,
+    }.withoutNulls,
   );
 
   return firestoreData;

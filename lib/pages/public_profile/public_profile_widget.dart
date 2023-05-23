@@ -46,6 +46,7 @@ class _PublicProfileWidgetState extends State<PublicProfileWidget> {
         key: scaffoldKey,
         backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
         body: SafeArea(
+          top: true,
           child: Padding(
             padding: EdgeInsetsDirectional.fromSTEB(22.0, 0.0, 22.0, 0.0),
             child: StreamBuilder<UsersRecord>(
@@ -247,9 +248,7 @@ class _PublicProfileWidgetState extends State<PublicProfileWidget> {
                                   borderRadius: BorderRadius.circular(12.0),
                                   child: Image.network(
                                     valueOrDefault<String>(
-                                      gridViewPostsRecord.images!
-                                          .toList()
-                                          .first,
+                                      gridViewPostsRecord.images.first,
                                       'https://picsum.photos/seed/530/600',
                                     ),
                                     width: 105.0,

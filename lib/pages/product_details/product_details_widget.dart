@@ -78,6 +78,7 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
           key: scaffoldKey,
           backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
           body: SafeArea(
+            top: true,
             child: Padding(
               padding: EdgeInsetsDirectional.fromSTEB(22.0, 0.0, 22.0, 0.0),
               child: Column(
@@ -173,7 +174,7 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                           child: Builder(
                             builder: (context) {
                               final productImages =
-                                  widget.productData!.images!.toList();
+                                  widget.productData!.images.toList();
                               return Container(
                                 width: double.infinity,
                                 height: 500.0,
@@ -373,7 +374,7 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                                 padding: EdgeInsetsDirectional.fromSTEB(
                                     0.0, 0.0, 0.0, 8.0),
                                 child: Text(
-                                  widget.productData!.postedByName!,
+                                  widget.productData!.postedByName,
                                   textAlign: TextAlign.start,
                                   style:
                                       FlutterFlowTheme.of(context).bodyMedium,
@@ -506,15 +507,14 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                               onTap: () async {
                                 await actions.storeChatUsers(
                                   currentUserUid,
-                                  widget.productData!.postedBy!,
+                                  widget.productData!.postedBy,
                                 );
 
                                 final conversationsCreateData = {
                                   ...createConversationsRecordData(
                                     productName: widget.productData!.name,
-                                    productImage: widget.productData!.images!
-                                        .toList()
-                                        .first,
+                                    productImage:
+                                        widget.productData!.images.first,
                                     productId: widget.productData!.reference.id,
                                   ),
                                   'users': FFAppState().chatUsers,
@@ -534,9 +534,8 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                                       productname: widget.productData!.name,
                                       profileimage:
                                           widget.productData!.postedByProfile,
-                                      productimage: widget.productData!.images!
-                                          .toList()
-                                          .first,
+                                      productimage:
+                                          widget.productData!.images.first,
                                       productlocation: FFAppState().setLocation,
                                       userRef: widget.productData!.userRef,
                                       currentUserRef: currentUserReference!,

@@ -1,89 +1,148 @@
 import 'dart:async';
 
+import '/backend/schema/util/firestore_util.dart';
+import '/backend/schema/util/schema_util.dart';
+
 import 'index.dart';
-import 'serializers.dart';
-import 'package:built_value/built_value.dart';
+import '/flutter_flow/flutter_flow_util.dart';
 
-part 'properties_record.g.dart';
+class PropertiesRecord extends FirestoreRecord {
+  PropertiesRecord._(
+    DocumentReference reference,
+    Map<String, dynamic> data,
+  ) : super(reference, data) {
+    _initializeFields();
+  }
 
-abstract class PropertiesRecord
-    implements Built<PropertiesRecord, PropertiesRecordBuilder> {
-  static Serializer<PropertiesRecord> get serializer =>
-      _$propertiesRecordSerializer;
+  // "propertyName" field.
+  String? _propertyName;
+  String get propertyName => _propertyName ?? '';
+  bool hasPropertyName() => _propertyName != null;
 
-  String? get propertyName;
+  // "propertyDescription" field.
+  String? _propertyDescription;
+  String get propertyDescription => _propertyDescription ?? '';
+  bool hasPropertyDescription() => _propertyDescription != null;
 
-  String? get propertyDescription;
+  // "mainImage" field.
+  String? _mainImage;
+  String get mainImage => _mainImage ?? '';
+  bool hasMainImage() => _mainImage != null;
 
-  String? get mainImage;
+  // "propertyLocation" field.
+  LatLng? _propertyLocation;
+  LatLng? get propertyLocation => _propertyLocation;
+  bool hasPropertyLocation() => _propertyLocation != null;
 
-  LatLng? get propertyLocation;
+  // "propertyAddress" field.
+  String? _propertyAddress;
+  String get propertyAddress => _propertyAddress ?? '';
+  bool hasPropertyAddress() => _propertyAddress != null;
 
-  String? get propertyAddress;
+  // "isDraft" field.
+  bool? _isDraft;
+  bool get isDraft => _isDraft ?? false;
+  bool hasIsDraft() => _isDraft != null;
 
-  bool? get isDraft;
+  // "userRef" field.
+  DocumentReference? _userRef;
+  DocumentReference? get userRef => _userRef;
+  bool hasUserRef() => _userRef != null;
 
-  DocumentReference? get userRef;
+  // "propertyNeighborhood" field.
+  String? _propertyNeighborhood;
+  String get propertyNeighborhood => _propertyNeighborhood ?? '';
+  bool hasPropertyNeighborhood() => _propertyNeighborhood != null;
 
-  String? get propertyNeighborhood;
+  // "ratingSummary" field.
+  double? _ratingSummary;
+  double get ratingSummary => _ratingSummary ?? 0.0;
+  bool hasRatingSummary() => _ratingSummary != null;
 
-  double? get ratingSummary;
+  // "price" field.
+  int? _price;
+  int get price => _price ?? 0;
+  bool hasPrice() => _price != null;
 
-  int? get price;
+  // "taxRate" field.
+  double? _taxRate;
+  double get taxRate => _taxRate ?? 0.0;
+  bool hasTaxRate() => _taxRate != null;
 
-  double? get taxRate;
+  // "cleaningFee" field.
+  int? _cleaningFee;
+  int get cleaningFee => _cleaningFee ?? 0;
+  bool hasCleaningFee() => _cleaningFee != null;
 
-  int? get cleaningFee;
+  // "notes" field.
+  String? _notes;
+  String get notes => _notes ?? '';
+  bool hasNotes() => _notes != null;
 
-  String? get notes;
+  // "minNightStay" field.
+  double? _minNightStay;
+  double get minNightStay => _minNightStay ?? 0.0;
+  bool hasMinNightStay() => _minNightStay != null;
 
-  double? get minNightStay;
+  // "lastUpdated" field.
+  DateTime? _lastUpdated;
+  DateTime? get lastUpdated => _lastUpdated;
+  bool hasLastUpdated() => _lastUpdated != null;
 
-  DateTime? get lastUpdated;
+  // "minNights" field.
+  int? _minNights;
+  int get minNights => _minNights ?? 0;
+  bool hasMinNights() => _minNights != null;
 
-  int? get minNights;
+  // "isLive" field.
+  bool? _isLive;
+  bool get isLive => _isLive ?? false;
+  bool hasIsLive() => _isLive != null;
 
-  bool? get isLive;
-
-  @BuiltValueField(wireName: kDocumentReferenceField)
-  DocumentReference? get ffRef;
-  DocumentReference get reference => ffRef!;
-
-  static void _initializeBuilder(PropertiesRecordBuilder builder) => builder
-    ..propertyName = ''
-    ..propertyDescription = ''
-    ..mainImage = ''
-    ..propertyAddress = ''
-    ..isDraft = false
-    ..propertyNeighborhood = ''
-    ..ratingSummary = 0.0
-    ..price = 0
-    ..taxRate = 0.0
-    ..cleaningFee = 0
-    ..notes = ''
-    ..minNightStay = 0.0
-    ..minNights = 0
-    ..isLive = false;
+  void _initializeFields() {
+    _propertyName = snapshotData['propertyName'] as String?;
+    _propertyDescription = snapshotData['propertyDescription'] as String?;
+    _mainImage = snapshotData['mainImage'] as String?;
+    _propertyLocation = snapshotData['propertyLocation'] as LatLng?;
+    _propertyAddress = snapshotData['propertyAddress'] as String?;
+    _isDraft = snapshotData['isDraft'] as bool?;
+    _userRef = snapshotData['userRef'] as DocumentReference?;
+    _propertyNeighborhood = snapshotData['propertyNeighborhood'] as String?;
+    _ratingSummary = castToType<double>(snapshotData['ratingSummary']);
+    _price = snapshotData['price'] as int?;
+    _taxRate = castToType<double>(snapshotData['taxRate']);
+    _cleaningFee = snapshotData['cleaningFee'] as int?;
+    _notes = snapshotData['notes'] as String?;
+    _minNightStay = castToType<double>(snapshotData['minNightStay']);
+    _lastUpdated = snapshotData['lastUpdated'] as DateTime?;
+    _minNights = snapshotData['minNights'] as int?;
+    _isLive = snapshotData['isLive'] as bool?;
+  }
 
   static CollectionReference get collection =>
       FirebaseFirestore.instance.collection('properties');
 
-  static Stream<PropertiesRecord> getDocument(DocumentReference ref) => ref
-      .snapshots()
-      .map((s) => serializers.deserializeWith(serializer, serializedData(s))!);
+  static Stream<PropertiesRecord> getDocument(DocumentReference ref) =>
+      ref.snapshots().map((s) => PropertiesRecord.fromSnapshot(s));
 
-  static Future<PropertiesRecord> getDocumentOnce(DocumentReference ref) => ref
-      .get()
-      .then((s) => serializers.deserializeWith(serializer, serializedData(s))!);
+  static Future<PropertiesRecord> getDocumentOnce(DocumentReference ref) =>
+      ref.get().then((s) => PropertiesRecord.fromSnapshot(s));
 
-  PropertiesRecord._();
-  factory PropertiesRecord([void Function(PropertiesRecordBuilder) updates]) =
-      _$PropertiesRecord;
+  static PropertiesRecord fromSnapshot(DocumentSnapshot snapshot) =>
+      PropertiesRecord._(
+        snapshot.reference,
+        mapFromFirestore(snapshot.data() as Map<String, dynamic>),
+      );
 
   static PropertiesRecord getDocumentFromData(
-          Map<String, dynamic> data, DocumentReference reference) =>
-      serializers.deserializeWith(serializer,
-          {...mapFromFirestore(data), kDocumentReferenceField: reference})!;
+    Map<String, dynamic> data,
+    DocumentReference reference,
+  ) =>
+      PropertiesRecord._(reference, mapFromFirestore(data));
+
+  @override
+  String toString() =>
+      'PropertiesRecord(reference: ${reference.path}, data: $snapshotData)';
 }
 
 Map<String, dynamic> createPropertiesRecordData({
@@ -105,28 +164,26 @@ Map<String, dynamic> createPropertiesRecordData({
   int? minNights,
   bool? isLive,
 }) {
-  final firestoreData = serializers.toFirestore(
-    PropertiesRecord.serializer,
-    PropertiesRecord(
-      (p) => p
-        ..propertyName = propertyName
-        ..propertyDescription = propertyDescription
-        ..mainImage = mainImage
-        ..propertyLocation = propertyLocation
-        ..propertyAddress = propertyAddress
-        ..isDraft = isDraft
-        ..userRef = userRef
-        ..propertyNeighborhood = propertyNeighborhood
-        ..ratingSummary = ratingSummary
-        ..price = price
-        ..taxRate = taxRate
-        ..cleaningFee = cleaningFee
-        ..notes = notes
-        ..minNightStay = minNightStay
-        ..lastUpdated = lastUpdated
-        ..minNights = minNights
-        ..isLive = isLive,
-    ),
+  final firestoreData = mapToFirestore(
+    <String, dynamic>{
+      'propertyName': propertyName,
+      'propertyDescription': propertyDescription,
+      'mainImage': mainImage,
+      'propertyLocation': propertyLocation,
+      'propertyAddress': propertyAddress,
+      'isDraft': isDraft,
+      'userRef': userRef,
+      'propertyNeighborhood': propertyNeighborhood,
+      'ratingSummary': ratingSummary,
+      'price': price,
+      'taxRate': taxRate,
+      'cleaningFee': cleaningFee,
+      'notes': notes,
+      'minNightStay': minNightStay,
+      'lastUpdated': lastUpdated,
+      'minNights': minNights,
+      'isLive': isLive,
+    }.withoutNulls,
   );
 
   return firestoreData;

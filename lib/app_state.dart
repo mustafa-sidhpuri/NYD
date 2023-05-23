@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'backend/backend.dart';
+import '/backend/backend.dart';
+import '/backend/schema/structs/index.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'flutter_flow/flutter_flow_util.dart';
 
@@ -77,6 +78,13 @@ class FFAppState extends ChangeNotifier {
 
   void removeAtIndexFromMediaUrl(int _index) {
     _mediaUrl.removeAt(_index);
+  }
+
+  void updateMediaUrlAtIndex(
+    int _index,
+    Function(String) updateFn,
+  ) {
+    updateFn(_mediaUrl[_index]);
   }
 
   bool _showFullList = true;
@@ -169,6 +177,13 @@ class FFAppState extends ChangeNotifier {
     _chatUsers.removeAt(_index);
   }
 
+  void updateChatUsersAtIndex(
+    int _index,
+    Function(String) updateFn,
+  ) {
+    updateFn(_chatUsers[_index]);
+  }
+
   List<String> _chatUserDetail = [];
   List<String> get chatUserDetail => _chatUserDetail;
   set chatUserDetail(List<String> _value) {
@@ -185,6 +200,13 @@ class FFAppState extends ChangeNotifier {
 
   void removeAtIndexFromChatUserDetail(int _index) {
     _chatUserDetail.removeAt(_index);
+  }
+
+  void updateChatUserDetailAtIndex(
+    int _index,
+    Function(String) updateFn,
+  ) {
+    updateFn(_chatUserDetail[_index]);
   }
 
   bool _showUser = false;
@@ -215,6 +237,19 @@ class FFAppState extends ChangeNotifier {
 
   void removeAtIndexFromSavedPost(int _index) {
     _savedPost.removeAt(_index);
+  }
+
+  void updateSavedPostAtIndex(
+    int _index,
+    Function(DocumentReference) updateFn,
+  ) {
+    updateFn(_savedPost[_index]);
+  }
+
+  LatLng? _postLatLng;
+  LatLng? get postLatLng => _postLatLng;
+  set postLatLng(LatLng? _value) {
+    _postLatLng = _value;
   }
 }
 

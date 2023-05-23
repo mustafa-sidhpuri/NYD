@@ -74,6 +74,7 @@ class _LoginWidgetState extends State<LoginWidget>
       key: scaffoldKey,
       backgroundColor: Colors.white,
       body: SafeArea(
+        top: true,
         child: Form(
           key: _model.formKey,
           autovalidateMode: AutovalidateMode.disabled,

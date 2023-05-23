@@ -48,6 +48,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
       key: scaffoldKey,
       backgroundColor: Colors.white,
       body: SafeArea(
+        top: true,
         child: Padding(
           padding: EdgeInsetsDirectional.fromSTEB(22.0, 0.0, 22.0, 0.0),
           child: SingleChildScrollView(

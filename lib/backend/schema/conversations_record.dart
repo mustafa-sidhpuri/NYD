@@ -1,85 +1,123 @@
 import 'dart:async';
 
+import '/backend/schema/util/firestore_util.dart';
+import '/backend/schema/util/schema_util.dart';
+
 import 'index.dart';
-import 'serializers.dart';
-import 'package:built_value/built_value.dart';
+import '/flutter_flow/flutter_flow_util.dart';
 
-part 'conversations_record.g.dart';
+class ConversationsRecord extends FirestoreRecord {
+  ConversationsRecord._(
+    DocumentReference reference,
+    Map<String, dynamic> data,
+  ) : super(reference, data) {
+    _initializeFields();
+  }
 
-abstract class ConversationsRecord
-    implements Built<ConversationsRecord, ConversationsRecordBuilder> {
-  static Serializer<ConversationsRecord> get serializer =>
-      _$conversationsRecordSerializer;
+  // "product_id" field.
+  String? _productId;
+  String get productId => _productId ?? '';
+  bool hasProductId() => _productId != null;
 
-  @BuiltValueField(wireName: 'product_id')
-  String? get productId;
+  // "product_name" field.
+  String? _productName;
+  String get productName => _productName ?? '';
+  bool hasProductName() => _productName != null;
 
-  @BuiltValueField(wireName: 'product_name')
-  String? get productName;
+  // "product_image" field.
+  String? _productImage;
+  String get productImage => _productImage ?? '';
+  bool hasProductImage() => _productImage != null;
 
-  @BuiltValueField(wireName: 'product_image')
-  String? get productImage;
+  // "last_message" field.
+  String? _lastMessage;
+  String get lastMessage => _lastMessage ?? '';
+  bool hasLastMessage() => _lastMessage != null;
 
-  @BuiltValueField(wireName: 'last_message')
-  String? get lastMessage;
+  // "chats" field.
+  DocumentReference? _chats;
+  DocumentReference? get chats => _chats;
+  bool hasChats() => _chats != null;
 
-  DocumentReference? get chats;
+  // "last_message_at" field.
+  int? _lastMessageAt;
+  int get lastMessageAt => _lastMessageAt ?? 0;
+  bool hasLastMessageAt() => _lastMessageAt != null;
 
-  @BuiltValueField(wireName: 'last_message_at')
-  int? get lastMessageAt;
+  // "last_message_by" field.
+  String? _lastMessageBy;
+  String get lastMessageBy => _lastMessageBy ?? '';
+  bool hasLastMessageBy() => _lastMessageBy != null;
 
-  @BuiltValueField(wireName: 'last_message_by')
-  String? get lastMessageBy;
+  // "user_details" field.
+  List<UserStruct>? _userDetails;
+  List<UserStruct> get userDetails => _userDetails ?? const [];
+  bool hasUserDetails() => _userDetails != null;
 
-  @BuiltValueField(wireName: 'user_details')
-  BuiltList<UserStruct>? get userDetails;
+  // "users" field.
+  List<String>? _users;
+  List<String> get users => _users ?? const [];
+  bool hasUsers() => _users != null;
 
-  BuiltList<String>? get users;
+  // "posted_by_refrence" field.
+  DocumentReference? _postedByRefrence;
+  DocumentReference? get postedByRefrence => _postedByRefrence;
+  bool hasPostedByRefrence() => _postedByRefrence != null;
 
-  @BuiltValueField(wireName: 'posted_by_refrence')
-  DocumentReference? get postedByRefrence;
+  // "posted_by_location" field.
+  String? _postedByLocation;
+  String get postedByLocation => _postedByLocation ?? '';
+  bool hasPostedByLocation() => _postedByLocation != null;
 
-  @BuiltValueField(wireName: 'posted_by_location')
-  String? get postedByLocation;
+  // "create_user_refrence" field.
+  DocumentReference? _createUserRefrence;
+  DocumentReference? get createUserRefrence => _createUserRefrence;
+  bool hasCreateUserRefrence() => _createUserRefrence != null;
 
-  @BuiltValueField(wireName: 'create_user_refrence')
-  DocumentReference? get createUserRefrence;
-
-  @BuiltValueField(wireName: kDocumentReferenceField)
-  DocumentReference? get ffRef;
-  DocumentReference get reference => ffRef!;
-
-  static void _initializeBuilder(ConversationsRecordBuilder builder) => builder
-    ..productId = ''
-    ..productName = ''
-    ..productImage = ''
-    ..lastMessage = ''
-    ..lastMessageAt = 0
-    ..lastMessageBy = ''
-    ..userDetails = ListBuilder()
-    ..users = ListBuilder()
-    ..postedByLocation = '';
+  void _initializeFields() {
+    _productId = snapshotData['product_id'] as String?;
+    _productName = snapshotData['product_name'] as String?;
+    _productImage = snapshotData['product_image'] as String?;
+    _lastMessage = snapshotData['last_message'] as String?;
+    _chats = snapshotData['chats'] as DocumentReference?;
+    _lastMessageAt = snapshotData['last_message_at'] as int?;
+    _lastMessageBy = snapshotData['last_message_by'] as String?;
+    _userDetails = getStructList(
+      snapshotData['user_details'],
+      UserStruct.fromMap,
+    );
+    _users = getDataList(snapshotData['users']);
+    _postedByRefrence =
+        snapshotData['posted_by_refrence'] as DocumentReference?;
+    _postedByLocation = snapshotData['posted_by_location'] as String?;
+    _createUserRefrence =
+        snapshotData['create_user_refrence'] as DocumentReference?;
+  }
 
   static CollectionReference get collection =>
       FirebaseFirestore.instance.collection('conversations');
 
-  static Stream<ConversationsRecord> getDocument(DocumentReference ref) => ref
-      .snapshots()
-      .map((s) => serializers.deserializeWith(serializer, serializedData(s))!);
+  static Stream<ConversationsRecord> getDocument(DocumentReference ref) =>
+      ref.snapshots().map((s) => ConversationsRecord.fromSnapshot(s));
 
   static Future<ConversationsRecord> getDocumentOnce(DocumentReference ref) =>
-      ref.get().then(
-          (s) => serializers.deserializeWith(serializer, serializedData(s))!);
+      ref.get().then((s) => ConversationsRecord.fromSnapshot(s));
 
-  ConversationsRecord._();
-  factory ConversationsRecord(
-          [void Function(ConversationsRecordBuilder) updates]) =
-      _$ConversationsRecord;
+  static ConversationsRecord fromSnapshot(DocumentSnapshot snapshot) =>
+      ConversationsRecord._(
+        snapshot.reference,
+        mapFromFirestore(snapshot.data() as Map<String, dynamic>),
+      );
 
   static ConversationsRecord getDocumentFromData(
-          Map<String, dynamic> data, DocumentReference reference) =>
-      serializers.deserializeWith(serializer,
-          {...mapFromFirestore(data), kDocumentReferenceField: reference})!;
+    Map<String, dynamic> data,
+    DocumentReference reference,
+  ) =>
+      ConversationsRecord._(reference, mapFromFirestore(data));
+
+  @override
+  String toString() =>
+      'ConversationsRecord(reference: ${reference.path}, data: $snapshotData)';
 }
 
 Map<String, dynamic> createConversationsRecordData({
@@ -94,23 +132,19 @@ Map<String, dynamic> createConversationsRecordData({
   String? postedByLocation,
   DocumentReference? createUserRefrence,
 }) {
-  final firestoreData = serializers.toFirestore(
-    ConversationsRecord.serializer,
-    ConversationsRecord(
-      (c) => c
-        ..productId = productId
-        ..productName = productName
-        ..productImage = productImage
-        ..lastMessage = lastMessage
-        ..chats = chats
-        ..lastMessageAt = lastMessageAt
-        ..lastMessageBy = lastMessageBy
-        ..userDetails = null
-        ..users = null
-        ..postedByRefrence = postedByRefrence
-        ..postedByLocation = postedByLocation
-        ..createUserRefrence = createUserRefrence,
-    ),
+  final firestoreData = mapToFirestore(
+    <String, dynamic>{
+      'product_id': productId,
+      'product_name': productName,
+      'product_image': productImage,
+      'last_message': lastMessage,
+      'chats': chats,
+      'last_message_at': lastMessageAt,
+      'last_message_by': lastMessageBy,
+      'posted_by_refrence': postedByRefrence,
+      'posted_by_location': postedByLocation,
+      'create_user_refrence': createUserRefrence,
+    }.withoutNulls,
   );
 
   return firestoreData;

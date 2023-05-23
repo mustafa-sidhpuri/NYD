@@ -42,6 +42,7 @@ class _ChatMainWidgetState extends State<ChatMainWidget> {
       key: scaffoldKey,
       backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
       body: SafeArea(
+        top: true,
         child: Column(
           mainAxisSize: MainAxisSize.max,
           children: [
@@ -141,10 +142,7 @@ class _ChatMainWidgetState extends State<ChatMainWidget> {
                                               ChatDetailsWidget(
                                             username: valueOrDefault<String>(
                                               listViewConversationsRecord
-                                                  .userDetails!
-                                                  .toList()
-                                                  .last
-                                                  .userName,
+                                                  .userDetails.last.userName,
                                               'null',
                                             ),
                                             productname:
@@ -153,10 +151,7 @@ class _ChatMainWidgetState extends State<ChatMainWidget> {
                                             profileimage:
                                                 valueOrDefault<String>(
                                               listViewConversationsRecord
-                                                  .userDetails!
-                                                  .toList()
-                                                  .last
-                                                  .userImage,
+                                                  .userDetails.last.userImage,
                                               '                                \'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/wedding-app-anuwld/assets/udoiek8lgxbr/userUpload@2x.png\',',
                                             ),
                                             productimage:
@@ -203,8 +198,7 @@ class _ChatMainWidgetState extends State<ChatMainWidget> {
                                                     CrossAxisAlignment.center,
                                                 children: [
                                                   if (listViewConversationsRecord
-                                                          .userDetails!
-                                                          .toList()
+                                                          .userDetails
                                                           .first
                                                           .userId ==
                                                       currentUserUid)
@@ -219,8 +213,7 @@ class _ChatMainWidgetState extends State<ChatMainWidget> {
                                                       child: Image.network(
                                                         valueOrDefault<String>(
                                                           listViewConversationsRecord
-                                                              .userDetails!
-                                                              .toList()
+                                                              .userDetails
                                                               .first
                                                               .userImage,
                                                           'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/wedding-app-anuwld/assets/udoiek8lgxbr/userUpload@2x.png',
@@ -229,8 +222,7 @@ class _ChatMainWidgetState extends State<ChatMainWidget> {
                                                       ),
                                                     ),
                                                   if (listViewConversationsRecord
-                                                          .userDetails!
-                                                          .toList()
+                                                          .userDetails
                                                           .first
                                                           .userId !=
                                                       currentUserUid)
@@ -245,8 +237,7 @@ class _ChatMainWidgetState extends State<ChatMainWidget> {
                                                       child: Image.network(
                                                         valueOrDefault<String>(
                                                           listViewConversationsRecord
-                                                              .userDetails!
-                                                              .toList()
+                                                              .userDetails
                                                               .last
                                                               .userImage,
                                                           'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/wedding-app-anuwld/assets/udoiek8lgxbr/userUpload@2x.png',
@@ -287,8 +278,7 @@ class _ChatMainWidgetState extends State<ChatMainWidget> {
                                                                   .start,
                                                           children: [
                                                             if (listViewConversationsRecord
-                                                                    .userDetails!
-                                                                    .toList()
+                                                                    .userDetails
                                                                     .first
                                                                     .userId ==
                                                                 currentUserUid)
@@ -304,8 +294,7 @@ class _ChatMainWidgetState extends State<ChatMainWidget> {
                                                                   valueOrDefault<
                                                                       String>(
                                                                     listViewConversationsRecord
-                                                                        .userDetails!
-                                                                        .toList()
+                                                                        .userDetails
                                                                         .first
                                                                         .userName,
                                                                     'null',
@@ -324,8 +313,7 @@ class _ChatMainWidgetState extends State<ChatMainWidget> {
                                                                 ),
                                                               ),
                                                             if (listViewConversationsRecord
-                                                                    .userDetails!
-                                                                    .toList()
+                                                                    .userDetails
                                                                     .first
                                                                     .userId !=
                                                                 currentUserUid)
@@ -341,8 +329,7 @@ class _ChatMainWidgetState extends State<ChatMainWidget> {
                                                                   valueOrDefault<
                                                                       String>(
                                                                     listViewConversationsRecord
-                                                                        .userDetails!
-                                                                        .toList()
+                                                                        .userDetails
                                                                         .last
                                                                         .userName,
                                                                     'null',
@@ -370,7 +357,7 @@ class _ChatMainWidgetState extends State<ChatMainWidget> {
                                                                           2.0),
                                                               child: Text(
                                                                 listViewConversationsRecord
-                                                                    .productName!,
+                                                                    .productName,
                                                                 style: FlutterFlowTheme.of(
                                                                         context)
                                                                     .bodyMedium
@@ -394,7 +381,7 @@ class _ChatMainWidgetState extends State<ChatMainWidget> {
                                                                           0.0,
                                                                           4.0),
                                                               child: Text(
-                                                                '${listViewConversationsRecord.lastMessageAt?.toString()}',
+                                                                '${listViewConversationsRecord.lastMessageAt.toString()}',
                                                                 style: FlutterFlowTheme.of(
                                                                         context)
                                                                     .bodyMedium
@@ -422,7 +409,7 @@ class _ChatMainWidgetState extends State<ChatMainWidget> {
                                                             6.0),
                                                     child: Image.network(
                                                       listViewConversationsRecord
-                                                          .productImage!,
+                                                          .productImage,
                                                       width: 61.0,
                                                       height: 45.0,
                                                       fit: BoxFit.fill,

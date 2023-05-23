@@ -67,6 +67,7 @@ class _PickUpProductWidgetState extends State<PickUpProductWidget> {
         key: scaffoldKey,
         backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
         body: SafeArea(
+          top: true,
           child: Padding(
             padding: EdgeInsetsDirectional.fromSTEB(22.0, 0.0, 22.0, 0.0),
             child: SingleChildScrollView(
@@ -125,7 +126,7 @@ class _PickUpProductWidgetState extends State<PickUpProductWidget> {
                         ClipRRect(
                           borderRadius: BorderRadius.circular(10.0),
                           child: Image.network(
-                            widget.pickupProductDoc!.images!.toList()[0],
+                            widget.pickupProductDoc!.images[0],
                             width: 75.0,
                             height: 65.0,
                             fit: BoxFit.cover,
@@ -140,7 +141,7 @@ class _PickUpProductWidgetState extends State<PickUpProductWidget> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                widget.pickupProductDoc!.name!,
+                                widget.pickupProductDoc!.name,
                                 style: FlutterFlowTheme.of(context).bodyMedium,
                               ),
                               Padding(
@@ -408,7 +409,7 @@ class _PickUpProductWidgetState extends State<PickUpProductWidget> {
                                       shape: BoxShape.circle,
                                     ),
                                     child: Image.network(
-                                      listViewUsersRecord.photoUrl!,
+                                      listViewUsersRecord.photoUrl,
                                       fit: BoxFit.cover,
                                     ),
                                   ),
@@ -421,7 +422,7 @@ class _PickUpProductWidgetState extends State<PickUpProductWidget> {
                                           CrossAxisAlignment.start,
                                       children: [
                                         Text(
-                                          listViewUsersRecord.displayName!,
+                                          listViewUsersRecord.displayName,
                                           style: FlutterFlowTheme.of(context)
                                               .bodyMedium
                                               .override(
@@ -562,7 +563,7 @@ class _PickUpProductWidgetState extends State<PickUpProductWidget> {
                                               CrossAxisAlignment.start,
                                           children: [
                                             Text(
-                                              searchUserItem.displayName!,
+                                              searchUserItem.displayName,
                                               style:
                                                   FlutterFlowTheme.of(context)
                                                       .bodyMedium

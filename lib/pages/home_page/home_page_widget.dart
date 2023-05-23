@@ -41,6 +41,8 @@ class _HomePageWidgetState extends State<HomePageWidget> {
       );
       FFAppState().update(() {
         FFAppState().setLocation = FFAppState().userlocation;
+        FFAppState().savedPost =
+            (currentUserDocument?.savedPost?.toList() ?? []).toList();
       });
 
       final usersUpdateData = createUsersRecordData(
@@ -84,6 +86,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
       key: scaffoldKey,
       backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
       body: SafeArea(
+        top: true,
         child: Padding(
           padding: EdgeInsetsDirectional.fromSTEB(22.0, 30.0, 22.0, 0.0),
           child: Column(
@@ -431,9 +434,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                               topRight: Radius.circular(12.0),
                                             ),
                                             child: Image.network(
-                                              gridViewPostsRecord.images!
-                                                  .toList()
-                                                  .first,
+                                              gridViewPostsRecord.images.first,
                                               width: double.infinity,
                                               height: 130.0,
                                               fit: BoxFit.cover,
@@ -444,7 +445,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                                 EdgeInsetsDirectional.fromSTEB(
                                                     9.0, 9.0, 0.0, 0.0),
                                             child: Text(
-                                              gridViewPostsRecord.name!
+                                              gridViewPostsRecord.name
                                                   .maybeHandleOverflow(
                                                 maxChars: 50,
                                                 replacement: '…',
@@ -696,9 +697,8 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                               borderRadius:
                                                   BorderRadius.circular(12.0),
                                               child: Image.network(
-                                                listViewPostsRecord.images!
-                                                    .toList()
-                                                    .first,
+                                                listViewPostsRecord
+                                                    .images.first,
                                                 width: 80.0,
                                                 height: 80.0,
                                                 fit: BoxFit.cover,
@@ -759,7 +759,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                               padding: EdgeInsetsDirectional
                                                   .fromSTEB(0.0, 0.0, 0.0, 6.0),
                                               child: Text(
-                                                listViewPostsRecord.name!
+                                                listViewPostsRecord.name
                                                     .maybeHandleOverflow(
                                                   maxChars: 25,
                                                   replacement: '…',
