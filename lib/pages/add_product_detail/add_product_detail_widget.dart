@@ -303,7 +303,13 @@ class _AddProductDetailWidgetState extends State<AddProductDetailWidget> {
                                 setLong: longitude,
                                 setLocation: setLocation,
                               ),
-                            ));
+                            )).then((value) {
+                              setLocation = value[0];
+                              print("-------------------------------------"+value.toString());
+                              setState(() {
+
+                              });
+                            });
                           },
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,

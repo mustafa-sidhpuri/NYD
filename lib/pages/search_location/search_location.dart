@@ -21,7 +21,8 @@ class SearchLocation extends StatefulWidget {
 
 class _SearchLocationState extends State<SearchLocation> {
   List<AutocompletePrediction> placePredictions = [];
-
+  double? latitude;
+  double? longitude;
   @override
   void initState() {
     super.initState();
@@ -80,11 +81,13 @@ class _SearchLocationState extends State<SearchLocation> {
     final coordinates = await getLocationFromAddress(address);
     if (coordinates != null) {
 
-      widget.setLat = coordinates['latitude'];
-      widget.setLong = coordinates['longitude'];
+      latitude = coordinates['latitude'];
+     longitude = coordinates['longitude'];
 
-      print('Latitude: ${widget.setLat}');
-      print('Longitude: ${widget.setLong}');
+     FFAppState().postLatLng =  LatLng(position?.latitude ?? 0, position?.longitude ?? 0);
+
+      print('Latitude: ${latitude}');
+      print('Longitude: ${longitude}');
 
     } else {
       print('Failed to retrieve coordinates.');
@@ -176,23 +179,16 @@ class _SearchLocationState extends State<SearchLocation> {
                     scrollDirection: Axis.vertical,
                     itemCount: placePredictions.length,
                     itemBuilder: (context, index) {
-                      print(placePredictions.length);
                       return Column(
                         children: [
                           ListTile(
                             onTap: () async {
                               widget.locationField.text =
                                   placePredictions[index].description!;
-                              setState(() {});
                               widget.setLocation = true;
-                              setState(() {
-                              });
                               getCoordinates(widget.locationField.text);
                               placePredictions.clear();
-
-                              setState(() {
-                              });
-                               Navigator.pop(context);
+                               Navigator.pop(context,[widget.setLocation]);
                               print(widget.locationField.text);
                               print(widget.setLocation);
                             },

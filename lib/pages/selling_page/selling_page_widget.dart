@@ -209,7 +209,6 @@ class _SellingPageWidgetState extends State<SellingPageWidget> {
                                                     children: [
                                                       Container(
                                                         width: 200,
-                                                        color: Colors.orange,
                                                         child: Text(
                                                           listViewPostsRecord
                                                               .name??"",
