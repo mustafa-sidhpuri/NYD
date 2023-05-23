@@ -217,6 +217,19 @@ class FFAppState extends ChangeNotifier {
   set searchstring(String _value) {
     _searchstring = _value;
   }
+
+  LatLng? _postLatLng;
+  LatLng? get postLatLng => _postLatLng;
+  set postLatLng(LatLng? _value) {
+    _postLatLng = _value;
+  }
+
+  LatLng? _currentUserLocationValue;
+  LatLng? get currentUserLocationValue => _currentUserLocationValue;
+  set currentUserLocationValue(LatLng? _value) {
+    _currentUserLocationValue = _value;
+  }
+
 }
 
 LatLng? _latLngFromString(String? val) {

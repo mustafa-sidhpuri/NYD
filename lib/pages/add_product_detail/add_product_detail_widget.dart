@@ -35,8 +35,7 @@ class _AddProductDetailWidgetState extends State<AddProductDetailWidget> {
   final _unfocusNode = FocusNode();
   LatLng? currentUserLocationValue;
   TextEditingController locationField = TextEditingController();
-  double? latitude;
-  double? longitude;
+
   TextEditingController subCategoryController = TextEditingController();
   String? Function(BuildContext, String?)? subCategoryControllerValidator;
 
@@ -299,8 +298,6 @@ class _AddProductDetailWidgetState extends State<AddProductDetailWidget> {
                             Navigator.of(context).push(MaterialPageRoute(
                               builder: (context) => SearchLocation(
                                   locationField:locationField,
-                                setLat: latitude,
-                                setLong: longitude,
                                 setLocation: setLocation,
                               ),
                             )).then((value) {
@@ -482,7 +479,7 @@ class _AddProductDetailWidgetState extends State<AddProductDetailWidget> {
                               'Cooked',
                             ),
                             latlong: setLocation == true?
-                            LatLng(latitude!, longitude!):currentUserLocationValue,
+                            FFAppState().postLatLng:currentUserLocationValue,
                             address: locationField.text,
                             createdAt: getCurrentTimestamp,
                             updatedAt: getCurrentTimestamp,

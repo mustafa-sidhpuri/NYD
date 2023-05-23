@@ -1,4 +1,5 @@
 import 'package:geolocator/geolocator.dart';
+import 'package:n_y_d_app/pages/home_page/location.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 import '../../components/cached_network_image.dart';
@@ -27,7 +28,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
   late HomePageModel _model;
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
-  LatLng? currentUserLocationValue;
+ // LatLng? currentUserLocationValue;
 
   Position? position;
   TextEditingController textController = TextEditingController();
@@ -43,27 +44,31 @@ class _HomePageWidgetState extends State<HomePageWidget> {
       position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high,
       );
-      SchedulerBinding.instance.addPostFrameCallback((_) async {
-        currentUserLocationValue =
-            LatLng(position?.latitude ?? 0, position?.longitude ?? 0);
-        await actions.getLocation(
-          currentUserLocationValue,
-        );
-        FFAppState().update(() {
-          FFAppState().setLocation = FFAppState().userlocation;
-          FFAppState().savedPost =
-              (currentUserDocument?.savedPost?.toList() ?? []).toList();
+
+      if(FFAppState().userlocation == null || FFAppState().userlocation == "") {
+        SchedulerBinding.instance.addPostFrameCallback((_) async {
+          FFAppState().currentUserLocationValue =
+              LatLng(position?.latitude ?? 0, position?.longitude ?? 0);
+          await actions.getLocation(
+            FFAppState().currentUserLocationValue,
+          );
+          FFAppState().update(() {
+            FFAppState().setLocation = FFAppState().userlocation;
+            FFAppState().savedPost =
+                (currentUserDocument?.savedPost?.toList() ?? []).toList();
+          });
+
+          final usersUpdateData = createUsersRecordData(
+            userAddress: FFAppState().setLocation,
+            latlng: FFAppState().currentUserLocationValue,
+          );
+          await currentUserReference!.update(usersUpdateData);
         });
 
-        final usersUpdateData = createUsersRecordData(
-          userAddress: FFAppState().setLocation,
-          latlng: currentUserLocationValue,
-        );
-        await currentUserReference!.update(usersUpdateData);
-      });
+        //  currentUserLocationValue = LatLng(position.latitude,position.longitude);
+        print('Location service is enabled and permission is granted.');
+      }
 
-      //  currentUserLocationValue = LatLng(position.latitude,position.longitude);
-      print('Location service is enabled and permission is granted.');
     }
   }
 
@@ -72,7 +77,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
   void initState() {
     super.initState();
     _model = createModel(context, () => HomePageModel());
-    _requestPermission();
+      _requestPermission();
     // On page load action.
 
     textController = TextEditingController();
@@ -88,7 +93,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
   @override
   Widget build(BuildContext context) {
     context.watch<FFAppState>();
-    if (currentUserLocationValue == null) {
+    if (FFAppState().currentUserLocationValue == null) {
       return Container(
         color: FlutterFlowTheme.of(context).primaryBackground,
         child: Center(
@@ -134,21 +139,35 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                 ),
                           ),
                         ),
-                        Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(
-                              0.0, 4.0, 0.0, 0.0),
-                          child: Text(
-                            FFAppState().userlocation.maybeHandleOverflow(
-                                  maxChars: 60,
-                                  replacement: '…',
-                                ),
-                            maxLines: 4,
-                            style: FlutterFlowTheme.of(context)
-                                .bodyMedium
-                                .override(
-                                  fontFamily: 'Roboto',
-                                  color: Color(0xFF7D8180),
-                                ),
+                        InkWell(
+                          onTap: () {
+                            Navigator.of(context)
+                                .push(MaterialPageRoute(
+                              builder: (context) => UserLocation(
+
+                              ),
+                            ))
+                                .then((value) {
+                              setState(() {});
+                            });
+                          },
+                          child: Padding(
+                            padding: EdgeInsetsDirectional.fromSTEB(
+                                0.0, 4.0, 0.0, 0.0),
+                            child: Container(
+                              width: 280,
+                              child: Text(
+                                FFAppState().userlocation,
+                                maxLines: 4,
+                                overflow: TextOverflow.ellipsis,
+                                style: FlutterFlowTheme.of(context)
+                                    .bodyMedium
+                                    .override(
+                                      fontFamily: 'Roboto',
+                                      color: Color(0xFF7D8180),
+                                    ),
+                              ),
+                            ),
                           ),
                         ),
                       ],
@@ -162,14 +181,14 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                             border: Border.all(color: Colors.grey)),
                         child: ClipRRect(
                             borderRadius: BorderRadius.circular(40.0),
-                            child: currentUserPhoto != "" && currentUserPhoto != null?
-                            CachedNetworkImageWidget(
-                              image: currentUserPhoto,
-                              height: 41,
-                              width: 41,
-                            ):Icon(Icons.person)
-
-                        ),
+                            child: currentUserPhoto != "" &&
+                                    currentUserPhoto != null
+                                ? CachedNetworkImageWidget(
+                                    image: currentUserPhoto,
+                                    height: 41,
+                                    width: 41,
+                                  )
+                                : Icon(Icons.person)),
                       ),
                     ),
                   ],
@@ -358,7 +377,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                       child: FutureBuilder<List<PostsRecord>>(
                         future: PostsRecord.search(
                           term: FFAppState().searchstring,
-                          location: currentUserLocationValue,
+                          location: FFAppState().currentUserLocationValue,
                           searchRadiusMeters: 5000.0,
                         ),
                         builder: (context, snapshot) {
@@ -391,7 +410,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                   () => _model.algoliaSearchResults = null);
                               await PostsRecord.search(
                                 term: textController.text,
-                                location: currentUserLocationValue,
+                                location: FFAppState().currentUserLocationValue,
                                 searchRadiusMeters: 5000.0,
                               )
                                   .then((r) => _model.algoliaSearchResults = r)
@@ -685,7 +704,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                       child: FutureBuilder<List<PostsRecord>>(
                         future: PostsRecord.search(
                           term: FFAppState().searchstring,
-                          location: currentUserLocationValue,
+                          location: FFAppState().currentUserLocationValue,
                           searchRadiusMeters: 5000.0,
                         ),
                         builder: (context, snapshot) {

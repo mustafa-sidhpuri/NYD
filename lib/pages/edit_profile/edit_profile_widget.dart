@@ -481,7 +481,8 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
                         ),
                       ),
                       Container(
-                        height: 60.0,
+                        padding: EdgeInsets.all(12),
+                        //height: 60.0,
                         decoration: BoxDecoration(
                           color: FlutterFlowTheme.of(context).secondaryBackground,
                           borderRadius: BorderRadius.circular(12.0),
@@ -497,15 +498,18 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              Text(
-                                FFAppState().setLocation,
-                                maxLines: 5,
-                                style: FlutterFlowTheme.of(context)
-                                    .bodyMedium
-                                    .override(
-                                      fontFamily: 'Roboto',
-                                      fontSize: 16.0,
-                                    ),
+                              Flexible(
+                                child: Text(
+                                  FFAppState().setLocation,
+                                  maxLines: 10,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: FlutterFlowTheme.of(context)
+                                      .bodyMedium
+                                      .override(
+                                        fontFamily: 'Roboto',
+                                        fontSize: 16.0,
+                                      ),
+                                ),
                               ),
                               Icon(
                                 Icons.location_on_outlined,

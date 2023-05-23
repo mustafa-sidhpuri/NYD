@@ -125,6 +125,7 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
                       ),
                       child: Column(
                         mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Padding(
                             padding: EdgeInsetsDirectional.fromSTEB(
@@ -191,9 +192,11 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
                           ),
                           Padding(
                             padding: EdgeInsetsDirectional.fromSTEB(
-                                0.0, 6.0, 0.0, 0.0),
+                                20.0, 6.0, 20.0, 0.0),
                             child: Text(
                               FFAppState().setLocation,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
                               style: FlutterFlowTheme.of(context)
                                   .bodyMedium
                                   .override(

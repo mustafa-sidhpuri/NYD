@@ -1,35 +1,40 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
+import 'package:n_y_d_app/components/LoadingWidget.dart';
 import '../../app_state.dart';
+import '../../auth/firebase_auth/auth_util.dart';
 import '../../backend/schema/posts_record.dart';
+import '../../backend/schema/users_record.dart';
 import '../../components/constants.dart';
 import '../../components/search_location_api.dart';
 import '../../flutter_flow/flutter_flow_theme.dart';
 import '../../flutter_flow/lat_lng.dart';
 
-class SearchLocation extends StatefulWidget {
-  final TextEditingController locationField;
-   bool? setLocation;
-   SearchLocation({Key? key, required this.locationField, required this.setLocation}) : super(key: key);
+class UserLocation extends StatefulWidget {
+
+  UserLocation({Key? key}) : super(key: key);
 
   @override
-  State<SearchLocation> createState() => _SearchLocationState();
+  State<UserLocation> createState() => _UserLocationState();
 }
 
-class _SearchLocationState extends State<SearchLocation> {
+class _UserLocationState extends State<UserLocation> {
   List<AutocompletePrediction> placePredictions = [];
   double? latitude;
   double? longitude;
+  TextEditingController locationField = TextEditingController();
   @override
   void initState() {
     super.initState();
-
+    locationField = TextEditingController(
+      text: FFAppState().setLocation,
+    );
   }
 
   void placeAutocomplete(String query) async {
     Uri uri =
-        Uri.https("maps.googleapis.com", 'maps/api/place/autocomplete/json', {
+    Uri.https("maps.googleapis.com", 'maps/api/place/autocomplete/json', {
       "input": query,
       "key": apiKey,
     });
@@ -39,7 +44,7 @@ class _SearchLocationState extends State<SearchLocation> {
     if (response != null) {
       //print(response);
       PlaceAutocompleteResponse result =
-          PlaceAutocompleteResponse.parseAutocompleteResult(response);
+      PlaceAutocompleteResponse.parseAutocompleteResult(response);
       if (result.predictions != null) {
         setState(() {
           placePredictions = result.predictions!;
@@ -80,13 +85,23 @@ class _SearchLocationState extends State<SearchLocation> {
     if (coordinates != null) {
 
       latitude = coordinates['latitude'];
-     longitude = coordinates['longitude'];
+      longitude = coordinates['longitude'];
 
-     FFAppState().postLatLng =  LatLng(latitude??0,longitude ?? 0);
+      FFAppState().currentUserLocationValue =  LatLng(latitude??0,longitude ?? 0);
+
+      FFAppState().update(() {
+        FFAppState().userlocation =  FFAppState().setLocation;
+      });
+
+      final usersUpdateData = createUsersRecordData(
+        userAddress: FFAppState().setLocation,
+        latlng: FFAppState().currentUserLocationValue,
+      );
+      await currentUserReference!.update(usersUpdateData);
 
       print('Latitude: ${latitude}');
       print('Longitude: ${longitude}');
-
+      LoadingOverlay.hide();
     } else {
       print('Failed to retrieve coordinates.');
     }
@@ -134,9 +149,9 @@ class _SearchLocationState extends State<SearchLocation> {
                 child: Text(
                   'Location',
                   style: FlutterFlowTheme.of(context).labelMedium.override(
-                        fontFamily: 'Roboto',
-                        color: Color(0xFF7D8180),
-                      ),
+                    fontFamily: 'Roboto',
+                    color: Color(0xFF7D8180),
+                  ),
                 ),
               ),
               Padding(
@@ -144,7 +159,7 @@ class _SearchLocationState extends State<SearchLocation> {
                 child: TextFormField(
                   style: TextStyle(color: Colors.black),
                   cursorColor: Colors.grey,
-                  controller: widget.locationField,
+                  controller: locationField,
                   onChanged: (value) {
                     placeAutocomplete(value);
                   },
@@ -181,14 +196,14 @@ class _SearchLocationState extends State<SearchLocation> {
                         children: [
                           ListTile(
                             onTap: () async {
-                              widget.locationField.text =
-                                  placePredictions[index].description!;
-                              widget.setLocation = true;
-                              getCoordinates(widget.locationField.text);
+                              locationField.text =
+                              placePredictions[index].description!;
+                              FFAppState().setLocation =locationField.text;
+                              getCoordinates(locationField.text);
                               placePredictions.clear();
-                               Navigator.pop(context,[widget.setLocation]);
-                              print(widget.locationField.text);
-                              print(widget.setLocation);
+                              LoadingOverlay.show(context);
+                              Navigator.pop(context);
+                              print(locationField.text);
                             },
                             horizontalTitleGap: 0,
                             leading: Icon(
@@ -199,7 +214,7 @@ class _SearchLocationState extends State<SearchLocation> {
                             title: Text(
                               placePredictions[index].description!,
                               style:
-                                  TextStyle(fontSize: 14, color: Colors.black),
+                              TextStyle(fontSize: 14, color: Colors.black),
                               maxLines: 2,
                               overflow: TextOverflow.ellipsis,
                             ),
