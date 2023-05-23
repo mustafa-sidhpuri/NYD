@@ -1,8 +1,4 @@
-import 'dart:convert';
-
-import 'package:n_y_d_app/components/constants.dart';
-import 'package:n_y_d_app/components/search_location_api.dart';
-import 'package:http/http.dart' as http;
+import 'package:n_y_d_app/pages/search_location/search_location.dart';
 import '../../components/LoadingWidget.dart';
 import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
@@ -38,83 +34,25 @@ class _AddProductDetailWidgetState extends State<AddProductDetailWidget> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
   final _unfocusNode = FocusNode();
   LatLng? currentUserLocationValue;
-  List<AutocompletePrediction> placePredictions = [];
   TextEditingController locationField = TextEditingController();
   double? latitude;
   double? longitude;
-  bool? setLocation = false;
-
   TextEditingController subCategoryController = TextEditingController();
   String? Function(BuildContext, String?)? subCategoryControllerValidator;
+
+  bool? setLocation = false;
 
   @override
   void initState() {
     super.initState();
     _model = createModel(context, () => AddProductDetailModel());
-    locationField = TextEditingController(text:  FFAppState().setLocation,);
     subCategoryController = TextEditingController();
+    locationField = TextEditingController(
+      text: FFAppState().setLocation,
+    );
   }
 
-  void placeAutocomplete(String query) async {
-    Uri uri =
-        Uri.https("maps.googleapis.com", 'maps/api/place/autocomplete/json', {
-      "input": query,
-      "key": apiKey,
-    });
 
-    String? response = await NetworkUtility.fetchUrl(uri);
-
-    if (response != null) {
-      //print(response);
-      PlaceAutocompleteResponse result =
-          PlaceAutocompleteResponse.parseAutocompleteResult(response);
-      if (result.predictions != null) {
-        setState(() {
-          placePredictions = result.predictions!;
-        });
-      }
-    }
-  }
-
-  Future<Map<String, dynamic>?> getLocationFromAddress(String address) async {
-    final apiKey =
-        "AIzaSyAZuQe6qz_GdmxUJ2PBs6xA4Lm5LAjj0CQ"; // Replace with your Google Geocoding API key
-    final encodedAddress = Uri.encodeQueryComponent(address);
-    final url =
-        'https://maps.googleapis.com/maps/api/geocode/json?address=$encodedAddress&key=$apiKey';
-
-    final response = await http.get(Uri.parse(url));
-    if (response.statusCode == 200) {
-      final decodedData = json.decode(response.body);
-      if (decodedData['status'] == 'OK') {
-        final results = decodedData['results'] as List<dynamic>;
-        if (results.isNotEmpty) {
-          final location = results[0]['geometry']['location'];
-          final latitude = location['lat'];
-          final longitude = location['lng'];
-
-          return {
-            'latitude': latitude,
-            'longitude': longitude,
-          };
-        }
-      }
-    }
-    return null;
-  }
-
-  void getCoordinates(String selectedAddress) async {
-    final address = selectedAddress;
-    final coordinates = await getLocationFromAddress(address);
-    if (coordinates != null) {
-      latitude = coordinates['latitude'];
-      longitude = coordinates['longitude'];
-      print('Latitude: $latitude');
-      print('Longitude: $longitude');
-    } else {
-      print('Failed to retrieve coordinates.');
-    }
-  }
 
   @override
   void dispose() {
@@ -356,100 +294,71 @@ class _AddProductDetailWidgetState extends State<AddProductDetailWidget> {
                               12.0, 4.0, 12.0, 4.0),
                           isSearchable: false,
                         ),
-                        Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(
-                              0.0, 26.0, 0.0, 0.0),
-                          child: Text(
-                            'Location',
-                            style: FlutterFlowTheme.of(context)
-                                .labelMedium
-                                .override(
-                                  fontFamily: 'Roboto',
-                                  color: Color(0xFF7D8180),
-                                ),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 10, right: 10),
-                          child: TextFormField(
-                            style: TextStyle(
-                              color: Colors.black
-                            ),
-                            cursorColor: Colors.grey,
-                            controller: locationField,
-                            onChanged: (value) {
-                              placeAutocomplete(value);
-                            },
-                            textInputAction: TextInputAction.search,
-                            decoration: InputDecoration(
-                              border: InputBorder.none,
-                              hintText: "Search your location",
-                              hintStyle: TextStyle(
-                                color: Colors.grey,
-                                fontSize: 14
+                        GestureDetector(
+                          onTap: (){
+                            Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => SearchLocation(
+                                  locationField:locationField,
+                                setLat: latitude,
+                                setLong: longitude,
+                                setLocation: setLocation,
                               ),
-                              suffixIcon: Icon(
-                                Icons.location_on_outlined,
-                                color: Colors.black,
-                                size: 24.0,
-                              ),
-                              enabledBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: Color(0xFF000000).withOpacity(0.1),
+                            ));
+                          },
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: EdgeInsetsDirectional.fromSTEB(0.0, 26.0, 0.0, 0.0),
+                                child: Text(
+                                  'Location',
+                                  style: FlutterFlowTheme.of(context).labelMedium.override(
+                                    fontFamily: 'Roboto',
+                                    color: Color(0xFF7D8180),
+                                  ),
                                 ),
                               ),
-                              focusedBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: Color(0xFF000000).withOpacity(0.1),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                        Container(
-                            //color: Colors.pinkAccent,
-                            height: 250,
-                            child: ListView.builder(
-                                padding: EdgeInsets.zero,
-                                scrollDirection: Axis.vertical,
-                                itemCount: placePredictions.length,
-                                itemBuilder: (context, index) {
-                                  return Column(
-                                    children: [
-                                      ListTile(
-                                        onTap: () async {
-                                          locationField.text =
-                                              placePredictions[index]
-                                                  .description!;
-                                          setState(() {});
-                                          setLocation = true;
-                                          getCoordinates(locationField.text);
-                                          placePredictions.clear();
-                                        },
-                                        horizontalTitleGap: 0,
-                                        leading: Icon(
-                                          Icons.location_on_outlined,
-                                          color: Colors.black,
-                                          size: 24.0,
-                                        ),
-                                        title: Text(
-                                          placePredictions[index].description!,
-                                          style: TextStyle(
-                                            fontSize: 14,
-                                            color: Colors.black
-                                          ),
-                                          maxLines: 2,
-                                          overflow: TextOverflow.ellipsis,
+                              Padding(
+                                padding: EdgeInsetsDirectional.fromSTEB(8.0, 10.0, 8.0, 0.0),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.max,
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Flexible(
+                                      child: Text(
+                                        locationField.text,
+                                        maxLines: 5,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                          fontFamily: 'Roboto',
+                                          fontSize: 16.0,
                                         ),
                                       ),
-                                      Divider(
-                                        height: 2,
-                                        thickness: 2,
-                                        color: Colors.grey,
-                                      )
-                                    ],
-                                  );
-                                }))
+                                    ),
+                                    Icon(
+                                      Icons.location_on_outlined,
+                                      color: Colors.black,
+                                      size: 24.0,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Padding(
+                                padding: EdgeInsetsDirectional.fromSTEB(10.0, 0.0, 10.0, 0.0),
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.max,
+                                  children: [
+                                    Divider(
+                                      thickness: 1.0,
+                                      color: Color(0xFF000000).withOpacity(0.1),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
                       ],
                     ),
                   ),

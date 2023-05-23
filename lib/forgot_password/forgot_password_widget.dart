@@ -180,7 +180,7 @@ class _ForgotPasswordWidgetState extends State<ForgotPasswordWidget> {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
                                   content: Text(
-                                    'Email required!',
+                                    'No email received for password reset',
                                   ),
                                 ),
                               );
@@ -193,7 +193,7 @@ class _ForgotPasswordWidgetState extends State<ForgotPasswordWidget> {
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
                                 content: Text(
-                                  'Email Send SuccessFully',
+                                  'Email Sent SuccessFully',
                                   style: FlutterFlowTheme.of(context)
                                       .labelLarge
                                       .override(

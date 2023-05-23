@@ -207,21 +207,14 @@ class _SellingPageWidgetState extends State<SellingPageWidget> {
                                                         CrossAxisAlignment
                                                             .start,
                                                     children: [
-                                                      Padding(
-                                                        padding:
-                                                            EdgeInsetsDirectional
-                                                                .fromSTEB(
-                                                                    0.0,
-                                                                    0.0,
-                                                                    0.0,
-                                                                    6.0),
+                                                      Container(
+                                                        width: 200,
+                                                        color: Colors.orange,
                                                         child: Text(
-                                                          valueOrDefault<
-                                                              String>(
-                                                            listViewPostsRecord
-                                                                .name,
-                                                            'null',
-                                                          ),
+                                                          listViewPostsRecord
+                                                              .name??"",
+                                                          maxLines: 1,
+                                                          overflow: TextOverflow.ellipsis,
                                                           style: FlutterFlowTheme
                                                                   .of(context)
                                                               .labelMedium
@@ -236,6 +229,9 @@ class _SellingPageWidgetState extends State<SellingPageWidget> {
                                                                         .w600,
                                                               ),
                                                         ),
+                                                      ),
+                                                      SizedBox(
+                                                        height: 6,
                                                       ),
                                                       Padding(
                                                         padding:
