@@ -530,7 +530,10 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                                     .getConversationData(widget.productId!.id);
                                 convIds.add(convRef!.ffRef!.id);
                                 await widget.productData!.ffRef!
-                                    .update({"conversations": convIds});
+                                    .update(
+                                    {"conversations": convIds,
+                                     "conversationUserId": currentUserDocument?.uid,
+                                    });
                               }
 
 
