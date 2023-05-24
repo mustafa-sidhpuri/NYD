@@ -120,7 +120,7 @@ class _PickUpProductWidgetState extends State<PickUpProductWidget> {
                         ClipRRect(
                           borderRadius: BorderRadius.circular(10.0),
                           child: CachedNetworkImageWidget(
-                           image: widget.pickupProductDoc!.images!.toList()[0],
+                            image: widget.pickupProductDoc!.images!.toList()[0],
                             width: 75.0,
                             height: 65.0,
                           ),
@@ -193,43 +193,82 @@ class _PickUpProductWidgetState extends State<PickUpProductWidget> {
                   Padding(
                     padding:
                         EdgeInsetsDirectional.fromSTEB(0.0, 10.0, 0.0, 0.0),
-                    child: Text(
-                      '  select who pickup the item',
-                      style: FlutterFlowTheme.of(context).bodyMedium,
-                    ),
+                    child:
+                        (widget.pickupProductDoc!.conversationUsersId?.length ??
+                                    0) >
+                                0
+                            ? Text(
+                                '  select who pickup the item',
+                                style: FlutterFlowTheme.of(context).bodyMedium,
+                              )
+                            : SizedBox(),
                   ),
-                  FlutterFlowDropDown<String>(
-                    controller: _model.dropDownValueController ??=
-                        FormFieldController<String>(
-                      _model.dropDownValue ??= widget
-                          .pickupProductDoc!.conversations?.length
-                          .toString(),
-                    ),
-                    options: [widget.pickupProductDoc!.conversationUsersId?.first??""],
-                    onChanged: (val) =>
-                        setState(() => _model.dropDownValue = val),
-                    width: 300.0,
-                    height: 50.0,
-                    searchHintTextStyle:
-                        FlutterFlowTheme.of(context).labelMedium,
-                    textStyle: FlutterFlowTheme.of(context).bodyMedium,
-                    hintText: 'Please select...',
-                    searchHintText: 'Search for an item...',
-                    icon: Icon(
-                      Icons.keyboard_arrow_down_rounded,
-                      color: FlutterFlowTheme.of(context).secondaryText,
-                      size: 24.0,
-                    ),
-                    fillColor: FlutterFlowTheme.of(context).secondaryBackground,
-                    elevation: 2.0,
-                    borderColor: FlutterFlowTheme.of(context).alternate,
-                    borderWidth: 2.0,
-                    borderRadius: 8.0,
-                    margin:
-                        EdgeInsetsDirectional.fromSTEB(16.0, 4.0, 16.0, 4.0),
-                    hidesUnderline: true,
-                    isSearchable: false,
-                  ),
+                  (widget.pickupProductDoc!.conversationUsersId?.length ?? 0) >
+                          0
+                      ? FutureBuilder(
+                          future: FirebaseFirestore.instance
+                              .collection("users")
+                              .where("uid",
+                                  whereIn: widget
+                                      .pickupProductDoc?.conversationUsersId
+                                      ?.toList())
+                              .get(),
+                          builder:
+                              (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                            if (!snapshot.hasData) {
+                              return SizedBox();
+                            }
+                            print(snapshot.data?.docs.length.toString());
+                            return FlutterFlowDropDown<String>(
+                              controller: _model.dropDownValueController ??=
+                                  FormFieldController<String>(
+                                _model.dropDownValue ??= widget
+                                    .pickupProductDoc!
+                                    .conversationUsersId
+                                    ?.length
+                                    .toString(),
+                              ),
+                              options: snapshot.data?.docs
+                                      .map((e) =>
+                                          (e.data() as Map<String, dynamic>)[
+                                                  "display_name"]
+                                              .toString() ??
+                                          "")
+                                      .toList() ??
+                                  [],
+                              onChanged: (val) =>
+                                  setState(() => _model.dropDownValue = val),
+                              width: 300.0,
+                              height: 50.0,
+                              searchHintTextStyle:
+                                  FlutterFlowTheme.of(context).labelMedium,
+                              textStyle:
+                                  FlutterFlowTheme.of(context).bodyMedium,
+                              hintText: 'Please select...',
+                              searchHintText: 'Search for an item...',
+                              icon: Icon(
+                                Icons.keyboard_arrow_down_rounded,
+                                color:
+                                    FlutterFlowTheme.of(context).secondaryText,
+                                size: 24.0,
+                              ),
+                              fillColor: FlutterFlowTheme.of(context)
+                                  .secondaryBackground,
+                              elevation: 2.0,
+                              borderColor:
+                                  FlutterFlowTheme.of(context).alternate,
+                              borderWidth: 2.0,
+                              borderRadius: 8.0,
+                              margin: EdgeInsetsDirectional.fromSTEB(
+                                  16.0, 4.0, 16.0, 4.0),
+                              hidesUnderline: true,
+                              isSearchable: false,
+                            );
+                          })
+                      : Text(
+                          "No Conversation found with this product",
+                          style: TextStyle(fontSize: 16, color: Colors.black),
+                        ),
                 ],
               ),
             ),

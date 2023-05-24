@@ -2,9 +2,7 @@ import 'dart:io' show Platform;
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-import 'serialization_util.dart';
 import '../../auth/firebase_auth/auth_util.dart';
-import '../cloud_functions/cloud_functions.dart';
 
 import 'package:flutter/foundation.dart';
 import 'package:stream_transform/stream_transform.dart';
@@ -24,13 +22,13 @@ Stream<UserTokenInfo> getFcmTokenStream(String userPath) =>
         .where((shouldGetToken) => shouldGetToken)
         .asyncMap<String?>(
             (_) => FirebaseMessaging.instance.requestPermission().then(
-                  (settings) => settings.authorizationStatus ==
-                          AuthorizationStatus.authorized
-                      ? FirebaseMessaging.instance.getToken()
-                      : null,
-                ))
+              (settings) => settings.authorizationStatus ==
+              AuthorizationStatus.authorized
+              ? FirebaseMessaging.instance.getToken()
+              : null,
+        ))
         .switchMap((fcmToken) => Stream.value(fcmToken)
-            .merge(FirebaseMessaging.instance.onTokenRefresh))
+        .merge(FirebaseMessaging.instance.onTokenRefresh))
         .where((fcmToken) => fcmToken != null && fcmToken.isNotEmpty)
         .map((token) => UserTokenInfo(userPath, token!));
 final fcmTokenUserStream = authenticatedUserStream
@@ -39,12 +37,17 @@ final fcmTokenUserStream = authenticatedUserStream
     .distinct()
     .switchMap(getFcmTokenStream)
     .map(
-      (userTokenInfo) => makeCloudCall(
-        'addFcmToken',
-        {
-          'userDocPath': userTokenInfo.userPath,
-          'fcmToken': userTokenInfo.fcmToken,
-          'deviceType': Platform.isIOS ? 'iOS' : 'Android',
-        },
-      ),
+      (userTokenInfo) async {
+    await FirebaseFirestore.instance
+        .collection("users")
+        .doc(currentUserUid)
+        .collection("fcm_tokens")
+        .add(
+      {
+        'created_at': DateTime.now(),
+        'fcm_token': userTokenInfo.fcmToken,
+        'device_type': Platform.isIOS ? 'iOS' : 'Android',
+      },
     );
+  },
+);
