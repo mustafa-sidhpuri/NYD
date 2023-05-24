@@ -1,11 +1,8 @@
-import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
-import '/flutter_flow/flutter_flow_autocomplete_options_list.dart';
+import '/flutter_flow/flutter_flow_drop_down.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
-import '/main.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:easy_debounce/easy_debounce.dart';
+import '/flutter_flow/form_field_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -16,12 +13,9 @@ import 'package:text_search/text_search.dart';
 class PickUpProductModel extends FlutterFlowModel {
   ///  State fields for stateful widgets in this page.
 
-  // State field(s) for TextField widget.
-  final textFieldKey = GlobalKey();
-  TextEditingController? textController;
-  String? textFieldSelectedOption;
-  String? Function(BuildContext, String?)? textControllerValidator;
-  List<UsersRecord> simpleSearchResults = [];
+  // State field(s) for DropDown widget.
+  String? dropDownValue;
+  FormFieldController<String>? dropDownValueController;
 
   /// Initialization and disposal methods.
 

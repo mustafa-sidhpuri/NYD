@@ -207,7 +207,7 @@ class FirebaseAuthManager extends AuthManager
     } on FirebaseAuthException catch (e) {
       ScaffoldMessenger.of(context).hideCurrentSnackBar();
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('please enter user email or password')),
+        SnackBar(content: Text('Error: ${e.message!}')),
       );
       return null;
     }
