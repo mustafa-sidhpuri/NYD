@@ -112,9 +112,9 @@ class PostsRecord extends FirestoreRecord {
   String get postedByProfile => _postedByProfile ?? '';
   bool hasPostedByProfile() => _postedByProfile != null;
 
-  // "conversationUserId" field.
-  String? _conversationUserId;
-  String get conversationUserId => _conversationUserId ?? '';
+  // "conversation_user_id" field.
+  List<String>? _conversationUserId;
+  List<String> get conversationUserId => _conversationUserId ?? const [];
   bool hasConversationUserId() => _conversationUserId != null;
 
   void _initializeFields() {
@@ -137,7 +137,7 @@ class PostsRecord extends FirestoreRecord {
     _postedBy = snapshotData['posted_by'] as String?;
     _postedByName = snapshotData['posted_byName'] as String?;
     _postedByProfile = snapshotData['posted_byProfile'] as String?;
-    _conversationUserId = snapshotData['conversationUserId'] as String?;
+    _conversationUserId = getDataList(snapshotData['conversation_user_id']);
   }
 
   static CollectionReference get collection =>
@@ -209,7 +209,9 @@ class PostsRecord extends FirestoreRecord {
           'posted_by': snapshot.data['posted_by'],
           'posted_byName': snapshot.data['posted_byName'],
           'posted_byProfile': snapshot.data['posted_byProfile'],
-          'conversationUserId': snapshot.data['conversationUserId'],
+          'conversation_user_id': safeGet(
+            () => snapshot.data['conversation_user_id'].toList(),
+          ),
         },
         PostsRecord.collection.doc(snapshot.objectID),
       );
@@ -255,7 +257,6 @@ Map<String, dynamic> createPostsRecordData({
   String? postedBy,
   String? postedByName,
   String? postedByProfile,
-  String? conversationUserId,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
@@ -276,7 +277,6 @@ Map<String, dynamic> createPostsRecordData({
       'posted_by': postedBy,
       'posted_byName': postedByName,
       'posted_byProfile': postedByProfile,
-      'conversationUserId': conversationUserId,
     }.withoutNulls,
   );
 
