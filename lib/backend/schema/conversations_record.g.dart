@@ -7,7 +7,7 @@ part of 'conversations_record.dart';
 // **************************************************************************
 
 Serializer<ConversationsRecord> _$conversationsRecordSerializer =
-new _$ConversationsRecordSerializer();
+    new _$ConversationsRecordSerializer();
 
 class _$ConversationsRecordSerializer
     implements StructuredSerializer<ConversationsRecord> {
@@ -80,7 +80,7 @@ class _$ConversationsRecordSerializer
         ..add('user_details')
         ..add(serializers.serialize(value,
             specifiedType:
-            const FullType(BuiltList, const [const FullType(UserStruct)])));
+                const FullType(BuiltList, const [const FullType(UserStruct)])));
     }
     value = object.users;
     if (value != null) {
@@ -88,7 +88,7 @@ class _$ConversationsRecordSerializer
         ..add('users')
         ..add(serializers.serialize(value,
             specifiedType:
-            const FullType(BuiltList, const [const FullType(String)])));
+                const FullType(BuiltList, const [const FullType(String)])));
     }
     value = object.postedByRefrence;
     if (value != null) {
@@ -168,15 +168,15 @@ class _$ConversationsRecordSerializer
           break;
         case 'user_details':
           result.userDetails.replace(serializers.deserialize(value,
-              specifiedType: const FullType(
-                  BuiltList, const [const FullType(UserStruct)]))!
-          as BuiltList<Object?>);
+                  specifiedType: const FullType(
+                      BuiltList, const [const FullType(UserStruct)]))!
+              as BuiltList<Object?>);
           break;
         case 'users':
           result.users.replace(serializers.deserialize(value,
-              specifiedType: const FullType(
-                  BuiltList, const [const FullType(String)]))!
-          as BuiltList<Object?>);
+                  specifiedType: const FullType(
+                      BuiltList, const [const FullType(String)]))!
+              as BuiltList<Object?>);
           break;
         case 'posted_by_refrence':
           result.postedByRefrence = serializers.deserialize(value,
@@ -236,28 +236,28 @@ class _$ConversationsRecord extends ConversationsRecord {
   final DocumentReference<Object?>? ffRef;
 
   factory _$ConversationsRecord(
-      [void Function(ConversationsRecordBuilder)? updates]) =>
+          [void Function(ConversationsRecordBuilder)? updates]) =>
       (new ConversationsRecordBuilder()..update(updates))._build();
 
   _$ConversationsRecord._(
       {this.productId,
-        this.productName,
-        this.productImage,
-        this.lastMessage,
-        this.chats,
-        this.lastMessageAt,
-        this.lastMessageBy,
-        this.userDetails,
-        this.users,
-        this.postedByRefrence,
-        this.postedByLocation,
-        this.createUserRefrence,
-        this.ffRef})
+      this.productName,
+      this.productImage,
+      this.lastMessage,
+      this.chats,
+      this.lastMessageAt,
+      this.lastMessageBy,
+      this.userDetails,
+      this.users,
+      this.postedByRefrence,
+      this.postedByLocation,
+      this.createUserRefrence,
+      this.ffRef})
       : super._();
 
   @override
   ConversationsRecord rebuild(
-      void Function(ConversationsRecordBuilder) updates) =>
+          void Function(ConversationsRecordBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
@@ -306,19 +306,19 @@ class _$ConversationsRecord extends ConversationsRecord {
   @override
   String toString() {
     return (newBuiltValueToStringHelper(r'ConversationsRecord')
-      ..add('productId', productId)
-      ..add('productName', productName)
-      ..add('productImage', productImage)
-      ..add('lastMessage', lastMessage)
-      ..add('chats', chats)
-      ..add('lastMessageAt', lastMessageAt)
-      ..add('lastMessageBy', lastMessageBy)
-      ..add('userDetails', userDetails)
-      ..add('users', users)
-      ..add('postedByRefrence', postedByRefrence)
-      ..add('postedByLocation', postedByLocation)
-      ..add('createUserRefrence', createUserRefrence)
-      ..add('ffRef', ffRef))
+          ..add('productId', productId)
+          ..add('productName', productName)
+          ..add('productImage', productImage)
+          ..add('lastMessage', lastMessage)
+          ..add('chats', chats)
+          ..add('lastMessageAt', lastMessageAt)
+          ..add('lastMessageBy', lastMessageBy)
+          ..add('userDetails', userDetails)
+          ..add('users', users)
+          ..add('postedByRefrence', postedByRefrence)
+          ..add('postedByLocation', postedByLocation)
+          ..add('createUserRefrence', createUserRefrence)
+          ..add('ffRef', ffRef))
         .toString();
   }
 }

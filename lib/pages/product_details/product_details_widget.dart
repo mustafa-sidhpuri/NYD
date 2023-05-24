@@ -106,7 +106,7 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                         if (widget.productData!.postedBy ==
                             productDetailsUsersRecord.uid)
                           InkWell(
-                            onTap: ()  {
+                            onTap: () {
                               Navigator.of(context).push(MaterialPageRoute(
                                 builder: (context) => ProductEditWidget(
                                   productData: widget.productData,
@@ -526,16 +526,25 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                                         .toList() ??
                                     [];
 
+                                List<String> convUserId = widget
+                                        .productData!.conversationUsersId
+                                        ?.map((p0) => p0)
+                                        .toList() ??
+                                    [];
+
                                 convRef = await actions
                                     .getConversationData(widget.productId!.id);
-                                convIds.add(convRef!.ffRef!.id);
-                                await widget.productData!.ffRef!
-                                    .update(
-                                    {"conversations": convIds,
-                                     "conversationUserId": currentUserDocument?.uid,
-                                    });
-                              }
 
+                                convIds.add(convRef!.ffRef!.id);
+                                convUserId.add(currentUserDocument?.uid??"");
+
+                                print(convIds);
+                                print(convUserId);
+                                await widget.productData!.ffRef!.update({
+                                  "conversations": convIds,
+                                  "conversationUsersId": convUserId,
+                                });
+                              }
 
                               Navigator.of(context).push(MaterialPageRoute(
                                 builder: (context) => ChatDetailsWidget(
@@ -543,13 +552,12 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                                   username: widget.productData!.postedByName,
                                   productname: widget.productData!.name,
                                   profileimage:
-                                  widget.productData!.postedByProfile,
+                                      widget.productData!.postedByProfile,
                                   productimage: widget.productData!.images!
                                       .toList()
                                       .first,
                                   conversationsDoc: convRef,
-                                  productlocation:
-                                  widget.productData!.address,
+                                  productlocation: widget.productData!.address,
                                   userRef: widget.productData!.userRef,
                                 ),
                               ));

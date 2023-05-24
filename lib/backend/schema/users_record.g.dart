@@ -256,17 +256,17 @@ class _$UsersRecord extends UsersRecord {
   @override
   String toString() {
     return (newBuiltValueToStringHelper(r'UsersRecord')
-      ..add('userCity', userCity)
-      ..add('email', email)
-      ..add('displayName', displayName)
-      ..add('photoUrl', photoUrl)
-      ..add('uid', uid)
-      ..add('createdTime', createdTime)
-      ..add('phoneNumber', phoneNumber)
-      ..add('userAddress', userAddress)
-      ..add('latlng', latlng)
-      ..add('savedPost', savedPost)
-      ..add('ffRef', ffRef))
+          ..add('userCity', userCity)
+          ..add('email', email)
+          ..add('displayName', displayName)
+          ..add('photoUrl', photoUrl)
+          ..add('uid', uid)
+          ..add('createdTime', createdTime)
+          ..add('phoneNumber', phoneNumber)
+          ..add('userAddress', userAddress)
+          ..add('latlng', latlng)
+          ..add('savedPost', savedPost)
+          ..add('ffRef', ffRef))
         .toString();
   }
 }

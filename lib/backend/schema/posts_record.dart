@@ -1,8 +1,5 @@
 import 'dart:async';
 
-import 'package:from_css_color/from_css_color.dart';
-
-import 'index.dart';
 import 'serializers.dart';
 import 'package:built_value/built_value.dart';
 
@@ -42,6 +39,7 @@ abstract class PostsRecord implements Built<PostsRecord, PostsRecordBuilder> {
   PickupStruct get pickup;
 
   BuiltList<String>? get conversations;
+  BuiltList<String>? get conversationUsersId;
 
   BuiltList<String>? get images;
 
@@ -75,6 +73,7 @@ abstract class PostsRecord implements Built<PostsRecord, PostsRecordBuilder> {
     ..isPickedUp = false
     ..pickup = PickupStructBuilder()
     ..conversations = ListBuilder()
+    ..conversationUsersId = ListBuilder()
     ..images = ListBuilder()
     ..subCategory = ''
     ..postedBy = ''
@@ -121,6 +120,8 @@ abstract class PostsRecord implements Built<PostsRecord, PostsRecordBuilder> {
           ).toBuilder()
           ..conversations =
               safeGet(() => ListBuilder(snapshot.data['conversations']))
+          ..conversationUsersId =
+          safeGet(() => ListBuilder(snapshot.data['conversationUsersId']))
           ..images = safeGet(() => ListBuilder(snapshot.data['images']))
           ..subCategory = snapshot.data['sub_category']
           ..userRef = safeGet(() => toRef(snapshot.data['user_ref']))
@@ -194,6 +195,7 @@ Map<String, dynamic> createPostsRecordData({
         ..isPickedUp = isPickedUp
         ..pickup = PickupStructBuilder()
         ..conversations = null
+        ..conversationUsersId = null
         ..images = null
         ..subCategory = subCategory
         ..userRef = userRef
