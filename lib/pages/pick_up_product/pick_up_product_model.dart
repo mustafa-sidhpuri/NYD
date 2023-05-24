@@ -15,6 +15,8 @@ class PickUpProductModel extends FlutterFlowModel {
 
   // State field(s) for DropDown widget.
   String? dropDownValue;
+  String? dropDownId;
+  String? dropDownProfile;
   FormFieldController<String>? dropDownValueController;
 
   /// Initialization and disposal methods.

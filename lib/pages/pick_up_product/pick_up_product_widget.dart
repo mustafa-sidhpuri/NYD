@@ -1,3 +1,5 @@
+import 'package:n_y_d_app/main.dart';
+
 import '../../components/cached_network_image.dart';
 import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_drop_down.dart';
@@ -203,6 +205,9 @@ class _PickUpProductWidgetState extends State<PickUpProductWidget> {
                               )
                             : SizedBox(),
                   ),
+                  SizedBox(
+                    height: 20,
+                  ),
                   (widget.pickupProductDoc!.conversationUsersId?.length ?? 0) >
                           0
                       ? FutureBuilder(
@@ -218,7 +223,6 @@ class _PickUpProductWidgetState extends State<PickUpProductWidget> {
                             if (!snapshot.hasData) {
                               return SizedBox();
                             }
-                            print(snapshot.data?.docs.length.toString());
                             return FlutterFlowDropDown<String>(
                               controller: _model.dropDownValueController ??=
                                   FormFieldController<String>(
@@ -229,22 +233,39 @@ class _PickUpProductWidgetState extends State<PickUpProductWidget> {
                                     .toString(),
                               ),
                               options: snapshot.data?.docs
-                                      .map((e) =>
-                                          (e.data() as Map<String, dynamic>)[
-                                                  "display_name"]
-                                              .toString() ??
-                                          "")
+                                      .map((e) => (e.data() as Map<String,
+                                              dynamic>)["display_name"]
+                                          .toString())
                                       .toList() ??
                                   [],
-                              onChanged: (val) =>
-                                  setState(() => _model.dropDownValue = val),
+                              onChanged: (val) {
+                                setState(() {
+                                  _model.dropDownValue = val;
+                                 _model.dropDownId = snapshot.data?.docs.firstWhere(
+                                         (element) =>
+                                     (element.data() as Map<String,
+                                         dynamic>)["display_name"] ==
+                                         val)["uid"];
+                                 _model.dropDownProfile = snapshot.data?.docs.firstWhere(
+                                         (element) =>
+                                     (element.data() as Map<String,
+                                         dynamic>)["display_name"] ==
+                                         val)["photo_url"];
+                                 print(val);
+                                  print(snapshot.data?.docs.firstWhere(
+                                          (element) =>
+                                      (element.data() as Map<String,
+                                          dynamic>)["display_name"] ==
+                                          val)["uid"]);
+                                });
+                              },
                               width: 300.0,
                               height: 50.0,
                               searchHintTextStyle:
                                   FlutterFlowTheme.of(context).labelMedium,
                               textStyle:
                                   FlutterFlowTheme.of(context).bodyMedium,
-                              hintText: 'Please select...',
+                              hintText: 'Please select user',
                               searchHintText: 'Search for an item...',
                               icon: Icon(
                                 Icons.keyboard_arrow_down_rounded,
@@ -269,6 +290,78 @@ class _PickUpProductWidgetState extends State<PickUpProductWidget> {
                           "No Conversation found with this product",
                           style: TextStyle(fontSize: 16, color: Colors.black),
                         ),
+                  (widget.pickupProductDoc!.conversationUsersId?.length ?? 0) >
+                          0
+                      ? Center(
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 20.0),
+                            child: GestureDetector(
+                              onTap: () async {
+                                if (widget.pickupProductDoc!.public == true) {
+                                  final postsUpdateData = createPostsRecordData(
+                                    pickup: createPickupStruct(
+                                      userId: _model.dropDownId??"",
+                                      userName: _model.dropDownValue??"",
+                                      userImage: _model.dropDownProfile??"",
+                                      pickupTime: getCurrentTimestamp,
+                                      clearUnsetFields: false,
+                                    ),
+                                    isPickedUp: true,
+                                    public: false,
+                                  );
+                                  await widget.pickupProductDoc!.reference
+                                      .update(postsUpdateData);
+                                  await Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => NavBarPage(
+                                          initialPage: 'sellingPage'),
+                                    ),
+                                  );
+                                }
+                                else {
+                                  ScaffoldMessenger.of(context)
+                                      .clearSnackBars();
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text(
+                                        'Product is not in List',
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 14.0,
+                                        ),
+                                      ),
+                                      duration: Duration(milliseconds: 4000),
+                                      backgroundColor:
+                                          FlutterFlowTheme.of(context).primary,
+                                    ),
+                                  );
+                                }
+                              },
+                              child: Container(
+                                padding: EdgeInsets.symmetric(
+                                    vertical: 12, horizontal: 30),
+                                height: 43.0,
+                                decoration: BoxDecoration(
+                                  color: FlutterFlowTheme.of(context).primary,
+                                  borderRadius: BorderRadius.circular(22.0),
+                                ),
+                                child: Text(
+                                  'Confirm',
+                                  style: FlutterFlowTheme.of(context)
+                                      .bodyMedium
+                                      .override(
+                                        fontFamily: 'Roboto',
+                                        color: Colors.white,
+                                        fontSize: 16.0,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        )
+                      : SizedBox()
                 ],
               ),
             ),
