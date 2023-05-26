@@ -1,3 +1,4 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:n_y_d_app/components/cached_network_image.dart';
 import 'package:n_y_d_app/pages/terms_condition/terms_condition_screen.dart';
 
@@ -605,6 +606,7 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
                           if (confirmDialogResponse) {
                             if (loggedIn) {
                               FFAppState().savedPost.clear();
+                              FirebaseMessaging.instance.deleteToken();
                               await authManager.signOut();
                             } else {
                               Navigator.pop(context);

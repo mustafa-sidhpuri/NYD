@@ -112,75 +112,76 @@ class _AddProductWidgetState extends State<AddProductWidget> {
                             //     ),
                             //   );
                             // } else {
-                              _model.uploadedFileUrl = "";
-                              final selectedMedia =
-                                  await selectMediaWithSourceBottomSheet(
-                                context: context,
-                                allowPhoto: true,
-                                backgroundColor:
-                                    FlutterFlowTheme.of(context).tertiary,
-                                textColor: Colors.black,
-                              );
-                              LoadingOverlay.show(context);
-                              if (selectedMedia != null &&
-                                  selectedMedia.every((m) => validateFileFormat(
-                                      m.storagePath, context))) {
-                                setState(() => _model.isDataUploading = true);
-                                var selectedUploadedFiles = <FFUploadedFile>[];
-                                var downloadUrls = <String>[];
-                                try {
-                                  selectedUploadedFiles = selectedMedia
-                                      .map((m) => FFUploadedFile(
-                                            name: m.storagePath.split('/').last,
-                                            bytes: m.bytes,
-                                            height: m.dimensions?.height,
-                                            width: m.dimensions?.width,
-                                            blurHash: m.blurHash,
-                                          ))
-                                      .toList();
+                            _model.uploadedFileUrl = "";
+                            final selectedMedia =
+                                await selectMediaWithSourceBottomSheet(
+                              context: context,
+                              allowPhoto: true,
+                              backgroundColor:
+                                  FlutterFlowTheme.of(context).tertiary,
+                              textColor: Colors.black,
+                            );
+                            LoadingOverlay.show(context);
+                            if (selectedMedia != null &&
+                                selectedMedia.every((m) => validateFileFormat(
+                                    m.storagePath, context))) {
+                              setState(() => _model.isDataUploading = true);
+                              var selectedUploadedFiles = <FFUploadedFile>[];
+                              var downloadUrls = <String>[];
+                              try {
+                                selectedUploadedFiles = selectedMedia
+                                    .map((m) => FFUploadedFile(
+                                          name: m.storagePath.split('/').last,
+                                          bytes: m.bytes,
+                                          height: m.dimensions?.height,
+                                          width: m.dimensions?.width,
+                                          blurHash: m.blurHash,
+                                        ))
+                                    .toList();
 
-                                  downloadUrls = (await Future.wait(
-                                    selectedMedia.map(
-                                      (m) async => await uploadData(
-                                          m.storagePath, m.bytes),
-                                    ),
-                                  ))
-                                      .where((u) => u != null)
-                                      .map((u) => u!)
-                                      .toList();
-                                } finally {
-                                  LoadingOverlay.hide();
-                                  _model.isDataUploading = false;
-                                }
+                                downloadUrls = (await Future.wait(
+                                  selectedMedia.map(
+                                    (m) async => await uploadData(
+                                        m.storagePath, m.bytes),
+                                  ),
+                                ))
+                                    .where((u) => u != null)
+                                    .map((u) => u!)
+                                    .toList();
+                              } finally {
                                 LoadingOverlay.hide();
-                                if (selectedUploadedFiles.length ==
-                                        selectedMedia.length &&
-                                    downloadUrls.length ==
-                                        selectedMedia.length) {
-                                  setState(() {
-                                    _model.uploadedLocalFile =
-                                        selectedUploadedFiles.first;
-                                    _model.uploadedFileUrl = downloadUrls.first;
-                                  });
-                                } else {
-                                  setState(() {});
-                                  return;
-                                }
+                                _model.isDataUploading = false;
                               }
-                              if (_model.uploadedFileUrl != '') {
+                              LoadingOverlay.hide();
+                              if (selectedUploadedFiles.length ==
+                                      selectedMedia.length &&
+                                  downloadUrls.length == selectedMedia.length) {
                                 setState(() {
-                                  if(FFAppState().mediaUrl.length > 0){
-                                    FFAppState().removeFromMediaUrl(FFAppState().mediaUrl.first);
-                                  }
-                                  FFAppState().addToMediaUrl(valueOrDefault<String>(
-                                    _model.uploadedFileUrl,
-                                    'null',
-                                  ));
+                                  _model.uploadedLocalFile =
+                                      selectedUploadedFiles.first;
+                                  _model.uploadedFileUrl = downloadUrls.first;
                                 });
                               } else {
-                                LoadingOverlay.hide();
+                                setState(() {});
+                                return;
                               }
-                          //  }
+                            }
+                            if (_model.uploadedFileUrl != '') {
+                              setState(() {
+                                if (FFAppState().mediaUrl.length > 0) {
+                                  FFAppState().removeFromMediaUrl(
+                                      FFAppState().mediaUrl.first);
+                                }
+                                FFAppState()
+                                    .addToMediaUrl(valueOrDefault<String>(
+                                  _model.uploadedFileUrl,
+                                  'null',
+                                ));
+                              });
+                            } else {
+                              LoadingOverlay.hide();
+                            }
+                            //  }
                           },
                           child: Container(
                             decoration: BoxDecoration(
@@ -210,23 +211,24 @@ class _AddProductWidgetState extends State<AddProductWidget> {
                                                 .primary,
                                           ),
                                         ),
-                                        child:FFAppState().mediaUrl.length > 0?
-                                        ClipRRect(
-                                          borderRadius:
-                                          BorderRadius.circular(
-                                              12.0),
-                                          child: CachedNetworkImageWidget(
-
-                                            image: FFAppState().mediaUrl.toList().first,
-                                            width: 100.0,
-                                            height: 85.0,
-                                          ),
-                                        ):
-                                        Icon(
-                                          Icons.photo_camera_outlined,
-                                          color: Color(0xFF0065FD),
-                                          size: 28.0,
-                                        ),
+                                        child: FFAppState().mediaUrl.length > 0
+                                            ? ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(12.0),
+                                                child: CachedNetworkImageWidget(
+                                                  image: FFAppState()
+                                                      .mediaUrl
+                                                      .toList()
+                                                      .first,
+                                                  width: 100.0,
+                                                  height: 85.0,
+                                                ),
+                                              )
+                                            : Icon(
+                                                Icons.photo_camera_outlined,
+                                                color: Color(0xFF0065FD),
+                                                size: 28.0,
+                                              ),
                                       ),
                                     ],
                                   ),
@@ -351,13 +353,13 @@ class _AddProductWidgetState extends State<AddProductWidget> {
                         //     ),
                         //   ),
                         // if (FFAppState().mediaUrl.length < 1)
-                          Container(
-                            height: 20.0,
-                            decoration: BoxDecoration(
-                              color: FlutterFlowTheme.of(context)
-                                  .secondaryBackground,
-                            ),
+                        Container(
+                          height: 20.0,
+                          decoration: BoxDecoration(
+                            color: FlutterFlowTheme.of(context)
+                                .secondaryBackground,
                           ),
+                        ),
                         Text(
                           'Title',
                           style:
@@ -425,8 +427,8 @@ class _AddProductWidgetState extends State<AddProductWidget> {
                           maxLines: 5,
                           minLines: 1,
                           keyboardType: TextInputType.multiline,
-                          validator: textController1Validator
-                              .asValidator(context),
+                          validator:
+                              textController1Validator.asValidator(context),
                         ),
                         Padding(
                           padding: EdgeInsetsDirectional.fromSTEB(
@@ -499,8 +501,8 @@ class _AddProductWidgetState extends State<AddProductWidget> {
                           maxLines: 8,
                           minLines: 1,
                           keyboardType: TextInputType.multiline,
-                          validator: textController2Validator
-                              .asValidator(context),
+                          validator:
+                              textController2Validator.asValidator(context),
                         ),
                       ],
                     ),

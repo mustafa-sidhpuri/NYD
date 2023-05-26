@@ -35,6 +35,8 @@ class _HomePageWidgetState extends State<HomePageWidget> {
   String? Function(BuildContext, String?)? textControllerValidator;
 
   Future<void> _requestPermission() async {
+
+
     PermissionStatus status = await Permission.locationWhenInUse.request();
 
     if (status == PermissionStatus.denied ||
@@ -44,7 +46,10 @@ class _HomePageWidgetState extends State<HomePageWidget> {
       position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high,
       );
-
+      FFAppState().update(() {
+        FFAppState().savedPost =
+            (currentUserDocument?.savedPost?.toList() ?? []).toList();
+      });
       if(FFAppState().userlocation == null || FFAppState().userlocation == "") {
         SchedulerBinding.instance.addPostFrameCallback((_) async {
           FFAppState().currentUserLocationValue =
@@ -94,6 +99,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
   Widget build(BuildContext context) {
     context.watch<FFAppState>();
     if (FFAppState().currentUserLocationValue == null) {
+      print(FFAppState().currentUserLocationValue.toString());
       return Container(
         color: FlutterFlowTheme.of(context).primaryBackground,
         child: Center(

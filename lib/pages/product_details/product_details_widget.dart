@@ -241,13 +241,18 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                       mainAxisSize: MainAxisSize.max,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          valueOrDefault<String>(
-                            widget.productData!.name,
-                            'Food Dish',
-                          ).maybeHandleOverflow(maxChars: 75),
-                          maxLines: 3,
-                          style: FlutterFlowTheme.of(context).titleSmall,
+                        Flexible(
+                          child: Text(
+                            valueOrDefault<String>(
+                              widget.productData!.name,
+                              'Food Dish',
+                            ).maybeHandleOverflow(maxChars: 75),
+                            maxLines: 3,
+                            style: FlutterFlowTheme.of(context).titleSmall,
+                          ),
+                        ),
+                        SizedBox(
+                          width: 10,
                         ),
                         Text(
                           valueOrDefault<String>(
@@ -409,59 +414,63 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                   //Spacer(),
                   if (widget.productData!.postedBy ==
                       productDetailsUsersRecord.uid)
-                    Padding(
-                      padding:
-                          EdgeInsetsDirectional.fromSTEB(0.0, 10.0, 0.0, 20.0),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.max,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          InkWell(
-                            splashColor: Colors.transparent,
-                            focusColor: Colors.transparent,
-                            hoverColor: Colors.transparent,
-                            highlightColor: Colors.transparent,
-                            onTap: () async {
-                              await Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => PickUpProductWidget(
-                                    pickupProductDoc: widget.productData!,
+                    widget.productData!.isPickedUp == false
+                        ? Padding(
+                            padding: EdgeInsetsDirectional.fromSTEB(
+                                0.0, 10.0, 0.0, 20.0),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.max,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                InkWell(
+                                  splashColor: Colors.transparent,
+                                  focusColor: Colors.transparent,
+                                  hoverColor: Colors.transparent,
+                                  highlightColor: Colors.transparent,
+                                  onTap: () async {
+                                    await Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            PickUpProductWidget(
+                                          pickupProductDoc: widget.productData!,
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                  child: Container(
+                                    padding: EdgeInsets.symmetric(
+                                        vertical: 10, horizontal: 110),
+                                    height: 43.0,
+                                    decoration: BoxDecoration(
+                                      color: FlutterFlowTheme.of(context)
+                                          .secondaryBackground,
+                                      borderRadius: BorderRadius.circular(22.0),
+                                      border: Border.all(
+                                        color: FlutterFlowTheme.of(context)
+                                            .primary,
+                                        width: 2.0,
+                                      ),
+                                    ),
+                                    child: Text(
+                                      'Picked Up',
+                                      textAlign: TextAlign.center,
+                                      style: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .override(
+                                            fontFamily: 'Roboto',
+                                            color: FlutterFlowTheme.of(context)
+                                                .primary,
+                                            fontSize: 16.0,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                    ),
                                   ),
                                 ),
-                              );
-                            },
-                            child: Container(
-                              padding: EdgeInsets.symmetric(
-                                  vertical: 10, horizontal: 110),
-                              height: 43.0,
-                              decoration: BoxDecoration(
-                                color: FlutterFlowTheme.of(context)
-                                    .secondaryBackground,
-                                borderRadius: BorderRadius.circular(22.0),
-                                border: Border.all(
-                                  color: FlutterFlowTheme.of(context).primary,
-                                  width: 2.0,
-                                ),
-                              ),
-                              child: Text(
-                                'Picked Up',
-                                textAlign: TextAlign.center,
-                                style: FlutterFlowTheme.of(context)
-                                    .bodyMedium
-                                    .override(
-                                      fontFamily: 'Roboto',
-                                      color:
-                                          FlutterFlowTheme.of(context).primary,
-                                      fontSize: 16.0,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                              ),
+                              ],
                             ),
-                          ),
-                        ],
-                      ),
-                    ),
+                          )
+                        : SizedBox(),
                   if (widget.productData!.postedBy != currentUserUid)
                     Padding(
                       padding:
@@ -536,7 +545,7 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                                     .getConversationData(widget.productId!.id);
 
                                 convIds.add(convRef!.ffRef!.id);
-                                convUserId.add(currentUserDocument?.uid??"");
+                                convUserId.add(currentUserDocument?.uid ?? "");
 
                                 print(convIds);
                                 print(convUserId);

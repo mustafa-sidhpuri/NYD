@@ -193,26 +193,25 @@ class _SellingPageWidgetState extends State<SellingPageWidget> {
                                                     )
                                                   ),
                                                 ),
-                                                Padding(
-                                                  padding: EdgeInsetsDirectional
-                                                      .fromSTEB(
-                                                          20.0, 15.0, 0.0, 7.0),
-                                                  child: Column(
-                                                    mainAxisSize:
-                                                        MainAxisSize.max,
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceEvenly,
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    children: [
-                                                      Container(
-                                                        width: 200,
-                                                        child: Text(
+                                                Expanded(
+                                                  child: Padding(
+                                                    padding: EdgeInsetsDirectional
+                                                        .fromSTEB(
+                                                        20.0, 15.0, 0.0, 7.0),
+                                                    child: Column(
+                                                      mainAxisSize:
+                                                          MainAxisSize.max,
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceEvenly,
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        Text(
                                                           listViewPostsRecord
                                                               .name??"",
-                                                          maxLines: 1,
+                                                          maxLines: 2,
                                                           overflow: TextOverflow.ellipsis,
                                                           style: FlutterFlowTheme
                                                                   .of(context)
@@ -228,19 +227,91 @@ class _SellingPageWidgetState extends State<SellingPageWidget> {
                                                                         .w600,
                                                               ),
                                                         ),
-                                                      ),
-                                                      SizedBox(
-                                                        height: 6,
-                                                      ),
-                                                      Padding(
-                                                        padding:
-                                                            EdgeInsetsDirectional
-                                                                .fromSTEB(
-                                                                    0.0,
-                                                                    0.0,
-                                                                    0.0,
-                                                                    7.0),
-                                                        child: Row(
+                                                        SizedBox(
+                                                          height: 6,
+                                                        ),
+                                                        Padding(
+                                                          padding:
+                                                              EdgeInsetsDirectional
+                                                                  .fromSTEB(
+                                                                      0.0,
+                                                                      0.0,
+                                                                      0.0,
+                                                                      7.0),
+                                                          child: Row(
+                                                            mainAxisSize:
+                                                                MainAxisSize.max,
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .start,
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .center,
+                                                            children: [
+                                                              SvgPicture.asset(
+                                                                'assets/images/Group_(5).svg',
+                                                                width: 14.0,
+                                                                height: 14.0,
+                                                                fit: BoxFit.cover,
+                                                              ),
+                                                              Text(
+                                                                '  ${valueOrDefault<String>(
+                                                                  dateTimeFormat(
+                                                                      'jm',
+                                                                      listViewPostsRecord
+                                                                          .createdAt),
+                                                                  ' 12:00 PM  ',
+                                                                )} ${valueOrDefault<String>(
+                                                                  dateTimeFormat(
+                                                                      'yMMMd',
+                                                                      listViewPostsRecord
+                                                                          .createdAt),
+                                                                  '19 Apr, 23',
+                                                                )}    ',
+                                                                style: FlutterFlowTheme
+                                                                        .of(context)
+                                                                    .bodyMedium
+                                                                    .override(
+                                                                      fontFamily:
+                                                                          'Roboto',
+                                                                      color: Color(
+                                                                          0xFF7D8180),
+                                                                      fontSize:
+                                                                          9.0,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w500,
+                                                                    ),
+                                                              ),
+                                                              SvgPicture.asset(
+                                                                'assets/images/Group_(4).svg',
+                                                                width: 14.0,
+                                                                height: 14.0,
+                                                                fit: BoxFit.cover,
+                                                              ),
+                                                              Text(
+                                                                listViewPostsRecord.conversations?.length == null ?
+                                                                '  0 Conversations':
+                                                                '  ${listViewPostsRecord.conversations?.length} ${"Conversations"}',
+                                                                style: FlutterFlowTheme
+                                                                        .of(context)
+                                                                    .bodyMedium
+                                                                    .override(
+                                                                      fontFamily:
+                                                                          'Roboto',
+                                                                      color: Color(
+                                                                          0xFF7D8180),
+                                                                      fontSize:
+                                                                          9.0,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w500,
+                                                                    ),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                        Row(
                                                           mainAxisSize:
                                                               MainAxisSize.max,
                                                           mainAxisAlignment:
@@ -248,104 +319,102 @@ class _SellingPageWidgetState extends State<SellingPageWidget> {
                                                                   .start,
                                                           crossAxisAlignment:
                                                               CrossAxisAlignment
-                                                                  .center,
+                                                                  .start,
                                                           children: [
-                                                            SvgPicture.asset(
-                                                              'assets/images/Group_(5).svg',
-                                                              width: 14.0,
-                                                              height: 14.0,
-                                                              fit: BoxFit.cover,
-                                                            ),
-                                                            Text(
-                                                              '  ${valueOrDefault<String>(
-                                                                dateTimeFormat(
-                                                                    'jm',
-                                                                    listViewPostsRecord
-                                                                        .createdAt),
-                                                                ' 12:00 PM  ',
-                                                              )} ${valueOrDefault<String>(
-                                                                dateTimeFormat(
-                                                                    'yMMMd',
-                                                                    listViewPostsRecord
-                                                                        .createdAt),
-                                                                '19 Apr, 23',
-                                                              )}    ',
-                                                              style: FlutterFlowTheme
-                                                                      .of(context)
-                                                                  .bodyMedium
-                                                                  .override(
-                                                                    fontFamily:
-                                                                        'Roboto',
-                                                                    color: Color(
-                                                                        0xFF7D8180),
-                                                                    fontSize:
-                                                                        9.0,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w500,
-                                                                  ),
-                                                            ),
-                                                            SvgPicture.asset(
-                                                              'assets/images/Group_(4).svg',
-                                                              width: 14.0,
-                                                              height: 14.0,
-                                                              fit: BoxFit.cover,
-                                                            ),
-                                                            Text(
-                                                              listViewPostsRecord.conversations?.length == null ?
-                                                              '  0 Conversations':
-                                                              '  ${listViewPostsRecord.conversations?.length} ${"Conversations"}',
-                                                              style: FlutterFlowTheme
-                                                                      .of(context)
-                                                                  .bodyMedium
-                                                                  .override(
-                                                                    fontFamily:
-                                                                        'Roboto',
-                                                                    color: Color(
-                                                                        0xFF7D8180),
-                                                                    fontSize:
-                                                                        9.0,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w500,
-                                                                  ),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                      Row(
-                                                        mainAxisSize:
-                                                            MainAxisSize.max,
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .start,
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .start,
-                                                        children: [
-                                                          if (listViewPostsRecord
-                                                                  .public ==
-                                                              false)
-                                                            Container(
-                                                              width: 100.0,
-                                                              height: 19.0,
-                                                              decoration:
-                                                                  BoxDecoration(
-                                                                color: FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .primary,
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            9.0),
-                                                                border:
-                                                                    Border.all(
+                                                            if (listViewPostsRecord
+                                                                    .public ==
+                                                                false)
+                                                              Container(
+                                                                width: 100.0,
+                                                                height: 19.0,
+                                                                decoration:
+                                                                    BoxDecoration(
                                                                   color: FlutterFlowTheme.of(
                                                                           context)
                                                                       .primary,
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              9.0),
+                                                                  border:
+                                                                      Border.all(
+                                                                    color: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .primary,
+                                                                  ),
+                                                                ),
+                                                                child: InkWell(
+                                                                  splashColor: Colors
+                                                                      .transparent,
+                                                                  focusColor: Colors
+                                                                      .transparent,
+                                                                  hoverColor: Colors
+                                                                      .transparent,
+                                                                  highlightColor:
+                                                                      Colors
+                                                                          .transparent,
+                                                                  onTap:
+                                                                      () async {
+                                                                    final postsUpdateData =
+                                                                        createPostsRecordData(
+                                                                      public:
+                                                                          true,
+                                                                      pickup: createPickupStruct(
+                                                                          delete:
+                                                                              true),
+                                                                      isPickedUp:
+                                                                          false,
+                                                                      updatedAt:
+                                                                          getCurrentTimestamp,
+                                                                    );
+                                                                    await listViewPostsRecord
+                                                                        .reference
+                                                                        .update(
+                                                                            postsUpdateData);
+                                                                  },
+                                                                  child: Row(
+                                                                    mainAxisSize:
+                                                                        MainAxisSize
+                                                                            .max,
+                                                                    mainAxisAlignment:
+                                                                        MainAxisAlignment
+                                                                            .center,
+                                                                    children: [
+                                                                      SvgPicture
+                                                                          .asset(
+                                                                        'assets/images/Vector.svg',
+                                                                        width:
+                                                                            9.0,
+                                                                        height:
+                                                                            11.0,
+                                                                        fit: BoxFit
+                                                                            .cover,
+                                                                      ),
+                                                                      Padding(
+                                                                        padding: EdgeInsetsDirectional.fromSTEB(
+                                                                            5.0,
+                                                                            0.0,
+                                                                            0.0,
+                                                                            0.0),
+                                                                        child:
+                                                                            Text(
+                                                                          'UnList',
+                                                                          style: FlutterFlowTheme.of(context)
+                                                                              .labelSmall
+                                                                              .override(
+                                                                                fontFamily: 'Roboto',
+                                                                                color: Colors.white,
+                                                                              ),
+                                                                        ),
+                                                                      ),
+                                                                    ],
+                                                                  ),
                                                                 ),
                                                               ),
-                                                              child: InkWell(
+                                                            if (listViewPostsRecord
+                                                                    .public ==
+                                                                true)
+                                                              InkWell(
                                                                 splashColor: Colors
                                                                     .transparent,
                                                                 focusColor: Colors
@@ -355,143 +424,73 @@ class _SellingPageWidgetState extends State<SellingPageWidget> {
                                                                 highlightColor:
                                                                     Colors
                                                                         .transparent,
-                                                                onTap:
-                                                                    () async {
+                                                                onTap: () async {
                                                                   final postsUpdateData =
                                                                       createPostsRecordData(
-                                                                    public:
-                                                                        true,
-                                                                    pickup: createPickupStruct(
-                                                                        delete:
-                                                                            true),
-                                                                    isPickedUp:
-                                                                        false,
-                                                                    updatedAt:
-                                                                        getCurrentTimestamp,
+                                                                    public: false,
                                                                   );
                                                                   await listViewPostsRecord
                                                                       .reference
                                                                       .update(
                                                                           postsUpdateData);
                                                                 },
-                                                                child: Row(
-                                                                  mainAxisSize:
-                                                                      MainAxisSize
-                                                                          .max,
-                                                                  mainAxisAlignment:
-                                                                      MainAxisAlignment
-                                                                          .center,
-                                                                  children: [
-                                                                    SvgPicture
-                                                                        .asset(
-                                                                      'assets/images/Vector.svg',
-                                                                      width:
-                                                                          9.0,
-                                                                      height:
-                                                                          11.0,
-                                                                      fit: BoxFit
-                                                                          .cover,
+                                                                child: Container(
+                                                                  width: 100.0,
+                                                                  height: 19.0,
+                                                                  decoration:
+                                                                      BoxDecoration(
+                                                                    color: Colors
+                                                                        .white,
+                                                                    borderRadius:
+                                                                        BorderRadius
+                                                                            .circular(
+                                                                                9.0),
+                                                                    border: Border
+                                                                        .all(
+                                                                      color: FlutterFlowTheme.of(
+                                                                              context)
+                                                                          .primary,
                                                                     ),
-                                                                    Padding(
-                                                                      padding: EdgeInsetsDirectional.fromSTEB(
-                                                                          5.0,
-                                                                          0.0,
-                                                                          0.0,
-                                                                          0.0),
-                                                                      child:
-                                                                          Text(
-                                                                        'UnList',
-                                                                        style: FlutterFlowTheme.of(context)
-                                                                            .labelSmall
-                                                                            .override(
-                                                                              fontFamily: 'Roboto',
-                                                                              color: Colors.white,
-                                                                            ),
+                                                                  ),
+                                                                  child: Row(
+                                                                    mainAxisSize:
+                                                                        MainAxisSize
+                                                                            .max,
+                                                                    mainAxisAlignment:
+                                                                        MainAxisAlignment
+                                                                            .center,
+                                                                    children: [
+                                                                      SvgPicture
+                                                                          .asset(
+                                                                        'assets/images/Vector_(1).svg',
+                                                                        width:
+                                                                            9.0,
+                                                                        height:
+                                                                            11.0,
+                                                                        fit: BoxFit
+                                                                            .cover,
                                                                       ),
-                                                                    ),
-                                                                  ],
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          if (listViewPostsRecord
-                                                                  .public ==
-                                                              true)
-                                                            InkWell(
-                                                              splashColor: Colors
-                                                                  .transparent,
-                                                              focusColor: Colors
-                                                                  .transparent,
-                                                              hoverColor: Colors
-                                                                  .transparent,
-                                                              highlightColor:
-                                                                  Colors
-                                                                      .transparent,
-                                                              onTap: () async {
-                                                                final postsUpdateData =
-                                                                    createPostsRecordData(
-                                                                  public: false,
-                                                                );
-                                                                await listViewPostsRecord
-                                                                    .reference
-                                                                    .update(
-                                                                        postsUpdateData);
-                                                              },
-                                                              child: Container(
-                                                                width: 100.0,
-                                                                height: 19.0,
-                                                                decoration:
-                                                                    BoxDecoration(
-                                                                  color: Colors
-                                                                      .white,
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              9.0),
-                                                                  border: Border
-                                                                      .all(
-                                                                    color: FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .primary,
+                                                                      Padding(
+                                                                        padding: EdgeInsetsDirectional.fromSTEB(
+                                                                            5.0,
+                                                                            0.0,
+                                                                            0.0,
+                                                                            0.0),
+                                                                        child:
+                                                                            Text(
+                                                                          'List',
+                                                                          style: FlutterFlowTheme.of(context)
+                                                                              .labelSmall,
+                                                                        ),
+                                                                      ),
+                                                                    ],
                                                                   ),
                                                                 ),
-                                                                child: Row(
-                                                                  mainAxisSize:
-                                                                      MainAxisSize
-                                                                          .max,
-                                                                  mainAxisAlignment:
-                                                                      MainAxisAlignment
-                                                                          .center,
-                                                                  children: [
-                                                                    SvgPicture
-                                                                        .asset(
-                                                                      'assets/images/Vector_(1).svg',
-                                                                      width:
-                                                                          9.0,
-                                                                      height:
-                                                                          11.0,
-                                                                      fit: BoxFit
-                                                                          .cover,
-                                                                    ),
-                                                                    Padding(
-                                                                      padding: EdgeInsetsDirectional.fromSTEB(
-                                                                          5.0,
-                                                                          0.0,
-                                                                          0.0,
-                                                                          0.0),
-                                                                      child:
-                                                                          Text(
-                                                                        'List',
-                                                                        style: FlutterFlowTheme.of(context)
-                                                                            .labelSmall,
-                                                                      ),
-                                                                    ),
-                                                                  ],
-                                                                ),
                                                               ),
-                                                            ),
-                                                        ],
-                                                      ),
-                                                    ],
+                                                          ],
+                                                        ),
+                                                      ],
+                                                    ),
                                                   ),
                                                 ),
                                               ],

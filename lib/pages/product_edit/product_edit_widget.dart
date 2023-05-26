@@ -319,21 +319,22 @@ class _ProductEditWidgetState extends State<ProductEditWidget> {
                   ),
                   InkWell(
                     onTap: () async {
-                      if (FFAppState().mediaUrl.length == 5) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text(
-                              'Maximum 5 images select',
-                              style: TextStyle(
-                                color: Colors.white,
-                              ),
-                            ),
-                            duration: Duration(milliseconds: 4000),
-                            backgroundColor:
-                                FlutterFlowTheme.of(context).primary,
-                          ),
-                        );
-                      } else {
+                      // if (FFAppState().mediaUrl.length == 5) {
+                      //   ScaffoldMessenger.of(context).showSnackBar(
+                      //     SnackBar(
+                      //       content: Text(
+                      //         'Maximum 5 images select',
+                      //         style: TextStyle(
+                      //           color: Colors.white,
+                      //         ),
+                      //       ),
+                      //       duration: Duration(milliseconds: 4000),
+                      //       backgroundColor:
+                      //           FlutterFlowTheme.of(context).primary,
+                      //     ),
+                      //   );
+                      // }
+                    //  else {
                         _model.uploadedFileUrl = "";
                         final selectedMedia =
                             await selectMediaWithSourceBottomSheet(
@@ -393,12 +394,15 @@ class _ProductEditWidgetState extends State<ProductEditWidget> {
                         if (_model.uploadedFileUrl != null &&
                             _model.uploadedFileUrl != '') {
                           setState(() {
+                            if(FFAppState().mediaUrl.length > 0){
+                              FFAppState().removeFromMediaUrl(FFAppState().mediaUrl.first);
+                            }
                             FFAppState().addToMediaUrl(_model.uploadedFileUrl);
                           });
                         } else {
                           LoadingOverlay.hide();
                         }
-                      }
+                  //    }
                     },
                     child: Column(
                       children: [
@@ -410,8 +414,8 @@ class _ProductEditWidgetState extends State<ProductEditWidget> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Container(
-                                width: 76.0,
-                                height: 76.0,
+                                width: 100.0,
+                                height: 100.0,
                                 decoration: BoxDecoration(
                                   color: FlutterFlowTheme.of(context)
                                       .secondaryBackground,
@@ -420,7 +424,18 @@ class _ProductEditWidgetState extends State<ProductEditWidget> {
                                     color: FlutterFlowTheme.of(context).primary,
                                   ),
                                 ),
-                                child: Icon(
+                                child: FFAppState().mediaUrl.length > 0?
+                                ClipRRect(
+                                  borderRadius:
+                                  BorderRadius.circular(
+                                      12.0),
+                                  child: CachedNetworkImageWidget(
+                                    image: FFAppState().mediaUrl.toList().first,
+                                    width: 100.0,
+                                    height: 85.0,
+                                  ),
+                                ):
+                                Icon(
                                   Icons.photo_camera_outlined,
                                   color: Color(0xFF0065FD),
                                   size: 28.0,
@@ -453,103 +468,103 @@ class _ProductEditWidgetState extends State<ProductEditWidget> {
                       ],
                     ),
                   ),
-                  Container(
-                    height: 200.0,
-                    decoration: BoxDecoration(),
-                    child: Stack(
-                      children: [
-                        Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(
-                              0.0, 40.0, 0.0, 50.0),
-                          child: Builder(
-                            builder: (context) {
-                              final images = FFAppState().mediaUrl.toList();
-                              return ListView.builder(
-                                padding: EdgeInsets.zero,
-                                shrinkWrap: true,
-                                scrollDirection: Axis.horizontal,
-                                itemCount: images.length,
-                                itemBuilder: (context, imagesIndex) {
-                                  final imagesItem = images[imagesIndex];
-                                  return Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        10.0, 0.0, 10.0, 0.0),
-                                    child: Container(
-                                      width: 80.0,
-                                      decoration: BoxDecoration(
-                                        color: FlutterFlowTheme.of(context)
-                                            .tertiary,
-                                        borderRadius:
-                                            BorderRadius.circular(12.0),
-                                        shape: BoxShape.rectangle,
-                                      ),
-                                      child: Stack(
-                                        alignment:
-                                            AlignmentDirectional(1.0, -1.0),
-                                        children: [
-                                          ClipRRect(
-                                              borderRadius:
-                                                  BorderRadius.circular(12.0),
-                                              child: CachedNetworkImageWidget(
-                                                image: imagesItem,
-                                                width: 100.0,
-                                                height: 85.0,
-                                              )),
-                                          InkWell(
-                                            splashColor: Colors.transparent,
-                                            focusColor: Colors.transparent,
-                                            hoverColor: Colors.transparent,
-                                            highlightColor: Colors.transparent,
-                                            onTap: () async {
-                                              setState(() {
-                                                FFAppState().removeFromMediaUrl(
-                                                    valueOrDefault<String>(
-                                                  imagesItem,
-                                                  'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/sample-app-property-finder-834ebu/assets/lhbo8hbkycdw/addCoverImage@2x.png',
-                                                ));
-                                              });
-                                            },
-                                            child: Container(
-                                              width: 26.0,
-                                              height: 25.0,
-                                              decoration: BoxDecoration(
-                                                color:
-                                                    FlutterFlowTheme.of(context)
-                                                        .primary,
-                                                borderRadius: BorderRadius.only(
-                                                  bottomLeft:
-                                                      Radius.circular(22.0),
-                                                  bottomRight:
-                                                      Radius.circular(0.0),
-                                                  topLeft: Radius.circular(0.0),
-                                                  topRight:
-                                                      Radius.circular(10.0),
-                                                ),
-                                                shape: BoxShape.rectangle,
-                                              ),
-                                              child: Align(
-                                                alignment: AlignmentDirectional(
-                                                    0.4, -0.2),
-                                                child: Icon(
-                                                  Icons.delete_outlined,
-                                                  color: Colors.white,
-                                                  size: 14.0,
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  );
-                                },
-                              );
-                            },
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+                  // Container(
+                  //   height: 200.0,
+                  //   decoration: BoxDecoration(),
+                  //   child: Stack(
+                  //     children: [
+                  //       Padding(
+                  //         padding: EdgeInsetsDirectional.fromSTEB(
+                  //             0.0, 40.0, 0.0, 50.0),
+                  //         child: Builder(
+                  //           builder: (context) {
+                  //             final images = FFAppState().mediaUrl.toList();
+                  //             return ListView.builder(
+                  //               padding: EdgeInsets.zero,
+                  //               shrinkWrap: true,
+                  //               scrollDirection: Axis.horizontal,
+                  //               itemCount: images.length,
+                  //               itemBuilder: (context, imagesIndex) {
+                  //                 final imagesItem = images[imagesIndex];
+                  //                 return Padding(
+                  //                   padding: EdgeInsetsDirectional.fromSTEB(
+                  //                       10.0, 0.0, 10.0, 0.0),
+                  //                   child: Container(
+                  //                     width: 80.0,
+                  //                     decoration: BoxDecoration(
+                  //                       color: FlutterFlowTheme.of(context)
+                  //                           .tertiary,
+                  //                       borderRadius:
+                  //                           BorderRadius.circular(12.0),
+                  //                       shape: BoxShape.rectangle,
+                  //                     ),
+                  //                     child: Stack(
+                  //                       alignment:
+                  //                           AlignmentDirectional(1.0, -1.0),
+                  //                       children: [
+                  //                         ClipRRect(
+                  //                             borderRadius:
+                  //                                 BorderRadius.circular(12.0),
+                  //                             child: CachedNetworkImageWidget(
+                  //                               image: imagesItem,
+                  //                               width: 100.0,
+                  //                               height: 85.0,
+                  //                             )),
+                  //                         InkWell(
+                  //                           splashColor: Colors.transparent,
+                  //                           focusColor: Colors.transparent,
+                  //                           hoverColor: Colors.transparent,
+                  //                           highlightColor: Colors.transparent,
+                  //                           onTap: () async {
+                  //                             setState(() {
+                  //                               FFAppState().removeFromMediaUrl(
+                  //                                   valueOrDefault<String>(
+                  //                                 imagesItem,
+                  //                                 'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/sample-app-property-finder-834ebu/assets/lhbo8hbkycdw/addCoverImage@2x.png',
+                  //                               ));
+                  //                             });
+                  //                           },
+                  //                           child: Container(
+                  //                             width: 26.0,
+                  //                             height: 25.0,
+                  //                             decoration: BoxDecoration(
+                  //                               color:
+                  //                                   FlutterFlowTheme.of(context)
+                  //                                       .primary,
+                  //                               borderRadius: BorderRadius.only(
+                  //                                 bottomLeft:
+                  //                                     Radius.circular(22.0),
+                  //                                 bottomRight:
+                  //                                     Radius.circular(0.0),
+                  //                                 topLeft: Radius.circular(0.0),
+                  //                                 topRight:
+                  //                                     Radius.circular(10.0),
+                  //                               ),
+                  //                               shape: BoxShape.rectangle,
+                  //                             ),
+                  //                             child: Align(
+                  //                               alignment: AlignmentDirectional(
+                  //                                   0.4, -0.2),
+                  //                               child: Icon(
+                  //                                 Icons.delete_outlined,
+                  //                                 color: Colors.white,
+                  //                                 size: 14.0,
+                  //                               ),
+                  //                             ),
+                  //                           ),
+                  //                         ),
+                  //                       ],
+                  //                     ),
+                  //                   ),
+                  //                 );
+                  //               },
+                  //             );
+                  //           },
+                  //         ),
+                  //       ),
+                  //     ],
+                  //   ),
+                  // ),
                   Text(
                     'Title',
                     style: FlutterFlowTheme.of(context).labelMedium.override(
