@@ -400,7 +400,6 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                           }
                           List<PostsRecord> gridViewPostsRecordList =
                               snapshot.data??[];
-                          print(gridViewPostsRecordList.length.toString());
                           // Customize what your widget looks like with no search results.
 
                           if (snapshot.data!.isEmpty) {

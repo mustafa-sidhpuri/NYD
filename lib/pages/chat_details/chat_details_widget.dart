@@ -171,7 +171,7 @@ class _ChatDetailsWidgetState extends State<ChatDetailsWidget> {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
                                   content: Text(
-                                    'Product is delete.',
+                                    'Product is deleted.',
                                     style: TextStyle(
                                       color: Colors.white,
                                       fontSize: 14,
@@ -264,7 +264,7 @@ class _ChatDetailsWidgetState extends State<ChatDetailsWidget> {
                             if (widget.postData?.isDelete == true) {
                               return Center(
                                 child: Text(
-                                  "Product is delete.",
+                                  "Product is deleted.",
                                   style: TextStyle(
                                       color: Colors.black,
                                       fontSize: 20,
@@ -496,6 +496,24 @@ class _ChatDetailsWidgetState extends State<ChatDetailsWidget> {
                                       false;
                               if (confirmDialogResponse) {
                                 if (loggedIn) {
+
+                                  if (widget.postData?.isDelete == true) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text(
+                                          'Product is deleted.',
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 14,
+                                          ),
+                                        ),
+                                        duration: Duration(milliseconds: 4000),
+                                        backgroundColor:
+                                        FlutterFlowTheme.of(context).primary,
+                                      ),
+                                    );
+                                  }
+
                                   if (widget.postData?.public == true) {
                                     final postsUpdateData =
                                         createPostsRecordData(

@@ -5,11 +5,48 @@ import 'package:n_y_d_app/components/cached_network_image.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../app_state.dart';
+import '../../auth/firebase_auth/auth_util.dart';
 import '../../flutter_flow/flutter_flow_theme.dart';
 import '../product_details/product_details_widget.dart';
 
-class SavedScreen extends StatelessWidget {
+class SavedScreen extends StatefulWidget {
   const SavedScreen({Key? key}) : super(key: key);
+
+  @override
+  State<SavedScreen> createState() => _SavedScreenState();
+}
+
+class _SavedScreenState extends State<SavedScreen> {
+  @override
+  void initState() {
+    setState(() {
+      _savePost();
+    });
+
+    super.initState();
+  }
+
+  Future<void> _savePost() async {
+  List<DocumentReference> tempList = [];
+    if (FFAppState().savedPost != "" && FFAppState().savedPost != null) {
+      for (DocumentReference data in FFAppState().savedPost) {
+        final documentSnapshot = await data.get();
+        if (documentSnapshot.exists) {
+          Map<String,dynamic> savePost = documentSnapshot.data() as Map<String,dynamic>;
+          if (savePost["is_delete"] == true) {
+           // FFAppState().removeFromSavedPost(data);
+            await currentUserReference!
+                .update({"saved_post": FFAppState().savedPost});
+
+          }else{
+            tempList.add(data);
+          }
+        }
+      }
+      FFAppState().savedPost = tempList;
+      setState(() {});
+   }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -59,6 +96,7 @@ class SavedScreen extends StatelessWidget {
                         EdgeInsetsDirectional.fromSTEB(0.0, 20.0, 0.0, 0.0),
                     child: Builder(
                       builder: (context) {
+
                         final savedPost = FFAppState().savedPost.toList();
                         return GridView.builder(
                           padding: EdgeInsets.zero,
@@ -75,25 +113,42 @@ class SavedScreen extends StatelessWidget {
                             return FutureBuilder<DocumentSnapshot>(
                                 future: savedPost[index].get(),
                                 builder: (context, snapshot) {
+                                  // if (!snapshot.hasData) {
+                                  //   return Center(
+                                  //     child: SizedBox(
+                                  //       width: 50.0,
+                                  //       height: 50.0,
+                                  //       child: CircularProgressIndicator(
+                                  //         color: FlutterFlowTheme.of(context).primary,
+                                  //       ),
+                                  //     ),
+                                  //   );
+                                  // }
+                                  if (snapshot.data?["is_delete"] == true) {
+                                    // FFAppState()
+                                    //     .removeFromSavedPost(savedPost[index]);
+                                    // currentUserReference!.update(
+                                    //     {"saved_post": FFAppState().savedPost});
+                                    return SizedBox();
+                                  }
                                   return ClipRRect(
                                     borderRadius: BorderRadius.circular(12.0),
                                     child: snapshot.hasData
                                         ? InkWell(
-                                            onTap: () async{
-                                              final postData =
-                                              await PostsRecord.getDocumentOnce(
-                                                  savedPost[index]);
+                                            onTap: () async {
+                                              final postData = await PostsRecord
+                                                  .getDocumentOnce(
+                                                      savedPost[index]);
                                               Navigator.push(
                                                 context,
                                                 MaterialPageRoute(
                                                   builder: (context) =>
                                                       ProductDetailsWidget(
-                                                        productData: postData,
-                                                        productId:savedPost[index],
-                                                      ),
+                                                    productData: postData,
+                                                    productId: savedPost[index],
+                                                  ),
                                                 ),
                                               );
-
                                             },
                                             child: CachedNetworkImageWidget(
                                               image: snapshot.data!["images"]
@@ -104,7 +159,7 @@ class SavedScreen extends StatelessWidget {
                                             ),
                                           )
                                         : Center(
-                                            child: CircularProgressIndicator(),
+                                            child: SizedBox(),
                                           ),
                                   );
                                 });

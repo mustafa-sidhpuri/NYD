@@ -578,7 +578,7 @@ class _ChatMainWidgetState extends State<ChatMainWidget> {
                                         ScaffoldMessenger.of(context).showSnackBar(
                                           SnackBar(
                                             content: Text(
-                                              'Product is delete.',
+                                              'Product is deleted.',
                                               style: TextStyle(
                                                 color: Colors.white,
                                                 fontSize: 14,
@@ -590,6 +590,7 @@ class _ChatMainWidgetState extends State<ChatMainWidget> {
                                                 .primary,
                                           ),
                                         );
+                                        return;
                                       }
                                       if (read) {
                                         Navigator.push(
