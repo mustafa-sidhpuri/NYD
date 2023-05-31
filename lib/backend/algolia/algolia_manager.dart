@@ -76,7 +76,10 @@ class FFAlgoliaManager {
     }
     // filtering data coming from algolia
     // Added from vscode
-    query = query.filters("public:true");
+
+     query = query.filters("is_delete:false");
+    // query = query.filters("public:true");
+
     if (loc != null) {
       query = query.setAroundLatLng('${loc.latitude},${loc.longitude}');
       query = query.setAroundRadius(searchRadiusMeters?.round() ?? 'all');

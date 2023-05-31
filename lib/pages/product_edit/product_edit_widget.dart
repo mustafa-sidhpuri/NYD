@@ -317,155 +317,165 @@ class _ProductEditWidgetState extends State<ProductEditWidget> {
                       ],
                     ),
                   ),
-                  InkWell(
-                    onTap: () async {
-                      // if (FFAppState().mediaUrl.length == 5) {
-                      //   ScaffoldMessenger.of(context).showSnackBar(
-                      //     SnackBar(
-                      //       content: Text(
-                      //         'Maximum 5 images select',
-                      //         style: TextStyle(
-                      //           color: Colors.white,
-                      //         ),
-                      //       ),
-                      //       duration: Duration(milliseconds: 4000),
-                      //       backgroundColor:
-                      //           FlutterFlowTheme.of(context).primary,
-                      //     ),
-                      //   );
-                      // }
-                    //  else {
-                        _model.uploadedFileUrl = "";
-                        final selectedMedia =
-                            await selectMediaWithSourceBottomSheet(
-                          context: context,
-                          allowPhoto: true,
-                          backgroundColor:
-                              FlutterFlowTheme.of(context).tertiary,
-                          textColor: Colors.black,
-                          pickerFontFamily: 'Lexend Deca',
-                        );
-                        LoadingOverlay.show(context);
-                        if (selectedMedia != null &&
-                            selectedMedia.every((m) =>
-                                validateFileFormat(m.storagePath, context))) {
-                          setState(() => _model.isDataUploading = true);
-                          var selectedUploadedFiles = <FFUploadedFile>[];
-                          List downloadUrls = <String>[];
-                          try {
-                            selectedUploadedFiles = selectedMedia
-                                .map((m) => FFUploadedFile(
-                                      name: m.storagePath.split('/').last,
-                                      bytes: m.bytes,
-                                      height: m.dimensions?.height,
-                                      width: m.dimensions?.width,
-                                      blurHash: m.blurHash,
-                                    ))
-                                .toList();
+                  Center(
+                    child: Container(
+                      width: 130.0,
+                      height: 170.0,
+                      decoration: BoxDecoration(
+                        color: FlutterFlowTheme.of(context)
+                            .secondaryBackground,
+                      ),
+                      child: InkWell(
+                        onTap: () async {
+                          // if (FFAppState().mediaUrl.length == 5) {
+                          //   ScaffoldMessenger.of(context).showSnackBar(
+                          //     SnackBar(
+                          //       content: Text(
+                          //         'Maximum 5 images select',
+                          //         style: TextStyle(
+                          //           color: Colors.white,
+                          //         ),
+                          //       ),
+                          //       duration: Duration(milliseconds: 4000),
+                          //       backgroundColor:
+                          //           FlutterFlowTheme.of(context).primary,
+                          //     ),
+                          //   );
+                          // }
+                          //  else {
+                          _model.uploadedFileUrl = "";
+                          final selectedMedia =
+                          await selectMediaWithSourceBottomSheet(
+                            context: context,
+                            allowPhoto: true,
+                            backgroundColor:
+                            FlutterFlowTheme.of(context).tertiary,
+                            textColor: Colors.black,
+                            pickerFontFamily: 'Lexend Deca',
+                          );
+                          LoadingOverlay.show(context);
+                          if (selectedMedia != null &&
+                              selectedMedia.every((m) =>
+                                  validateFileFormat(m.storagePath, context))) {
+                            setState(() => _model.isDataUploading = true);
+                            var selectedUploadedFiles = <FFUploadedFile>[];
+                            List downloadUrls = <String>[];
+                            try {
+                              selectedUploadedFiles = selectedMedia
+                                  .map((m) => FFUploadedFile(
+                                name: m.storagePath.split('/').last,
+                                bytes: m.bytes,
+                                height: m.dimensions?.height,
+                                width: m.dimensions?.width,
+                                blurHash: m.blurHash,
+                              ))
+                                  .toList();
 
-                            downloadUrls = (await Future.wait(
-                              selectedMedia.map(
-                                (m) async =>
-                                    await uploadData(m.storagePath, m.bytes),
-                              ),
-                            ))
-                                .where((u) => u != null)
-                                .map((u) => u!)
-                                .toList();
-                          } finally {
+                              downloadUrls = (await Future.wait(
+                                selectedMedia.map(
+                                      (m) async =>
+                                  await uploadData(m.storagePath, m.bytes),
+                                ),
+                              ))
+                                  .where((u) => u != null)
+                                  .map((u) => u!)
+                                  .toList();
+                            } finally {
+                              LoadingOverlay.hide();
+                              _model.isDataUploading = false;
+                            }
                             LoadingOverlay.hide();
-                            _model.isDataUploading = false;
+                            if (selectedUploadedFiles.length ==
+                                selectedMedia.length &&
+                                downloadUrls.length == selectedMedia.length) {
+                              setState(() {
+                                _model.uploadedLocalFile =
+                                    selectedUploadedFiles.first;
+                                _model.uploadedFileUrl = downloadUrls.first;
+                              });
+                            } else {
+                              setState(() {});
+                              return;
+                            }
                           }
-                          LoadingOverlay.hide();
-                          if (selectedUploadedFiles.length ==
-                                  selectedMedia.length &&
-                              downloadUrls.length == selectedMedia.length) {
+
+                          if (_model.uploadedFileUrl != null &&
+                              _model.uploadedFileUrl != '') {
                             setState(() {
-                              _model.uploadedLocalFile =
-                                  selectedUploadedFiles.first;
-                              _model.uploadedFileUrl = downloadUrls.first;
+                              if(FFAppState().mediaUrl.length > 0){
+                                FFAppState().removeFromMediaUrl(FFAppState().mediaUrl.first);
+                              }
+                              FFAppState().addToMediaUrl(_model.uploadedFileUrl);
                             });
                           } else {
-                            setState(() {});
-                            return;
+                            LoadingOverlay.hide();
                           }
-                        }
-
-                        if (_model.uploadedFileUrl != null &&
-                            _model.uploadedFileUrl != '') {
-                          setState(() {
-                            if(FFAppState().mediaUrl.length > 0){
-                              FFAppState().removeFromMediaUrl(FFAppState().mediaUrl.first);
-                            }
-                            FFAppState().addToMediaUrl(_model.uploadedFileUrl);
-                          });
-                        } else {
-                          LoadingOverlay.hide();
-                        }
-                  //    }
-                    },
-                    child: Column(
-                      children: [
-                        Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(
-                              0.0, 24.0, 0.0, 0.0),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.max,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Container(
-                                width: 100.0,
-                                height: 100.0,
-                                decoration: BoxDecoration(
-                                  color: FlutterFlowTheme.of(context)
-                                      .secondaryBackground,
-                                  borderRadius: BorderRadius.circular(12.0),
-                                  border: Border.all(
-                                    color: FlutterFlowTheme.of(context).primary,
-                                  ),
-                                ),
-                                child: FFAppState().mediaUrl.length > 0?
-                                ClipRRect(
-                                  borderRadius:
-                                  BorderRadius.circular(
-                                      12.0),
-                                  child: CachedNetworkImageWidget(
-                                    image: FFAppState().mediaUrl.toList().first,
+                          //    }
+                        },
+                        child: Column(
+                          children: [
+                            Padding(
+                              padding: EdgeInsetsDirectional.fromSTEB(
+                                  0.0, 24.0, 0.0, 0.0),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.max,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Container(
                                     width: 100.0,
-                                    height: 85.0,
-                                  ),
-                                ):
-                                Icon(
-                                  Icons.photo_camera_outlined,
-                                  color: Color(0xFF0065FD),
-                                  size: 28.0,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(
-                              0.0, 12.0, 0.0, 0.0),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.max,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Text(
-                                'Select Photos',
-                                style: FlutterFlowTheme.of(context)
-                                    .bodyMedium
-                                    .override(
-                                      fontFamily: 'Roboto',
-                                      color:
-                                          FlutterFlowTheme.of(context).primary,
+                                    height: 100.0,
+                                    decoration: BoxDecoration(
+                                      color: FlutterFlowTheme.of(context)
+                                          .secondaryBackground,
+                                      borderRadius: BorderRadius.circular(12.0),
+                                      border: Border.all(
+                                        color: FlutterFlowTheme.of(context).primary,
+                                      ),
                                     ),
+                                    child: FFAppState().mediaUrl.length > 0?
+                                    ClipRRect(
+                                      borderRadius:
+                                      BorderRadius.circular(
+                                          12.0),
+                                      child: CachedNetworkImageWidget(
+                                        image: FFAppState().mediaUrl.toList().first,
+                                        width: 100.0,
+                                        height: 85.0,
+                                      ),
+                                    ):
+                                    Icon(
+                                      Icons.photo_camera_outlined,
+                                      color: Color(0xFF0065FD),
+                                      size: 28.0,
+                                    ),
+                                  ),
+                                ],
                               ),
-                            ],
-                          ),
+                            ),
+                            Padding(
+                              padding: EdgeInsetsDirectional.fromSTEB(
+                                  0.0, 12.0, 0.0, 0.0),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.max,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    'Select Photos',
+                                    style: FlutterFlowTheme.of(context)
+                                        .bodyMedium
+                                        .override(
+                                          fontFamily: 'Roboto',
+                                          color:
+                                              FlutterFlowTheme.of(context).primary,
+                                        ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
                         ),
-                      ],
+                      ),
                     ),
                   ),
                   // Container(

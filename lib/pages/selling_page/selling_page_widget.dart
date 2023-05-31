@@ -79,7 +79,7 @@ class _SellingPageWidgetState extends State<SellingPageWidget> {
                           indicatorColor: FlutterFlowTheme.of(context).primary,
                           tabs: [
                             Tab(
-                              text: 'For Sale',
+                              text: 'My Items',
                             ),
                             Tab(
                               text: 'Picked Up',
@@ -98,8 +98,9 @@ class _SellingPageWidgetState extends State<SellingPageWidget> {
                                   queryBuilder: (postsRecord) => postsRecord
                                       .where('posted_by',
                                           isEqualTo: currentUserUid)
-                                      .where('is_picked_up', isEqualTo: false) .orderBy('created_at',
-                                      descending: true),
+                                      .where('is_picked_up', isEqualTo: false)
+                                      .where('is_delete', isEqualTo: false)
+                                      .orderBy('created_at', descending: true),
                                 ),
                                 builder: (context, snapshot) {
                                   // Customize what your widget looks like when it's loading.
@@ -115,12 +116,14 @@ class _SellingPageWidgetState extends State<SellingPageWidget> {
                                       ),
                                     );
                                   }
-                                  if(snapshot.data!.isEmpty){
+                                  if (snapshot.data!.isEmpty) {
                                     return Center(
                                       child: SizedBox(
                                         child: Text(
-                                            "No Data Found",
-                                          style: TextStyle(color: Colors.black,fontSize: 18),
+                                          "No Data Found",
+                                          style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 18),
                                         ),
                                       ),
                                     );
@@ -144,11 +147,13 @@ class _SellingPageWidgetState extends State<SellingPageWidget> {
                                           focusColor: Colors.transparent,
                                           hoverColor: Colors.transparent,
                                           highlightColor: Colors.transparent,
-                                          onTap: ()  {
-                                            Navigator.of(context).push(MaterialPageRoute(
-                                              builder: (context) => ProductDetailsWidget(
+                                          onTap: () {
+                                            Navigator.of(context)
+                                                .push(MaterialPageRoute(
+                                              builder: (context) =>
+                                                  ProductDetailsWidget(
                                                 productData:
-                                                listViewPostsRecord,
+                                                    listViewPostsRecord,
                                                 productId: listViewPostsRecord
                                                     .reference,
                                               ),
@@ -180,24 +185,26 @@ class _SellingPageWidgetState extends State<SellingPageWidget> {
                                                       .fromSTEB(10.0, 10.0, 0.0,
                                                           10.0),
                                                   child: ClipRRect(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            12.0),
-                                                    child: CachedNetworkImageWidget(
-                                                      image: listViewPostsRecord
-                                                          .images!
-                                                          .toList()
-                                                          .first,
-                                                      width: 80.0,
-                                                      height: 80.0,
-                                                    )
-                                                  ),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              12.0),
+                                                      child:
+                                                          CachedNetworkImageWidget(
+                                                        image:
+                                                            listViewPostsRecord
+                                                                .images!
+                                                                .toList()
+                                                                .first,
+                                                        width: 80.0,
+                                                        height: 80.0,
+                                                      )),
                                                 ),
                                                 Expanded(
                                                   child: Padding(
-                                                    padding: EdgeInsetsDirectional
-                                                        .fromSTEB(
-                                                        20.0, 15.0, 0.0, 7.0),
+                                                    padding:
+                                                        EdgeInsetsDirectional
+                                                            .fromSTEB(20.0,
+                                                                15.0, 0.0, 7.0),
                                                     child: Column(
                                                       mainAxisSize:
                                                           MainAxisSize.max,
@@ -210,9 +217,11 @@ class _SellingPageWidgetState extends State<SellingPageWidget> {
                                                       children: [
                                                         Text(
                                                           listViewPostsRecord
-                                                              .name??"",
+                                                                  .name ??
+                                                              "",
                                                           maxLines: 2,
-                                                          overflow: TextOverflow.ellipsis,
+                                                          overflow: TextOverflow
+                                                              .ellipsis,
                                                           style: FlutterFlowTheme
                                                                   .of(context)
                                                               .labelMedium
@@ -240,7 +249,8 @@ class _SellingPageWidgetState extends State<SellingPageWidget> {
                                                                       7.0),
                                                           child: Row(
                                                             mainAxisSize:
-                                                                MainAxisSize.max,
+                                                                MainAxisSize
+                                                                    .max,
                                                             mainAxisAlignment:
                                                                 MainAxisAlignment
                                                                     .start,
@@ -252,7 +262,8 @@ class _SellingPageWidgetState extends State<SellingPageWidget> {
                                                                 'assets/images/Group_(5).svg',
                                                                 width: 14.0,
                                                                 height: 14.0,
-                                                                fit: BoxFit.cover,
+                                                                fit: BoxFit
+                                                                    .cover,
                                                               ),
                                                               Text(
                                                                 '  ${valueOrDefault<String>(
@@ -268,8 +279,8 @@ class _SellingPageWidgetState extends State<SellingPageWidget> {
                                                                           .createdAt),
                                                                   '19 Apr, 23',
                                                                 )}    ',
-                                                                style: FlutterFlowTheme
-                                                                        .of(context)
+                                                                style: FlutterFlowTheme.of(
+                                                                        context)
                                                                     .bodyMedium
                                                                     .override(
                                                                       fontFamily:
@@ -287,14 +298,18 @@ class _SellingPageWidgetState extends State<SellingPageWidget> {
                                                                 'assets/images/Group_(4).svg',
                                                                 width: 14.0,
                                                                 height: 14.0,
-                                                                fit: BoxFit.cover,
+                                                                fit: BoxFit
+                                                                    .cover,
                                                               ),
                                                               Text(
-                                                                listViewPostsRecord.conversations?.length == null ?
-                                                                '  0 Conversations':
-                                                                '  ${listViewPostsRecord.conversations?.length} ${"Conversations"}',
-                                                                style: FlutterFlowTheme
-                                                                        .of(context)
+                                                                listViewPostsRecord
+                                                                            .conversations
+                                                                            ?.length ==
+                                                                        null
+                                                                    ? '  0 Conversations'
+                                                                    : '  ${listViewPostsRecord.conversations?.length} ${"Conversations"}',
+                                                                style: FlutterFlowTheme.of(
+                                                                        context)
                                                                     .bodyMedium
                                                                     .override(
                                                                       fontFamily:
@@ -336,16 +351,17 @@ class _SellingPageWidgetState extends State<SellingPageWidget> {
                                                                       BorderRadius
                                                                           .circular(
                                                                               9.0),
-                                                                  border:
-                                                                      Border.all(
+                                                                  border: Border
+                                                                      .all(
                                                                     color: FlutterFlowTheme.of(
                                                                             context)
                                                                         .primary,
                                                                   ),
                                                                 ),
                                                                 child: InkWell(
-                                                                  splashColor: Colors
-                                                                      .transparent,
+                                                                  splashColor:
+                                                                      Colors
+                                                                          .transparent,
                                                                   focusColor: Colors
                                                                       .transparent,
                                                                   hoverColor: Colors
@@ -424,17 +440,20 @@ class _SellingPageWidgetState extends State<SellingPageWidget> {
                                                                 highlightColor:
                                                                     Colors
                                                                         .transparent,
-                                                                onTap: () async {
+                                                                onTap:
+                                                                    () async {
                                                                   final postsUpdateData =
                                                                       createPostsRecordData(
-                                                                    public: false,
+                                                                    public:
+                                                                        false,
                                                                   );
                                                                   await listViewPostsRecord
                                                                       .reference
                                                                       .update(
                                                                           postsUpdateData);
                                                                 },
-                                                                child: Container(
+                                                                child:
+                                                                    Container(
                                                                   width: 100.0,
                                                                   height: 19.0,
                                                                   decoration:
@@ -442,11 +461,11 @@ class _SellingPageWidgetState extends State<SellingPageWidget> {
                                                                     color: Colors
                                                                         .white,
                                                                     borderRadius:
-                                                                        BorderRadius
-                                                                            .circular(
-                                                                                9.0),
-                                                                    border: Border
-                                                                        .all(
+                                                                        BorderRadius.circular(
+                                                                            9.0),
+                                                                    border:
+                                                                        Border
+                                                                            .all(
                                                                       color: FlutterFlowTheme.of(
                                                                               context)
                                                                           .primary,
@@ -479,8 +498,8 @@ class _SellingPageWidgetState extends State<SellingPageWidget> {
                                                                         child:
                                                                             Text(
                                                                           'List',
-                                                                          style: FlutterFlowTheme.of(context)
-                                                                              .labelSmall,
+                                                                          style:
+                                                                              FlutterFlowTheme.of(context).labelSmall,
                                                                         ),
                                                                       ),
                                                                     ],
@@ -508,7 +527,9 @@ class _SellingPageWidgetState extends State<SellingPageWidget> {
                                 queryBuilder: (postsRecord) => postsRecord
                                     .where('posted_by',
                                         isEqualTo: currentUserUid)
-                                    .where('is_picked_up', isEqualTo: true).orderBy('created_at', descending: true),
+                                    .where('is_picked_up', isEqualTo: true)
+                                    .where('is_delete', isEqualTo: false)
+                                    .orderBy('created_at', descending: true),
                               ),
                               builder: (context, snapshot) {
                                 // Customize what your widget looks like when it's loading.
@@ -524,12 +545,13 @@ class _SellingPageWidgetState extends State<SellingPageWidget> {
                                     ),
                                   );
                                 }
-                                if(snapshot.data!.isEmpty){
+                                if (snapshot.data!.isEmpty) {
                                   return Center(
                                     child: SizedBox(
                                       child: Text(
-                                          "No Data Found",
-                                        style: TextStyle(color: Colors.black,fontSize: 18),
+                                        "No Data Found",
+                                        style: TextStyle(
+                                            color: Colors.black, fontSize: 18),
                                       ),
                                     ),
                                   );
@@ -566,10 +588,12 @@ class _SellingPageWidgetState extends State<SellingPageWidget> {
                                           hoverColor: Colors.transparent,
                                           highlightColor: Colors.transparent,
                                           onTap: () async {
-                                            Navigator.of(context).push(MaterialPageRoute(
-                                              builder: (context) => ProductDetailsWidget(
+                                            Navigator.of(context)
+                                                .push(MaterialPageRoute(
+                                              builder: (context) =>
+                                                  ProductDetailsWidget(
                                                 productData:
-                                                listViewPostsRecord,
+                                                    listViewPostsRecord,
                                                 productId: listViewPostsRecord
                                                     .reference,
                                               ),
@@ -596,17 +620,18 @@ class _SellingPageWidgetState extends State<SellingPageWidget> {
                                               mainAxisSize: MainAxisSize.max,
                                               children: [
                                                 ClipRRect(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          10.0),
-                                                  child: CachedNetworkImageWidget(
-                                                    image:  listViewPostsRecord.images!
-                                                        .toList()
-                                                        .first,
-                                                    width: 75.0,
-                                                    height: 65.0,
-                                                  )
-                                                ),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10.0),
+                                                    child:
+                                                        CachedNetworkImageWidget(
+                                                      image: listViewPostsRecord
+                                                          .images!
+                                                          .toList()
+                                                          .first,
+                                                      width: 75.0,
+                                                      height: 65.0,
+                                                    )),
                                                 Padding(
                                                   padding: EdgeInsetsDirectional
                                                       .fromSTEB(

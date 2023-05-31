@@ -53,7 +53,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
       if(FFAppState().userlocation == null || FFAppState().userlocation == "") {
         SchedulerBinding.instance.addPostFrameCallback((_) async {
           FFAppState().currentUserLocationValue =
-              LatLng(position?.latitude ?? 0, position?.longitude ?? 0);
+              LatLng(position?.latitude ?? 23.102456, position?.longitude ?? 72.5383451);
           await actions.getLocation(
             FFAppState().currentUserLocationValue,
           );
@@ -99,7 +99,6 @@ class _HomePageWidgetState extends State<HomePageWidget> {
   Widget build(BuildContext context) {
     context.watch<FFAppState>();
     if (FFAppState().currentUserLocationValue == null) {
-      print(FFAppState().currentUserLocationValue.toString());
       return Container(
         color: FlutterFlowTheme.of(context).primaryBackground,
         child: Center(
@@ -400,8 +399,10 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                             );
                           }
                           List<PostsRecord> gridViewPostsRecordList =
-                              snapshot.data!;
+                              snapshot.data??[];
+                          print(gridViewPostsRecordList.length.toString());
                           // Customize what your widget looks like with no search results.
+
                           if (snapshot.data!.isEmpty) {
                             return Container(
                               height: 100,

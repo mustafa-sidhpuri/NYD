@@ -19,14 +19,14 @@ class ChatMainWidget extends StatefulWidget {
 }
 
 class _ChatMainWidgetState extends State<ChatMainWidget> {
-  late ChatMainModel _model;
+  //late ChatMainModel _model;
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
     super.initState();
-    _model = createModel(context, () => ChatMainModel());
+    //_model = createModel(context, () => ChatMainModel());
   }
 
   @override
@@ -573,6 +573,24 @@ class _ChatMainWidgetState extends State<ChatMainWidget> {
                                               listViewNotificationsRecord
                                                   .postData!);
                                       // already read then redirect only action to perform
+
+                                      if(postData.isDelete == true){
+                                        ScaffoldMessenger.of(context).showSnackBar(
+                                          SnackBar(
+                                            content: Text(
+                                              'Product is delete.',
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 14,
+                                              ),
+                                            ),
+                                            duration: Duration(milliseconds: 4000),
+                                            backgroundColor:
+                                            FlutterFlowTheme.of(context)
+                                                .primary,
+                                          ),
+                                        );
+                                      }
                                       if (read) {
                                         Navigator.push(
                                           context,

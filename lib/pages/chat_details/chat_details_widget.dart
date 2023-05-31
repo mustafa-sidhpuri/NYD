@@ -62,13 +62,15 @@ class _ChatDetailsWidgetState extends State<ChatDetailsWidget> {
     //     curve: Curves.easeOut,
     //   );
     // }
-
+  if(widget.postData?.isDelete == false){
     if (!_scrollController.hasClients) {
       print(!_scrollController.hasClients);
       Future.delayed(Duration(milliseconds: 50), () {
         _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
       });
     }
+  }
+
 
     // WidgetsBinding.instance.addPostFrameCallback((_) {
     //   print("dtaaa11111");
@@ -102,7 +104,6 @@ class _ChatDetailsWidgetState extends State<ChatDetailsWidget> {
   @override
   Widget build(BuildContext context) {
     context.watch<FFAppState>();
-
     return GestureDetector(
       onTap: () => FocusScope.of(context).requestFocus(_unfocusNode),
       child: Scaffold(
@@ -165,19 +166,35 @@ class _ChatDetailsWidgetState extends State<ChatDetailsWidget> {
                         model: _model.chatListItemModel,
                         updateCallback: () => setState(() {}),
                         child: InkWell(
-                          onTap: ()async {
-                            await Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    ProductDetailsWidget(
-                                      productData:
-                                      widget.postData,
-                                      productId: widget.postData
-                                          ?.reference,
+                          onTap: () async {
+                            if (widget.postData?.isDelete == true) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(
+                                    'Product is delete.',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 14,
                                     ),
-                              ),
-                            );
+                                  ),
+                                  duration: Duration(milliseconds: 4000),
+                                  backgroundColor:
+                                      FlutterFlowTheme.of(context).primary,
+                                ),
+                              );
+                            }
+                             else{
+                              await Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => ProductDetailsWidget(
+                                    productData: widget.postData,
+                                    productId: widget.postData?.reference,
+                                  ),
+                                ),
+                              ); 
+                            }
+                           
                           },
                           child: ChatListItemWidget(
                             profileImageChat: FutureBuilder<DocumentSnapshot>(
@@ -244,6 +261,18 @@ class _ChatDetailsWidgetState extends State<ChatDetailsWidget> {
                             //     ),
                             //   );
                             // }
+                            if (widget.postData?.isDelete == true) {
+                              return Center(
+                                child: Text(
+                                  "Product is delete.",
+                                  style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.w500),
+                                ),
+                              );
+                            }
+
                             List<ChatsRecord> listViewChatsRecordList =
                                 snapshot.data ?? [];
                             return ListView.builder(

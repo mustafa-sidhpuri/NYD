@@ -484,6 +484,7 @@ class _AddProductDetailWidgetState extends State<AddProductDetailWidget> {
                             createdAt: getCurrentTimestamp,
                             updatedAt: getCurrentTimestamp,
                             public: true,
+                            isDelete: false,
                             isPickedUp: false,
                             subCategory: subCategoryController.text,
                             postedByName: currentUserDisplayName,

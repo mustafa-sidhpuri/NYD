@@ -36,6 +36,9 @@ abstract class PostsRecord implements Built<PostsRecord, PostsRecordBuilder> {
   @BuiltValueField(wireName: 'is_picked_up')
   bool? get isPickedUp;
 
+  @BuiltValueField(wireName: 'is_delete')
+  bool? get isDelete;
+
   PickupStruct get pickup;
 
   BuiltList<String>? get conversations;
@@ -71,6 +74,7 @@ abstract class PostsRecord implements Built<PostsRecord, PostsRecordBuilder> {
     ..address = ''
     ..public = false
     ..isPickedUp = false
+    ..isDelete = false
     ..pickup = PickupStructBuilder()
     ..conversations = ListBuilder()
     ..conversationUsersId = ListBuilder()
@@ -109,6 +113,7 @@ abstract class PostsRecord implements Built<PostsRecord, PostsRecordBuilder> {
               DateTime.fromMillisecondsSinceEpoch(snapshot.data['updated_at']))
           ..public = snapshot.data['public']
           ..isPickedUp = snapshot.data['is_picked_up']
+          ..isDelete = snapshot.data['is_delete']
           ..pickup = createPickupStruct(
             userId: (snapshot.data['pickup'] ?? {})['user_id'],
             userName: (snapshot.data['pickup'] ?? {})['user_name'],
@@ -171,6 +176,7 @@ Map<String, dynamic> createPostsRecordData({
   DateTime? updatedAt,
   bool? public,
   bool? isPickedUp,
+  bool? isDelete,
   PickupStruct? pickup,
   String? subCategory,
   DocumentReference? userRef,
@@ -193,6 +199,7 @@ Map<String, dynamic> createPostsRecordData({
         ..updatedAt = updatedAt
         ..public = public
         ..isPickedUp = isPickedUp
+        ..isDelete = isDelete
         ..pickup = PickupStructBuilder()
         ..conversations = null
         ..conversationUsersId = null

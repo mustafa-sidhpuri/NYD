@@ -199,16 +199,16 @@ class _$UsersRecord extends UsersRecord {
 
   _$UsersRecord._(
       {this.userCity,
-        this.email,
-        this.displayName,
-        this.photoUrl,
-        this.uid,
-        this.createdTime,
-        this.phoneNumber,
-        this.userAddress,
-        this.latlng,
-        this.savedPost,
-        this.ffRef})
+      this.email,
+      this.displayName,
+      this.photoUrl,
+      this.uid,
+      this.createdTime,
+      this.phoneNumber,
+      this.userAddress,
+      this.latlng,
+      this.savedPost,
+      this.ffRef})
       : super._();
 
   @override

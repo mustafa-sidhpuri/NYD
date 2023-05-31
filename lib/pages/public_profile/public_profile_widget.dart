@@ -216,6 +216,7 @@ class _PublicProfileWidgetState extends State<PublicProfileWidget> {
                             queryBuilder: (postsRecord) => postsRecord
                                 .where('posted_by',
                                     isEqualTo: columnUsersRecord.uid)
+                                .where('is_delete', isEqualTo: false)
                                 .orderBy('created_at', descending: true),
                           ),
                           builder: (context, snapshot) {

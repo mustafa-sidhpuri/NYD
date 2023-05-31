@@ -100,6 +100,13 @@ class _$PostsRecordSerializer implements StructuredSerializer<PostsRecord> {
         ..add(
             serializers.serialize(value, specifiedType: const FullType(bool)));
     }
+    value = object.isDelete;
+    if (value != null) {
+      result
+        ..add('is_delete')
+        ..add(
+            serializers.serialize(value, specifiedType: const FullType(bool)));
+    }
     value = object.conversations;
     if (value != null) {
       result
@@ -226,6 +233,10 @@ class _$PostsRecordSerializer implements StructuredSerializer<PostsRecord> {
           result.isPickedUp = serializers.deserialize(value,
               specifiedType: const FullType(bool)) as bool?;
           break;
+        case 'is_delete':
+          result.isDelete = serializers.deserialize(value,
+              specifiedType: const FullType(bool)) as bool?;
+          break;
         case 'pickup':
           result.pickup.replace(serializers.deserialize(value,
               specifiedType: const FullType(PickupStruct))! as PickupStruct);
@@ -307,6 +318,8 @@ class _$PostsRecord extends PostsRecord {
   @override
   final bool? isPickedUp;
   @override
+  final bool? isDelete;
+  @override
   final PickupStruct pickup;
   @override
   final BuiltList<String>? conversations;
@@ -342,6 +355,7 @@ class _$PostsRecord extends PostsRecord {
       this.updatedAt,
       this.public,
       this.isPickedUp,
+      this.isDelete,
       required this.pickup,
       this.conversations,
       this.conversationUsersId,
@@ -378,6 +392,7 @@ class _$PostsRecord extends PostsRecord {
         updatedAt == other.updatedAt &&
         public == other.public &&
         isPickedUp == other.isPickedUp &&
+        isDelete == other.isDelete &&
         pickup == other.pickup &&
         conversations == other.conversations &&
         conversationUsersId == other.conversationUsersId &&
@@ -404,6 +419,7 @@ class _$PostsRecord extends PostsRecord {
     _$hash = $jc(_$hash, updatedAt.hashCode);
     _$hash = $jc(_$hash, public.hashCode);
     _$hash = $jc(_$hash, isPickedUp.hashCode);
+    _$hash = $jc(_$hash, isDelete.hashCode);
     _$hash = $jc(_$hash, pickup.hashCode);
     _$hash = $jc(_$hash, conversations.hashCode);
     _$hash = $jc(_$hash, conversationUsersId.hashCode);
@@ -432,6 +448,7 @@ class _$PostsRecord extends PostsRecord {
           ..add('updatedAt', updatedAt)
           ..add('public', public)
           ..add('isPickedUp', isPickedUp)
+          ..add('isDelete', isDelete)
           ..add('pickup', pickup)
           ..add('conversations', conversations)
           ..add('conversationUsersId', conversationUsersId)
@@ -492,6 +509,10 @@ class PostsRecordBuilder implements Builder<PostsRecord, PostsRecordBuilder> {
   bool? _isPickedUp;
   bool? get isPickedUp => _$this._isPickedUp;
   set isPickedUp(bool? isPickedUp) => _$this._isPickedUp = isPickedUp;
+
+  bool? _isDelete;
+  bool? get isDelete => _$this._isDelete;
+  set isDelete(bool? isDelete) => _$this._isDelete = isDelete;
 
   PickupStructBuilder? _pickup;
   PickupStructBuilder get pickup =>
@@ -558,6 +579,7 @@ class PostsRecordBuilder implements Builder<PostsRecord, PostsRecordBuilder> {
       _updatedAt = $v.updatedAt;
       _public = $v.public;
       _isPickedUp = $v.isPickedUp;
+      _isDelete = $v.isDelete;
       _pickup = $v.pickup.toBuilder();
       _conversations = $v.conversations?.toBuilder();
       _conversationUsersId = $v.conversationUsersId?.toBuilder();
@@ -603,6 +625,7 @@ class PostsRecordBuilder implements Builder<PostsRecord, PostsRecordBuilder> {
               updatedAt: updatedAt,
               public: public,
               isPickedUp: isPickedUp,
+              isDelete: isDelete,
               pickup: pickup.build(),
               conversations: _conversations?.build(),
               conversationUsersId: _conversationUsersId?.build(),
