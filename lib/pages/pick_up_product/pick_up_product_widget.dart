@@ -315,7 +315,7 @@ class _PickUpProductWidgetState extends State<PickUpProductWidget> {
                                     context,
                                     MaterialPageRoute(
                                       builder: (context) => NavBarPage(
-                                          initialPage: 'sellingPage'),
+                                          initialPage: 'sellingPage',index: 1,),
                                     ),
                                   );
                                 }

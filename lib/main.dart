@@ -17,10 +17,9 @@ import 'flutter_flow/flutter_flow_util.dart';
 import 'flutter_flow/internationalization.dart';
 import 'index.dart';
 
-
 Future<void> backgroundHandler(RemoteMessage message) async {
-  print("000000"+message.data.toString());
-  print("11111111"+message.notification!.title.toString());
+  print("000000" + message.data.toString());
+  print("11111111" + message.notification!.title.toString());
 }
 
 void main() async {
@@ -35,8 +34,9 @@ void main() async {
 
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark.copyWith(
       statusBarColor: Colors.white, // Color for Android
-      statusBarBrightness: Brightness.light // Dark == white status bar -- for IOS.
-  ));
+      statusBarBrightness:
+          Brightness.light // Dark == white status bar -- for IOS.
+      ));
 
   runApp(ChangeNotifierProvider(
     create: (context) => appState,
@@ -125,11 +125,12 @@ class _MyAppState extends State<MyApp> {
 }
 
 class NavBarPage extends StatefulWidget {
-  NavBarPage({Key? key, this.initialPage, this.page}) : super(key: key);
+  NavBarPage({Key? key, this.initialPage, this.page, this.index})
+      : super(key: key);
 
   final String? initialPage;
   final Widget? page;
-
+  final int? index;
   @override
   _NavBarPageState createState() => _NavBarPageState();
 }
@@ -152,7 +153,7 @@ class _NavBarPageState extends State<NavBarPage> {
       'homePage': HomePageWidget(),
       'chatMain': ChatMainWidget(),
       'AddProduct': AddProductWidget(),
-      'sellingPage': SellingPageWidget(),
+      'sellingPage': SellingPageWidget(selectedIndex: widget.index ?? 0),
       'profilePage': ProfilePageWidget(),
     };
     final currentIndex = tabs.keys.toList().indexOf(_currentPageName);

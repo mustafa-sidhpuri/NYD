@@ -171,7 +171,7 @@ class _ChatDetailsWidgetState extends State<ChatDetailsWidget> {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
                                   content: Text(
-                                    'Product is deleted.',
+                                    'Post is deleted.',
                                     style: TextStyle(
                                       color: Colors.white,
                                       fontSize: 14,
@@ -264,7 +264,7 @@ class _ChatDetailsWidgetState extends State<ChatDetailsWidget> {
                             if (widget.postData?.isDelete == true) {
                               return Center(
                                 child: Text(
-                                  "Product is deleted.",
+                                  "Post is deleted.",
                                   style: TextStyle(
                                       color: Colors.black,
                                       fontSize: 20,
@@ -501,7 +501,7 @@ class _ChatDetailsWidgetState extends State<ChatDetailsWidget> {
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(
                                         content: Text(
-                                          'Product is deleted.',
+                                          'Post is deleted.',
                                           style: TextStyle(
                                             color: Colors.white,
                                             fontSize: 14,
@@ -536,7 +536,7 @@ class _ChatDetailsWidgetState extends State<ChatDetailsWidget> {
                                       context,
                                       MaterialPageRoute(
                                         builder: (context) => NavBarPage(
-                                            initialPage: 'sellingPage'),
+                                            initialPage: 'sellingPage',index: 1,),
                                       ),
                                     );
                                   } else {

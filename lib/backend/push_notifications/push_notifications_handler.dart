@@ -132,7 +132,7 @@ class _PushNotificationsHandlerState extends State<PushNotificationsHandler> {
 final pageBuilderMap = <String, Future<Widget> Function(Map<String, dynamic>)>{
   'login': (data) async => LoginWidget(),
   'createAccount': (data) async => CreateAccountWidget(),
-  'sellingPage': (data) async => NavBarPage(initialPage: 'sellingPage'),
+  'sellingPage': (data) async => NavBarPage(initialPage: 'sellingPage',index: 0,),
   'chatMain': (data) async => NavBarPage(initialPage: 'chatMain'),
   'profilePage': (data) async => NavBarPage(initialPage: 'profilePage'),
   'editProfile': (data) async => EditProfileWidget(

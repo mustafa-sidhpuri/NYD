@@ -311,7 +311,6 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                 Padding(
                   padding: EdgeInsetsDirectional.fromSTEB(0.0, 25.0, 0.0, 0.0),
                   child: Row(
-                    mainAxisSize: MainAxisSize.max,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
@@ -322,55 +321,37 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                               fontWeight: FontWeight.bold,
                             ),
                       ),
-                      SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: Row(
-                          mainAxisSize: MainAxisSize.max,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            if (FFAppState().showListView == false)
-                              InkWell(
-                                splashColor: Colors.transparent,
-                                focusColor: Colors.transparent,
-                                hoverColor: Colors.transparent,
-                                highlightColor: Colors.transparent,
-                                onTap: () async {
-                                  setState(() {
-                                    FFAppState().showListView = true;
-                                    FFAppState().showFullList = true;
-                                    FFAppState().showgrid = false;
-                                  });
-                                },
-                                child: Icon(
-                                  Icons.format_list_bulleted_rounded,
-                                  color: Colors.black,
-                                  size: 24.0,
-                                ),
-                              ),
-                            if (FFAppState().showListView == true)
-                              InkWell(
-                                splashColor: Colors.transparent,
-                                focusColor: Colors.transparent,
-                                hoverColor: Colors.transparent,
-                                highlightColor: Colors.transparent,
-                                onTap: () async {
-                                  setState(() {
-                                    FFAppState().showListView = false;
-                                    FFAppState().showFullList = true;
-                                    FFAppState().showgrid = true;
-                                  });
-                                },
-                                child: SvgPicture.asset(
-                                  'assets/images/Group.svg',
-                                  width: 20.0,
-                                  height: 20.0,
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                          ],
+                      if (FFAppState().showListView == false)
+                        InkWell(
+                          onTap: () async {
+                            setState(() {
+                              FFAppState().showListView = true;
+                              FFAppState().showFullList = true;
+                              FFAppState().showgrid = false;
+                            });
+                          },
+                          child: Icon(
+                            Icons.format_list_bulleted_rounded,
+                            color: Colors.black,
+                            size: 24.0,
+                          ),
                         ),
-                      ),
+                      if (FFAppState().showListView == true)
+                        InkWell(
+                          onTap: () async {
+                            setState(() {
+                              FFAppState().showListView = false;
+                              FFAppState().showFullList = true;
+                              FFAppState().showgrid = true;
+                            });
+                          },
+                          child: SvgPicture.asset(
+                            'assets/images/Group.svg',
+                            width: 20.0,
+                            height: 20.0,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
                     ],
                   ),
                 ),
@@ -381,6 +362,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                           EdgeInsetsDirectional.fromSTEB(0.0, 20.0, 0.0, 20.0),
                       child: FutureBuilder<List<PostsRecord>>(
                         future: PostsRecord.search(
+
                           term: FFAppState().searchstring,
                           location: FFAppState().currentUserLocationValue,
                           searchRadiusMeters: 5000.0,

@@ -206,7 +206,7 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                                       reverseDuration:
                                           Duration(milliseconds: 0),
                                       child: NavBarPage(
-                                          initialPage: 'sellingPage'),
+                                          initialPage: 'sellingPage',index: 0,),
                                     ),
                                     (r) => false,
                                   );

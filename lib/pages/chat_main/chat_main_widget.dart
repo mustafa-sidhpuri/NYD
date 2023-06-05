@@ -133,7 +133,7 @@ class _ChatMainWidgetState extends State<ChatMainWidget> {
                                   listViewConversationsRecordList =
                                   snapshot.data!;
                               return ListView.builder(
-                                padding: EdgeInsets.zero,
+                                padding: EdgeInsets.only(top: 20),
                                 scrollDirection: Axis.vertical,
                                 itemCount:
                                     listViewConversationsRecordList.length,
@@ -143,10 +143,6 @@ class _ChatMainWidgetState extends State<ChatMainWidget> {
                                       listViewConversationsRecordList[
                                           listViewIndex];
                                   return InkWell(
-                                    splashColor: Colors.transparent,
-                                    focusColor: Colors.transparent,
-                                    hoverColor: Colors.transparent,
-                                    highlightColor: Colors.transparent,
                                     onTap: () async {
                                       // fetchign product from firebase
                                       final product = await FirebaseFirestore
@@ -216,7 +212,7 @@ class _ChatMainWidgetState extends State<ChatMainWidget> {
                                             Padding(
                                               padding: EdgeInsetsDirectional
                                                   .fromSTEB(
-                                                      0.0, 20.0, 0.0, 0.0),
+                                                      0.0, 8.0, 0.0, 0.0),
                                               child: Row(
                                                 mainAxisSize: MainAxisSize.max,
                                                 mainAxisAlignment:
@@ -427,10 +423,11 @@ class _ChatMainWidgetState extends State<ChatMainWidget> {
                                                                           0.0,
                                                                           0.0,
                                                                           0.0,
-                                                                          2.0),
+                                                                          5.0),
                                                               child: Text(
-                                                                "${currentUserUid == listViewConversationsRecord.lastMessageBy ? "You: " : ""}${listViewConversationsRecord.lastMessage ?? ""}",
-                                                                maxLines: 2,
+                                                                "${currentUserUid == listViewConversationsRecord.lastMessageBy ?
+                                                                "You: " : ""}${listViewConversationsRecord.lastMessage ?? ""}",
+                                                                maxLines: 1,
                                                                 overflow:
                                                                     TextOverflow
                                                                         .ellipsis,
@@ -574,20 +571,22 @@ class _ChatMainWidgetState extends State<ChatMainWidget> {
                                                   .postData!);
                                       // already read then redirect only action to perform
 
-                                      if(postData.isDelete == true){
-                                        ScaffoldMessenger.of(context).showSnackBar(
+                                      if (postData.isDelete == true) {
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
                                           SnackBar(
                                             content: Text(
-                                              'Product is deleted.',
+                                              'Post is deleted.',
                                               style: TextStyle(
                                                 color: Colors.white,
                                                 fontSize: 14,
                                               ),
                                             ),
-                                            duration: Duration(milliseconds: 4000),
+                                            duration:
+                                                Duration(milliseconds: 4000),
                                             backgroundColor:
-                                            FlutterFlowTheme.of(context)
-                                                .primary,
+                                                FlutterFlowTheme.of(context)
+                                                    .primary,
                                           ),
                                         );
                                         return;
@@ -652,7 +651,8 @@ class _ChatMainWidgetState extends State<ChatMainWidget> {
                                             CrossAxisAlignment.center,
                                         children: [
                                           Padding(
-                                            padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 20.0),
                                             child: Container(
                                               width: 42.0,
                                               height: 42.0,
@@ -661,38 +661,37 @@ class _ChatMainWidgetState extends State<ChatMainWidget> {
                                                 border: Border.all(
                                                     color: Colors.black
                                                         .withOpacity(0.5)),
-                                                color: FlutterFlowTheme.of(
-                                                        context)
-                                                    .secondaryBackground,
+                                                color:
+                                                    FlutterFlowTheme.of(context)
+                                                        .secondaryBackground,
                                                 shape: BoxShape.circle,
                                               ),
-                                              child:
-                                                  listViewNotificationsRecord
-                                                              .userRef !=
-                                                          null
-                                                      ? FutureBuilder<
-                                                          DocumentSnapshot>(
-                                                          future:
-                                                              listViewNotificationsRecord
-                                                                  .userRef!
-                                                                  .get(),
-                                                          builder: (context,
-                                                              snapshot) {
-                                                            return snapshot
-                                                                    .hasData
-                                                                ? snapshot.data![
-                                                                            "photo_url"] !=
-                                                                        ""
-                                                                    ? CachedNetworkImageWidget(
-                                                                        image: snapshot.data![
-                                                                            "photo_url"])
-                                                                    : Icon(Icons
-                                                                        .person)
+                                              child: listViewNotificationsRecord
+                                                          .userRef !=
+                                                      null
+                                                  ? FutureBuilder<
+                                                      DocumentSnapshot>(
+                                                      future:
+                                                          listViewNotificationsRecord
+                                                              .userRef!
+                                                              .get(),
+                                                      builder:
+                                                          (context, snapshot) {
+                                                        return snapshot.hasData
+                                                            ? snapshot.data![
+                                                                        "photo_url"] !=
+                                                                    ""
+                                                                ? CachedNetworkImageWidget(
+                                                                    image: snapshot
+                                                                            .data![
+                                                                        "photo_url"])
                                                                 : Icon(Icons
-                                                                    .person);
-                                                          },
-                                                        )
-                                                      : Icon(Icons.person),
+                                                                    .person)
+                                                            : Icon(
+                                                                Icons.person);
+                                                      },
+                                                    )
+                                                  : Icon(Icons.person),
                                             ),
                                           ),
                                           Expanded(
@@ -707,41 +706,36 @@ class _ChatMainWidgetState extends State<ChatMainWidget> {
                                                   listViewNotificationsRecord
                                                       .message!,
                                                   maxLines: 2,
-                                                  overflow: TextOverflow.ellipsis,
-                                                  style:
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .bodyMedium
-                                                          .override(
-                                                            fontFamily:
-                                                                'Roboto',
-                                                            fontSize: 12.0,
-                                                          ),
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  style: FlutterFlowTheme.of(
+                                                          context)
+                                                      .bodyMedium
+                                                      .override(
+                                                        fontFamily: 'Roboto',
+                                                        fontSize: 12.0,
+                                                      ),
                                                 ),
                                                 Padding(
-                                                  padding:
-                                                      EdgeInsetsDirectional
-                                                          .fromSTEB(0.0, 5.0,
-                                                              0.0, 0.0),
+                                                  padding: EdgeInsetsDirectional
+                                                      .fromSTEB(
+                                                          0.0, 5.0, 0.0, 0.0),
                                                   child: Text(
                                                     dateTimeFormat(
                                                         'relative',
                                                         listViewNotificationsRecord
                                                             .createdAt!),
-                                                    style:
-                                                        FlutterFlowTheme.of(
-                                                                context)
-                                                            .bodyMedium
-                                                            .override(
-                                                              fontFamily:
-                                                                  'Roboto',
-                                                              color: Color(
-                                                                  0xFF7D8180),
-                                                              fontSize: 10.0,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .normal,
-                                                            ),
+                                                    style: FlutterFlowTheme.of(
+                                                            context)
+                                                        .bodyMedium
+                                                        .override(
+                                                          fontFamily: 'Roboto',
+                                                          color:
+                                                              Color(0xFF7D8180),
+                                                          fontSize: 10.0,
+                                                          fontWeight:
+                                                              FontWeight.normal,
+                                                        ),
                                                   ),
                                                 ),
                                               ],

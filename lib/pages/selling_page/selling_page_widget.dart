@@ -14,7 +14,9 @@ import 'selling_page_model.dart';
 export 'selling_page_model.dart';
 
 class SellingPageWidget extends StatefulWidget {
-  const SellingPageWidget({Key? key}) : super(key: key);
+  final int selectedIndex;
+
+  const SellingPageWidget({Key? key, required this.selectedIndex}) : super(key: key);
 
   @override
   _SellingPageWidgetState createState() => _SellingPageWidgetState();
@@ -67,7 +69,7 @@ class _SellingPageWidgetState extends State<SellingPageWidget> {
               Expanded(
                 child: DefaultTabController(
                   length: 2,
-                  initialIndex: 0,
+                  initialIndex: widget.selectedIndex,
                   child: Column(
                     children: [
                       Align(
