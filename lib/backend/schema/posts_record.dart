@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:n_y_d_app/auth/firebase_auth/auth_util.dart';
+
 import 'serializers.dart';
 import 'package:built_value/built_value.dart';
 
@@ -126,7 +128,7 @@ abstract class PostsRecord implements Built<PostsRecord, PostsRecordBuilder> {
           ..conversations =
               safeGet(() => ListBuilder(snapshot.data['conversations']))
           ..conversationUsersId =
-          safeGet(() => ListBuilder(snapshot.data['conversationUsersId']))
+              safeGet(() => ListBuilder(snapshot.data['conversationUsersId']))
           ..images = safeGet(() => ListBuilder(snapshot.data['images']))
           ..subCategory = snapshot.data['sub_category']
           ..userRef = safeGet(() => toRef(snapshot.data['user_ref']))
@@ -152,7 +154,10 @@ abstract class PostsRecord implements Built<PostsRecord, PostsRecordBuilder> {
             searchRadiusMeters: searchRadiusMeters,
             useCache: useCache,
           )
-          .then((r) => r.map(fromAlgolia).toList());
+          .then((r) => r
+              .map(fromAlgolia)
+              .where((element) => element.postedBy != currentUserUid)
+              .toList());
 
   PostsRecord._();
   factory PostsRecord([void Function(PostsRecordBuilder) updates]) =

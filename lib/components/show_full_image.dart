@@ -12,48 +12,44 @@ class ShowFullImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.only(left: 22, right: 22),
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(0.0, 30.0, 0.0, 0.0),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.max,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      InkWell(
-                        onTap: () async {
-                          Navigator.pop(context);
-                        },
-                        child: Icon(
-                          Icons.arrow_back_ios,
-                          color: Colors.black,
-                          size: 24.0,
-                        ),
-                      ),
-                      Expanded(
-                        child: Center(
-                          child: Text(
-                            'Post Image',
-                            style: FlutterFlowTheme.of(context).headlineSmall,
-                          ),
-                        ),
-                      ),
-                    ],
+          padding: const EdgeInsets.only(left: 22, right: 22,top: 30),
+          child: Column(
+            children: [
+              Row(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  InkWell(
+                    onTap: () async {
+                      Navigator.pop(context);
+                    },
+                    child: Icon(
+                      Icons.arrow_back_ios,
+                      color: Colors.black,
+                      size: 24.0,
+                    ),
                   ),
-                ),
-                SizedBox(
-                  height: 140,
-                ),
-                InteractiveViewer(
+                  Expanded(
+                    child: Center(
+                      child: Text(
+                        'Post Image',
+                        style: FlutterFlowTheme.of(context).headlineSmall,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              Expanded(
+                child: InteractiveViewer(
                   panEnabled: false,
                   clipBehavior: Clip.none,
                   minScale: minScale,
                   maxScale: maxScale,
                   child: Container(
+                    alignment: Alignment.center,
                     width: double.infinity,
                     height: 300,
                     child: ClipRRect(
@@ -71,9 +67,9 @@ class ShowFullImage extends StatelessWidget {
                             ),
                     ),
                   ),
-                )
-              ],
-            ),
+                ),
+              )
+            ],
           ),
         ),
       ),

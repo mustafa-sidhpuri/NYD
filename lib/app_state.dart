@@ -67,8 +67,8 @@ class FFAppState extends ChangeNotifier {
     _mediaUrl = _value;
   }
 
-  void addToMediaUrl(String _value) {
-    _mediaUrl.add(_value);
+  void addToMediaUrl(List<String> _value) {
+    _mediaUrl.addAll(_value);
   }
 
   void removeFromMediaUrl(String _value) {

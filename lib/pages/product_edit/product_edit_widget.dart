@@ -10,7 +10,6 @@ import '../../flutter_flow/upload_data.dart';
 import '../search_location/search_location.dart';
 import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
-import '/components/add_product_photo/add_product_photo_widget.dart';
 import '/flutter_flow/flutter_flow_drop_down.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
@@ -327,90 +326,142 @@ class _ProductEditWidgetState extends State<ProductEditWidget> {
                       ),
                       child: InkWell(
                         onTap: () async {
-                          // if (FFAppState().mediaUrl.length == 5) {
-                          //   ScaffoldMessenger.of(context).showSnackBar(
-                          //     SnackBar(
-                          //       content: Text(
-                          //         'Maximum 5 images select',
-                          //         style: TextStyle(
-                          //           color: Colors.white,
-                          //         ),
-                          //       ),
-                          //       duration: Duration(milliseconds: 4000),
-                          //       backgroundColor:
-                          //           FlutterFlowTheme.of(context).primary,
-                          //     ),
-                          //   );
-                          // }
-                          //  else {
-                          _model.uploadedFileUrl = "";
-                          final selectedMedia =
-                          await selectMediaWithSourceBottomSheet(
-                            context: context,
-                            allowPhoto: true,
-                            backgroundColor:
-                            FlutterFlowTheme.of(context).tertiary,
-                            textColor: Colors.black,
-                            pickerFontFamily: 'Lexend Deca',
-                          );
-                          LoadingOverlay.show(context);
-                          if (selectedMedia != null &&
-                              selectedMedia.every((m) =>
-                                  validateFileFormat(m.storagePath, context))) {
-                            setState(() => _model.isDataUploading = true);
-                            var selectedUploadedFiles = <FFUploadedFile>[];
-                            List downloadUrls = <String>[];
-                            try {
-                              selectedUploadedFiles = selectedMedia
-                                  .map((m) => FFUploadedFile(
-                                name: m.storagePath.split('/').last,
-                                bytes: m.bytes,
-                                height: m.dimensions?.height,
-                                width: m.dimensions?.width,
-                                blurHash: m.blurHash,
-                              ))
-                                  .toList();
-
-                              downloadUrls = (await Future.wait(
-                                selectedMedia.map(
-                                      (m) async =>
-                                  await uploadData(m.storagePath, m.bytes),
+                          if (FFAppState().mediaUrl.length > 4) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(
+                                  'Maximum 5 images select',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                  ),
                                 ),
-                              ))
-                                  .where((u) => u != null)
-                                  .map((u) => u!)
-                                  .toList();
-                            } finally {
+                                duration: Duration(milliseconds: 4000),
+                                backgroundColor:
+                                FlutterFlowTheme.of(context).primary,
+                              ),
+                            );
+                          } else {
+                            _model.uploadedFileUrls = [];
+                            final selectedMedia =
+                            await selectMediaWithSourceBottomSheet(
+                              context: context,
+                              allowPhoto: true,
+                              backgroundColor:
+                              FlutterFlowTheme.of(context).tertiary,
+                              textColor: Colors.black,
+                            );
+                            LoadingOverlay.show(context);
+                            if (selectedMedia != null &&
+                                selectedMedia.every((m) =>
+                                    validateFileFormat(
+                                        m.storagePath, context))) {
+                              setState(
+                                      () => _model.isDataUploading = true);
+                              var selectedUploadedFiles =
+                              <FFUploadedFile>[];
+                              var downloadUrls = <String>[];
+                              try {
+                                selectedUploadedFiles = selectedMedia
+                                    .map((m) => FFUploadedFile(
+                                  name: m.storagePath
+                                      .split('/')
+                                      .last,
+                                  bytes: m.bytes,
+                                  height: m.dimensions?.height,
+                                  width: m.dimensions?.width,
+                                  blurHash: m.blurHash,
+                                ))
+                                    .toList();
+
+                                downloadUrls = (await Future.wait(
+                                  selectedMedia.map(
+                                        (m) async => await uploadData(
+                                        m.storagePath, m.bytes),
+                                  ),
+                                ))
+                                    .where((u) => u != null)
+                                    .map((u) => u!)
+                                    .toList();
+                              } finally {
+                                LoadingOverlay.hide();
+                                _model.isDataUploading = false;
+                              }
                               LoadingOverlay.hide();
-                              _model.isDataUploading = false;
+                              if (selectedUploadedFiles.length > 5) {
+                                LoadingOverlay.hide();
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(
+                                  SnackBar(
+                                    content: Text(
+                                      'Can\'t Share more than 5 images',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                    duration:
+                                    Duration(milliseconds: 4000),
+                                    backgroundColor:
+                                    FlutterFlowTheme.of(context)
+                                        .primary,
+                                  ),
+                                );
+                                return;
+                              } else {
+                                print(FFAppState().mediaUrl.length +
+                                    selectedUploadedFiles.length);
+                                if (FFAppState().mediaUrl.length +
+                                    selectedUploadedFiles.length >
+                                    5) {
+                                  LoadingOverlay.hide();
+                                  ScaffoldMessenger.of(context)
+                                      .showSnackBar(
+                                    SnackBar(
+                                      content: Text(
+                                        'Can\'t Share more than 5 images',
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                      duration:
+                                      Duration(milliseconds: 4000),
+                                      backgroundColor:
+                                      FlutterFlowTheme.of(context)
+                                          .primary,
+                                    ),
+                                  );
+                                  return;
+                                } else {
+                                  if (selectedUploadedFiles.length ==
+                                      selectedMedia.length &&
+                                      downloadUrls.length ==
+                                          selectedMedia.length) {
+                                    setState(() {
+                                      _model.uploadedLocalFiles =
+                                          selectedUploadedFiles;
+                                      _model.uploadedFileUrls =
+                                          downloadUrls;
+                                    });
+                                  } else {
+                                    setState(() {});
+                                    return;
+                                  }
+                                }
+                              }
                             }
-                            LoadingOverlay.hide();
-                            if (selectedUploadedFiles.length ==
-                                selectedMedia.length &&
-                                downloadUrls.length == selectedMedia.length) {
+
+                            if (_model.uploadedFileUrls != []) {
+                              LoadingOverlay.hide();
                               setState(() {
-                                _model.uploadedLocalFile =
-                                    selectedUploadedFiles.first;
-                                _model.uploadedFileUrl = downloadUrls.first;
+                                FFAppState().addToMediaUrl(
+                                  _model.uploadedFileUrls
+                                      .take(5)
+                                      .toList(),
+                                );
                               });
                             } else {
-                              setState(() {});
-                              return;
+                              LoadingOverlay.hide();
                             }
                           }
-
-                          if (_model.uploadedFileUrl != null &&
-                              _model.uploadedFileUrl != '') {
-                            setState(() {
-                              if(FFAppState().mediaUrl.length > 0){
-                                FFAppState().removeFromMediaUrl(FFAppState().mediaUrl.first);
-                              }
-                              FFAppState().addToMediaUrl(_model.uploadedFileUrl);
-                            });
-                          } else {
-                            LoadingOverlay.hide();
-                          }
-                          //    }
                         },
                         child: Column(
                           children: [
@@ -432,17 +483,7 @@ class _ProductEditWidgetState extends State<ProductEditWidget> {
                                         color: FlutterFlowTheme.of(context).primary,
                                       ),
                                     ),
-                                    child: FFAppState().mediaUrl.length > 0?
-                                    ClipRRect(
-                                      borderRadius:
-                                      BorderRadius.circular(
-                                          12.0),
-                                      child: CachedNetworkImageWidget(
-                                        image: FFAppState().mediaUrl.toList().first,
-                                        width: 100.0,
-                                        height: 85.0,
-                                      ),
-                                    ):
+                                    child:
                                     Icon(
                                       Icons.photo_camera_outlined,
                                       color: Color(0xFF0065FD),
@@ -478,103 +519,103 @@ class _ProductEditWidgetState extends State<ProductEditWidget> {
                       ),
                     ),
                   ),
-                  // Container(
-                  //   height: 200.0,
-                  //   decoration: BoxDecoration(),
-                  //   child: Stack(
-                  //     children: [
-                  //       Padding(
-                  //         padding: EdgeInsetsDirectional.fromSTEB(
-                  //             0.0, 40.0, 0.0, 50.0),
-                  //         child: Builder(
-                  //           builder: (context) {
-                  //             final images = FFAppState().mediaUrl.toList();
-                  //             return ListView.builder(
-                  //               padding: EdgeInsets.zero,
-                  //               shrinkWrap: true,
-                  //               scrollDirection: Axis.horizontal,
-                  //               itemCount: images.length,
-                  //               itemBuilder: (context, imagesIndex) {
-                  //                 final imagesItem = images[imagesIndex];
-                  //                 return Padding(
-                  //                   padding: EdgeInsetsDirectional.fromSTEB(
-                  //                       10.0, 0.0, 10.0, 0.0),
-                  //                   child: Container(
-                  //                     width: 80.0,
-                  //                     decoration: BoxDecoration(
-                  //                       color: FlutterFlowTheme.of(context)
-                  //                           .tertiary,
-                  //                       borderRadius:
-                  //                           BorderRadius.circular(12.0),
-                  //                       shape: BoxShape.rectangle,
-                  //                     ),
-                  //                     child: Stack(
-                  //                       alignment:
-                  //                           AlignmentDirectional(1.0, -1.0),
-                  //                       children: [
-                  //                         ClipRRect(
-                  //                             borderRadius:
-                  //                                 BorderRadius.circular(12.0),
-                  //                             child: CachedNetworkImageWidget(
-                  //                               image: imagesItem,
-                  //                               width: 100.0,
-                  //                               height: 85.0,
-                  //                             )),
-                  //                         InkWell(
-                  //                           splashColor: Colors.transparent,
-                  //                           focusColor: Colors.transparent,
-                  //                           hoverColor: Colors.transparent,
-                  //                           highlightColor: Colors.transparent,
-                  //                           onTap: () async {
-                  //                             setState(() {
-                  //                               FFAppState().removeFromMediaUrl(
-                  //                                   valueOrDefault<String>(
-                  //                                 imagesItem,
-                  //                                 'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/sample-app-property-finder-834ebu/assets/lhbo8hbkycdw/addCoverImage@2x.png',
-                  //                               ));
-                  //                             });
-                  //                           },
-                  //                           child: Container(
-                  //                             width: 26.0,
-                  //                             height: 25.0,
-                  //                             decoration: BoxDecoration(
-                  //                               color:
-                  //                                   FlutterFlowTheme.of(context)
-                  //                                       .primary,
-                  //                               borderRadius: BorderRadius.only(
-                  //                                 bottomLeft:
-                  //                                     Radius.circular(22.0),
-                  //                                 bottomRight:
-                  //                                     Radius.circular(0.0),
-                  //                                 topLeft: Radius.circular(0.0),
-                  //                                 topRight:
-                  //                                     Radius.circular(10.0),
-                  //                               ),
-                  //                               shape: BoxShape.rectangle,
-                  //                             ),
-                  //                             child: Align(
-                  //                               alignment: AlignmentDirectional(
-                  //                                   0.4, -0.2),
-                  //                               child: Icon(
-                  //                                 Icons.delete_outlined,
-                  //                                 color: Colors.white,
-                  //                                 size: 14.0,
-                  //                               ),
-                  //                             ),
-                  //                           ),
-                  //                         ),
-                  //                       ],
-                  //                     ),
-                  //                   ),
-                  //                 );
-                  //               },
-                  //             );
-                  //           },
-                  //         ),
-                  //       ),
-                  //     ],
-                  //   ),
-                  // ),
+                  Container(
+                    height: 200.0,
+                    decoration: BoxDecoration(),
+                    child: Stack(
+                      children: [
+                        Padding(
+                          padding: EdgeInsetsDirectional.fromSTEB(
+                              0.0, 40.0, 0.0, 50.0),
+                          child: Builder(
+                            builder: (context) {
+                              final images = FFAppState().mediaUrl.toList();
+                              return ListView.builder(
+                                padding: EdgeInsets.zero,
+                                shrinkWrap: true,
+                                scrollDirection: Axis.horizontal,
+                                itemCount: images.length,
+                                itemBuilder: (context, imagesIndex) {
+                                  final imagesItem = images[imagesIndex];
+                                  return Padding(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                        10.0, 0.0, 10.0, 0.0),
+                                    child: Container(
+                                      width: 80.0,
+                                      decoration: BoxDecoration(
+                                        color: FlutterFlowTheme.of(context)
+                                            .tertiary,
+                                        borderRadius:
+                                            BorderRadius.circular(12.0),
+                                        shape: BoxShape.rectangle,
+                                      ),
+                                      child: Stack(
+                                        alignment:
+                                            AlignmentDirectional(1.0, -1.0),
+                                        children: [
+                                          ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(12.0),
+                                              child: CachedNetworkImageWidget(
+                                                image: imagesItem,
+                                                width: 100.0,
+                                                height: 85.0,
+                                              )),
+                                          InkWell(
+                                            splashColor: Colors.transparent,
+                                            focusColor: Colors.transparent,
+                                            hoverColor: Colors.transparent,
+                                            highlightColor: Colors.transparent,
+                                            onTap: () async {
+                                              setState(() {
+                                                FFAppState().removeFromMediaUrl(
+                                                    valueOrDefault<String>(
+                                                  imagesItem,
+                                                  'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/sample-app-property-finder-834ebu/assets/lhbo8hbkycdw/addCoverImage@2x.png',
+                                                ));
+                                              });
+                                            },
+                                            child: Container(
+                                              width: 26.0,
+                                              height: 25.0,
+                                              decoration: BoxDecoration(
+                                                color:
+                                                    FlutterFlowTheme.of(context)
+                                                        .primary,
+                                                borderRadius: BorderRadius.only(
+                                                  bottomLeft:
+                                                      Radius.circular(22.0),
+                                                  bottomRight:
+                                                      Radius.circular(0.0),
+                                                  topLeft: Radius.circular(0.0),
+                                                  topRight:
+                                                      Radius.circular(10.0),
+                                                ),
+                                                shape: BoxShape.rectangle,
+                                              ),
+                                              child: Align(
+                                                alignment: AlignmentDirectional(
+                                                    0.4, -0.2),
+                                                child: Icon(
+                                                  Icons.delete_outlined,
+                                                  color: Colors.white,
+                                                  size: 14.0,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  );
+                                },
+                              );
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                   Text(
                     'Title',
                     style: FlutterFlowTheme.of(context).labelMedium.override(

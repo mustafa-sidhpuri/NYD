@@ -140,6 +140,7 @@ Future<List<SelectedMedia>?> selectMediaWithSourceBottomSheet({
     maxWidth: maxWidth,
     maxHeight: maxHeight,
     imageQuality: imageQuality,
+    multiImage: mediaSource != MediaSource.camera,
     isVideo: mediaSource == MediaSource.videoGallery ||
         (mediaSource == MediaSource.camera && allowVideo && !allowPhoto),
     mediaSource: mediaSource,
@@ -155,7 +156,7 @@ Future<List<SelectedMedia>?> selectMedia({
   int? imageQuality,
   bool isVideo = false,
   MediaSource mediaSource = MediaSource.camera,
-  bool multiImage = false,
+  bool multiImage = true,
   bool includeDimensions = false,
   bool includeBlurHash = false,
 }) async {

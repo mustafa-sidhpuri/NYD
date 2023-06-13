@@ -12,651 +12,270 @@ class TermsCondition extends StatelessWidget {
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.only(left: 22, right: 22),
-          child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-              stream: FirebaseFirestore.instance
-                  .collection('contactUs')
-                  .snapshots(),
-              builder: (context, snapshot) {
-                if (snapshot.hasError) return Text('Error = ${snapshot.error}');
-
-                if (snapshot.hasData) {
-                  final docs = snapshot.data!.docs;
-                  final data = docs[0].data();
-                  return SingleChildScrollView(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SizedBox(
-                          height: 30,
-                        ),
-                        Row(
-                          children: [
-                            InkWell(
-                              onTap: () async {
-                                Navigator.pop(context);
-                              },
-                              child: Icon(
-                                Icons.arrow_back_ios,
-                                color: Colors.black,
-                                size: 24.0,
-                              ),
-                            ),
-                            Expanded(
-                              child: Center(
-                                child: Text(
-                                  'Terms & Conditions',
-                                  style: FlutterFlowTheme.of(context)
-                                      .headlineSmall,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 30,
-                        ),
-                        Text(
-                          "Terms & Conditions for Food share:",
-                          style: FlutterFlowTheme.of(context).displaySmall,
-                        ),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        Text(
-                          "Last updated: May 18, 2023",
-                          style: FlutterFlowTheme.of(context).bodySmall,
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Text(
-                          "This Privacy Policy describes Our policies and procedures on the collection, use and disclosure of Your information when You use the Service and tells You about Your privacy rights and how the law protects You.3",
-                          style: FlutterFlowTheme.of(context).bodySmall,
-                          textAlign: TextAlign.justify,
-                        ),
-                        SizedBox(
-                          height: 15,
-                        ),
-                        Text(
-                          "We use Your Personal data to provide and improve the Service. By using the Service, You agree to the collection and use of information in accordance with this Privacy Policy. This Privacy Policy has been created with the help of the Privacy Policy Generator.",
-                          style: FlutterFlowTheme.of(context).bodySmall,
-                          textAlign: TextAlign.justify,
-                        ),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        Text(
-                          "Collecting and Using Your Personal Data",
-                          style: FlutterFlowTheme.of(context).displaySmall,
-                        ),
-                        SizedBox(
-                          height: 15,
-                        ),
-                        Text(
-                          "Personal Data",
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 20,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                        SizedBox(
-                          height: 15,
-                        ),
-                        Text(
-                          "While using Our Service, We may ask You to provide Us with certain personally identifiable information that can be used to contact or identify You. Personally identifiable information may include, but is not limited to:",
-                          style: FlutterFlowTheme.of(context).bodySmall,
-                          textAlign: TextAlign.justify,
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Text(
-                          "   • Email address",
-                          style: FlutterFlowTheme.of(context).bodySmall,
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Text(
-                          "   • First name and last name",
-                          style: FlutterFlowTheme.of(context).bodySmall,
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Text(
-                          "   • Phone number",
-                          style: FlutterFlowTheme.of(context).bodySmall,
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Text(
-                          "   • Address, State, Province, ZIP/Postal code, City",
-                          style: FlutterFlowTheme.of(context).bodySmall,
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Text(
-                          "   • Usage Data",
-                          style: FlutterFlowTheme.of(context).bodySmall,
-                        ),
-                        SizedBox(
-                          height: 15,
-                        ),
-                        Text(
-                          "Usage Data",
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 20,
-                              fontWeight: FontWeight.w600),
-                        ),
-                        SizedBox(
-                          height: 15,
-                        ),
-                        Text(
-                          "Usage Data is collected automatically when using the Service.",
-                          style: FlutterFlowTheme.of(context).bodySmall,
-                          textAlign: TextAlign.justify,
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Text(
-                          "Usage Data may include information such as Your Device's Internet Protocol address (e.g. IP address), browser type, browser version, the pages of our Service that You visit, the time and date of Your visit, the time spent on those pages, unique device identifiers and other diagnostic data.",
-                          style: FlutterFlowTheme.of(context).bodySmall,
-                          textAlign: TextAlign.justify,
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Text(
-                          "When You access the Service by or through a mobile device, We may collect certain information automatically, including, but not limited to, the type of mobile device You use, Your mobile device unique ID, the IP address of Your mobile device, Your mobile operating system, the type of mobile Internet browser You use, unique device identifiers and other diagnostic data.",
-                          style: FlutterFlowTheme.of(context).bodySmall,
-                          textAlign: TextAlign.justify,
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Text(
-                          "We may also collect information that Your browser sends whenever You visit our Service or when You access the Service by or through a mobile device.",
-                          style: FlutterFlowTheme.of(context).bodySmall,
-                          textAlign: TextAlign.justify,
-                        ),
-                        SizedBox(
-                          height: 15,
-                        ),
-                        Text(
-                          "Information Collected while Using the Application",
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 20,
-                              fontWeight: FontWeight.w600),
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Text(
-                          "While using Our Application, in order to provide features of Our Application, We may collect, with Your prior permission:",
-                          style: FlutterFlowTheme.of(context).bodySmall,
-                          textAlign: TextAlign.justify,
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Text(
-                          "      • Information regarding your location",
-                          style: FlutterFlowTheme.of(context).bodySmall,
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Text(
-                          "      • Pictures and other information from your Device's camera and photo librar",
-                          style: FlutterFlowTheme.of(context).bodySmall,
-                          textAlign: TextAlign.justify,
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Text(
-                          "We use this information to provide features of Our Service, to improve and customize Our Service. The information may be uploaded to the Company's servers and/or a Service Provider's server or it may be simply stored on Your device.",
-                          style: FlutterFlowTheme.of(context).bodySmall,
-                          textAlign: TextAlign.justify,
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Text(
-                          "You can enable or disable access to this information at any time, through Your Device settings.",
-                          style: FlutterFlowTheme.of(context).bodySmall,
-                          textAlign: TextAlign.justify,
-                        ),
-                        SizedBox(
-                          height: 15,
-                        ),
-                        Text(
-                          "Use of Your Personal Data",
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 20,
-                              fontWeight: FontWeight.w600),
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Text(
-                          "The Company may use Personal Data for the following purposes:",
-                          style: FlutterFlowTheme.of(context).bodySmall,
-                          textAlign: TextAlign.justify,
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        RichText(
-                          textAlign: TextAlign.justify,
-                          text: TextSpan(
-                              text: "•  To provide and maintain our Service, ",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w800,
-                                  color: Colors.black,
-                                  fontSize: 14),
-                              children: [
-                                TextSpan(
-                                  text:
-                                      "including to monitor the usage of our Service.",
-                                  style: FlutterFlowTheme.of(context).bodySmall,
-                                )
-                              ]),
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        RichText(
-                          textAlign: TextAlign.justify,
-                          text: TextSpan(
-                              text: "•  To manage Your Account: ",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w800,
-                                  color: Colors.black,
-                                  fontSize: 14),
-                              children: [
-                                TextSpan(
-                                  text:
-                                      "to manage Your registration as a user of the Service. The Personal Data You provide can give You access to different functionalities of the Service that are available to You as a registered user.",
-                                  style: FlutterFlowTheme.of(context).bodySmall,
-                                )
-                              ]),
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        RichText(
-                          textAlign: TextAlign.justify,
-                          text: TextSpan(
-                              text: "•  For the performance of a contract: ",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w800,
-                                  color: Colors.black,
-                                  fontSize: 14),
-                              children: [
-                                TextSpan(
-                                  text:
-                                      "the development, compliance and undertaking of the purchase contract for the products, items or services You have purchased or of any other contract with Us through the Service.",
-                                  style: FlutterFlowTheme.of(context).bodySmall,
-                                )
-                              ]),
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        RichText(
-                          textAlign: TextAlign.justify,
-                          text: TextSpan(
-                            text: "•  To contact You: ",
-                            style: TextStyle(
-                                fontWeight: FontWeight.w800,
-                                color: Colors.black,
-                                fontSize: 14),
-                            children: [
-                              TextSpan(
-                                text:
-                                    "To contact You by email, telephone calls, SMS, or other equivalent forms of electronic communication, such as a mobile application's push notifications regarding updates or informative communications related to the functionalities, products or contracted services, including the security updates, when necessary or reasonable for their implementation.",
-                                style: FlutterFlowTheme.of(context).bodySmall,
-                              ),
-                            ],
-                          ),
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        RichText(
-                          textAlign: TextAlign.justify,
-                          text: TextSpan(
-                              text: "•  To manage Your requests: ",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w800,
-                                  color: Colors.black,
-                                  fontSize: 14),
-                              children: [
-                                TextSpan(
-                                  text:
-                                      "To attend and manage Your requests to Us.",
-                                  style: FlutterFlowTheme.of(context).bodySmall,
-                                )
-                              ]),
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        RichText(
-                          textAlign: TextAlign.justify,
-                          text: TextSpan(
-                              text: "•  For business transfers: ",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w800,
-                                  color: Colors.black,
-                                  fontSize: 14),
-                              children: [
-                                TextSpan(
-                                  text:
-                                      "We may use Your information to evaluate or conduct a merger, divestiture, restructuring, reorganization, dissolution, or other sale or transfer of some or all of Our assets, whether as a going concern or as part of bankruptcy, liquidation, or similar proceeding, in which Personal Data held by Us about our Service users is among the assets transferred.",
-                                  style: FlutterFlowTheme.of(context).bodySmall,
-                                )
-                              ]),
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        RichText(
-                          textAlign: TextAlign.justify,
-                          text: TextSpan(
-                              text: "•  For other purposes: ",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w800,
-                                  color: Colors.black,
-                                  fontSize: 14),
-                              children: [
-                                TextSpan(
-                                  text:
-                                      "We may use Your information for other purposes, such as data analysis, identifying usage trends, determining the effectiveness of our promotional campaigns and to evaluate and improve our Service, products, services, marketing and your experience.",
-                                  style: FlutterFlowTheme.of(context).bodySmall,
-                                )
-                              ]),
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        RichText(
-                          textAlign: TextAlign.justify,
-                          text: TextSpan(
-                              text: "•  With Service Providers: ",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w800,
-                                  color: Colors.black,
-                                  fontSize: 14),
-                              children: [
-                                TextSpan(
-                                  text:
-                                      "We may share Your personal information with Service Providers to monitor and analyze the use of our Service, to contact You.",
-                                  style: FlutterFlowTheme.of(context).bodySmall,
-                                )
-                              ]),
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        RichText(
-                          textAlign: TextAlign.justify,
-                          text: TextSpan(
-                              text: "•  For business transfers: ",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w800,
-                                  color: Colors.black,
-                                  fontSize: 14),
-                              children: [
-                                TextSpan(
-                                  text:
-                                      "We may share or transfer Your personal information in connection with, or during negotiations of, any merger, sale of Company assets, financing, or acquisition of all or a portion of Our business to another company.",
-                                  style: FlutterFlowTheme.of(context).bodySmall,
-                                )
-                              ]),
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        RichText(
-                          textAlign: TextAlign.justify,
-                          text: TextSpan(
-                              text: "•  With business partners: ",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w800,
-                                  color: Colors.black,
-                                  fontSize: 14),
-                              children: [
-                                TextSpan(
-                                  text:
-                                      "We may share Your information with Our business partners to offer You certain products, services or promotions.",
-                                  style: FlutterFlowTheme.of(context).bodySmall,
-                                )
-                              ]),
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        RichText(
-                          textAlign: TextAlign.justify,
-                          text: TextSpan(
-                              text: "•  With other users: ",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w800,
-                                  color: Colors.black,
-                                  fontSize: 14),
-                              children: [
-                                TextSpan(
-                                  text:
-                                      "when You share personal information or otherwise interact in the public areas with other users, such information may be viewed by all users and may be publicly distributed outside.",
-                                  style: FlutterFlowTheme.of(context).bodySmall,
-                                )
-                              ]),
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        RichText(
-                          textAlign: TextAlign.justify,
-                          text: TextSpan(
-                              text: "•  With Your consent:  ",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w800,
-                                  color: Colors.black,
-                                  fontSize: 14),
-                              children: [
-                                TextSpan(
-                                  text:
-                                      "We may disclose Your personal information for any other purpose with Your consent.",
-                                  style: FlutterFlowTheme.of(context).bodySmall,
-                                )
-                              ]),
-                        ),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        Text(
-                          "Delete Your Personal Data",
-                          style: FlutterFlowTheme.of(context).displaySmall,
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Text(
-                          "You have the right to delete or request that We assist in deleting the Personal Data that We have collected about You.",
-                          style: FlutterFlowTheme.of(context).bodySmall,
-                          textAlign: TextAlign.justify,
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Text(
-                          "Our Service may give You the ability to delete certain information about You from within the Service.",
-                          style: FlutterFlowTheme.of(context).bodySmall,
-                          textAlign: TextAlign.justify,
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Text(
-                          "You may update, amend, or delete Your information at any time by signing in to Your Account, if you have one, and visiting the account settings section that allows you to manage Your personal information. You may also contact Us to request access to, correct, or delete any personal information that You have provided to Us.",
-                          style: FlutterFlowTheme.of(context).bodySmall,
-                          textAlign: TextAlign.justify,
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Text(
-                          "Please note, however, that We may need to retain certain information when we have a legal obligation or lawful basis to do so.",
-                          style: FlutterFlowTheme.of(context).bodySmall,
-                          textAlign: TextAlign.justify,
-                        ),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        Text(
-                          "Disclosure of Your Personal Data",
-                          style: FlutterFlowTheme.of(context).displaySmall,
-                        ),
-                        SizedBox(
-                          height: 15,
-                        ),
-                        Text(
-                          "Business Transactions",
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 20,
-                              fontWeight: FontWeight.w600),
-                        ),
-                        SizedBox(
-                          height: 15,
-                        ),
-                        Text(
-                          "If the Company is involved in a merger, acquisition or asset sale, Your Personal Data may be transferred. We will provide notice before Your Personal Data is transferred and becomes subject to a different Privacy Policy.",
-                          style: FlutterFlowTheme.of(context).bodySmall,
-                          textAlign: TextAlign.justify,
-                        ),
-                        SizedBox(
-                          height: 15,
-                        ),
-                        Text(
-                          "Other legal requirements",
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 20,
-                              fontWeight: FontWeight.w600),
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Text(
-                          "The Company may disclose Your Personal Data in the good faith belief that such action is necessary to:",
-                          style: FlutterFlowTheme.of(context).bodySmall,
-                          textAlign: TextAlign.justify,
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Text(
-                          "      • Comply with a legal obligation",
-                          style: FlutterFlowTheme.of(context).bodySmall,
-                          textAlign: TextAlign.justify,
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Text(
-                          "      • Protect and defend the rights or property of the Company",
-                          style: FlutterFlowTheme.of(context).bodySmall,
-                          textAlign: TextAlign.justify,
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Text(
-                          "      • Prevent or investigate possible wrongdoing in connection with the Service",
-                          style: FlutterFlowTheme.of(context).bodySmall,
-                          textAlign: TextAlign.justify,
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Text(
-                          "      • Protect the personal safety of Users of the Service or the public",
-                          style: FlutterFlowTheme.of(context).bodySmall,
-                          textAlign: TextAlign.justify,
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Text(
-                          "      • Protect against legal liability",
-                          style: FlutterFlowTheme.of(context).bodySmall,
-                          textAlign: TextAlign.justify,
-                        ),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        Text(
-                          "Security of Your Personal Data",
-                          style: FlutterFlowTheme.of(context).displaySmall,
-                        ),
-                        SizedBox(
-                          height: 15,
-                        ),
-                        Text(
-                          "The security of Your Personal Data is important to Us, but remember that no method of transmission over the Internet, or method of electronic storage is 100% secure. While We strive to use commercially acceptable means to protect Your Personal Data, We cannot guarantee its absolute security.",
-                          style: FlutterFlowTheme.of(context).bodySmall,
-                          textAlign: TextAlign.justify,
-                        ),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        Text(
-                          "Contact Us",
-                          style: FlutterFlowTheme.of(context).displaySmall,
-                        ),
-                        SizedBox(
-                          height: 15,
-                        ),
-                        Text(
-                          "If you have any questions about this Privacy Policy, You can contact us:",
-                          style: FlutterFlowTheme.of(context).bodySmall,
-                          textAlign: TextAlign.justify,
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Text(
-                          "      • By email: "+data["email_id"],
-                          style: FlutterFlowTheme.of(context).bodySmall,
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Text(
-                          "      • By phone number: "+data["phone_number"],
-                          style: FlutterFlowTheme.of(context).bodySmall,
-                        ),
-                        SizedBox(
-                          height: 40,
-                        ),
-                      ],
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(
+                  height: 30,
+                ),
+                Row(
+                  children: [
+                    InkWell(
+                      onTap: () async {
+                        Navigator.pop(context);
+                      },
+                      child: Icon(
+                        Icons.arrow_back_ios,
+                        color: Colors.black,
+                        size: 24.0,
+                      ),
                     ),
-                  );
-                }
-
-                return Center(child: CircularProgressIndicator());
-              }),
+                    Expanded(
+                      child: Center(
+                        child: Text(
+                          'Terms & Conditions',
+                          style: FlutterFlowTheme.of(context).headlineSmall,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 30,
+                ),
+                Text(
+                  "Terms and Conditions for Food Sharing App",
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 20,
+                      fontWeight: FontWeight.w600),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Text(
+                  "Welcome to Food Share, a food sharing app connecting users who wish to share and exchange homemade meals or raw grocery items for free or in exchange with an item of their need. These terms and conditions ('Terms') govern your use of the Food Share mobile application and related services provided by Food Share Team. By accessing or using the app, you agree to be bound by these Terms. If you do not agree with these Terms, please do not use the app.",
+                  style: FlutterFlowTheme.of(context).bodySmall,
+                  textAlign: TextAlign.justify,
+                ),
+                SizedBox(
+                  height: 15,
+                ),
+                Text(
+                  "Eligibility and User Accounts",
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 20,
+                      fontWeight: FontWeight.w600),
+                ),
+                SizedBox(
+                  height: 15,
+                ),
+                Text(
+                  "1.1. To use the app, you must be at least 18 years old or have the legal capacity to enter into a binding agreement.",
+                  style: FlutterFlowTheme.of(context).bodySmall,
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Text(
+                  "1.2. You agree to provide accurate and complete information when creating your user account and to keep your account information updated.",
+                  style: FlutterFlowTheme.of(context).bodySmall,
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Text(
+                  "1.3. You are responsible for maintaining the confidentiality of your account login credentials and for any activity that occurs under your account.",
+                  style: FlutterFlowTheme.of(context).bodySmall,
+                ),
+                SizedBox(
+                  height: 15,
+                ),
+                Text(
+                  "Food Sharing Listings",
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 20,
+                      fontWeight: FontWeight.w600),
+                ),
+                SizedBox(
+                  height: 15,
+                ),
+                Text(
+                  "2.1. Food Share allows users to create listings to share homemade meals or raw grocery items with other users.",
+                  style: FlutterFlowTheme.of(context).bodySmall,
+                  textAlign: TextAlign.justify,
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Text(
+                  "2.2. You represent and warrant that any food you offer for sharing complies with all applicable laws and regulations, including health and safety standards.",
+                  style: FlutterFlowTheme.of(context).bodySmall,
+                  textAlign: TextAlign.justify,
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Text(
+                  "2.3. You are solely responsible for the accuracy, quality, and safety of the food you offer and for complying with any dietary restrictions, allergies, or preferences disclosed by the recipients.",
+                  style: FlutterFlowTheme.of(context).bodySmall,
+                  textAlign: TextAlign.justify,
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Text(
+                  "2.4. Food Share does not assume any responsibility for the quality, safety, or suitability of the food shared through the app. Users engage in food sharing at their own risk.",
+                  style: FlutterFlowTheme.of(context).bodySmall,
+                  textAlign: TextAlign.justify,
+                ),
+                SizedBox(
+                  height: 15,
+                ),
+                Text(
+                  "User Conduct",
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 20,
+                      fontWeight: FontWeight.w600),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Text(
+                  "3.1. You agree to use the app in compliance with all applicable laws and regulations.",
+                  style: FlutterFlowTheme.of(context).bodySmall,
+                  textAlign: TextAlign.justify,
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Text(
+                  "3.2. You agree not to engage in any unlawful, abusive, harmful, or fraudulent activities, including misrepresenting the quality or nature of the food you offer.",
+                  style: FlutterFlowTheme.of(context).bodySmall,
+                  textAlign: TextAlign.justify,
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Text(
+                  "3.3. You acknowledge that Food Share has the right, but not the obligation, to monitor user activity and content, and may take appropriate action if violations of these Terms or applicable laws are detected.",
+                  style: FlutterFlowTheme.of(context).bodySmall,
+                  textAlign: TextAlign.justify,
+                ),
+                SizedBox(
+                  height: 15,
+                ),
+                Text(
+                  "Intellectual Property Rights",
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 20,
+                      fontWeight: FontWeight.w600),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Text(
+                  "4.1. All intellectual property rights in the app, including trademarks, logos, and content, are owned by Food Share or its licensors.",
+                  style: FlutterFlowTheme.of(context).bodySmall,
+                  textAlign: TextAlign.justify,
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Text(
+                  "4.2. You are granted a limited, non-exclusive, non-transferable license to use the app for its intended purposes.",
+                  style: FlutterFlowTheme.of(context).bodySmall,
+                  textAlign: TextAlign.justify,
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Text(
+                  "4.3. You agree not to reproduce, modify, distribute, or create derivative works based on the app's content without obtaining our prior written permission.",
+                  style: FlutterFlowTheme.of(context).bodySmall,
+                  textAlign: TextAlign.justify,
+                ),
+                SizedBox(
+                  height: 15,
+                ),
+                Text(
+                  "Privacy",
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 20,
+                      fontWeight: FontWeight.w600),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Text(
+                  "5.1. We respect your privacy and handle your personal information in accordance with our Privacy Policy. By using the app, you consent to the collection, use, and disclosure of your information as described in the Privacy Policy.",
+                  style: FlutterFlowTheme.of(context).bodySmall,
+                  textAlign: TextAlign.justify,
+                ),
+                SizedBox(
+                  height: 15,
+                ),
+                Text(
+                  "Limitation of Liability",
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 20,
+                      fontWeight: FontWeight.w600),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Text(
+                  "6.1. To the fullest extent permitted by law, Food Share disclaims all warranties and liability related to your use of the app.",
+                  style: FlutterFlowTheme.of(context).bodySmall,
+                  textAlign: TextAlign.justify,
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Text(
+                  "6.2. Food Share shall not be liable for any direct, indirect, incidental, consequential, or punitive damages arising out of or in connection with the app, including but not limited to damages for loss of profits, goodwill, or data.",
+                  style: FlutterFlowTheme.of(context).bodySmall,
+                  textAlign: TextAlign.justify,
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Text(
+                  "6.3. You agree to indemnify and hold Food Share harmless from any claims, liabilities, damages, losses, or expenses arising out of or in connection with your use of the app.",
+                  style: FlutterFlowTheme.of(context).bodySmall,
+                  textAlign: TextAlign.justify,
+                ),
+                SizedBox(
+                  height: 15,
+                ),
+                Text(
+                  "Modifications and Termination",
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 20,
+                      fontWeight: FontWeight.w600),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Text(
+                  "7.1. We reserve the right",
+                  style: FlutterFlowTheme.of(context).bodySmall,
+                  textAlign: TextAlign.justify,
+                ),
+                SizedBox(
+                  height: 40,
+                ),
+              ],
+            ),
+          ),
         ),
       ),
     );

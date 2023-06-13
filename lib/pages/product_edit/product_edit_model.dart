@@ -1,6 +1,5 @@
 import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
-import '/components/add_product_photo/add_product_photo_widget.dart';
 import '/flutter_flow/flutter_flow_drop_down.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
@@ -19,7 +18,8 @@ class ProductEditModel extends FlutterFlowModel {
   FFUploadedFile uploadedLocalFile =
   FFUploadedFile(bytes: Uint8List.fromList([]));
   String uploadedFileUrl = '';
-
+  List<FFUploadedFile> uploadedLocalFiles = [];
+  List<String> uploadedFileUrls = [];
   // State field(s) for TextField widget.
   // TextEditingController? textController1;
   // String? Function(BuildContext, String?)? textController1Validator;

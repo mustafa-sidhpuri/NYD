@@ -12,9 +12,8 @@ class AddProductModel extends FlutterFlowModel {
   ///  State fields for stateful widgets in this page.
 
   bool isDataUploading = false;
-  FFUploadedFile uploadedLocalFile =
-      FFUploadedFile(bytes: Uint8List.fromList([]));
-  String uploadedFileUrl = '';
+  List<FFUploadedFile> uploadedLocalFiles = [];
+  List<String> uploadedFileUrls = [];
   //
   // // State field(s) for TextField widget.
   // TextEditingController? textController1;
