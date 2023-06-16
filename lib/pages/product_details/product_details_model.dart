@@ -22,7 +22,7 @@ class ProductDetailsModel extends FlutterFlowModel {
   PageController? pageViewController;
 
   /// Initialization and disposal methods.
-
+  PostsRecord? postData;
   void initState(BuildContext context) {}
 
   void dispose() {}

@@ -85,8 +85,7 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
-                  padding:
-                      EdgeInsetsDirectional.fromSTEB(22.0, 30.0, 8.0, 0.0),
+                  padding: EdgeInsetsDirectional.fromSTEB(22.0, 30.0, 8.0, 0.0),
                   child: Row(
                     // mainAxisSize: MainAxisSize.max,
                     children: [
@@ -109,7 +108,8 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                         ),
                       ),
                       if (widget.productData!.postedBy ==
-                          productDetailsUsersRecord.uid && widget.productData?.isPickedUp == false)
+                              productDetailsUsersRecord.uid &&
+                          widget.productData?.isPickedUp == false)
                         PopupMenuButton(
                             icon: Icon(
                               Icons.more_vert,
@@ -150,12 +150,11 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                             },
                             onSelected: (value) async {
                               if (value == 0) {
-                                  Navigator.of(context)
-                                      .push(MaterialPageRoute(
-                                    builder: (context) => ProductEditWidget(
-                                      productData: widget.productData,
-                                    ),
-                                  ));
+                                Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) => ProductEditWidget(
+                                    productData: widget.productData,
+                                  ),
+                                ));
                               } else if (value == 1) {
                                 var confirmDialogResponse =
                                     await showDialog<bool>(
@@ -206,7 +205,9 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                                       reverseDuration:
                                           Duration(milliseconds: 0),
                                       child: NavBarPage(
-                                          initialPage: 'sellingPage',index: 0,),
+                                        initialPage: 'sellingPage',
+                                        index: 0,
+                                      ),
                                     ),
                                     (r) => false,
                                   );
@@ -231,8 +232,7 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                   child: Container(
                     height: 199.0,
                     decoration: BoxDecoration(
-                      color:
-                          FlutterFlowTheme.of(context).secondaryBackground,
+                      color: FlutterFlowTheme.of(context).secondaryBackground,
                       borderRadius: BorderRadius.circular(12.0),
                     ),
                     child: Builder(
@@ -250,17 +250,15 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                                 child: PageView.builder(
                                   controller: _model.pageViewController ??=
                                       PageController(
-                                          initialPage: min(
-                                              0, productImages.length - 1)),
+                                          initialPage:
+                                              min(0, productImages.length - 1)),
                                   scrollDirection: Axis.horizontal,
                                   itemCount: productImages.length,
-                                  itemBuilder:
-                                      (context, productImagesIndex) {
+                                  itemBuilder: (context, productImagesIndex) {
                                     final productImagesItem =
                                         productImages[productImagesIndex];
                                     return ClipRRect(
-                                      borderRadius:
-                                          BorderRadius.circular(12.0),
+                                      borderRadius: BorderRadius.circular(12.0),
                                       child: productImagesItem != null &&
                                               productImagesItem != ""
                                           ? InkWell(
@@ -275,8 +273,7 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                                                           )),
                                                 );
                                               },
-                                              child:
-                                                  CachedNetworkImageWidget(
+                                              child: CachedNetworkImageWidget(
                                                 image: productImagesItem,
                                                 width: 100.0,
                                                 height: 100.0,
@@ -296,21 +293,19 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                                 child: Padding(
                                   padding: EdgeInsetsDirectional.fromSTEB(
                                       0.0, 0.0, 0.0, 10.0),
-                                  child: smooth_page_indicator
-                                      .SmoothPageIndicator(
-                                    controller: _model
-                                            .pageViewController ??=
+                                  child:
+                                      smooth_page_indicator.SmoothPageIndicator(
+                                    controller: _model.pageViewController ??=
                                         PageController(
-                                            initialPage: min(0,
-                                                productImages.length - 1)),
+                                            initialPage: min(
+                                                0, productImages.length - 1)),
                                     count: productImages.length,
                                     axisDirection: Axis.horizontal,
                                     onDotClicked: (i) async {
                                       await _model.pageViewController!
                                           .animateToPage(
                                         i,
-                                        duration:
-                                            Duration(milliseconds: 500),
+                                        duration: Duration(milliseconds: 500),
                                         curve: Curves.ease,
                                       );
                                     },
@@ -321,11 +316,10 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                                       radius: 16.0,
                                       dotWidth: 10.0,
                                       dotHeight: 10.0,
-                                      dotColor: FlutterFlowTheme.of(context)
-                                          .accent2,
+                                      dotColor:
+                                          FlutterFlowTheme.of(context).accent2,
                                       activeDotColor:
-                                          FlutterFlowTheme.of(context)
-                                              .primary,
+                                          FlutterFlowTheme.of(context).primary,
                                       paintStyle: PaintingStyle.fill,
                                     ),
                                   ),
@@ -363,9 +357,7 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                           widget.productData!.postType,
                           'Free',
                         ),
-                        style: FlutterFlowTheme.of(context)
-                            .titleSmall
-                            .override(
+                        style: FlutterFlowTheme.of(context).titleSmall.override(
                               fontFamily: 'Roboto',
                               color: FlutterFlowTheme.of(context).primary,
                             ),
@@ -386,39 +378,36 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                         fit: BoxFit.cover,
                       ),
                       Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(
-                            6.0, 0.0, 0.0, 0.0),
+                        padding:
+                            EdgeInsetsDirectional.fromSTEB(6.0, 0.0, 0.0, 0.0),
                         child: Text(
                           '${valueOrDefault<String>(
-                            dateTimeFormat(
-                                'jm', widget.productData!.createdAt),
+                            dateTimeFormat('jm', widget.productData!.createdAt),
                             '12:00 AM',
                           )} ${valueOrDefault<String>(
                             dateTimeFormat(
                                 'yMMMd', widget.productData!.createdAt),
                             '19 Apr, 23',
                           )}',
-                          style: FlutterFlowTheme.of(context)
-                              .bodyMedium
-                              .override(
-                                fontFamily: 'Roboto',
-                                color: Color(0xFF7D8180),
-                              ),
+                          style:
+                              FlutterFlowTheme.of(context).bodyMedium.override(
+                                    fontFamily: 'Roboto',
+                                    color: Color(0xFF7D8180),
+                                  ),
                         ),
                       ),
                     ],
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(left: 22.0,right: 22),
+                  padding: const EdgeInsets.only(left: 22.0, right: 22),
                   child: Divider(
                     thickness: 1.0,
                     color: FlutterFlowTheme.of(context).accent4,
                   ),
                 ),
                 Padding(
-                  padding:
-                      EdgeInsetsDirectional.fromSTEB(22.0, 8.0, 22.0, 8.0),
+                  padding: EdgeInsetsDirectional.fromSTEB(22.0, 8.0, 22.0, 8.0),
                   child: Row(
                     mainAxisSize: MainAxisSize.max,
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -450,8 +439,8 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(
-                            15.0, 0.0, 0.0, 0.0),
+                        padding:
+                            EdgeInsetsDirectional.fromSTEB(15.0, 0.0, 0.0, 0.0),
                         child: Column(
                           mainAxisSize: MainAxisSize.max,
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -462,8 +451,7 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                               child: Text(
                                 widget.productData!.postedByName!,
                                 textAlign: TextAlign.start,
-                                style:
-                                    FlutterFlowTheme.of(context).bodyMedium,
+                                style: FlutterFlowTheme.of(context).bodyMedium,
                               ),
                             ),
                             Text(
@@ -490,7 +478,7 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(left: 22.0,right: 22),
+                  padding: const EdgeInsets.only(left: 22.0, right: 22),
                   child: Divider(
                     thickness: 1.0,
                     color: FlutterFlowTheme.of(context).accent4,
@@ -510,7 +498,7 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                 Expanded(
                   child: SingleChildScrollView(
                     child: Padding(
-                      padding: const EdgeInsets.only(left: 22.0,right: 22),
+                      padding: const EdgeInsets.only(left: 22.0, right: 22),
                       child: Text(
                         valueOrDefault<String>(
                           widget.productData!.description,
@@ -541,10 +529,8 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                                   await Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) =>
-                                          PickUpProductWidget(
-                                        pickupProductDoc:
-                                            widget.productData!,
+                                      builder: (context) => PickUpProductWidget(
+                                        pickupProductDoc: widget.productData!,
                                       ),
                                     ),
                                   );
@@ -556,11 +542,10 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                                   decoration: BoxDecoration(
                                     color: FlutterFlowTheme.of(context)
                                         .secondaryBackground,
-                                    borderRadius:
-                                        BorderRadius.circular(22.0),
+                                    borderRadius: BorderRadius.circular(22.0),
                                     border: Border.all(
-                                      color: FlutterFlowTheme.of(context)
-                                          .primary,
+                                      color:
+                                          FlutterFlowTheme.of(context).primary,
                                       width: 2.0,
                                     ),
                                   ),
@@ -571,9 +556,8 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                                         .bodyMedium
                                         .override(
                                           fontFamily: 'Roboto',
-                                          color:
-                                              FlutterFlowTheme.of(context)
-                                                  .primary,
+                                          color: FlutterFlowTheme.of(context)
+                                              .primary,
                                           fontSize: 16.0,
                                           fontWeight: FontWeight.w600,
                                         ),
@@ -586,8 +570,8 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                       : SizedBox(),
                 if (widget.productData!.postedBy != currentUserUid)
                   Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(
-                        22.0, 20.0, 22.0, 34.0),
+                    padding:
+                        EdgeInsetsDirectional.fromSTEB(22.0, 20.0, 22.0, 34.0),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.end,
@@ -610,13 +594,10 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                                   productImage: widget.productData!.images!
                                       .toList()
                                       .first,
-                                  productId:
-                                      widget.productData!.reference.id,
-                                  postedByRefrence:
-                                      widget.productData!.userRef,
+                                  productId: widget.productData!.reference.id,
+                                  postedByRefrence: widget.productData!.userRef,
                                   createUserRefrence: currentUserReference,
-                                  postedByLocation:
-                                      widget.productData!.address,
+                                  postedByLocation: widget.productData!.address,
                                 ),
                                 'users': FFAppState().chatUsers,
                                 'user_details': [
@@ -626,10 +607,9 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                                     "user_name": currentUserDisplayName,
                                   },
                                   {
-                                    "user_id":
-                                        widget.productData!.postedBy!,
-                                    "user_image": widget
-                                        .productData!.postedByProfile!,
+                                    "user_id": widget.productData!.postedBy!,
+                                    "user_image":
+                                        widget.productData!.postedByProfile!,
                                     "user_name":
                                         widget.productData!.postedByName!,
                                   }
@@ -652,12 +632,11 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                                       .toList() ??
                                   [];
 
-                              convRef = await actions.getConversationData(
-                                  widget.productId!.id);
+                              convRef = await actions
+                                  .getConversationData(widget.productId!.id);
 
                               convIds.add(convRef!.ffRef!.id);
-                              convUserId
-                                  .add(currentUserDocument?.uid ?? "");
+                              convUserId.add(currentUserDocument?.uid ?? "");
 
                               print(convIds);
                               print(convUserId);
@@ -674,12 +653,10 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                                 productname: widget.productData!.name,
                                 profileimage:
                                     widget.productData!.postedByProfile,
-                                productimage: widget.productData!.images!
-                                    .toList()
-                                    .first,
+                                productimage:
+                                    widget.productData!.images!.toList().first,
                                 conversationsDoc: convRef,
-                                productlocation:
-                                    widget.productData!.address,
+                                productlocation: widget.productData!.address,
                                 userRef: widget.productData!.userRef,
                               ),
                             ));
@@ -699,6 +676,227 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                                   .override(
                                     fontFamily: 'Roboto',
                                     color: Colors.white,
+                                    fontSize: 16.0,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                if (widget.productData!.isPickedUp == true)
+                  Padding(
+                    padding:
+                        EdgeInsetsDirectional.fromSTEB(22.0, 20.0, 22.0, 34.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        InkWell(
+                          onTap: () async {
+                            var confirmDialogResponse = await showDialog<bool>(
+                                  context: context,
+                                  builder: (alertDialogContext) {
+                                    return AlertDialog(
+                                      content: Text(
+                                          'Are you sure you want to Delete Post?'),
+                                      actions: [
+                                        TextButton(
+                                          onPressed: () => Navigator.pop(
+                                              alertDialogContext, false),
+                                          child: Text('Cancel'),
+                                        ),
+                                        TextButton(
+                                          onPressed: () => Navigator.pop(
+                                              alertDialogContext, true),
+                                          child: Text('Confirm'),
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                ) ??
+                                false;
+                            if (confirmDialogResponse) {
+                              if (loggedIn) {
+                                LoadingOverlay.show(context);
+                                final postsUpdateData = createPostsRecordData(
+                                  isDelete: true,
+                                );
+                                await widget.productData?.reference
+                                    .update(postsUpdateData);
+                                setState(() {});
+                              } else {
+                                Navigator.pop(context);
+                              }
+                              LoadingOverlay.hide();
+                              Navigator.pushAndRemoveUntil(
+                                context,
+                                PageTransition(
+                                  type: PageTransitionType.fade,
+                                  duration: Duration(milliseconds: 0),
+                                  reverseDuration: Duration(milliseconds: 0),
+                                  child: NavBarPage(
+                                    initialPage: 'sellingPage',
+                                    index: 1,
+                                  ),
+                                ),
+                                (r) => false,
+                              );
+                              setState(() {});
+                            } else {
+                              return;
+                            }
+                          },
+                          child: Container(
+                            padding: EdgeInsets.symmetric(
+                                vertical: 12, horizontal: 50),
+                            height: 43.0,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(22.0),
+                                border: Border.all(
+                                  color: FlutterFlowTheme.of(context).primary,
+                                )),
+                            child: Text(
+                              'Archive',
+                              style: FlutterFlowTheme.of(context)
+                                  .bodyMedium
+                                  .override(
+                                    fontFamily: 'Roboto',
+                                    color: FlutterFlowTheme.of(context).primary,
+                                    fontSize: 16.0,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          width: 20,
+                        ),
+                        InkWell(
+                          onTap: () async{
+                            var confirmDialogResponse = await showDialog<bool>(
+                              context: context,
+                              builder: (alertDialogContext) {
+                                return AlertDialog(
+                                  content: Text(
+                                      'Are you sure you want to ReList Post?'),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () => Navigator.pop(
+                                          alertDialogContext, false),
+                                      child: Text('Cancel'),
+                                    ),
+                                    TextButton(
+                                      onPressed: () => Navigator.pop(
+                                          alertDialogContext, true),
+                                      child: Text('Confirm'),
+                                    ),
+                                  ],
+                                );
+                              },
+                            ) ??
+                                false;
+                            if (confirmDialogResponse) {
+                              if (loggedIn) {
+                                LoadingOverlay.show(context);
+                                final postsUpdateData = createPostsRecordData(
+                                  isDelete: true,
+                                );
+                                await widget.productData?.reference
+                                    .update(postsUpdateData);
+                                setState(() {});
+
+                                final postsCreateData = {
+                                  ...createPostsRecordData(
+                                    name: widget.productData?.name??"",
+                                    description: widget.productData?.description??"",
+                                    postType: widget.productData?.postType??"",
+                                    foodType: widget.productData?.foodType??"",
+                                    latlong: widget.productData?.latlong,
+                                    address: widget.productData?.address??"",
+                                    createdAt: getCurrentTimestamp,
+                                    updatedAt: getCurrentTimestamp,
+                                    public: true,
+                                    isDelete: false,
+                                    isPickedUp: false,
+                                    subCategory: widget.productData?.subCategory??"",
+                                    postedByName: currentUserDisplayName,
+                                    postedByProfile: currentUserPhoto,
+                                    userRef: currentUserReference,
+                                    postedBy: currentUserUid,
+                                  ),
+                                  'images': widget.productData?.images?.toList().toList(),
+                                };
+                                var postsRecordReference = PostsRecord.collection.doc();
+                                await postsRecordReference.set(postsCreateData);
+                                _model.postData = PostsRecord.getDocumentFromData(
+                                    postsCreateData, postsRecordReference);
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text(
+                                      'Post ReList Successfully',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                    duration: Duration(milliseconds: 4000),
+                                    backgroundColor:
+                                    FlutterFlowTheme.of(context).primary,
+                                  ),
+                                );
+                                LoadingOverlay.hide();
+                                await Navigator.pushAndRemoveUntil(
+                                  context,
+                                  PageTransition(
+                                    type: PageTransitionType.fade,
+                                    duration: Duration(milliseconds: 0),
+                                    reverseDuration: Duration(milliseconds: 0),
+                                    child: NavBarPage(initialPage: 'sellingPage',index: 0,),
+                                  ),
+                                      (r) => false,
+                                );
+                              } else {
+                                Navigator.pop(context);
+                              }
+                              LoadingOverlay.hide();
+                              Navigator.pushAndRemoveUntil(
+                                context,
+                                PageTransition(
+                                  type: PageTransitionType.fade,
+                                  duration: Duration(milliseconds: 0),
+                                  reverseDuration: Duration(milliseconds: 0),
+                                  child: NavBarPage(
+                                    initialPage: 'sellingPage',
+                                    index: 0,
+                                  ),
+                                ),
+                                    (r) => false,
+                              );
+                              setState(() {});
+                            } else {
+                              return;
+                            }
+                          },
+
+
+
+                          child: Container(
+                            padding: EdgeInsets.symmetric(
+                                vertical: 12, horizontal: 50),
+                            height: 43.0,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(22.0),
+                                border: Border.all(
+                                  color: FlutterFlowTheme.of(context).primary,
+                                )),
+                            child: Text(
+                              'ReList',
+                              style: FlutterFlowTheme.of(context)
+                                  .bodyMedium
+                                  .override(
+                                    fontFamily: 'Roboto',
+                                    color: FlutterFlowTheme.of(context).primary,
                                     fontSize: 16.0,
                                     fontWeight: FontWeight.w600,
                                   ),

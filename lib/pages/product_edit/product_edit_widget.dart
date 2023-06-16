@@ -1,10 +1,6 @@
-import 'dart:convert';
-
 import 'package:n_y_d_app/components/cached_network_image.dart';
-import 'package:http/http.dart' as http;
 import '../../backend/firebase_storage/storage.dart';
 import '../../components/LoadingWidget.dart';
-import '../../components/constants.dart';
 import '../../components/search_location_api.dart';
 import '../../flutter_flow/upload_data.dart';
 import '../search_location/search_location.dart';
@@ -15,10 +11,8 @@ import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/form_field_controller.dart';
 import '/main.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'product_edit_model.dart';
 export 'product_edit_model.dart';
