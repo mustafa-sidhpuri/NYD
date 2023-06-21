@@ -835,7 +835,7 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
                                     content: Text(
-                                      'Post ReList Successfully',
+                                      'Post Relist Successfully',
                                       style: TextStyle(
                                         color: Colors.white,
                                       ),
@@ -891,7 +891,7 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                                   color: FlutterFlowTheme.of(context).primary,
                                 )),
                             child: Text(
-                              'ReList',
+                              'Relist',
                               style: FlutterFlowTheme.of(context)
                                   .bodyMedium
                                   .override(
