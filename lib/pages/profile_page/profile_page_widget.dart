@@ -288,7 +288,7 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
                                     padding: EdgeInsetsDirectional.fromSTEB(
                                         20.0, 0.0, 0.0, 0.0),
                                     child: Text(
-                                      'My Public profile',
+                                      'My Public Profile',
                                       style:
                                           FlutterFlowTheme.of(context).titleSmall,
                                     ),
@@ -586,7 +586,7 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
                                 builder: (alertDialogContext) {
                                   return AlertDialog(
                                     content:
-                                        Text('Are you sure you want to logout ?'),
+                                        Text('Are you sure you want to Log Out?'),
                                     actions: [
                                       TextButton(
                                         onPressed: () => Navigator.pop(
