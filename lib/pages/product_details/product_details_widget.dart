@@ -162,7 +162,7 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                                           builder: (alertDialogContext) {
                                             return AlertDialog(
                                               content: Text(
-                                                  'Are you sure you want to delete the Post?'),
+                                                  'Are you sure you want to delete the Item?'),
                                               actions: [
                                                 TextButton(
                                                   onPressed: () =>
@@ -700,7 +700,7 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                                   builder: (alertDialogContext) {
                                     return AlertDialog(
                                       content: Text(
-                                          'Are you sure you want to delete the Post?'),
+                                          'Are you sure you want to delete the Item?'),
                                       actions: [
                                         TextButton(
                                           onPressed: () => Navigator.pop(
@@ -780,7 +780,7 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                               builder: (alertDialogContext) {
                                 return AlertDialog(
                                   content: Text(
-                                      'Are you sure you want to relist the Post?'),
+                                      'Are you sure you want to relist the Item?'),
                                   actions: [
                                     TextButton(
                                       onPressed: () => Navigator.pop(
