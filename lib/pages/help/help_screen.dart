@@ -104,6 +104,7 @@ class HelpScreen extends StatelessWidget {
                     SizedBox(
                       height: 10,
                     ),
+                    data["phone_number"] == ""?SizedBox():
                     Row(
                       children: [
                         Icon(
